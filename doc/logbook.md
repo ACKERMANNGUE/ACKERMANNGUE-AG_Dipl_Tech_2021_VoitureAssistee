@@ -50,7 +50,7 @@
 4. Réception du message
 5. Espace de saisie de message à envoyer, utilisant une commande personnalisée pour quitter le programme
 
-* J'ai commencé mes recherches sur le Technic Hub
+* J'ai commencé mes recherches sur le `Technic Hub`.
 
 #### Liens consultés
 ##### Échange d'informations par bluetooth entre 2 Raspberry Pi 4
@@ -66,9 +66,49 @@
 * https://github.com/hoharald/leguno-remote
 
 ### 21.04.2021
+* J'ai commencé la journée par lire [cet article sur le bluetooth](https://www.novelbits.io/deep-dive-ble-packets-events/) pour tenter d'approfondir mes connaissances afin de régler le problème de connexion entre le Raspberry Pi et le `Technic Hub`. Après avoir lu l'article, j'ai tenté de relancer le code d'exemple disponible sur le repos [Bricknil](https://github.com/virantha/bricknil), malheureusement j'avais toujours la même erreur. Je me suis dit que j'allais tenté de créer un script python qui ne fait que se connecter pour l'instant pour pouvoir ensuite tenté d'envoyer des ordres par bluetooth.
+  * J'ai commencé par essayer de lire dans [cette documentation](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#port-information-request) et de comprendre comment je pouvais envoyer des messages que le `Technic Hub` pourrait comprendre. J'ai donc en un premier temps cherché à comprendre si c'était à moi d'envoyé le premier message et sur quel port ou de faire l'inverse, c'est-à-dire moi écouter un port particulier car à chaque fois que depuis l'interface graphique ou par commande dans le terminal, quand je tente de me connecter au `Technic Hub`, j'ai toujours cette erreur ci : `Failed to pair: org.bluez.Error.AuthenticationFailed`.
+  * La première chose que j'ai constaté, c'est que des fois après avoir beaucoup tenté d'utiliser le bluetooth de redémarrer le Raspberry Pi car il a de la peine à capter les appareils alentours, tandis qu'une fois redémarré, si l'on utilise `bluetoothctl`, qu'on active le scan avec `scan on`, on peut voir les informations suivantes :
+```:
+[NEW] Device 90:84:2B:50:36:43 Technic Hub
+[CHG] Device 90:84:2B:50:36:43 RSSI: -58
+[CHG] Device 90:84:2B:50:36:43 TxPower: 0
+[CHG] Device 90:84:2B:50:36:43 ManufacturerData Key: 0x0397
+[CHG] Device 90:84:2B:50:36:43 ManufacturerData Value: 
+  00 80 06 00 61 00                                ....a. 
+```
+  * RSSI (Received Signal Strength Indicator) représente la mesure du niveau de la puissance au niveau du récepteur. Il est mesuré en  dBm, sur une échelle logarithmique et étant négatif. Plus le nombre est négatif, plus le dispositif est éloigné. Par exemple, une valeur de -20 à -30 dBm indique que le dispositif est proche, tandis qu'une valeur de -120 indique que le dispositif est proche de la limite de détection.
+  * TxPower représente la puissance du signal. Pour un émetteur Bluetooth, 0 dBm (décibel-milliwatt) est le niveau de puissance standard
+  * ManufacturerData Key: 0x0397 est le code de LEGO System A/S
+  * ManufacturerData Value: 00 80 06 00 61 00
+    1. Longueur des données (0x09)
+    2. Le nom du type de données (0xFF)
+    3. L'ID du fabricant (0x0397)
+    4. L'état du bouton (entre 0x00 et 0x01)
+    5. Le type de système et le numéro de l'appareil (entre 0x00 et 0xFF)
+    6. Les capacités de l'appareil  (entre 0x01 et 0xFF)
+    7. L'id du précédent réseau (entre 0x00 et 0xFF)
+    8. Le status actuel (entre 0x00 et 0xFF)
+* En continuant mes recherches, je me suis demandé s'il n'était pas une bonne idée de tester petit à petit ce que propose le code de Bricknil. Le premier élément que je voulais tester était le `bleak` car j'avais vu lorsque je lançais le code de Bricknil qu'il y avait un message contenant le nom de ce module. Pour installer `bleak`, `pygatt` et `bluepy` j'ai utilisé cette commande : `sudo pip3 install pygatt && pip3 install gatt && pip3 install gattlib && pip3 install bluepy && pip3 install bleak`. Une fois cela fait, j'ai donc été sur [le repos officiel](https://github.com/hbldh/bleak) pour exécuter le code présent. Le premier code nous montre la méthode `discover` tandis que le second nous montre une manière de s'appareiller.
+  * La première chose que j'ai faite c'est de tester la connexion. Pour ce faire, j'ai testé la méthode `discover` disponible grâce à `BleakScanner`. J'ai pu voir apparaître le `Technic Hub` dans la liste des appareils détectés. Pour tenter de me "connecter", j'ai utilisé l'adresse mac tel que : `90:84:2B:50:36:43` ainsi que le `Characteristic UUID` tel que : `00001624-1212-EFDE-1623-785FEABCD123` qui va ensuite retourner le numéro de modèle. La led sur le `Technic Hub` devient bleue lorsque je lance le programme et que la méthode `read_gatt_char` est exécutée. Cette méthode retourne un array de byte, dans mon cas voici ce qu'elle me retourne `\x05\x00\x04\x03\x00.\x00\x00\x10\x00\x00\x00\x10\x00\x00\x00\x00\x00\x00\x00`, autrement écrit : `50430460016000160000000`.
+   
 #### Liens consultés
-##### ----
-##### ----
+##### Bluetooth
+ * https://www.novelbits.io/deep-dive-ble-packets-events/
+ * https://punchthrough.com/crash-course-in-2m-bluetooth-low-energy-phy/
+ * https://github.com/karulis/pybluez
+ * https://www.bluetoothle.wiki/tx_power
+ * https://www.bluetoothle.wiki/rssi?s[]=rssi
+ * https://www.bluetooth.com/specifications/assigned-numbers/company-identifiers/
+ * https://lego.github.io/lego-ble-wireless-protocol-docs/index.html
+ * https://bleak.readthedocs.io/en/latest/usage.html
+ * https://github.com/hbldh/bleak
+ * https://learn.adafruit.com/introduction-to-bluetooth-low-energy/gatt
+##### Repos Bricknil
+* https://github.com/virantha/bricknil
+
+##### Date avec python
+* https://www.tutorialspoint.com/How-to-print-current-date-and-time-using-Python
 
 ### 22.04.2021
 #### Liens consultés
