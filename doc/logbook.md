@@ -88,8 +88,8 @@
     5. Le type de système et le numéro de l'appareil (entre 0x00 et 0xFF)
     6. Les capacités de l'appareil  (entre 0x01 et 0xFF)
     7. L'id du précédent réseau (entre 0x00 et 0xFF)
-    8. Le status actuel (entre 0x00 et 0xFF)
-* En continuant mes recherches, je me suis demandé s'il n'était pas une bonne idée de tester petit à petit ce que propose le code de Bricknil. Le premier élément que je voulais tester était le `bleak` car j'avais vu lorsque je lançais le code de Bricknil qu'il y avait un message contenant le nom de ce module. Pour installer `bleak`, `pygatt` et `bluepy` j'ai utilisé cette commande : `sudo pip3 install pygatt && pip3 install gatt && pip3 install gattlib && pip3 install bluepy && pip3 install bleak`. Une fois cela fait, j'ai donc été sur [le repos officiel](https://github.com/hbldh/bleak) pour exécuter le code présent. Le premier code nous montre la méthode `discover` tandis que le second nous montre une manière de s'appareiller.
+    8. Le statut actuel (entre 0x00 et 0xFF)
+* En continuant mes recherches, je me suis demandé s'il n'était pas une bonne idée de tester petit à petit ce que propose le code de Bricknil pour ensuite l'implémenté petit à petit. Le premier élément que je voulais tester était le `bleak` car j'avais vu lorsque je lançais le code de Bricknil qu'il y avait un message contenant le nom de ce module. Pour installer `bleak`, `pygatt` et `bluepy` j'ai utilisé cette commande : `sudo pip3 install pygatt && pip3 install gatt && pip3 install gattlib && pip3 install bluepy && pip3 install bleak`. Une fois cela fait, j'ai donc été sur [le repos officiel](https://github.com/hbldh/bleak) pour exécuter le code présent. Le premier code nous montre la méthode `discover` tandis que le second nous montre une manière de s'appareiller.
   * La première chose que j'ai faite c'est de tester la connexion. Pour ce faire, j'ai testé la méthode `discover` disponible grâce à `BleakScanner`. J'ai pu voir apparaître le `Technic Hub` dans la liste des appareils détectés. Pour tenter de me "connecter", j'ai utilisé l'adresse mac tel que : `90:84:2B:50:36:43` ainsi que le `Characteristic UUID` tel que : `00001624-1212-EFDE-1623-785FEABCD123` qui va ensuite retourner le numéro de modèle. La led sur le `Technic Hub` devient bleue lorsque je lance le programme et que la méthode `read_gatt_char` est exécutée. Cette méthode retourne un array de byte, dans mon cas voici ce qu'elle me retourne `\x05\x00\x04\x03\x00.\x00\x00\x10\x00\x00\x00\x10\x00\x00\x00\x00\x00\x00\x00`, autrement écrit : `50430460016000160000000`.
    
 #### Liens consultés
@@ -111,9 +111,43 @@
 * https://www.tutorialspoint.com/How-to-print-current-date-and-time-using-Python
 
 ### 22.04.2021
+* J'ai continué mon travail sur le bluetooth. Histoire d'y voir un peu plus claire je me suis résigné à faire un schéma explicant + en détails quelles sont les valeurs que nous avons reçu et qu'est-ce qu'elles veulent dire à l'aide de [la documentation de Lego pour le Bluetooth](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#advertising). J'ai remarqué un potentiel problème. Soit c'était moi qui n'arrivait pas à comprendre comment le tableau des Manufacturer Data était conçu ou si juste les données reçus par le bluetooth lors du scan de l'appareil étaient incomplètes.
+  * Comme on peut le voir ci-dessous, je n'ai pas pris en compte l'ID du fabricant car comme vu ici : `[CHG] Device 90:84:2B:50:36:43 ManufacturerData Key: 0x0397`, il a ne semble pas avoir de champ pour lui dans le `[CHG] Device 90:84:2B:50:36:43 ManufacturerData Value: `. J'ai tenté de rentrer les informations suivantes : `00 80 06 00 61 00` en prenant compte de la taille min et max de chaque cellules (voir [la documentation de Lego pour le Bluetooth](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#advertising)) pour calculer la longueur de la trame, j'ai ensuite vérifié que les données puissent rentrer dans les champs et c'est à ce moment que j'ai commencé à me demander si quelque chose ne jouait pas.
+![Représentation du tableau des Manufacturerdata](./images/manufacturer_data_structure.png "Représentation du tableau des Manufacturerdata")
+  * En effectuant des recherches, je suis tombé sur [cet article](https://docs.silabs.com/bluetooth/2.13/code-examples/stack-features/adv-and-scanning/adv-manufacturer-specific-data). Il parlait d'une application smarthphone nommée `EFR Connect`. J'en avais besoin car je voulais avoir plus d'informations concernant les `Manufacturer Data`. J'ai lancé un scan depuis l'application, et en ce qui concerne voici les informations que l'application m'a retrounée :
+    1. Flags : `0x06: LE General Discoverable Mode, BR/EDR Not Supported`
+    2. Complete list of 128-bit service class UUIDs : `00001624-1212-EFDE-1623-785FEABCD123` 
+    3. Manufacturer Data : 
+       1. Company Code : `0x0397`
+       2. Data : `0x008006004100`
+       3. Slave connection interval range : `20.0ms`
+       4. Tx power level: `0 dBm`
+       5. Complete local name : `Technic Hub`
+ * Je me suis ensuite connecté au `Technic Hub` avec l'application, j'ai vu apparaître un sous menu m'affichant 3 sections :
+    1. Generic attribute : `0x1801`
+       1. UUID : `0x2A05`
+       2. Descriptor : _champs vide_
+       3. Client characteristic configuration : `0x2902`
+    2. Generic access :
+       1. Device name : `0x1800`
+       2. Appearance : `0x2A01`
+       3. Peripheral preffered connection parameters : `0x2A04`
+          1. 
+    3. _Unknown Service_ : 
+       1. UUID : `00001624-1212-EFDE-1623-785FEABCD123`
+       2. Descriptor : _champs vide_
+       3. Client characteristic configuration : `0x2902`
+       4. Value : `50430460016000160000000` mais lorsque depuis l'application j'active le mode `notify` sa valeur change à `15 04 100 1 54 0 1 0 0 0 1 0 0 0 0 0 0 0 0`
+  * En voyant ces données je me suis dit que j'avais pris les mauvaises données à mettre dans le tableau des Manufacturer Data. J'ai abandonné l'idée de remplir le tableau de Manufacturer Data car ces données ne correspondaient pas. En revanche, j'ai tenté de jouer avec l'application `EFR Connect` car on peut lire, écrire et être notifié. Lorsque je me connecte au `Technic Hub` et que je lit les données présentes voici ce que je reçois :  `15 04 100 1 54 0 1 0 0 0 1 0 0 0 0 0 0 0 0`. J'ai ensuite essayer d'envoyer la commande `Hub Properties` car on peut envoyer de l'hexadécimal au hub, j'ai donc tenté avec les valeurs du tableau [ici présent]((https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#message-types)). Ensuite, avec le mode écriture  lorsque j'ai relus le contenu avec changé et était devenu : `5 0 5 0 5 54 0 1 0 0 0 1 0 0 0 0 0 0 0 0`. En me balandant sur internet je suis retombé sur [ce lien](https://brickarchitect.com/powered-up/#footnote1) qui disait que le `Technich Hub` peut uniquement être programmé avec le firmware de PyBricks. J'ai donc essayé de télécharger [le repos git](https://github.com/pybricks/pybricks-micropython) et d'installer le firmware "manuellement" afin de pouvoir écrire mes propres script python pour contrôler la voiture. J'ai suivi le tutoriel de mise en place pour un environnement de développement mais je n'ai réussi à le mettre en place. Je suis ensuite tombé sur [cette issue git](https://github.com/pybricks/support/issues/167) qui met à disposition des fichier de firmware pour les hub `Spike` et `Mindstorm`. J'ai ensuite retenté de comprendre comment lire [la documentation de Lego](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html).
 #### Liens consultés
-##### ----
-##### ----
+##### Bluetooth
+* https://lego.github.io/lego-ble-wireless-protocol-docs/index.html
+* https://stackoverflow.com/questions/52352378/manufacturer-specific-data-on-ble
+* https://docs.silabs.com/bluetooth/2.13/code-examples/stack-features/adv-and-scanning/adv-manufacturer-specific-data
+* https://brickarchitect.com/powered-up/#footnote1
+* https://github.com/pybricks/pybricks-micropython
+* https://github.com/pybricks/support/issues/167
+* https://github.com/pybricks/pybricksdev
 
 ### 23.04.2021
 #### Liens consultés
