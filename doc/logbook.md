@@ -150,6 +150,67 @@
 * https://github.com/pybricks/pybricksdev
 
 ### 23.04.2021
+* J'ai commencé la journée par lire cette documentation pour mieux comprendre ce qu'est GATT et comment il est structuré, pour pouvoir l'utiliser ensuite. Les attributs GATT sont des éléments d'information adressables qui peuvent contenir des données utilisateur pertinentes (ou métadonnées) sur la structure et le regroupement des différents attributs contenus dans le serveur. Gatt est structuré de la manière suivante :
+  * Roles
+    * Client
+    * Server
+  * UUID
+  * Attributes
+    * Handle : 0x0000 = dénote un handle invalde, le montant d'handle dipsonible sur chaque serveur GATT est 0xFFFF (soit 16 bits, 65535)
+    * Type : détermine le type de donnée des valeurs de l'attribut, il s'agit d'un UUID
+    * Permissions
+      * Access permissions : similaire au droit lié aux fichiers (None, Readable, Writable, Readable & Writable)
+      * Encryption :
+        * Security mode 1, level 1
+          * Attribut accessible en texte, connexion non encryptée
+        * Security mode 1, level 2
+          * La connexion doit être encryptée pour avoir accès à l'attribut, mais les clés d'encryptions non pas besoin d'être authentifiées
+        * Security mode 1, level 3
+          * La connexion doit être encryptée avec des clés authentifiées pour avois accès à l'attribut.
+      * Autorization : détermine si une permission utilisateur est nécessaire
+    * Value : Contient les données de l'attribut, il n'y a pas de restrictions pour le type de données qu'il contient mais jusqu'à une limite de 512 bytes
+  * Attribute and data hierarchy
+    * ![Architecture GATT](./images/gatt_comparison_between_hierarchy_and_EFR.png "Architecture GATT")
+        * Technic Hub : GATT Server
+        * Service : Generic Attribute
+        * Characteristic : Service Change
+    * Les attributs sont groupés en _services_, chaque _services_ peut contenir 0 ou + _characteristics_. Ces dernières peuvent avoir de 0 à + _descriptors_
+  * Advanced attribute concepts
+  * Features
+  * Security
+  * GATT service
+
+* J'ai installé gatt à l'aide de la commande `sudo pip3 install gatt`. Ensuite j'ai scanné les alentours avec la commande `sudo gattctl --discover`. Une fois que j'ai vu apparaître le `Technic Hub` je m'y suis connecté à l'aide de `sudo gattctl --connect 90:84:2B:50:36:43`. On peut voir que les données reçues sont bien celles présentes dans l'application `EFR Connect` :
+```
+Connecting...
+[90:84:2b:50:36:43] Discovered, alias = Technic Hub
+[90:84:2b:50:36:43] Connected
+[90:84:2b:50:36:43] Discovered, alias = Technic Hub
+[90:84:2b:50:36:43] Resolved services
+[90:84:2b:50:36:43]  Service [00001623-1212-efde-1623-785feabcd123]
+[90:84:2b:50:36:43]    Characteristic [00001624-1212-efde-1623-785feabcd123]
+[90:84:2b:50:36:43]  Service [00001801-0000-1000-8000-00805f9b34fb]
+[90:84:2b:50:36:43]    Characteristic [00002a05-0000-1000-8000-00805f9b34fb]
+```
+* M. Bonvin m'a montré comment utiliser [QCad](https://qcad.org/en/), c'est un outil de dessin technique assité.
+* Je me suis ensuite remis sur [la documentation](https://www.oreilly.com/library/view/getting-started-with/9781491900550/ch04.html) pour comprendre comment cela marchait. J'ai exécuter le second code présent sur [le repos](https://github.com/getsenic/gatt-python) mais cette erreur m'est apparue :
+```
+ERROR:dbus.connection:Exception in handler for D-Bus signal:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/dbus/connection.py", line 232, in maybe_handle_message
+    self._handler(*args, **kwargs)
+  File "/home/pi/.local/lib/python3.7/site-packages/gatt/gatt_linux.py", line 398, in properties_changed
+    self.services_resolved()
+  File "gatt_connection.py", line 10, in services_resolved
+    s for s in self.services
+StopIteration
+```
+* J'ai été voir sur internet ce que l'erreur `ERROR:dbus.connection:Exception in handler for D-Bus signal` voulait signifier. Je n'ai pas réussis à trouver d'informations pertinentes, donc je me suis remis sur le script python utilisant GATT. J'ai tenté de modifier le second code afin d'être sûr qu'il fonctionnait. Il semble donc que l'erreur vienne du second script. J'ai cherché ce quel élément pose problème mais je peine encore à trouver le problème.
 #### Liens consultés
-##### ----
+##### Bluetooth
+* http://software-dl.ti.com/lprf/sdg-latest/html/ble-stack-3.x/gatt.html
+* https://www.oreilly.com/library/view/getting-started-with/9781491900550/ch04.html
+* https://www.oreilly.com/library/view/getting-started-with/9781491900550/ch02.html#Protocol_Stack
+* https://doc.qt.io/qt-5/qtbluetooth-le-overview.html
+* https://github.com/getsenic/gatt-python
 ##### ----
