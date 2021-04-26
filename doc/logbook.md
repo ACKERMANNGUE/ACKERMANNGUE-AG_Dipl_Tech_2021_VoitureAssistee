@@ -137,8 +137,8 @@
        1. UUID : `00001624-1212-EFDE-1623-785FEABCD123`
        2. Descriptor : _champs vide_
        3. Client characteristic configuration : `0x2902`
-       4. Value : `50430460016000160000000` mais lorsque depuis l'application j'active le mode `notify` sa valeur change à `15 04 100 1 54 0 1 0 0 0 1 0 0 0 0 0 0 0 0`
-  * En voyant ces données je me suis dit que j'avais pris les mauvaises données à mettre dans le tableau des Manufacturer Data. J'ai abandonné l'idée de remplir le tableau de Manufacturer Data car ces données ne correspondaient pas. En revanche, j'ai tenté de jouer avec l'application `EFR Connect` car on peut lire, écrire et être notifié. Lorsque je me connecte au `Technic Hub` et que je lit les données présentes voici ce que je reçois :  `15 04 100 1 54 0 1 0 0 0 1 0 0 0 0 0 0 0 0`. J'ai ensuite essayer d'envoyer la commande `Hub Properties` car on peut envoyer de l'hexadécimal au hub, j'ai donc tenté avec les valeurs du tableau [ici présent]((https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#message-types)). Ensuite, avec le mode écriture  lorsque j'ai relus le contenu avec changé et était devenu : `5 0 5 0 5 54 0 1 0 0 0 1 0 0 0 0 0 0 0 0`. En me balandant sur internet je suis retombé sur [ce lien](https://brickarchitect.com/powered-up/#footnote1) qui disait que le `Technich Hub` peut uniquement être programmé avec le firmware de PyBricks. J'ai donc essayé de télécharger [le repos git](https://github.com/pybricks/pybricks-micropython) et d'installer le firmware "manuellement" afin de pouvoir écrire mes propres script python pour contrôler la voiture. J'ai suivi le tutoriel de mise en place pour un environnement de développement mais je n'ai réussi à le mettre en place. Je suis ensuite tombé sur [cette issue git](https://github.com/pybricks/support/issues/167) qui met à disposition des fichier de firmware pour les hub `Spike` et `Mindstorm`. J'ai ensuite retenté de comprendre comment lire [la documentation de Lego](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html).
+       4. Value : `50430460016000160000000` mais lorsque depuis l'application j'active le mode `notify` sa valeur change à `0F 04 64 01 36 00 01 00 00 00 01 00 00 00 00 00 00 00 00`
+  * En voyant ces données je me suis dit que j'avais pris les mauvaises données à mettre dans le tableau des Manufacturer Data. J'ai abandonné l'idée de remplir le tableau de Manufacturer Data car ces données ne correspondaient pas. En revanche, j'ai tenté de jouer avec l'application `EFR Connect` car on peut lire, écrire et être notifié. Lorsque je me connecte au `Technic Hub` et que je lit les données présentes voici ce que je reçois :  `0F 04 64 01 36 00 01 00 00 00 01 00 00 00 00 00 00 00 00`. J'ai ensuite essayer d'envoyer la commande `Hub Properties` car on peut envoyer de l'hexadécimal au hub, j'ai donc tenté avec les valeurs du tableau [ici présent]((https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#message-types)). Ensuite, avec le mode écriture  lorsque j'ai relus le contenu avec changé et était devenu : `05 00 05 00 05 36 00 01 00 00 00 01 00 00 00 00 00 00 00 00`. En me balandant sur internet je suis retombé sur [ce lien](https://brickarchitect.com/powered-up/#footnote1) qui disait que le `Technich Hub` peut uniquement être programmé avec le firmware de PyBricks. J'ai donc essayé de télécharger [le repos git](https://github.com/pybricks/pybricks-micropython) et d'installer le firmware "manuellement" afin de pouvoir écrire mes propres script python pour contrôler la voiture. J'ai suivi le tutoriel de mise en place pour un environnement de développement mais je n'ai réussi à le mettre en place. Je suis ensuite tombé sur [cette issue git](https://github.com/pybricks/support/issues/167) qui met à disposition des fichier de firmware pour les hub `Spike` et `Mindstorm`. J'ai ensuite retenté de comprendre comment lire [la documentation de Lego](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html).
 #### Liens consultés
 ##### Bluetooth
 * https://lego.github.io/lego-ble-wireless-protocol-docs/index.html
@@ -171,9 +171,15 @@
     * Value : Contient les données de l'attribut, il n'y a pas de restrictions pour le type de données qu'il contient mais jusqu'à une limite de 512 bytes
   * Attribute and data hierarchy
     * ![Architecture GATT](./images/gatt_comparison_between_hierarchy_and_EFR.png "Architecture GATT")
-        * Technic Hub : GATT Server
+        * Profile : Technic Hub
         * Service : Generic Attribute
-        * Characteristic : Service Change
+          * Characteristic : Service Change
+        * Service : Generic Access
+          * Characteristic : Device Name
+          * Characteristic : Appearance
+          * Characteristic : Peripheral Preferred Connection Parameters
+        * Service : LegoTechnicHub (renommée car de base l'application affichait Unknown service)
+          * Characteristic : Unknown Charateristic
     * Les attributs sont groupés en _services_, chaque _services_ peut contenir 0 ou + _characteristics_. Ces dernières peuvent avoir de 0 à + _descriptors_
   * Advanced attribute concepts
   * Features
@@ -213,4 +219,178 @@ StopIteration
 * https://www.oreilly.com/library/view/getting-started-with/9781491900550/ch02.html#Protocol_Stack
 * https://doc.qt.io/qt-5/qtbluetooth-le-overview.html
 * https://github.com/getsenic/gatt-python
-##### ----
+
+### 26.04.2021
+#### Liens consultés
+* Pour commencer la semaine, je me suis dit que regarder des vidéos explicative sur le fonctionnement de `GATT` et du bluetooth en général, car ayant passé la semaine passée sur de la documentation explicative sur `GATT` mais qui ne m'avait pas aidé à résoudre les soucis que j'avais.
+* Comme pour le 23.04.2021, je vais tenter de refaire une explication détaillée du fonctionnement de GAP et `GATT` car ça me permettera de l'inclure plus aisément dans la documentation que je n'ai toujours pas commencée à l'heure actuelle, mais je me suis dit qu'aujourd'hui devait être le dernier délai pour conclure cette histoire de bluetooth car il faut que je me concentre sur la documentation technique sachant qu'elle sera évaluée le 30.04.2021.
+  * `GAP`, _Generic Access Profile_, contrôle les connexions ainsi que l'avertissement déterminant comment les 2 appareils vont pouvoir ou pas intéragir.
+  * `GATT`, _Generic Attribute Profile_ ,définit comment les 2 appareils vont échanger des données composées de _Services_ et de _Characteristics_. Ce protocole intérvient uniquement une fois le `GAP` passé.
+* J'ai repris la structure que j'avais faite pour montrer la structure du `Technic Hub` au niveau `GATT` :
+  * Profile : Technic Hub
+    * Service : Generic Attribute
+        * Characteristic : Service Change
+    * Service : Generic Access
+      * Characteristic : Device Name
+      * Characteristic : Appearance
+      * Characteristic : Peripheral Preferred Connection Parameters
+    * Service : LegoTechnicHub (renommée car de base l'application affichait Unknown service)
+      * Characteristic : Unknown Charateristic
+* Comme on peut le voir, Profile contient une collection de services. Ces derniers divisent les données en entités logiques qui contiennent des blocs de données spécifiques appelés caractéristiques. Ce sont ces caractéristiques qui contiennent les données importantes.
+* Depuis l'application mobile `EFR Connect`, j'ai tenté dans la characteristic concernant le `Technic Hub` d'écrire des commandes de la manière suivante : Dans la [documentation lego](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html) les commandes sont dans un chapitre `Output Command 0x81`. Dans ce chapitre, les commandes présentent sont écrites comme suit `StartPower (Power1, Power2): Output Command 0x81 - Sub Command 0x02`. Étant donné qu'il s'agit de _sub command_, je ne sais pas si écrire en hexa une suite de bytes en hexa permet d'exécuter une commande. En tout cas, depuis que j'ai tenté d'écrire une commande, lorsque j'ai activé le mode _notify_ la valeur retournée est la suivante `0F 00 04 61 01 39 00 01 00 00 00 01 00 00 00`. 
+* Je sais que je change de cap souvent, mais étant un peu perdu je tente d'explorer chaques idées qui me vient en tête. Celle que je viens d'avoir concerne l'utilisation du code présent sur [le repos de pyboost](https://github.com/JorgePe/pyb00st), car même s'il concerne le LEGO Boost Move Hub je me suis dit qu'il y a moyen que puisse l'utiliser. De plus sur la documentation de [Lego Wireless Protocol](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html) il parlait de SDK, je me suis dit qu'il fallait que je trouve un bon SDK et je suis alors tombé en premier temps sur celle de `pyb00st`. Par conséquent, j'ai cloné le repos sur le Raspberry Pi afin d'exécuter les codes d'exemples. 
+  * J'ai commencé par utiliser la méthode `set_led_color(color)` pour voir si la connexion et les méthodes intéragissaient avec le `Technic Hub`. Résultat, ça fonctionne. Maintenant je vais m'intéresser aux méthodes touchant aux moteurs. je n'ai pas réussi à implémenter `pyb00st`, cependant je me suis dit que d'utiliser le code de [pylgbst](https://github.com/undera/pylgbst) pourrait fonctionner car j'ai été lire la [documentation Lego](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html), et vu qu'elle parle de commandes à envoyé, j'ai été voir s'il en proposait. Après quelque recherche, j'ai vu que oui. Même si rien n'était écris à propos du `Technic Hub`, je me suis lancé en me disant que ça doit être exactement le même mécanisme. 
+  * J'ai commencé par utiliser la méthode `get_connection_auto()`, cette fonction va choisir parmi la liste suivante :
+    * bluepy
+    * bluegiga
+    * gatt
+    * bleak
+    * gattool
+    * gattlib
+  * À noter qu'on peut choisir par nous même quel type de connexion nous voulons établir en reprennant `get_connection_auto()` mais en replaçant le `auto` par l'un des moyens disponible ci-dessus.
+  * M'étant documenté ces dernier jours sur `GATT` et ayant utilisé un code fonctionnel, je suis partit du postulat que ça devrait fonctionné sans soucis. J'ai donc commencé par utiliser la méthode `get_connection_gatt()` en lui spécifiant l'adresse mac de l'appareil comme suit : `get_connection_gatt(hub_mac="90:84:2B:50:36:43")`. La méthode affiche ceci dans la console :
+```
+Have not dedicated class for peripheral type 0x2f on port 0x0
+Have not dedicated class for peripheral type 0x2f on port 0x1
+Have not dedicated class for peripheral type 0x2e on port 0x2
+Have not dedicated class for peripheral type 0x3c on port 0x3d
+Have not dedicated class for peripheral type 0x3c on port 0x60
+Have not dedicated class for peripheral type 0x39 on port 0x61
+Have not dedicated class for peripheral type 0x3a on port 0x62
+Have not dedicated class for peripheral type 0x3b on port 0x63
+Have not dedicated class for peripheral type 0x36 on port 0x64
+Got only these devices: (Peripheral on port 0x0, Peripheral on port 0x1, None, LEDRGB on port 0x32, None, Current on port 0x3b, Voltage on port 0x3c)
+```
+  * Une fois ceci affiché, j'ai crû comprendre que la connexion était bien établie et que des commandes pouvait être envoyées. J'ai regardé dans les fichiers _peripherals_ et _hub_ fournie par `pylgbst` comment était structuré la classe moteur et quels fonctions étaient disponibles.
+  * Après avoir compris, j'ai écrit ce bout de code :
+```python
+from pylgbst.hub import MoveHub
+from pylgbst.peripherals import Motor
+from pylgbst import *
+
+MY_MOVEHUB_ADD = "90:84:2B:50:36:43"
+MY_BTCTRLR_HCI = "hci0"
+
+conn = get_connection_gatt(hub_mac=MY_MOVEHUB_ADD)
+try:
+    movehub = MoveHub(conn)
+    motor_a = Motor(movehub, movehub.PORT_A)
+    motor_c = Motor(movehub, movehub.PORT_C)
+    motor_a.start_power(-1)
+    motor_c.start_power(1)
+    conn.disconnect()
+finally:
+    conn.disconnect()
+```
+ * Ce bout de code fonctionne parfaitement. Entre temps j'ai écris celui ci qui fonctionne parfaitement lui aussi : 
+  ```python
+  #!/usr/bin/env python3
+
+from pylgbst.hub import MoveHub
+from pylgbst.peripherals import Motor
+from pylgbst import *
+from time import sleep
+
+MY_MOVEHUB_ADD = "90:84:2B:50:36:43"
+MY_BTCTRLR_HCI = "hci0"
+
+def play_scenario(movehub):
+    motor_a = Motor(movehub, movehub.PORT_A)
+    motor_b = Motor(movehub, movehub.PORT_B)
+    motor_c = EncodedMotor(movehub, movehub.PORT_C)
+    
+    print("Forward:")
+    forward(motor_a, motor_b, motor_c)
+    sleep(1)
+    
+    print("Downward:")
+    downward(motor_a, motor_b, motor_c)
+    sleep(1)
+    
+    print("Left:")
+    go_left(motor_a, motor_b, motor_c)
+    sleep(1)
+
+    print("Right:")
+    go_right(motor_a, motor_b, motor_c)
+    sleep(1)
+
+
+def forward(motor_1, motor_2, motor_3):
+    motor_1.start_power(-1)
+    motor_2.start_power(-1)
+    motor_3.start_power(0)
+    print("done!")
+    
+def downward(motor_1, motor_2, motor_3):
+    motor_1.start_power(1)
+    motor_2.start_power(1)
+    motor_3.start_power(0)
+    print("done!")
+    
+def go_left(motor_1, motor_2, motor_3):
+    motor_1.start_power(0)
+    motor_2.start_power(0)
+    motor_3.start_power(-1)
+    print("done!")
+    
+def go_right(motor_1, motor_2, motor_3):
+    motor_1.start_power(0)
+    motor_2.start_power(0)
+    motor_3.start_power(1)
+    print("done!")
+
+conn = get_connection_gatt(hub_mac=MY_MOVEHUB_ADD)
+try:
+    movehub = MoveHub(conn)
+    play_scenario(movehub)
+    conn.disconnect()
+finally:
+    conn.disconnect()
+
+
+  ```
+ * Cependant de temps en temps quand je relance le programme. Cette erreur apparaît :
+```
+Traceback (most recent call last):
+  File "pylgbst_bluetooth.py", line 53, in <module>
+    conn = get_connection_gatt(hub_mac=MY_MOVEHUB_ADD)
+  File "/usr/local/lib/python3.7/dist-packages/pylgbst/__init__.py", line 25, in get_connection_gatt
+    return GattConnection(controller).connect(hub_mac, hub_name)
+  File "/usr/local/lib/python3.7/dist-packages/pylgbst/comms/cgatt.py", line 100, in connect
+    for dev in devices:
+RuntimeError: dictionary changed size during iteration
+```
+  * Pour la résoudre, en général, j'éteins le bluetooth puis je le rallume et cela semble résoudre le problème de temps en temps. De temps à autre cette technique ne fonctionne pas et je dois redémarrer le Raspberry Pi afin de régler le problème. J'ai essayé pendant un long moment à mettre en place un système qui permetterai de reset l'angle du moteur gérant la direction. Le problème que j'ai est que je n'ai pas réussi à trouver les valeurs minimals et maximales pour les angles, car lorsque l'on dit au moteur d'utiliser la fonction `angled(degrees=-150)` suivi de `angled(degrees=75)`, ce qui devrait mettre le moteur tout à droite puis au centre mais le problème est qu'après la première instruction, l'exécution s'arrête. Est-ce que la première valeur fait crash le programme ? 
+  * Ayant pratiquement terminé avec le bluetooth, je me suis dit que je devais commencer la documentation technique car pour l'heure rien n'avait été fait à ce sujet.
+##### Bluetooth Youtube
+* https://www.youtube.com/watch?v=u4HY3OIk2-c
+* https://www.youtube.com/watch?v=MzM3-YWftxE
+* https://www.youtube.com/watch?v=E8_5UZWDgMo
+* https://www.youtube.com/watch?v=eHqtiCMe4NA
+##### Bluetooth 
+* http://software-dl.ti.com/lprf/sdg-latest/html/ble-stack-3.x/gatt.html#gatt-characteristics-and-attributes
+* https://www.oreilly.com/library/view/getting-started-with/9781491900550/ch04.html#gatt_attr_table
+* https://devzone.nordicsemi.com/f/nordic-q-a/6700/adding-characteristic-user-description-0x2901-0x2902
+* https://github.com/getsenic/gatt-python
+* https://bleak.readthedocs.io/en/latest/usage.html
+* https://lego.github.io/lego-ble-wireless-protocol-docs/index.html
+* https://github.com/peplin/pygatt
+* https://github.com/JorgePe/pyb00st
+* https://github.com/undera/pylgbst
+
+### 27.04.2021
+#### Liens consultés
+##### ------
+
+### 28.04.2021
+#### Liens consultés
+##### ------
+
+### 29.04.2021
+#### Liens consultés
+##### ------
+
+### 30.04.2021
+#### Liens consultés
+##### ------
