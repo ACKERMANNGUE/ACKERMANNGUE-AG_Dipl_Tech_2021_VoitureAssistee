@@ -114,7 +114,7 @@
 ### 22.04.2021
 * J'ai continué mon travail sur le bluetooth. Histoire d'y voir un peu plus claire je me suis résigné à faire un schéma explicant + en détails quelles sont les valeurs que nous avons reçu et qu'est-ce qu'elles veulent dire à l'aide de [la documentation de Lego pour le Bluetooth](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#advertising). J'ai remarqué un potentiel problème. Soit c'était moi qui n'arrivait pas à comprendre comment le tableau des Manufacturer Data était conçu ou si juste les données reçus par le bluetooth lors du scan de l'appareil étaient incomplètes.
   * Comme on peut le voir ci-dessous, je n'ai pas pris en compte l'ID du fabricant car comme vu ici : `[CHG] Device 90:84:2B:50:36:43 ManufacturerData Key: 0x0397`, il a ne semble pas avoir de champ pour lui dans le `[CHG] Device 90:84:2B:50:36:43 ManufacturerData Value: `. J'ai tenté de rentrer les informations suivantes : `00 80 06 00 61 00` en prenant compte de la taille min et max de chaque cellules (voir [la documentation de Lego pour le Bluetooth](https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#advertising)) pour calculer la longueur de la trame, j'ai ensuite vérifié que les données puissent rentrer dans les champs et c'est à ce moment que j'ai commencé à me demander si quelque chose ne jouait pas.
-![Représentation du tableau des Manufacturerdata](./images/manufacturer_data_structure.png "Représentation du tableau des Manufacturerdata")
+![Représentation du tableau des Manufacturerdata](./images/gatt/manufacturer_data_structure.png "Représentation du tableau des Manufacturerdata")
   * En effectuant des recherches, je suis tombé sur [cet article](https://docs.silabs.com/bluetooth/2.13/code-examples/stack-features/adv-and-scanning/adv-manufacturer-specific-data). Il parlait d'une application smarthphone nommée `EFR Connect`. J'en avais besoin car je voulais avoir plus d'informations concernant les `Manufacturer Data`. J'ai lancé un scan depuis l'application, et en ce qui concerne voici les informations que l'application m'a retrounée :
     1. Flags : `0x06: LE General Discoverable Mode, BR/EDR Not Supported`
     2. Complete list of 128-bit service class UUIDs : `00001624-1212-EFDE-1623-785FEABCD123` 
@@ -171,7 +171,7 @@
       * Autorization : détermine si une permission utilisateur est nécessaire
     * Value : Contient les données de l'attribut, il n'y a pas de restrictions pour le type de données qu'il contient mais jusqu'à une limite de 512 bytes
   * Attribute and data hierarchy
-    * ![Architecture GATT](./images/gatt_comparison_between_hierarchy_and_EFR.png "Architecture GATT")
+    * ![Architecture GATT](./images/gatt/gatt_comparison_between_hierarchy_and_EFR.png "Architecture GATT")
         * Profile : Technic Hub
         * Service : Generic Attribute
           * Characteristic : Service Change
