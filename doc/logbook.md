@@ -261,8 +261,10 @@ Have not dedicated class for peripheral type 0x3b on port 0x63
 Have not dedicated class for peripheral type 0x36 on port 0x64
 Got only these devices: (Peripheral on port 0x0, Peripheral on port 0x1, None, LEDRGB on port 0x32, None, Current on port 0x3b, Voltage on port 0x3c)
 ```
-  * Une fois ceci affiché, j'ai crû comprendre que la connexion était bien établie et que des commandes pouvait être envoyées. J'ai regardé dans les fichiers _peripherals_ et _hub_ fournie par `pylgbst` comment était structuré la classe moteur et quels fonctions étaient disponibles.
+
+  * Une fois ceci affiché, j'ai crû comprendre que la connexion était bien établie et que des commandes pouvait être envoyées. J'ai regardé dans les fichiers _peripherals_ et _hub_ fournis par `pylgbst` comment était structuré la classe moteur et quels fonctions étaient disponibles.
   * Après avoir compris, j'ai écrit ce bout de code :
+  
 ```python
 from pylgbst.hub import MoveHub
 from pylgbst.peripherals import Motor
@@ -282,8 +284,9 @@ try:
 finally:
     conn.disconnect()
 ```
+
  * Ce bout de code fonctionne parfaitement. Entre temps j'ai écris celui ci qui fonctionne parfaitement lui aussi : 
-  ```python
+```python
   #!/usr/bin/env python3
 
 from pylgbst.hub import MoveHub
@@ -347,10 +350,9 @@ try:
     conn.disconnect()
 finally:
     conn.disconnect()
-
-
-  ```
+```
  * Cependant de temps en temps quand je relance le programme. Cette erreur apparaît :
+
 ```
 Traceback (most recent call last):
   File "pylgbst_bluetooth.py", line 53, in <module>
@@ -361,8 +363,10 @@ Traceback (most recent call last):
     for dev in devices:
 RuntimeError: dictionary changed size during iteration
 ```
-  * Pour la résoudre, en général, j'éteins le bluetooth puis je le rallume et cela semble résoudre le problème de temps en temps. De temps à autre cette technique ne fonctionne pas et je dois redémarrer le Raspberry Pi afin de régler le problème. J'ai essayé pendant un long moment à mettre en place un système qui permetterai de reset l'angle du moteur gérant la direction. Le problème que j'ai est que je n'ai pas réussi à trouver les valeurs minimals et maximales pour les angles, car lorsque l'on dit au moteur d'utiliser la fonction `angled(degrees=-150)` suivi de `angled(degrees=75)`, ce qui devrait mettre le moteur tout à droite puis au centre mais le problème est qu'après la première instruction, l'exécution s'arrête. Est-ce que la première valeur fait crash le programme ? 
+
+* Pour la résoudre, en général, j'éteins le bluetooth puis je le rallume et cela semble résoudre le problème de temps en temps. De temps à autre cette technique ne fonctionne pas et je dois redémarrer le Raspberry Pi afin de régler le problème. J'ai essayé pendant un long moment à mettre en place un système qui permetterai de reset l'angle du moteur gérant la direction. Le problème que j'ai est que je n'ai pas réussi à trouver les valeurs minimals et maximales pour les angles, car lorsque l'on dit au moteur d'utiliser la fonction `angled(degrees=-150)` suivi de `angled(degrees=75)`, ce qui devrait mettre le moteur tout à droite puis au centre mais le problème est qu'après la première instruction, l'exécution s'arrête. Est-ce que la première valeur fait crash le programme ? 
   * Ayant pratiquement terminé avec le bluetooth, je me suis dit que je devais commencer la documentation technique car pour l'heure rien n'avait été fait à ce sujet.
+  
 ##### Bluetooth Youtube
 * https://www.youtube.com/watch?v=u4HY3OIk2-c
 * https://www.youtube.com/watch?v=MzM3-YWftxE
@@ -380,12 +384,30 @@ RuntimeError: dictionary changed size during iteration
 * https://github.com/undera/pylgbst
 
 ### 27.04.2021
+* J'ai débuté la journée en continuant le documentation technique.
+* Durant l'après-midi, avec M. Ray Yvelin, M. Bonvin et moi même, nous sommes aller apporter du matériel en C305 à Ternier et nous avons pris dans cette salle :
+  * 1 Oscilloscope
+  * 1 Alimentation stabilisée
+  * Les câbles associés au éléments ci-dessus
+  * Des tournevis
+  * 1 Fer à souder avec de la soudure
+  * 1 Multimètre
+  * 1 Étaux
+* Après cela j'ai continué à travailler sur la documentation technique.
 #### Liens consultés
-##### ------
+##### Données relatives au capteurs
+* https://pijaeducation.com/arduino/sensor/ir-sensor-and-arduino/
+* https://fr.wikipedia.org/wiki/Baud_(mesure)
+* https://fr.wikipedia.org/wiki/UART
+* http://bucket.download.slamtec.com/20b2e974dd7c381e46c78db374772e31ea74370d/LD208_SLAMTEC_rplidar_datasheet_A2M8_v2.6_en.pdf
+* https://en.wikipedia.org/wiki/Pulse-width_modulation
+* https://github.com/Slamtec/rplidar_sdk/releases/tag/release%2Fv1.12.0
 
 ### 28.04.2021
+* J'ai continué la documentation technique.
 #### Liens consultés
-##### ------
+##### Flask
+* https://flask.palletsprojects.com/en/1.1.x/quickstart/
 
 ### 29.04.2021
 #### Liens consultés
