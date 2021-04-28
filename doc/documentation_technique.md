@@ -2,7 +2,7 @@
 
 ## Résumé
 
-_Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leurs fonctionnement. Ce projet me fût proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait une simulation de voiture autonome mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a sû amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisé pour ce projet, la plus value sera surtout l'apprentissage de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçant par elle même et évitant les obstacles sur sa route.
+_Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leurs fonctionnement. Ce projet me fût proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a sû amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisé pour ce projet, la plus value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçable à l'aide une interface web et qui sait se déplacer par elle même en évitant les obstacles sur sa route.
 
 ## Abstract
 
@@ -24,6 +24,7 @@ L'objectif principale de ce projet est de réaliser une voiture capable de se d�
 * Markdown
 * QCAD
 * Photoshop CS6
+* Pencil
 
 #### Matériels
 * Raspberry Pi 0 WiFi
@@ -40,6 +41,7 @@ L'objectif principale de ce projet est de réaliser une voiture capable de se d�
 Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
 * Remote SSH pour éditer le code
   * Il s'agit d'une extension Visual Studio Code disponible [ici](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
+* Github pour publié mon code écrit sur le Raspberry Pi
 * RealVNC pour me connecter à distance à l'interface graphique du Raspberry Pi
   * Il s'agit d'un logiciel créant un serveur et un client permettant de contrôler à distance l'écran d'un autre ordinateur, disponible [ici](https://www.realvnc.com/fr/connect/download/viewer/).
 
@@ -47,21 +49,42 @@ Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
 La voiture est télécommandable à distance à l'aide d'une interface web. Sur le site internet, on a accès à l'état des différents capteurs ainsi que les données qu'ils envoient.
 
 #### Plans de la voiture
+![Plan de la voiture](./images/maquettes/plan_voiture_avec_composants.jpg "Plan de la voiture")
+Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncé le rôle de chaque composant.
+1. Les phares sont représenté par le Bright Pi
+2. Les détecteurs de sol placés au niveau des roues sont représenté par le Flying-Fish
+3. Le Raspberry Pi 4 est représenté par RSP 4
+4. Le Raspberry Pi 0 WiFi est représenté par RSP 0 W
+5. Le scanner 360° est représenté par le Lidar
 
+En comparaison, voici de quoi est équipée une vraie voiture autonome :
 
-#### Schéma explicatif de l'application 
+![Plan d'une voiture autonome](./images/autonomous_car.png "Plan d'une voiture autonome")
+
+#### Schéma explicatif de l'application
+L'application offre plusieurs pages.
+#### Interface utilisateur de l'application
+Une page d'interface utilisateur, pour avoir accès aux informations des capteurs ainsi que leurs états.
+
+![Interace utilisateur](./images/maquettes/interface.png "Interace utilisateur")
+
+#### Interface télécommande
+Une page de télécommande pour la voiture.
 
 ##### En mode manuel
 L'utilisateur déplace la voiture à l'aide de la manette disponible sur le site web.
+![Interface de télécommande en mode manuel](./images/maquettes/commande_de_la_voiture.png "Interface de télécommande en mode manuel")
 
 ##### En mode automatique
-La voiture se déplace d'un point A à un point B en évitant les obstacles sur son chemin.
+La voiture se déplace de manière rectiligne en évitant les obstacles sur sa route.
+![Interface de télécommande en mode automatique](./images/maquettes/commande_de_la_voiture_automatique.png "Interface de télécommande en mode automatique")
 
 ## Développement
 
 ### Description détaillée de chaques capteurs
 
 #### Raspberry Pi
+Il s'agit d'un mini ordinateur de la taille d'une carte de crédit équipés de différents capteurs, cela dépends du modèle.
 ##### Mise en place
 En fonction du modèle du Raspberry Pi il faut flasher les cartes SD avec différents OS avec le [Raspberry Pi Imager](https://www.raspberrypi.org/software/) :
 * Pour un Raspberry Pi 4, installé la version `Raspberry Pi OS Full (32-bit)` pour faire les tests à l'aide d'une interface graphique
@@ -71,7 +94,8 @@ Un Raspberry Pi 4B est constitué des différents éléments :
 ![Schéma du Raspberry Pi montrant où se situent chaques composants](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaques composants") Pour le GPIO, voici les pins disponibles :
 ![Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)")
 À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du `PoE HAT Header`.
-#### Caméra (PI NoIR)
+#### Caméra
+La caméra est un module permettant d'avoir accès à un flux vidéo.
 ##### Mise en place
 J’ai utilisé le guide de la caméra disponible sur https://magpi.raspberrypi.org/books. Pour commencer, j’ai activé la caméra dans le panneau de configuration du Raspberry Pi, puis j’ai branché la caméra dans l’emplacement prévu qui se situe entre la prise jack et les ports HDMI.
 ![Schéma du Raspberry Pi montrant où se situe le port d’entré pour la caméra](./images/raspberrys/rsp_cameras_slot_emplacement.png "Schéma du Raspberry Pi montrant où se situe le port d’entré pour la caméra")
@@ -92,6 +116,7 @@ camera.stop_preview()
 À noter, il est nécessaire d'exécuter ce code depuis le Raspberry Pi et non par VNC, car l'affichage de la prévisualisation du flux ne s'affiche pas. D'après [ce post](https://raspberrypi.stackexchange.com/questions/29537/sending-raspberry-pi-camera-preview-to-a-laptop-running-vnc-viewer) disponible sur StackEchange, il semblerait que l'aperçu de la caméra soit géré à un bas niveau dans le processeur graphique et par conséquent n'est visible que par le moniteur directement branché au Raspberry Pi.
 
 #### Phare (Bright Pi v1.0)
+Le Bright Pi est un module comportant 4 leds infrarouges situées aux extrémitées et au centre 8 leds. 
 ##### Mise en place
 Pour l’utilisation du Bright Pi, je me suis basé sur le guide disponible à l’adresse suivante : https://learn.pi-supply.com/make/bright-pi-quickstart-faq/. J’ai commencé par activer l’I2C dans le panneau de configuration du Raspberry Pi puis j’ai branché les pins aux emplacements indiqués dans le guide de démarrage. Les couleurs ci-dessous doivent être respectées (pour le placement uniquement).
 ![Branchement du Bright Pi](./images/bright_pi_wiring.jpg "Branchement du Bright Pi")
@@ -141,6 +166,7 @@ blink(10, 1, RIGHT_LEDS, LEFT_LEDS, "R")
 ##### Utilisation
 
 #### Détecteur infrarouge (Flying-Fish)
+Le Flying-Fish est un module comportant 2 leds infrarouges, une qui émet et une autre qui reçois. Il est équipé d'un potentiomètre réglant la distance d'émission.
 ##### Mise en place
 Comme le montre ce schéma, le Flying-Fish doit être connecté à une alimentation ainsi qu'à un _Ground_ (appelé _Terre_ en français). La dernière broche est la sortie. C'est-à-dire que lorsque la distance d'émission reglée à l'aide du potentiomètre est dépassée, la lumière d'obstacle s'éteindra et cette broche enverra un signal électrique informant du changement d'état.
 
@@ -150,6 +176,7 @@ Comme le montre ce schéma, le Flying-Fish doit être connecté à une alimentat
 C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du GPIO, car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. Je n'ai pas encore branché le _Out_ étant donné que je ne sais pas encore ou je dois le brancher exactement afin de récupérer le signal dans le Raspberry.
 
 #### Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader
+Le LEGO 4x4 X-trem Off-Roader est une voiture télécommandable en bluetooth.
 ##### Mise en place
 Dans un premier temps, il faut installer `bleak`, `pygatt` et `bluepy` pour ce faire, j'ai utilisé cette commande : `sudo pip3 install pygatt && pip3 install gatt && pip3 install gattlib && pip3 install bluepy && pip3 install bleak` puis j'ai télécharger le code sources du [repository pylgbst](https://github.com/undera/pylgbst).
 Pour tester la connexion bluetooth, j'ai lancé la commande `sudo bluetoothctl`, ensuite j'ai lancé les commandes suivantes : `power on` pour m'assurer que le service soit actif, puis `scan on`. Une fois que des appareils on été détectés, on peut lancer l'interface graphique située dans la barre des tâches :
@@ -259,6 +286,7 @@ Ayant vu dans plusieurs documentations le nom de `GATT` ressortir, je m'y suis p
 `Expliquer les différentes pistes creusées et pourquoi elle n'ont pas fonctionnées`
 
 #### Radar 360 (RPLiDAR A2M8)
+Le RPLiDAR A2M8 est un scanner laser à 360°. Il permet de connaître la distance entre lui et les obstacles à chaque angles. 
 ##### Mise en place
 Le lidar est branchable par port série. Cependant, un adaptateur est founie avec et nous permet de récupérer les données par USB.
 
@@ -308,7 +336,7 @@ Les codes fournis fonctionnent parfaitement, sauf que aucun ne permet de récup�
 ##### Utilisation
 
 ### Python Flask
-
+Flask est un framework web disponible en python qui permet de développer aisément des applications web.
 #### Mise en place
 
 Flask est téléchargeable depuis la commande `pip3 install Flask`.
