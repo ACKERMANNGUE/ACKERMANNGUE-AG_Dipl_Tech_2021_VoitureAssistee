@@ -1,0 +1,49 @@
+dist: bionic
+branches:
+  only:
+    - master
+    - /(\d+\.?)+/
+language: python
+#python:
+#  - 3.6
+#  - 3.8
+addons:
+  apt:
+    packages:
+      - libboost-python-dev
+      - libboost-thread-dev
+      - libbluetooth-dev
+
+      - libglib2.0-dev
+      - libdbus-1-dev
+      - libdbus-glib-1-dev
+      - libgirepository-1.0-1
+      - libgirepository1.0-dev
+
+      # - libcairo2-dev
+
+      - bluez
+install:
+  - dpkg -l | grep cairo
+  - wget https://github.com/labapart/gattlib/releases/download/dev/gattlib_dbus_0.2-dev_x86_64.deb && sudo dpkg -i gattlib_dbus_0.2-dev_x86_64.deb
+  - pip install codecov codacy-coverage pytest pygatt gatt pexpect bluepy bleak packaging dbus-python pygobject
+  - pip install --upgrade attrs
+
+env:
+  - READTHEDOCS=True
+
+script:
+  - coverage run --omit="examples/*" --source=. -m pytest -v --ignore=examples --log-level=INFO tests
+
+after_success:
+  - coverage report -m
+  - coverage xml
+  - codecov
+  - python-codacy-coverage -r coverage.xml
+
+deploy:
+  edge: true  # use latest v2 deploy
+  provider: pypi
+  #  skip_cleanup: true
+  on:
+    tags: true

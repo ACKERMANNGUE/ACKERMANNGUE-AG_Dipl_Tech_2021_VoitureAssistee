@@ -1,0 +1,294 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - '**'
+    tags-ignore:
+    - '@pybricks/**'
+  pull_request_target:
+
+env:
+  MAKEOPTS: -j2
+
+jobs:
+  mpy_cross:
+    name: mpy-cross
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Build mpy-cross
+      run: make $MAKEOPTS -C micropython/mpy-cross
+    - name: Upload mpy-cross
+      if: ${{ success() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: mpy-cross
+        path: micropython/mpy-cross/mpy-cross
+
+  unix_coverage:
+    name: unix coverage
+    needs: mpy_cross
+    runs-on: ubuntu-20.04
+    env:
+      PYBRICKS_NO_REDIRECT_STDOUT: 1
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Download mpy-cross
+      uses: actions/download-artifact@v1
+      with:
+        name: mpy-cross
+        path: micropython/mpy-cross
+    - name: Fix file permission
+      run: chmod +x micropython/mpy-cross/mpy-cross
+    - name: Build
+      run: |
+        cd micropython
+        make ${MAKEOPTS} -C ports/unix VARIANT=coverage submodules
+        make ${MAKEOPTS} -C ports/unix VARIANT=coverage deplibs
+        make ${MAKEOPTS} -C ports/unix VARIANT=coverage
+    - name: Test
+      if: ${{ success() }}
+      run: |
+        cd micropython
+        make -C ports/unix VARIANT=coverage test_full
+        (cd tests && MICROPY_CPYTHON3=python3 MICROPY_MICROPYTHON=../ports/unix/micropython-coverage ./run-multitests.py multi_net/*.py)
+    - name: List failed tests
+      if: failure()
+      run: micropython/tests/run-tests --print-failures
+
+  ev3dev_stretch:
+    name: ev3dev-stretch
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Docker login
+      uses: azure/docker-login@v1
+      with:
+        login-server: docker.pkg.github.com
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Install QEMU
+      run: |
+        sudo apt-get update
+        sudo apt-get install qemu-user-static
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+    - name: Create docker container
+      run: bricks/ev3dev/docker/setup.sh armel
+    - name: Build
+      run: |
+        docker exec --tty pybricks-ev3dev_armel make -C ../../micropython/mpy-cross CROSS_COMPILE=
+        docker exec --tty pybricks-ev3dev_armel make
+    - name: Test
+      if: ${{ success() }}
+      run: |
+        docker exec --tty pybricks-ev3dev_armel make test
+        docker exec --tty pybricks-ev3dev_armel make test-ev3dev
+    - name: List failed tests
+      if: failure()
+      run: micropython/tests/run-tests --print-failures
+    - name: Upload pybricks-micropython
+      if: ${{ success() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: pybricks-micropython
+        path: bricks/ev3dev/pybricks-micropython
+
+  ev3dev_bionic:
+    name: ev3dev-bionic
+    needs: mpy_cross
+    runs-on: ubuntu-20.04
+    env:
+      CROSS_COMPILE: ""
+    steps:
+    - name: Install rerequisites
+      run: |
+        sudo apt-add-repository --update --yes ppa:ev3dev/tools
+        sudo apt-get install --no-install-recommends --yes \
+        alsa-utils \
+        espeak \
+        ev3dev-media \
+        ev3dev-mocks \
+        libasound2-plugin-ev3dev \
+        libffi-dev \
+        libgrx-3.0-dev \
+        libi2c-dev \
+        libudev-dev \
+        libumockdev0 \
+        pkg-config \
+        uthash-dev \
+        xfonts-100dpi
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Download mpy-cross
+      uses: actions/download-artifact@v1
+      with:
+        name: mpy-cross
+        path: micropython/mpy-cross
+    - name: Fix file permission
+      run: chmod +x micropython/mpy-cross/mpy-cross
+    - name: Build
+      run: make $MAKEOPTS -C bricks/ev3dev
+    - name: Test
+      if: ${{ success() }}
+      run: |
+        make $MAKEOPTS -C bricks/ev3dev test
+        make $MAKEOPTS -C bricks/ev3dev test-ev3dev
+    - name: List failed tests
+      if: failure()
+      run: micropython/tests/run-tests --print-failures
+
+  cross_compiler:
+    name: download cross-compiler
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Check cache
+      id: check-cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ runner.tool_cache }}/gcc-arm-10-2020-q4
+        key: gcc-arm-10-2020-q4
+    - name: Download
+      if: steps.check-cache.outputs.cache-hit != 'true'
+      uses: dlech/arm-none-eabi-gcc@master
+      with:
+        release: '10-2020-q4'
+        directory: ${{ runner.tool_cache }}/gcc-arm-10-2020-q4
+
+  firmware:
+    name: firmware
+    strategy:
+      fail-fast: false
+      matrix:
+        hub: [cityhub, movehub, nxt, primehub, technichub]
+    needs: [cross_compiler, mpy_cross]
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Install cross-compiler
+      uses: actions/cache@v2
+      with:
+        path: ${{ runner.tool_cache }}/gcc-arm-10-2020-q4
+        key: gcc-arm-10-2020-q4
+    - name: Add cross-compiler to path
+      run: echo ${{ runner.tool_cache }}/gcc-arm-10-2020-q4/bin >> $GITHUB_PATH
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+    - name: Download mpy-cross
+      uses: actions/download-artifact@v1
+      with:
+        name: mpy-cross
+        path: micropython/mpy-cross
+    - name: Fix file permission
+      run: chmod +x micropython/mpy-cross/mpy-cross
+    - name: Install python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install Python packages
+      run:  python -m pip install azure-cosmosdb-table GitPython
+    - name: Build firmware
+      if: ${{ github.ref != 'refs/heads/master' }}
+      env:
+        STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
+        STORAGE_KEY: ${{ secrets.STORAGE_KEY }}
+        FIRMWARE_SIZE_TABLE: ${{ secrets.FIRMWARE_SIZE_TABLE }}
+      run: .github/build-each-commit.py ${{ matrix.hub }} origin/master ${{ github.ref }}
+    - name: Build firmware
+      if: ${{ github.ref == 'refs/heads/master' }}
+      run: make -C bricks/${{ matrix.hub }}
+    - name: Upload firmware
+      if: ${{ success() && matrix.hub != 'nxt' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.hub }}-firmware
+        path: |
+          bricks/${{ matrix.hub }}/build/firmware-base.bin
+          bricks/${{ matrix.hub }}/build/firmware.metadata.json
+    - name: Upload firmware extra
+      if: ${{ success() && matrix.hub != 'nxt' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.hub }}-firmware
+        path: |
+          bricks/${{ matrix.hub }}/main.py
+          bricks/${{ matrix.hub }}/ReadMe_OSS.txt
+    - name: Upload install_pybricks.*
+      if: ${{ success() && matrix.hub == 'primehub' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.hub }}-firmware
+        path: |
+          bricks/${{ matrix.hub }}/build/firmware-dual-boot-base.bin
+          bricks/${{ matrix.hub }}/build/*_pybricks.*
+
+  debug:
+    name: debug firmware
+    needs: [cross_compiler, mpy_cross]
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Install cross-compiler
+      uses: actions/cache@v2
+      with:
+        path: ${{ runner.tool_cache }}/gcc-arm-10-2020-q4
+        key: gcc-arm-10-2020-q4
+    - name: Add cross-compiler to path
+      run: echo ${{ runner.tool_cache }}/gcc-arm-10-2020-q4/bin >> $GITHUB_PATH
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+    - name: Download mpy-cross
+      uses: actions/download-artifact@v1
+      with:
+        name: mpy-cross
+        path: micropython/mpy-cross
+    - name: Fix file permission
+      run: chmod +x micropython/mpy-cross/mpy-cross
+    - name: Build
+      run: make $MAKEOPTS -C bricks/debug build/firmware.dfu
+
+  pbio:
+    name: pbio tests
+    runs-on: ubuntu-20.04
+    env:
+      PBIO_TEST_RESULTS_DIR: lib/pbio/test/results
+    steps:
+    - name: Install prerequisites
+      run: |
+        sudo apt-get update
+        sudo apt-get install --yes doxygen graphviz lcov
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Build
+      run: |
+        make $MAKEOPTS -C lib/pbio/test
+        ./lib/pbio/test/build/test-pbio
+    - name: Build docs
+      run: |
+        make $MAKEOPTS -C lib/pbio/doc
+    - name: Build coverage
+      run: |
+        make $MAKEOPTS -C lib/pbio/test build-coverage/lcov.info
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: lib/pbio/test/build-coverage/lcov.info
+        flag-name: PBIO

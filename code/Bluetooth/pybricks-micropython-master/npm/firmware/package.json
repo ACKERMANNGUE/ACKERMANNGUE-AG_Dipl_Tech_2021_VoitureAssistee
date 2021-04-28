@@ -1,0 +1,35 @@
+{
+    "name": "@pybricks/firmware",
+    "version": "4.9.0+firmware.v3.0.0b5",
+    "description": "Pybricks firmware",
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
+    "files": [
+        "./build/"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pybricks/pybricks-micropython",
+        "directory": "npm/firmware"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org",
+        "access": "public"
+    },
+    "author": "The Pybricks Authors",
+    "license": "MIT",
+    "scripts": {
+        "build": "./download-firmware.py && tsc",
+        "test": "tsc && jest"
+    },
+    "devDependencies": {
+        "@types/jest": "^26.0.15",
+        "jest": "^26.6.3",
+        "ts-jest": "^26.4.4",
+        "typescript": "^3.8.3"
+    },
+    "dependencies": {
+        "jszip": "^3.5.0",
+        "yarn": "^1.22.10"
+    }
+}
