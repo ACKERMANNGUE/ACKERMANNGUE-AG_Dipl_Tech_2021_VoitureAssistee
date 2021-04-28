@@ -120,6 +120,7 @@ Le Bright Pi est un module comportant 4 leds infrarouges situées aux extrémit�
 ##### Mise en place
 Pour l’utilisation du Bright Pi, je me suis basé sur le guide disponible à l’adresse suivante : https://learn.pi-supply.com/make/bright-pi-quickstart-faq/. J’ai commencé par activer l’I2C dans le panneau de configuration du Raspberry Pi puis j’ai branché les pins aux emplacements indiqués dans le guide de démarrage. Les couleurs ci-dessous doivent être respectées (pour le placement uniquement).
 ![Branchement du Bright Pi](./images/bright_pi_wiring.jpg "Branchement du Bright Pi")
+
 Pour s'assurer que le branchement soit correct, il est nécessaire d'utiliser la commande `i2cdetect -y 1`. Ceci devrait être affiché dans la console : 
 
 ![Commande affichant le branchement du Bright Pi](./images/bright_pi_wiring_test.png "Commande affichant le branchement du Bright Pi")
@@ -282,8 +283,12 @@ Le code fournit, propose différentes méthodes de connexion tel que :
 
 Ayant vu dans plusieurs documentations le nom de `GATT` ressortir, je m'y suis penché pour comprendre de quoi il s'agissait. `GATT` est un acronyme de l'anglais _Generic Attribute Profile_, il définit comment les 2 appareils vont échanger leurs données, tout en suivant un système de _Services_ et de _Characteristics_. C'est pourquoi j'ai utilisé la connexion avec `GATT`. 
 
-##### Problèmes rencontrés
-`Expliquer les différentes pistes creusées et pourquoi elle n'ont pas fonctionnées`
+##### Problème rencontré
+Au départ, je tentais d'appareiller le Raspberry Pi au Technic Hub depuis les commandes disponibles dans dans le mode `bluetoothctl`, mais j'avais cette erreur `Failed to pair: org.bluez.Error.AuthenticationFailed`. 
+
+J'ai alors compris que pour me connecter au Technic hub, j'aurai besoin d'y avoir accès par un moyen qui permette de transmettre des données car depuis la documentation LEGO, j'ai aperçu des commandes écrites avec des bytes en hexadécimal. De plus,j'ai remarqué qu'ils mettaient à disposition les UUID des hubs car ils ont tous le même fabricant.
+
+Il y a plein de piste que j'ai entrevues sur les différents repository, cependant je ne m'y étais pas intéressé plus que ça, car aucun ne mentionnait le nom de Technic Hub. Après avoir été dans les différents repository ci-dessous et après avoir regardé comment étaient écrit leurs transmission au hub bluetooth. J'ai réussi à comprendre comment je pouvais m'appareiller au Technic Hub et comment intéragir avec.
 
 #### Radar 360 (RPLiDAR A2M8)
 Le RPLiDAR A2M8 est un scanner laser à 360°. Il permet de connaître la distance entre lui et les obstacles à chaque angles. 
@@ -313,6 +318,7 @@ Informations complémentaires pour le PWM, voici les valeurs utilisées :
 | Plage de cycles d'utilisation | Pourcent |         0        |         60         |        100       |
 
 Si on le souhaite, on peut modifier la vitesse de transmission. De base, la vitesse de transmission est paramétrée sur 115'200 Baud mais on peut la montée à 256'000 Baud. 
+
 ![Vitesse de transmission du Lidar](./images/lidar/lidar_up_and_side_baudrate.png "Vitesse de transmission du Lidar")
 
 
