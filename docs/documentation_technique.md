@@ -39,6 +39,7 @@ L'objectif principale de ce projet est de réaliser une voiture capable de se d�
 
 #### Environnement de développement
 Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
+
 * Remote SSH pour éditer le code
     * Il s'agit d'une extension Visual Studio Code disponible [ici](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
 * Github pour publié mon code écrit sur le Raspberry Pi et pour mettre à disposition la documentation technique ainsi que le journal de bord
