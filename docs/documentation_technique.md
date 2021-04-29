@@ -91,6 +91,7 @@ La voiture se déplace de manière rectiligne en évitant les obstacles sur sa r
 Il s'agit d'un mini ordinateur de la taille d'une carte de crédit équipés de différents capteurs, cela dépends du modèle.
 ##### Mise en place
 En fonction du modèle du Raspberry Pi il faut flasher les cartes SD avec différents OS avec le [Raspberry Pi Imager](https://www.raspberrypi.org/software/) :
+
 * Pour un Raspberry Pi 4, installé la version `Raspberry Pi OS Full (32-bit)` pour faire les tests à l'aide d'une interface graphique
 * Pour un Raspberry 0 WiFi, installé la version `Raspberry Pi OS Lite (32-bit)` utilisé juste pour transiter des données
 ##### Utilisation
