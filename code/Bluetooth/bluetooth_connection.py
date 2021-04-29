@@ -1,29 +1,28 @@
 import asyncio
-from bleak import BleakClient, BleakScanner
+from bleak import BleakClient
 import datetime
 
 
 now = datetime.datetime.now()
 address = "90:84:2B:50:36:43"
 #address = "90:84:2B:8A:36:43"
-MODEL_NBR_UUID = "00001624-1212-EFDE-1623-785FEABCD123"
-
-
-async def research(address):
-    print(str(now))
-    devices = await BleakScanner.discover()
-    for d in devices:
-        print(d)
-
+LEGO_Hub_Service = "00001623-1212-EFDE-1623-785FEABCD123"
+LEGO_Hub_Characteristic = "00001624-1212-EFDE-1623-785FEABCD123"
 
 async def run(address):
+    """Connect to a device and read a characteristic
+    
+    address : The mac address of the device to pair to
+    """
+    # Create a client from his mac address
     client = BleakClient(address)
     try:
         await client.connect()
-        model_number = await client.read_gatt_char(MODEL_NBR_UUID)
+        # Read a specific characteristc
+        model_number = await client.read_gatt_char(LEGO_Hub_Characteristic)
+        # Try to pairs self to a device
         is_paired = await client.pair()
         mod_num = ""
-        desc = ""
         for byte in model_number:
             mod_num += str(byte)
             
@@ -35,7 +34,8 @@ async def run(address):
         print(e)
     finally:
         await client.disconnect()
-
+        
+# Execute the async loop
 loop = asyncio.get_event_loop()
 loop.run_until_complete(run(address))
-# loop.run_until_complete(research())
+

@@ -2,29 +2,50 @@ import bluetooth
 import sys
 import time
 
+CHATROOM_PORT = 1
 
-def receiveMessages():
+MODE_RECEIVE = 0
+MODE_SEND = 1
+
+def receiveMessages(port):
+    """Listen on a specific port in Radio Frequency Communication mode
+    
+    port : The port to listen to
+    """
+    # Initialize the socket for the bluetooth
     server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-
-    port = 1
     server_sock.bind(("", port))
-    server_sock.listen(1)
-
+    server_sock.listen(port)
+    # Accept the connection and returns a tuple of a socket and the mac address of the device connected to 
     client_sock, address = server_sock.accept()
+    
     print("Accepted connection from " + str(address))
-
     data = client_sock.recv(1024)
     print("received [%s]" % data)
 
 
-def sendMessageTo(targetBluetoothMacAddress, message):
-    port = 1
+def sendMessageTo(targetBluetoothMacAddress, message, port):
+    """Sends a message to a specified device on a specified port
+    
+    targetBluetoothMacAddress : The device's mac adress
+    message : The message to send
+    port : The port to emit on
+    """
+     # Initialize the socket for the bluetooth
     sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    # Connect to the device
     sock.connect((targetBluetoothMacAddress, port))
+    # Send the message
     sock.send(message)
 
 
 def lookUpNearbyBluetoothDevices(hostname):
+    """Scan around to find devices
+    
+    hostname : The hostname of the device to connect to
+    
+    returns : The mac address of the device to connect to
+    """
     nearby_devices = bluetooth.discover_devices()
     mac_add = ""
     for bdaddr in nearby_devices:
@@ -35,24 +56,28 @@ def lookUpNearbyBluetoothDevices(hostname):
     return mac_add
 
 
-if len(str(sys.argv[0])) > 0:
-    hostname_rsp = sys.argv[1]
+# Check if the parameter of the hostname is set 
+if len(str(sys.argv[1])) > 0:
+    param_hostname = sys.argv[1]
 else:
-    hostname_rsp = ""
+    param_hostname = ""
 
-mac_address = lookUpNearbyBluetoothDevices(hostname_rsp)
+# Get the mac address from the hostname of a device
+mac_address = lookUpNearbyBluetoothDevices(param_hostname)
 
-mode = 1  # 0 = receive, 1 = send
-
+# mode allows to detect when the device need to listen and when he can send
+mode = MODE_SEND
+port = CHATROOM_PORT
 while True:
-    if mode == 0:
-        receiveMessages()
+    if mode == MODE_RECEIVE:
+        receiveMessages(port)
         mode = 1
         time.sleep(1)
-    elif mode == 1:
+    elif mode == MODE_SEND:
+        # Get the keyboard inputs
         message = input("msg: ")
         if message == "\quit":
             exit()
-        sendMessageTo(mac_address, message)
+        sendMessageTo(mac_address, message, port)
         mode = 0
         time.sleep(1)

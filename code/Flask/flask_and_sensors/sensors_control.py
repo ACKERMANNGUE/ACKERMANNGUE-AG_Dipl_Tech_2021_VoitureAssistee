@@ -11,18 +11,27 @@ import subprocess  # Concerne l'exécution de processus
 
 app = Flask(__name__)
 
-# Initialisation du Bright Pi
+# Initialisation of the bright pi
 bright_special = BrightPiSpecialEffects()
 bright_special.reset()
-
+# Setting up indexes
 RIGHT_LEDS = [1, 2]
 LEFT_LEDS = [3, 4]
 
 # Initialisation de la caméra
-#pi_camera = VideoCamera(flip=True)  # retourne la caméra
+pi_camera = VideoCamera(flip=True)  # retourne la caméra
 
 
 def blink(repetitions, speed, right_leds, left_leds, side):
+    """Make the bright pi leds blink
+    
+    repetitions : The number of times the blink should appear
+    speed : The amount of time a led needs to be activated and disabled. 
+            The times is divided by 2, e.g. 1 second will be 0.5 second on and 0.5 off
+    right_leds : The indexes of the right leds
+    left_leds : The indexes of the left leds
+    side : The side we want to make it blinks
+    """
     # fait clignoter les leds des côtés spécifiés
     duration = speed / 2
     leds_to_activate = []
@@ -44,6 +53,10 @@ def blink(repetitions, speed, right_leds, left_leds, side):
 
 @app.route('/blink/<side>')
 def blink_brightpi(side):
+    """Blinks the bright pi for a specific side
+    
+    side : Leds' side to blink
+    """
     # Clignotant par la route (URL)
     blink(10, 1, RIGHT_LEDS, LEFT_LEDS, side)
     str_output = "La voiture va tourner à "
@@ -56,6 +69,8 @@ def blink_brightpi(side):
 
 @app.route('/blink_response', methods=['GET', 'POST'])
 def blink_form_response():
+    """The form treatement
+    """
     # Clignotant par formulaire HTML
     if request.method == 'POST':
         side = request.form["blink_side"]
@@ -70,43 +85,51 @@ def blink_form_response():
 
 @app.route('/blink_brightpi')
 def blink_from():
+    """Display the blink form
+    """
     # affiche le template form.html
     return render_template("form.html")
 
 
-# @app.route('/stream')
-# def camera_stream():
-#     # encodage de la réponse en MJPEG (stream de JPEG)
-#     return Response(get_frames(pi_camera),
-#                     mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/stream')
+def camera_stream():
+    """Display a frame received by the pi camera encoded in MJPEG
+    """
+    return Response(get_frames(pi_camera),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-# def get_frames(camera):
-#     # récupère chaque frame en bytes et la met dans le content-type
-#     while True:
-#         frame = camera.get_frame()
-#         yield (b'--frame\r\n'
-#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+def get_frames(camera):
+    """Get frames in bytes and add them into the content-type
+    
+    camera : The camera which provides the stream
+    """
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\n\n' + frame + b'\n\n')
 
 
 @app.route('/')
 def home():
-    # route de départ
+    """Home root
+    """
     return "Bonjour"
 
 
-# @app.route('/lidar')
-# def activate_lidar():
-#     # lance l'exécution du programme
-#     os.system("lidar/ultra_simple /dev/ttyUSB0")
-#     return "radar on ?"
+@app.route('/lidar')
+def activate_lidar():
+    """Activate the software of the Lidar on the Raspberry Pi
+    """
+    os.system("lidar/ultra_simple /dev/ttyUSB0")
+    return "radar on ?"
 
-@app.route('/route_apres_validation', methods=['GET', 'POST'])
-def nom_de_fonction():
-    if request.method == 'POST' and request.form["input_validation"]:
-        valeur = request.form["nom_input_html"]
-        # traitement ...
-    return html_a_afficher
+# @app.route('/route_apres_validation', methods=['GET', 'POST'])
+# def nom_de_fonction():
+#     if request.method == 'POST' and request.form["input_validation"]:
+#         valeur = request.form["nom_input_html"]
+#         # traitement ...
+#     return html_a_afficher
         
 
 if __name__ == '__main__':

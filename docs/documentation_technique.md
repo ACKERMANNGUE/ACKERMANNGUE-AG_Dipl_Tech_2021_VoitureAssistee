@@ -39,7 +39,6 @@ L'objectif principale de ce projet est de réaliser une voiture capable de se d�
 
 #### Environnement de développement
 Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
-
 * Remote SSH pour éditer le code
   * Il s'agit d'une extension Visual Studio Code disponible [ici](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
 * Github pour publié mon code écrit sur le Raspberry Pi
@@ -50,7 +49,6 @@ Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
 La voiture est télécommandable à distance à l'aide d'une interface web. Sur le site internet, on a accès à l'état des différents capteurs ainsi que les données qu'ils envoient.
 
 #### Plans de la voiture
-##### Croquis de la disposition des capteurs
 ![Plan de la voiture](./images/maquettes/plan_voiture_avec_composants.jpg "Plan de la voiture")
 Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncé le rôle de chaque composant.
 
@@ -59,10 +57,7 @@ Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncé le r�
 3. Le Raspberry Pi 4 est représenté par RSP 4
 4. Le Raspberry Pi 0 WiFi est représenté par RSP 0 W
 5. Le scanner 360° est représenté par le Lidar
-##### Plan de la voiture
-PLAN QCAD ICI
 
-##### Plan d'une voiture autonome
 En comparaison, voici de quoi est équipée une vraie voiture autonome :
 
 ![Plan d'une voiture autonome](./images/autonomous_car.png "Plan d'une voiture autonome")
@@ -93,16 +88,13 @@ La voiture se déplace de manière rectiligne en évitant les obstacles sur sa r
 Il s'agit d'un mini ordinateur de la taille d'une carte de crédit équipés de différents capteurs, cela dépends du modèle.
 ##### Mise en place
 En fonction du modèle du Raspberry Pi il faut flasher les cartes SD avec différents OS avec le [Raspberry Pi Imager](https://www.raspberrypi.org/software/) :
-
 * Pour un Raspberry Pi 4, installé la version `Raspberry Pi OS Full (32-bit)` pour faire les tests à l'aide d'une interface graphique
 * Pour un Raspberry 0 WiFi, installé la version `Raspberry Pi OS Lite (32-bit)` utilisé juste pour transiter des données
-  
 ##### Utilisation
 Un Raspberry Pi 4B est constitué des différents éléments :
 ![Schéma du Raspberry Pi montrant où se situent chaques composants](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaques composants") Pour le GPIO, voici les pins disponibles :
 ![Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)")
 À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du `PoE HAT Header`.
-
 #### Caméra
 La caméra est un module permettant d'avoir accès à un flux vidéo.
 ##### Mise en place
@@ -135,7 +127,6 @@ Pour s'assurer que le branchement soit correct, il est nécessaire d'utiliser la
 ![Commande affichant le branchement du Bright Pi](./images/bright_pi_wiring_test.png "Commande affichant le branchement du Bright Pi")
 
 Pour tester le Bright Pi, il est nécessaire d'avoir le kit de développement disponible sur [ce repos Github](https://github.com/PiSupply/Bright-Pi).
-
 ##### Utilisation
  Une fois cela fait, il faut importer les éléments concernant le brightpi avec
 ```python
@@ -284,7 +275,6 @@ finally:
     exiting(conn)
 ```
 Le code fournit, propose différentes méthodes de connexion tel que : 
-
 * bluepy
 * bluegiga
 * gatt
@@ -465,7 +455,6 @@ Les relations _Maître_-_Esclave_ sont gérées par le gestionnaire de liason. I
 
 ##### Sécurité
 Il exite 3 modes de sécurité :
-
 * Mode 1 
   * Non sécurisé pour toutes opérations
   * Peut uniquement communiquer avec des appareils du même mode
@@ -514,7 +503,6 @@ La couche de liaison est définie dans les systèmes bluetooth comme la couche a
 
 ##### Qu'est-ce que Generic Access Profile
 Generic Access Profile (GAP), est responsable de la connexion. De plus , il gère aussi :
-
 * les modes d'accès
 * les procédures du dispositif
 * la découverte du dispositif
@@ -564,9 +552,11 @@ J'ai lancé un scan depuis le Raspberry Pi, voici les informations qui fût reto
 ```
 
 Par la suite, j'ai lancé un scan depuis l'application afin de comparer les données, voici les informations que l'application m'a retrounée concernant le Technic Hub :
+
 * Flags : `0x06: LE General Discoverable Mode, BR/EDR Not Supported`
 * Complete list of 128-bit service class UUIDs : `00001624-1212-EFDE-1623-785FEABCD123` 
 * Manufacturer Data : 
+
   1. Company Code : `0x0397`
   2. Data : `0x008006004100`
   3. Slave connection interval range : `20.0ms`
@@ -574,19 +564,19 @@ Par la suite, j'ai lancé un scan depuis l'application afin de comparer les donn
   5. Complete local name : `Technic Hub`
  
 * Generic attribute : `0x1801`
-  1. UUID : `0x2A05`
-  2. Descriptor : _champs vide_
-  3. Client characteristic configuration : `0x2902`
+
+   1. UUID : `0x2A05`
+   2. Descriptor : _champs vide_
+   3. Client characteristic configuration : `0x2902`
 * Generic access :
-  1. Device name : `0x1800`
-  2. Appearance : `0x2A01`
-  3. Peripheral preffered connection parameters : `0x2A04`
+   1. Device name : `0x1800`
+   2. Appearance : `0x2A01`
+   3. Peripheral preffered connection parameters : `0x2A04`
 * _Unknown Service_ : 
    1. UUID : `00001624-1212-EFDE-1623-785FEABCD123`
    2. Descriptor : _champs vide_
    3. Client characteristic configuration : `0x2902`
    4. Value : `05 00 04 03 00 2E 00 00 10 00 00 00 10 00 00 00 00 00 00 00`
-
 ## Retour d'expérience
 
 ### Problèmes rencontrés
