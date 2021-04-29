@@ -422,6 +422,7 @@ RuntimeError: dictionary changed size during iteration
 * J'ai recompilé la documentation technique avec MkDocs pour avoir un aperçu de la mise en forme.
   * J'ai eu des soucis de mise en page en ce qui concerne les listes à points ou numérotées tandis qu'affiche en Markdown fonctionnent très bien.
   * Pour ne pas perdre plus de temps dessus j'ai commenté tous le code écrit.
+  * Après avoir tous commenté, je me suis remis sur la documentation afin d'expliquer le T'chat bluetooth fait en collaboration avec M. Moreno
 #### Liens consultés
 ##### Bluetooth
 * https://arduino.stackexchange.com/questions/18895/how-master-and-slave-concept-works-with-bluetooth

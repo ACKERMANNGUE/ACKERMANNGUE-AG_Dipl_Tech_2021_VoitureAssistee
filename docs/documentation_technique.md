@@ -18,8 +18,8 @@ L'objectif principale de ce projet est de réaliser une voiture capable de se d�
 
 #### Logiciels
 * Visual Studio Code
-  * Python
-  * Flask
+    * Python
+    * Flask
 * Github
 * Markdown
 * QCAD
@@ -40,10 +40,10 @@ L'objectif principale de ce projet est de réaliser une voiture capable de se d�
 #### Environnement de développement
 Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
 * Remote SSH pour éditer le code
-  * Il s'agit d'une extension Visual Studio Code disponible [ici](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
-* Github pour publié mon code écrit sur le Raspberry Pi
+    * Il s'agit d'une extension Visual Studio Code disponible [ici](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
+* Github pour publié mon code écrit sur le Raspberry Pi et pour mettre à disposition la documentation technique ainsi que le journal de bord
 * RealVNC pour me connecter à distance à l'interface graphique du Raspberry Pi
-  * Il s'agit d'un logiciel créant un serveur et un client permettant de contrôler à distance l'écran d'un autre ordinateur, disponible [ici](https://www.realvnc.com/fr/connect/download/viewer/).
+    * Il s'agit d'un logiciel créant un serveur et un client permettant de contrôler à distance l'écran d'un autre ordinateur, disponible [ici](https://www.realvnc.com/fr/connect/download/viewer/).
 
 ### Description détaillée de ce que l'application fait
 La voiture est télécommandable à distance à l'aide d'une interface web. Sur le site internet, on a accès à l'état des différents capteurs ainsi que les données qu'ils envoient.
@@ -74,10 +74,12 @@ Une page de télécommande pour la voiture.
 
 ##### En mode manuel
 L'utilisateur déplace la voiture à l'aide de la manette disponible sur le site web.
+
 ![Interface de télécommande en mode manuel](./images/maquettes/commande_de_la_voiture.png "Interface de télécommande en mode manuel")
 
 ##### En mode automatique
 La voiture se déplace de manière rectiligne en évitant les obstacles sur sa route.
+
 ![Interface de télécommande en mode automatique](./images/maquettes/commande_de_la_voiture_automatique.png "Interface de télécommande en mode automatique")
 
 ## Développement
@@ -92,14 +94,18 @@ En fonction du modèle du Raspberry Pi il faut flasher les cartes SD avec diffé
 * Pour un Raspberry 0 WiFi, installé la version `Raspberry Pi OS Lite (32-bit)` utilisé juste pour transiter des données
 ##### Utilisation
 Un Raspberry Pi 4B est constitué des différents éléments :
+
 ![Schéma du Raspberry Pi montrant où se situent chaques composants](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaques composants") Pour le GPIO, voici les pins disponibles :
+
 ![Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)")
 À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du `PoE HAT Header`.
 #### Caméra
 La caméra est un module permettant d'avoir accès à un flux vidéo.
 ##### Mise en place
 J’ai utilisé le guide de la caméra disponible sur https://magpi.raspberrypi.org/books. Pour commencer, j’ai activé la caméra dans le panneau de configuration du Raspberry Pi, puis j’ai branché la caméra dans l’emplacement prévu qui se situe entre la prise jack et les ports HDMI.
+
 ![Schéma du Raspberry Pi montrant où se situe le port d’entré pour la caméra](./images/raspberrys/rsp_cameras_slot_emplacement.png "Schéma du Raspberry Pi montrant où se situe le port d’entré pour la caméra")
+
 Le ruban de la caméra doit être placé de sorte à ce que la languette bleue fasse face à la prise jack. Pour m’assurer que la caméra soit fonctionnelle, j’utilise la commande suivante pour prendre une photo raspistill -o test.jpg
 
 ##### Utilisation
@@ -182,8 +188,10 @@ Le LEGO 4x4 X-trem Off-Roader est une voiture télécommandable en bluetooth.
 ##### Mise en place
 Dans un premier temps, il faut installer `bleak`, `pygatt` et `bluepy` pour ce faire, j'ai utilisé cette commande : `sudo pip3 install pygatt && pip3 install gatt && pip3 install gattlib && pip3 install bluepy && pip3 install bleak` puis j'ai télécharger le code sources du [repository pylgbst](https://github.com/undera/pylgbst).
 Pour tester la connexion bluetooth, j'ai lancé la commande `sudo bluetoothctl`, ensuite j'ai lancé les commandes suivantes : `power on` pour m'assurer que le service soit actif, puis `scan on`. Une fois que des appareils on été détectés, on peut lancer l'interface graphique située dans la barre des tâches :
+
 ![Bluetooth interface depuis barre des tâches](./images/raspberrys/rsp_bluetooth.png "Bluetooth interface depuis barre des tâches")
 ou il est possible d'aller dans les préférences pour l'ouvrir :
+
 ![Bluetooth interface depuis les préférences](./images/raspberrys/rsp_bluetooth_from_preferences.png "Bluetooth interface depuis les préférences").
 
 Une fois cette interface ouverte, il faut cliquer sur le bouton _Rechercher_, ce qui effectura un scan des alentours. Une fois le `Technic Hub` trouvé dans la liste, il est nécessaire de noter son adresse mac : `90:84:2B:50:36:43` afin de pouvoir l'utiliser par la suite.
@@ -274,7 +282,8 @@ try:
 finally:
     exiting(conn)
 ```
-Le code fournit, propose différentes méthodes de connexion tel que : 
+Le code fournit, propose différentes méthodes de connexion tel que :
+
 * bluepy
 * bluegiga
 * gatt
@@ -329,9 +338,10 @@ Il faut commencer par télécharger le kit de développement disponible sur [le 
 
 ##### Utilisation
 Afin de vérifier qu'il soit bien détecter, il faut exécuter la commande suivante `ls /dev/*USB*` ceci devrait être retourné `/dev/ttyUSB0`. Dans le dossier du code source, il faut aller dans le répertoire `sdk/app/` et exécuter la commande make dans un terminal. Pour exécuter l'un des 3 programmes suivant :
- 1. ultra_simple
- 2. simple_grabber
- 3. frame_grabber
+
+1. ultra_simple
+2. simple_grabber
+3. frame_grabber
 
 Nous pouvons maintenant exécuter le programme souhaité en utilisant la commande suivante dans un terminal : `nom_du_programme /dev/ttyUSB0`.
 
@@ -455,18 +465,20 @@ Les relations _Maître_-_Esclave_ sont gérées par le gestionnaire de liason. I
 
 ##### Sécurité
 Il exite 3 modes de sécurité :
+
 * Mode 1 
-  * Non sécurisé pour toutes opérations
-  * Peut uniquement communiquer avec des appareils du même mode
+    * Non sécurisé pour toutes opérations
+    * Peut uniquement communiquer avec des appareils du même mode
 * Mode 2
-  * Fournit un niveau de sécurité à la couche application après l'établissement d'une liaison avec un autre dispositif
+    * Fournit un niveau de sécurité à la couche application après l'établissement d'une liaison avec un autre dispositif
 * Mode 3
-  * Fournit un niveau de sécurité avant l'établissement du canal de communication
-  * Chiffrement sécurisé au niveau de la liaison avec autre dispositif
+    * Fournit un niveau de sécurité avant l'établissement du canal de communication
+    * Chiffrement sécurisé au niveau de la liaison avec autre dispositif
 
 À noter, si un service effectue une demande de connexion, le mode de sécurité les plus haut sera celui utilisé afin de traiter la demande toute en s'assurant de la sécurité relatives au différents modes.
 
 Le bluetooth est divisé en deux parties : 
+
 1. La couche contrôleur implémentant la partie matérielle
 2. la couche hôte implémentant la partie logicielle. 
 
@@ -503,6 +515,7 @@ La couche de liaison est définie dans les systèmes bluetooth comme la couche a
 
 ##### Qu'est-ce que Generic Access Profile
 Generic Access Profile (GAP), est responsable de la connexion. De plus , il gère aussi :
+
 * les modes d'accès
 * les procédures du dispositif
 * la découverte du dispositif
@@ -516,9 +529,9 @@ Generic Access Profile (GAP), est responsable de la connexion. De plus , il gèr
 * Annonce : Le dispositif envoie un message d'annonce avec des données spécifiques pour faire savoir aux dispositifs initiateurs qu'il est un dispositif connectable (cette annonce contient l'adresse du dispositif et peut contenir des données supplémentaires telles que le nom du dispositif).
 * Scan : Lorsqu'il reçoit l'annonce, le dispositif de scan envoie une demande de scan à l'annonceur qui répondra par une réponse d'analyse. Cette méthode est appelé découverte du dispositif. Le dispositif d'analyse connaît le dispositif ayant émit l'annonce et peut établir une connexion avec lui.
 * Initiation : Lors de l'initialisation, l'initiateur doit spécifier une adresse de dispositif homologue à laquelle se connecter. S'il reçoit une annonce correspondant à l'adresse du dispositif homologue, le dispositif initiateur envoie une demande de connexion avec les paramètres disponible ci-dessous :
-  * Intervale de connexion (entre 7.5 et 3200 ms)
-  * La latence de l'esclave
-  * Délai de supervision (entre 10 et 3200 ms)
+    * Intervale de connexion (entre 7.5 et 3200 ms)
+    * La latence de l'esclave
+    * Délai de supervision (entre 10 et 3200 ms)
 * Esclave/Maître : Lorsqu'une connexion est établie, le dispositif fonctionne comme un esclave s'il s'agit de l'annonceur sinon comme un maître s'il s'agit de l'initiateur.
 
 ###### Qu'est-ce que Generic Attribute Profile
@@ -530,14 +543,14 @@ Les attributs sont groupés en _services_, chaque _services_ peut contenir 0 ou 
 
 * GATT Server : Technic Hub
 * Service : Generic Attribute
-  * Characteristic : Service Change
+    * Characteristic : Service Change
 * Service : Generic Access
-  * Characteristic : Device Name
-  * Characteristic : Appearance
-  * Characteristic : Peripheral Preferred Connection Parameters
+    * Characteristic : Device Name
+    * Characteristic : Appearance
+    * Characteristic : Peripheral Preferred Connection Parameters
 * Service : LegoTechnicHub (renommée car de base l'application affichait Unknown ervice)
-  * Characteristic : Unknown Charateristic
-    * 
+    * Characteristic : Unknown Charateristic
+
 
 Pour avoir accès à ces informations, j'ai utilisé l'application EFRConnect disponible sur le playstore.
 J'ai lancé un scan depuis le Raspberry Pi, voici les informations qui fût retournée :
@@ -556,30 +569,49 @@ Par la suite, j'ai lancé un scan depuis l'application afin de comparer les donn
 * Flags : `0x06: LE General Discoverable Mode, BR/EDR Not Supported`
 * Complete list of 128-bit service class UUIDs : `00001624-1212-EFDE-1623-785FEABCD123` 
 * Manufacturer Data : 
-
-  1. Company Code : `0x0397`
-  2. Data : `0x008006004100`
-  3. Slave connection interval range : `20.0ms`
-  4. Tx power level: `0 dBm`
-  5. Complete local name : `Technic Hub`
+    1. Company Code : `0x0397`
+    2. Data : `0x008006004100`
+    3. Slave connection interval range : `20.0ms`
+    4. Tx power level: `0 dBm`
+    5. Complete local name : `Technic Hub`
  
 * Generic attribute : `0x1801`
-   1. UUID : `0x2A05`
-   2. Descriptor : _champs vide_
-   3. Client characteristic configuration : `0x2902`
+    1. UUID : `0x2A05`
+    2. Descriptor : _champs vide_
+    3. Client characteristic configuration : `0x2902`
 * Generic access :
-   1. Device name : `0x1800`
-   2. Appearance : `0x2A01`
-   3. Peripheral preffered connection parameters : `0x2A04`
+    1. Device name : `0x1800`
+    2. Appearance : `0x2A01`
+    3. Peripheral preffered connection parameters : `0x2A04`
 * _Unknown Service_ : 
-   1. UUID : `00001624-1212-EFDE-1623-785FEABCD123`
-   2. Descriptor : _champs vide_
-   3. Client characteristic configuration : `0x2902`
-   4. Value : `05 00 04 03 00 2E 00 00 10 00 00 00 10 00 00 00 00 00 00 00`
+    1. UUID : `00001624-1212-EFDE-1623-785FEABCD123`
+    2. Descriptor : _champs vide_
+    3. Client characteristic configuration : `0x2902`
+    4. Value : `05 00 04 03 00 2E 00 00 10 00 00 00 10 00 00 00 00 00 00 00`
 
 #### T'chat en bluetooth
 ##### Mise en place
+Il faut que les 2 Raspberry Pi soit en mode "Découvrable" activable ici :
+
+![Rendre découvrable le Raspberry Pi](./images/raspberrys/rsp_make_discoverable.png "Rendre découvrable le Raspberry Pi"). 
+
+Il faut ensuite effectuer un scan des appareils si nous ne connaissons pas le nom d'hôte de l'autre Raspberry Pi. Le script doit être présent sur les deux Raspberry Pi afin de pouvoir écouter, recevoir ainsi qu'envoyer des messages. La machine hôte, moi dans ce contexte, doit être en mode MODE_SEND tandis que l'autre en mode MODE_RECEIVE.
+
 ##### Utilisation
+
+Le code fonctionne de la manière suivante. La machine hôte va en premier temps lancer le scan à la recherche de l'appareil nommé `morenoPi42`.
+![Scan bluetooth des environs](./images/raspberrys/rsp_scan_bluetooth.png "Scan bluetooth des environs")
+
+Une fois l'appareil trouvé, je m'y appareille, puis lui envoie le premier message.
+![Transfère de données entre les 2 Raspberry Pi 4](./images/raspberrys/rsp_send_data_to_another_rsp.png "Transfère de données entre les 2 Raspberry Pi 4")
+
+Le mode actuel, change et je deviens la machine qui écoute le port spécifié en attendant un message.
+
+![T'chat en bluetooth](./images/tchat.png "T'chat en bluetooth")
+
+![Diagramme de séquence du T'chat en bluetooth](./images/diag_seq_tchat_bluetooth.png "Diagramme de séquence du T'chat en bluetooth")
+
+
 
 ## Retour d'expérience
 
