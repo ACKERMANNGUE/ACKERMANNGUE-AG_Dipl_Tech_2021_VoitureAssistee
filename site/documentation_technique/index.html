@@ -1,0 +1,2277 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+    
+    
+      
+        <title>Documentation technique de _Voiture Assistée_ - Documentation Technique Voiture Assistée</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e35208c4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#documentation-technique-de-voiture-assistee" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Documentation Technique Voiture Assistée" class="md-header__button md-logo" aria-label="Documentation Technique Voiture Assistée" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentation Technique Voiture Assistée
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Documentation technique de _Voiture Assistée_
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Documentation Technique Voiture Assistée" class="md-nav__button md-logo" aria-label="Documentation Technique Voiture Assistée" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Documentation Technique Voiture Assistée
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Welcome to MkDocs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Documentation technique de _Voiture Assistée_
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Documentation technique de _Voiture Assistée_
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resume" class="md-nav__link">
+    Résumé
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    Abstract
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poster" class="md-nav__link">
+    Poster
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cahier-des-charges" class="md-nav__link">
+    Cahier des charges
+  </a>
+  
+    <nav class="md-nav" aria-label="Cahier des charges">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contexte" class="md-nav__link">
+    Contexte
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#objectif" class="md-nav__link">
+    Objectif
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technologies-et-materiels-utilises" class="md-nav__link">
+    Technologies et matériels utilisés
+  </a>
+  
+    <nav class="md-nav" aria-label="Technologies et matériels utilisés">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logiciels" class="md-nav__link">
+    Logiciels
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#materiels" class="md-nav__link">
+    Matériels
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environnement-de-developpement" class="md-nav__link">
+    Environnement de développement
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description-detaillee-de-ce-que-lapplication-fait" class="md-nav__link">
+    Description détaillée de ce que l'application fait
+  </a>
+  
+    <nav class="md-nav" aria-label="Description détaillée de ce que l'application fait">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plans-de-la-voiture" class="md-nav__link">
+    Plans de la voiture
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-explicatif-de-lapplication" class="md-nav__link">
+    Schéma explicatif de l'application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-utilisateur-de-lapplication" class="md-nav__link">
+    Interface utilisateur de l'application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-telecommande" class="md-nav__link">
+    Interface télécommande
+  </a>
+  
+    <nav class="md-nav" aria-label="Interface télécommande">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#en-mode-manuel" class="md-nav__link">
+    En mode manuel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-mode-automatique" class="md-nav__link">
+    En mode automatique
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#developpement" class="md-nav__link">
+    Développement
+  </a>
+  
+    <nav class="md-nav" aria-label="Développement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description-detaillee-de-chaques-capteurs" class="md-nav__link">
+    Description détaillée de chaques capteurs
+  </a>
+  
+    <nav class="md-nav" aria-label="Description détaillée de chaques capteurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#raspberry-pi" class="md-nav__link">
+    Raspberry Pi
+  </a>
+  
+    <nav class="md-nav" aria-label="Raspberry Pi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#camera" class="md-nav__link">
+    Caméra
+  </a>
+  
+    <nav class="md-nav" aria-label="Caméra">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_1" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_1" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phare-bright-pi-v10" class="md-nav__link">
+    Phare (Bright Pi v1.0)
+  </a>
+  
+    <nav class="md-nav" aria-label="Phare (Bright Pi v1.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_2" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_2" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gps-ultimate-gps-breakout-v3" class="md-nav__link">
+    GPS (Ultimate GPS Breakout v3)
+  </a>
+  
+    <nav class="md-nav" aria-label="GPS (Ultimate GPS Breakout v3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_3" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_3" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detecteur-infrarouge-flying-fish" class="md-nav__link">
+    Détecteur infrarouge (Flying-Fish)
+  </a>
+  
+    <nav class="md-nav" aria-label="Détecteur infrarouge (Flying-Fish)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_4" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_4" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connexion-bluetooth-avec-le-lego-4x4-x-trem-off-roader" class="md-nav__link">
+    Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader
+  </a>
+  
+    <nav class="md-nav" aria-label="Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_5" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_5" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probleme-rencontre" class="md-nav__link">
+    Problème rencontré
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#radar-360-rplidar-a2m8" class="md-nav__link">
+    Radar 360 (RPLiDAR A2M8)
+  </a>
+  
+    <nav class="md-nav" aria-label="Radar 360 (RPLiDAR A2M8)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_6" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_6" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probleme-rencontre_1" class="md-nav__link">
+    Problème rencontré
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#emetteur-wifi-asus-rt-ac58u" class="md-nav__link">
+    Émetteur WiFi (ASUS RT-AC58U)
+  </a>
+  
+    <nav class="md-nav" aria-label="Émetteur WiFi (ASUS RT-AC58U)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_7" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_7" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-flask" class="md-nav__link">
+    Python Flask
+  </a>
+  
+    <nav class="md-nav" aria-label="Python Flask">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_8" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_8" class="md-nav__link">
+    Utilisation
+  </a>
+  
+    <nav class="md-nav" aria-label="Utilisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#application-de-base" class="md-nav__link">
+    Application de base
+  </a>
+  
+    <nav class="md-nav" aria-label="Application de base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routes" class="md-nav__link">
+    Routes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    Templates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formulaires" class="md-nav__link">
+    Formulaires
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bluetooth" class="md-nav__link">
+    Bluetooth
+  </a>
+  
+    <nav class="md-nav" aria-label="Bluetooth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-le-bluetooth" class="md-nav__link">
+    Qu'est-ce que le bluetooth ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comment-est-il-structure" class="md-nav__link">
+    Comment est-il structuré ?
+  </a>
+  
+    <nav class="md-nav" aria-label="Comment est-il structuré ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#securite" class="md-nav__link">
+    Sécurité
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-generic-access-profile" class="md-nav__link">
+    Qu'est-ce que Generic Access Profile
+  </a>
+  
+    <nav class="md-nav" aria-label="Qu'est-ce que Generic Access Profile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-generic-attribute-profile" class="md-nav__link">
+    Qu'est-ce que Generic Attribute Profile
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tchat-en-bluetooth" class="md-nav__link">
+    T'chat en bluetooth
+  </a>
+  
+    <nav class="md-nav" aria-label="T'chat en bluetooth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_9" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_9" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retour-dexperience" class="md-nav__link">
+    Retour d'expérience
+  </a>
+  
+    <nav class="md-nav" aria-label="Retour d'expérience">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemes-rencontres" class="md-nav__link">
+    Problèmes rencontrés
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultat" class="md-nav__link">
+    Résultat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-quil-reste-a-faire" class="md-nav__link">
+    Ce qu'il reste à faire
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ameliorations-possibles" class="md-nav__link">
+    Améliorations possibles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bilan-personnel" class="md-nav__link">
+    Bilan personnel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apports-personnels" class="md-nav__link">
+    Apports personnels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#journal-de-bord" class="md-nav__link">
+    Journal de bord
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glossaire" class="md-nav__link">
+    Glossaire
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-source" class="md-nav__link">
+    Code source
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logbook/" class="md-nav__link">
+        Logbook
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resume" class="md-nav__link">
+    Résumé
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    Abstract
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poster" class="md-nav__link">
+    Poster
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cahier-des-charges" class="md-nav__link">
+    Cahier des charges
+  </a>
+  
+    <nav class="md-nav" aria-label="Cahier des charges">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contexte" class="md-nav__link">
+    Contexte
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#objectif" class="md-nav__link">
+    Objectif
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technologies-et-materiels-utilises" class="md-nav__link">
+    Technologies et matériels utilisés
+  </a>
+  
+    <nav class="md-nav" aria-label="Technologies et matériels utilisés">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logiciels" class="md-nav__link">
+    Logiciels
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#materiels" class="md-nav__link">
+    Matériels
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environnement-de-developpement" class="md-nav__link">
+    Environnement de développement
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#description-detaillee-de-ce-que-lapplication-fait" class="md-nav__link">
+    Description détaillée de ce que l'application fait
+  </a>
+  
+    <nav class="md-nav" aria-label="Description détaillée de ce que l'application fait">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plans-de-la-voiture" class="md-nav__link">
+    Plans de la voiture
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-explicatif-de-lapplication" class="md-nav__link">
+    Schéma explicatif de l'application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-utilisateur-de-lapplication" class="md-nav__link">
+    Interface utilisateur de l'application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-telecommande" class="md-nav__link">
+    Interface télécommande
+  </a>
+  
+    <nav class="md-nav" aria-label="Interface télécommande">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#en-mode-manuel" class="md-nav__link">
+    En mode manuel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-mode-automatique" class="md-nav__link">
+    En mode automatique
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#developpement" class="md-nav__link">
+    Développement
+  </a>
+  
+    <nav class="md-nav" aria-label="Développement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description-detaillee-de-chaques-capteurs" class="md-nav__link">
+    Description détaillée de chaques capteurs
+  </a>
+  
+    <nav class="md-nav" aria-label="Description détaillée de chaques capteurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#raspberry-pi" class="md-nav__link">
+    Raspberry Pi
+  </a>
+  
+    <nav class="md-nav" aria-label="Raspberry Pi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#camera" class="md-nav__link">
+    Caméra
+  </a>
+  
+    <nav class="md-nav" aria-label="Caméra">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_1" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_1" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phare-bright-pi-v10" class="md-nav__link">
+    Phare (Bright Pi v1.0)
+  </a>
+  
+    <nav class="md-nav" aria-label="Phare (Bright Pi v1.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_2" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_2" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gps-ultimate-gps-breakout-v3" class="md-nav__link">
+    GPS (Ultimate GPS Breakout v3)
+  </a>
+  
+    <nav class="md-nav" aria-label="GPS (Ultimate GPS Breakout v3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_3" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_3" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detecteur-infrarouge-flying-fish" class="md-nav__link">
+    Détecteur infrarouge (Flying-Fish)
+  </a>
+  
+    <nav class="md-nav" aria-label="Détecteur infrarouge (Flying-Fish)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_4" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_4" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connexion-bluetooth-avec-le-lego-4x4-x-trem-off-roader" class="md-nav__link">
+    Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader
+  </a>
+  
+    <nav class="md-nav" aria-label="Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_5" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_5" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probleme-rencontre" class="md-nav__link">
+    Problème rencontré
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#radar-360-rplidar-a2m8" class="md-nav__link">
+    Radar 360 (RPLiDAR A2M8)
+  </a>
+  
+    <nav class="md-nav" aria-label="Radar 360 (RPLiDAR A2M8)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_6" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_6" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probleme-rencontre_1" class="md-nav__link">
+    Problème rencontré
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#emetteur-wifi-asus-rt-ac58u" class="md-nav__link">
+    Émetteur WiFi (ASUS RT-AC58U)
+  </a>
+  
+    <nav class="md-nav" aria-label="Émetteur WiFi (ASUS RT-AC58U)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_7" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_7" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-flask" class="md-nav__link">
+    Python Flask
+  </a>
+  
+    <nav class="md-nav" aria-label="Python Flask">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_8" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_8" class="md-nav__link">
+    Utilisation
+  </a>
+  
+    <nav class="md-nav" aria-label="Utilisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#application-de-base" class="md-nav__link">
+    Application de base
+  </a>
+  
+    <nav class="md-nav" aria-label="Application de base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routes" class="md-nav__link">
+    Routes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    Templates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formulaires" class="md-nav__link">
+    Formulaires
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bluetooth" class="md-nav__link">
+    Bluetooth
+  </a>
+  
+    <nav class="md-nav" aria-label="Bluetooth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-le-bluetooth" class="md-nav__link">
+    Qu'est-ce que le bluetooth ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comment-est-il-structure" class="md-nav__link">
+    Comment est-il structuré ?
+  </a>
+  
+    <nav class="md-nav" aria-label="Comment est-il structuré ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#securite" class="md-nav__link">
+    Sécurité
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-generic-access-profile" class="md-nav__link">
+    Qu'est-ce que Generic Access Profile
+  </a>
+  
+    <nav class="md-nav" aria-label="Qu'est-ce que Generic Access Profile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-generic-attribute-profile" class="md-nav__link">
+    Qu'est-ce que Generic Attribute Profile
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tchat-en-bluetooth" class="md-nav__link">
+    T'chat en bluetooth
+  </a>
+  
+    <nav class="md-nav" aria-label="T'chat en bluetooth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place_9" class="md-nav__link">
+    Mise en place
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisation_9" class="md-nav__link">
+    Utilisation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retour-dexperience" class="md-nav__link">
+    Retour d'expérience
+  </a>
+  
+    <nav class="md-nav" aria-label="Retour d'expérience">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemes-rencontres" class="md-nav__link">
+    Problèmes rencontrés
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultat" class="md-nav__link">
+    Résultat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-quil-reste-a-faire" class="md-nav__link">
+    Ce qu'il reste à faire
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ameliorations-possibles" class="md-nav__link">
+    Améliorations possibles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bilan-personnel" class="md-nav__link">
+    Bilan personnel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apports-personnels" class="md-nav__link">
+    Apports personnels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#journal-de-bord" class="md-nav__link">
+    Journal de bord
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glossaire" class="md-nav__link">
+    Glossaire
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-source" class="md-nav__link">
+    Code source
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="documentation-technique-de-voiture-assistee">Documentation technique de <em>Voiture Assistée</em></h1>
+<h2 id="resume">Résumé</h2>
+<p><em>Voiture assistée</em> est un projet d'étude portant sur les voitures autonomes et leurs fonctionnement. Ce projet me fût proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a sû amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisé pour ce projet, la plus value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçable à l'aide une interface web et qui sait se déplacer par elle même en évitant les obstacles sur sa route.</p>
+<h2 id="abstract">Abstract</h2>
+<h2 id="poster">Poster</h2>
+<h2 id="cahier-des-charges">Cahier des charges</h2>
+<h3 id="contexte">Contexte</h3>
+<p>Ce projet m'a été proposé par M. Bonvin car il a vu que j'allais faire une simulation de voiture autonome, il s'est dit que l'on pourrait tourner la chose autrement. Il a une multitude de Raspberry Pi, de composants ainsi qu'une voiture LEGO controlable. C'est pourquoi il m'a dirigé vers une programmation utilisant des capteurs et du bluetooth.</p>
+<h3 id="objectif">Objectif</h3>
+<p>L'objectif principale de ce projet est de réaliser une voiture capable de se déplacer d'un point A à un point B en évitant les différents obstacles sur sa route. Pour ce faire, il faudra trouver un moyen de communiquer avec le Technic Hub afin de mouvoir la voiture. Ensuite, il faudra faire fonctionner indépendamment les différents capteurs. Pour ensuite créer un algorithme événementiel gérant les différentes pondérations des messages que les capteurs enverront.</p>
+<h3 id="technologies-et-materiels-utilises">Technologies et matériels utilisés</h3>
+<h4 id="logiciels">Logiciels</h4>
+<ul>
+<li>Visual Studio Code<ul>
+<li>Python</li>
+<li>Flask</li>
+</ul>
+</li>
+<li>Github</li>
+<li>Markdown</li>
+<li>QCAD</li>
+<li>Photoshop CS6</li>
+<li>Pencil</li>
+</ul>
+<h4 id="materiels">Matériels</h4>
+<ul>
+<li>Raspberry Pi 0 WiFi</li>
+<li>Raspberry Pi 4B</li>
+<li>2 Caméra infrarouges (PI NoIR)</li>
+<li>4 phares (Bright Pi v1.0)</li>
+<li>GPS (Ultimate GPS Breakout v3)</li>
+<li>Émetteur WiFi (ASUS RT-AC58U)</li>
+<li>LEGO 4x4 X-trem Off-Roader</li>
+<li>Détecteur infrarouge (Flying-Fish)</li>
+<li>Radar 360 (RPLiDAR A2M8)</li>
+</ul>
+<h4 id="environnement-de-developpement">Environnement de développement</h4>
+<p>Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :</p>
+<ul>
+<li>Remote SSH pour éditer le code<ul>
+<li>Il s'agit d'une extension Visual Studio Code disponible <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">ici</a></li>
+</ul>
+</li>
+<li>Github pour publié mon code écrit sur le Raspberry Pi et pour mettre à disposition la documentation technique ainsi que le journal de bord</li>
+<li>RealVNC pour me connecter à distance à l'interface graphique du Raspberry Pi<ul>
+<li>Il s'agit d'un logiciel créant un serveur et un client permettant de contrôler à distance l'écran d'un autre ordinateur, disponible <a href="https://www.realvnc.com/fr/connect/download/viewer/">ici</a>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="description-detaillee-de-ce-que-lapplication-fait">Description détaillée de ce que l'application fait</h3>
+<p>La voiture est télécommandable à distance à l'aide d'une interface web. Sur le site internet, on a accès à l'état des différents capteurs ainsi que les données qu'ils envoient.</p>
+<h4 id="plans-de-la-voiture">Plans de la voiture</h4>
+<p><img alt="Plan de la voiture" src="../images/maquettes/plan_voiture_avec_composants.jpg" title="Plan de la voiture" />
+Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncé le rôle de chaque composant.</p>
+<ol>
+<li>Les phares sont représenté par le Bright Pi</li>
+<li>Les détecteurs de sol placés au niveau des roues sont représenté par le Flying-Fish</li>
+<li>Le Raspberry Pi 4 est représenté par RSP 4</li>
+<li>Le Raspberry Pi 0 WiFi est représenté par RSP 0 W</li>
+<li>Le scanner 360° est représenté par le Lidar</li>
+</ol>
+<p>En comparaison, voici de quoi est équipée une vraie voiture autonome :</p>
+<p><img alt="Plan d'une voiture autonome" src="../images/autonomous_car.png" title="Plan d'une voiture autonome" /></p>
+<h4 id="schema-explicatif-de-lapplication">Schéma explicatif de l'application</h4>
+<p>L'application offre plusieurs pages.</p>
+<h4 id="interface-utilisateur-de-lapplication">Interface utilisateur de l'application</h4>
+<p>Une page d'interface utilisateur, pour avoir accès aux informations des capteurs ainsi que leurs états.</p>
+<p><img alt="Interace utilisateur" src="../images/maquettes/interface.png" title="Interace utilisateur" /></p>
+<h4 id="interface-telecommande">Interface télécommande</h4>
+<p>Une page de télécommande pour la voiture.</p>
+<h5 id="en-mode-manuel">En mode manuel</h5>
+<p>L'utilisateur déplace la voiture à l'aide de la manette disponible sur le site web.</p>
+<p><img alt="Interface de télécommande en mode manuel" src="../images/maquettes/commande_de_la_voiture.png" title="Interface de télécommande en mode manuel" /></p>
+<h5 id="en-mode-automatique">En mode automatique</h5>
+<p>La voiture se déplace de manière rectiligne en évitant les obstacles sur sa route.</p>
+<p><img alt="Interface de télécommande en mode automatique" src="../images/maquettes/commande_de_la_voiture_automatique.png" title="Interface de télécommande en mode automatique" /></p>
+<h2 id="developpement">Développement</h2>
+<h3 id="description-detaillee-de-chaques-capteurs">Description détaillée de chaques capteurs</h3>
+<h4 id="raspberry-pi">Raspberry Pi</h4>
+<p>Il s'agit d'un mini ordinateur de la taille d'une carte de crédit équipés de différents capteurs, cela dépends du modèle.</p>
+<h5 id="mise-en-place">Mise en place</h5>
+<p>En fonction du modèle du Raspberry Pi il faut flasher les cartes SD avec différents OS avec le <a href="https://www.raspberrypi.org/software/">Raspberry Pi Imager</a> :</p>
+<ul>
+<li>Pour un Raspberry Pi 4, installé la version <code>Raspberry Pi OS Full (32-bit)</code> pour faire les tests à l'aide d'une interface graphique</li>
+<li>Pour un Raspberry 0 WiFi, installé la version <code>Raspberry Pi OS Lite (32-bit)</code> utilisé juste pour transiter des données</li>
+</ul>
+<h5 id="utilisation">Utilisation</h5>
+<p>Un Raspberry Pi 4B est constitué des différents éléments :</p>
+<p><img alt="Schéma du Raspberry Pi montrant où se situent chaques composants" src="../images/raspberrys/rsp4_schema_captionned.png" title="Schéma du Raspberry Pi montrant où se situent chaques composants" /> Pour le GPIO, voici les pins disponibles :</p>
+<p><img alt="Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)" src="../images/raspberrys/GPIO-Pinout-Diagram.png" title="Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)" />
+À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du <code>PoE HAT Header</code>.</p>
+<h4 id="camera">Caméra</h4>
+<p>La caméra est un module permettant d'avoir accès à un flux vidéo.</p>
+<h5 id="mise-en-place_1">Mise en place</h5>
+<p>J’ai utilisé le guide de la caméra disponible sur https://magpi.raspberrypi.org/books. Pour commencer, j’ai activé la caméra dans le panneau de configuration du Raspberry Pi, puis j’ai branché la caméra dans l’emplacement prévu qui se situe entre la prise jack et les ports HDMI.</p>
+<p><img alt="Schéma du Raspberry Pi montrant où se situe le port d’entré pour la caméra" src="../images/raspberrys/rsp_cameras_slot_emplacement.png" title="Schéma du Raspberry Pi montrant où se situe le port d’entré pour la caméra" /></p>
+<p>Le ruban de la caméra doit être placé de sorte à ce que la languette bleue fasse face à la prise jack. Pour m’assurer que la caméra soit fonctionnelle, j’utilise la commande suivante pour prendre une photo raspistill -o test.jpg</p>
+<h5 id="utilisation_1">Utilisation</h5>
+<p>Pour vérifier qu'un flux vidéo pouvait être lu, j'ai utilisé le code ci dessous :</p>
+<pre><code class="language-python">from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+
+camera.start_preview()
+sleep(5)
+camera.stop_preview()
+</code></pre>
+<p>À noter, il est nécessaire d'exécuter ce code depuis le Raspberry Pi et non par VNC, car l'affichage de la prévisualisation du flux ne s'affiche pas. D'après <a href="https://raspberrypi.stackexchange.com/questions/29537/sending-raspberry-pi-camera-preview-to-a-laptop-running-vnc-viewer">ce post</a> disponible sur StackEchange, il semblerait que l'aperçu de la caméra soit géré à un bas niveau dans le processeur graphique et par conséquent n'est visible que par le moniteur directement branché au Raspberry Pi.</p>
+<h4 id="phare-bright-pi-v10">Phare (Bright Pi v1.0)</h4>
+<p>Le Bright Pi est un module comportant 4 leds infrarouges situées aux extrémitées et au centre 8 leds. </p>
+<h5 id="mise-en-place_2">Mise en place</h5>
+<p>Pour l’utilisation du Bright Pi, je me suis basé sur le guide disponible à l’adresse suivante : https://learn.pi-supply.com/make/bright-pi-quickstart-faq/. J’ai commencé par activer l’I2C dans le panneau de configuration du Raspberry Pi puis j’ai branché les pins aux emplacements indiqués dans le guide de démarrage. Les couleurs ci-dessous doivent être respectées (pour le placement uniquement).
+<img alt="Branchement du Bright Pi" src="../images/bright_pi_wiring.jpg" title="Branchement du Bright Pi" /></p>
+<p>Pour s'assurer que le branchement soit correct, il est nécessaire d'utiliser la commande <code>i2cdetect -y 1</code>. Ceci devrait être affiché dans la console : </p>
+<p><img alt="Commande affichant le branchement du Bright Pi" src="../images/bright_pi_wiring_test.png" title="Commande affichant le branchement du Bright Pi" /></p>
+<p>Pour tester le Bright Pi, il est nécessaire d'avoir le kit de développement disponible sur <a href="https://github.com/PiSupply/Bright-Pi">ce repos Github</a>.</p>
+<h5 id="utilisation_2">Utilisation</h5>
+<p>Une fois cela fait, il faut importer les éléments concernant le brightpi avec</p>
+<pre><code class="language-python">from brightpi import *
+import time
+</code></pre>
+<p>Pour faire clignoter les leds manuellement (à l’aide de lignes de code) j’aurai pu utiliser l’objet BrightPi, mais j’ai finalement utilisé le BrightPiSpecialEffects, car il permet d’avoir accès à des fonctions prédéfinies concernant la manipulation des leds, par exemple à les faire s’allumer une à une dans le sens des aiguilles d’une montre, ce qui peut devenir utile par la suite du travail. Voici le code que j'ai écrit. Ce code permet de faire clignoter les leds d'un côté spécifié.</p>
+<pre><code class="language-python">def blink(repetitions, speed, right_leds, left_leds, side):
+    # fait clignoter les leds des côtés spécifiés
+    duration = speed / 2
+    leds_to_activate = []
+    leds_to_desactivate = []
+    for i in range(0, repetitions):
+        if side == &quot;L&quot;:
+            leds_to_activate = left_leds
+            leds_to_desactivate = right_leds
+        if side == &quot;R&quot;:
+            leds_to_activate = right_leds
+            leds_to_desactivate = left_leds
+
+        bright_special.set_led_on_off(leds_to_desactivate, OFF)
+        bright_special.set_led_on_off(leds_to_activate, ON)
+        time.sleep(duration)
+        bright_special.set_led_on_off(leds_to_activate, OFF)
+        time.sleep(duration)
+
+bright_special = BrightPiSpecialEffects()
+bright_special.reset()
+
+RIGHT_LEDS = [1, 2]
+LEFT_LEDS = [3, 4]
+
+blink(10, 1, RIGHT_LEDS, LEFT_LEDS, &quot;R&quot;)
+</code></pre>
+<h4 id="gps-ultimate-gps-breakout-v3">GPS (Ultimate GPS Breakout v3)</h4>
+<h5 id="mise-en-place_3">Mise en place</h5>
+<h5 id="utilisation_3">Utilisation</h5>
+<h4 id="detecteur-infrarouge-flying-fish">Détecteur infrarouge (Flying-Fish)</h4>
+<p>Le Flying-Fish est un module comportant 2 leds infrarouges, une qui émet et une autre qui reçois. Il est équipé d'un potentiomètre réglant la distance d'émission.</p>
+<h5 id="mise-en-place_4">Mise en place</h5>
+<p>Comme le montre ce schéma, le Flying-Fish doit être connecté à une alimentation ainsi qu'à un <em>Ground</em> (appelé <em>Terre</em> en français). La dernière broche est la sortie. C'est-à-dire que lorsque la distance d'émission reglée à l'aide du potentiomètre est dépassée, la lumière d'obstacle s'éteindra et cette broche enverra un signal électrique informant du changement d'état.</p>
+<p><img alt="Schéma du module Flying-Fish" src="../images/schema_flying_fish.jpg" title="Commande affichant le branchement du Bright Pi" /></p>
+<h5 id="utilisation_4">Utilisation</h5>
+<p>C'est pourquoi, j'ai branché le <em>Vcc</em> sur la pin 1 du GPIO, car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le <em>Gnd</em> sur la pin 6. Je n'ai pas encore branché le <em>Out</em> étant donné que je ne sais pas encore ou je dois le brancher exactement afin de récupérer le signal dans le Raspberry.</p>
+<h4 id="connexion-bluetooth-avec-le-lego-4x4-x-trem-off-roader">Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader</h4>
+<p>Le LEGO 4x4 X-trem Off-Roader est une voiture télécommandable en bluetooth.</p>
+<h5 id="mise-en-place_5">Mise en place</h5>
+<p>Dans un premier temps, il faut installer <code>bleak</code>, <code>pygatt</code> et <code>bluepy</code> pour ce faire, j'ai utilisé cette commande : <code>sudo pip3 install pygatt &amp;&amp; pip3 install gatt &amp;&amp; pip3 install gattlib &amp;&amp; pip3 install bluepy &amp;&amp; pip3 install bleak</code> puis j'ai télécharger le code sources du <a href="https://github.com/undera/pylgbst">repository pylgbst</a>.
+Pour tester la connexion bluetooth, j'ai lancé la commande <code>sudo bluetoothctl</code>, ensuite j'ai lancé les commandes suivantes : <code>power on</code> pour m'assurer que le service soit actif, puis <code>scan on</code>. Une fois que des appareils on été détectés, on peut lancer l'interface graphique située dans la barre des tâches :</p>
+<p><img alt="Bluetooth interface depuis barre des tâches" src="../images/raspberrys/rsp_bluetooth.png" title="Bluetooth interface depuis barre des tâches" />
+ou il est possible d'aller dans les préférences pour l'ouvrir :</p>
+<p><img alt="Bluetooth interface depuis les préférences" src="../images/raspberrys/rsp_bluetooth_from_preferences.png" title="Bluetooth interface depuis les préférences" />.</p>
+<p>Une fois cette interface ouverte, il faut cliquer sur le bouton <em>Rechercher</em>, ce qui effectura un scan des alentours. Une fois le <code>Technic Hub</code> trouvé dans la liste, il est nécessaire de noter son adresse mac : <code>90:84:2B:50:36:43</code> afin de pouvoir l'utiliser par la suite.</p>
+<h5 id="utilisation_5">Utilisation</h5>
+<p>Pour gérer le déplacement de la voiture, à l'aide du kit de développement fourit par pylgbst, voici le code que j'ai écrit :</p>
+<pre><code class="language-python">from pylgbst.hub import MoveHub
+from pylgbst.peripherals import Motor, EncodedMotor
+from pylgbst import *
+from time import sleep
+
+MY_MOVEHUB_ADD = &quot;90:84:2B:50:36:43&quot;
+MY_BTCTRLR_HCI = &quot;hci0&quot;
+
+def forward(motor_1, motor_2, motor_3):
+    motor_1.start_power(-1)
+    motor_2.start_power(-1)
+    motor_3.angled(0)
+    print(&quot;done!&quot;)
+
+def downward(motor_1, motor_2, motor_3):
+    motor_1.start_power(1)
+    motor_2.start_power(1)
+    motor_3.angled(0)
+    print(&quot;done!&quot;)
+
+def go_left(motor_3):
+    motor_3.angled(-180)
+    print(&quot;done!&quot;)
+
+def go_right(motor_3):
+    motor_3.angled(180)
+    print(&quot;done!&quot;)
+
+def stop_moving(motor_1, motor_2):
+    motor_1.start_power(0)
+    motor_2.start_power(0)
+    print(&quot;done!&quot;)
+
+def reset_angle(motor_3):
+    motor_3.angled(degrees=-150)
+    print(&quot;test 1&quot;)
+    sleep(1)
+    motor_3.angled(degrees=-75)
+    print(&quot;test 2&quot;)
+    sleep(1)
+
+def play_scenario(movehub):
+    motor_a = Motor(movehub, movehub.PORT_A)
+    motor_b = Motor(movehub, movehub.PORT_B)
+    motor_c = EncodedMotor(movehub, movehub.PORT_C)
+
+    print(&quot;Reset angle:&quot;)
+    reset_angle(motor_c)
+    sleep(2)
+
+    print(&quot;Forward:&quot;)
+    forward(motor_a, motor_b, motor_c)
+    sleep(1)
+
+    print(&quot;Downward:&quot;)
+    downward(motor_a, motor_b, motor_c)
+    sleep(1)
+
+    print(&quot;Stop&quot;)
+    stop_moving(motor_a, motor_b)
+
+    print(&quot;Left:&quot;)
+    go_left(motor_c)
+    sleep(2)
+
+    print(&quot;Right:&quot;)
+    go_right(motor_c)
+    sleep(2)
+
+def exiting(connection):
+    print(&quot;bye&quot;)
+    connection.disconnect()
+
+conn = get_connection_gatt(hub_mac=MY_MOVEHUB_ADD)
+
+try:
+    movehub = MoveHub(conn)
+    play_scenario(movehub)
+    exiting(conn)
+finally:
+    exiting(conn)
+</code></pre>
+<p>Le code fournit, propose différentes méthodes de connexion tel que :</p>
+<ul>
+<li>bluepy</li>
+<li>bluegiga</li>
+<li>gatt</li>
+<li>bleak</li>
+<li>gattool</li>
+<li>gattlib</li>
+</ul>
+<p>Ayant vu dans plusieurs documentations le nom de <code>GATT</code> ressortir, je m'y suis penché pour comprendre de quoi il s'agissait. <code>GATT</code> est un acronyme de l'anglais <em>Generic Attribute Profile</em>, il définit comment les 2 appareils vont échanger leurs données, tout en suivant un système de <em>Services</em> et de <em>Characteristics</em>. C'est pourquoi j'ai utilisé la connexion avec <code>GATT</code>. </p>
+<h5 id="probleme-rencontre">Problème rencontré</h5>
+<p>Au départ, je tentais d'appareiller le Raspberry Pi au Technic Hub depuis les commandes disponibles dans dans le mode <code>bluetoothctl</code>, mais j'avais cette erreur <code>Failed to pair: org.bluez.Error.AuthenticationFailed</code>. </p>
+<p>J'ai alors compris que pour me connecter au Technic hub, j'aurai besoin d'y avoir accès par un moyen qui permette de transmettre des données car depuis la documentation LEGO, j'ai aperçu des commandes écrites avec des bytes en hexadécimal. De plus,j'ai remarqué qu'ils mettaient à disposition les UUID des hubs car ils ont tous le même fabricant.</p>
+<p>Il y a plein de piste que j'ai entrevues sur les différents repository, cependant je ne m'y étais pas intéressé plus que ça, car aucun ne mentionnait le nom de Technic Hub. Après avoir été dans les différents repository ci-dessous et après avoir regardé comment étaient écrit leurs transmission au hub bluetooth. J'ai réussi à comprendre comment je pouvais m'appareiller au Technic Hub et comment intéragir avec.</p>
+<h4 id="radar-360-rplidar-a2m8">Radar 360 (RPLiDAR A2M8)</h4>
+<p>Le RPLiDAR A2M8 est un scanner laser à 360°. Il permet de connaître la distance entre lui et les obstacles à chaque angles. </p>
+<h5 id="mise-en-place_6">Mise en place</h5>
+<p>Le lidar est branchable par port série. Cependant, un adaptateur est founie avec et nous permet de récupérer les données par USB.</p>
+<p><img alt="Types de connexions" src="../images/lidar/lidar_side_connection_modes.png" title="Types de connexions" /></p>
+<p>Au dos de l'adaptateur, on peut y voir les éléments suivants :</p>
+<p><img alt="Informations inscrites au dos de l'adaptateur" src="../images/lidar/lidar_back.png" title="Informations inscrites au dos de l'adaptateur" /></p>
+<table>
+<thead>
+<tr>
+<th align="center">Couleur du câble</th>
+<th align="center">Nom du signal</th>
+<th align="center">Type de signal</th>
+<th align="center">Description</th>
+<th align="center">Tension minimale</th>
+<th align="center">Tension habituelle</th>
+<th align="center">Tension maximale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Rouge</td>
+<td align="center">VCC</td>
+<td align="center">Power</td>
+<td align="center">Puissance totale</td>
+<td align="center">4.9V</td>
+<td align="center">5V</td>
+<td align="center">5.2V</td>
+</tr>
+<tr>
+<td align="center">Vert</td>
+<td align="center">TX</td>
+<td align="center">Output</td>
+<td align="center">Sortie des données sur le port série relative au scanner</td>
+<td align="center">0V</td>
+<td align="center">3.3V</td>
+<td align="center">3.5V</td>
+</tr>
+<tr>
+<td align="center">Jaune</td>
+<td align="center">RX</td>
+<td align="center">Input</td>
+<td align="center">Entrée des données sur le port série relative au scanner</td>
+<td align="center">0V</td>
+<td align="center">3.3V</td>
+<td align="center">3.5V</td>
+</tr>
+<tr>
+<td align="center">Noir</td>
+<td align="center">GND</td>
+<td align="center">Power</td>
+<td align="center">La Terre</td>
+<td align="center">0V</td>
+<td align="center">0V</td>
+<td align="center">0V</td>
+</tr>
+<tr>
+<td align="center">Bleu</td>
+<td align="center">MOTOCTL</td>
+<td align="center">Input</td>
+<td align="center">Moteur de scan, régulé avec un PWM</td>
+<td align="center">0V</td>
+<td align="center">3.3V</td>
+<td align="center">5V</td>
+</tr>
+</tbody>
+</table>
+<p>Informations complémentaires pour le PWM, voici les valeurs utilisées :</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Unité</th>
+<th align="center">Valeur minimale</th>
+<th align="center">Valeur habituelle</th>
+<th align="center">Valeur maximale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Haut niveau de tension</td>
+<td align="center">Volts</td>
+<td align="center">3.0</td>
+<td align="center">3.3</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">Fréquence du PWM</td>
+<td align="center">Herz</td>
+<td align="center">24,500</td>
+<td align="center">25,000</td>
+<td align="center">25,500</td>
+</tr>
+<tr>
+<td align="center">Plage de cycles d'utilisation</td>
+<td align="center">Pourcent</td>
+<td align="center">0</td>
+<td align="center">60</td>
+<td align="center">100</td>
+</tr>
+</tbody>
+</table>
+<p>Si on le souhaite, on peut modifier la vitesse de transmission. De base, la vitesse de transmission est paramétrée sur 115'200 Baud mais on peut la montée à 256'000 Baud. </p>
+<p><img alt="Vitesse de transmission du Lidar" src="../images/lidar/lidar_up_and_side_baudrate.png" title="Vitesse de transmission du Lidar" /></p>
+<p>Il faut commencer par télécharger le kit de développement disponible sur <a href="https://github.com/Slamtec/rplidar_sdk/releases/tag/release%2Fv1.12.0">le repository officiel de Slamtec</a>. Une fois le SDK téléchargé sur le Raspberry. Nous pouvons brancher le Lidar à l'adaptateur. Depuis l'adaptateur, branché le micro-USB dessus puis l'USB au Raspberry Pi.</p>
+<p><img alt="Branchement du Lidar à l'adaptateur" src="../images/lidar/20210427_124335.jpg" title="Branchement du Lidar à l'adaptateur" /></p>
+<h5 id="utilisation_6">Utilisation</h5>
+<p>Afin de vérifier qu'il soit bien détecter, il faut exécuter la commande suivante <code>ls /dev/*USB*</code> ceci devrait être retourné <code>/dev/ttyUSB0</code>. Dans le dossier du code source, il faut aller dans le répertoire <code>sdk/app/</code> et exécuter la commande make dans un terminal. Pour exécuter l'un des 3 programmes suivant :</p>
+<ol>
+<li>ultra_simple</li>
+<li>simple_grabber</li>
+<li>frame_grabber</li>
+</ol>
+<p>Nous pouvons maintenant exécuter le programme souhaité en utilisant la commande suivante dans un terminal : <code>nom_du_programme /dev/ttyUSB0</code>.</p>
+<h5 id="probleme-rencontre_1">Problème rencontré</h5>
+<p>Les codes fournis fonctionnent parfaitement, sauf que aucun ne permet de récupérer depuis une variable ou autre les valeurs d'angles. Cependant, elles sont affichées dans la console.</p>
+<h4 id="emetteur-wifi-asus-rt-ac58u">Émetteur WiFi (ASUS RT-AC58U)</h4>
+<h5 id="mise-en-place_7">Mise en place</h5>
+<h5 id="utilisation_7">Utilisation</h5>
+<h3 id="python-flask">Python Flask</h3>
+<p>Flask est un framework web disponible en python qui permet de développer aisément des applications web.</p>
+<h4 id="mise-en-place_8">Mise en place</h4>
+<p>Flask est téléchargeable depuis la commande <code>pip3 install Flask</code>.</p>
+<h4 id="utilisation_8">Utilisation</h4>
+<p>Dans un premier temps, il est important de créer une fichier python. Dans cet exemple, ce sera <code>hello.py</code>.</p>
+<h5 id="application-de-base">Application de base</h5>
+<p>Il faut d'abord importer Flask. Et l'initialiser de la manière suivante : </p>
+<pre><code class="language-python">from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+</code></pre>
+<p>Pour lancer l'application, il faut d'abord exporter la variable d'environnment <code>FLASK_APP</code> de la manière suivante dans un terminal : <code>export FLASK_APP=hello.py</code>. Une fois cela fait, lancer le serveur avec la commande : <code>flask run --host=0.0.0.0</code>. Le <code>--host=0.0.0.0</code> rend l'accès au serveur publique depuis d'autres appareils connectés sur le réseau. Dans mon cas, mon Raspberry Pi a cette adresse IP : <code>10.5.50.42</code> et mon PC <code>10.5.50.52</code>. Pour aller sur le site, je tape l'adresse IP du Raspberry Pi ainsi que le port 5000, http://10.5.50.42:5000/. </p>
+<pre><code> * Serving Flask app &quot;hello.py&quot;
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [28/Apr/2021 08:42:15] &quot;GET / HTTP/1.1&quot; 200 -
+127.0.0.1 - - [28/Apr/2021 08:42:16] &quot;GET /favicon.ico HTTP/1.1&quot; 404 -
+10.5.50.52 - - [28/Apr/2021 08:42:32] &quot;GET / HTTP/1.1&quot; 200 -
+10.5.50.52 - - [28/Apr/2021 08:42:32] &quot;GET /favicon.ico HTTP/1.1&quot; 404 -
+</code></pre>
+<p>Le port 5000 étant le port par défaut définit par Flask mais qui est changeable avec le paramètre <code>flask run --host=0.0.0.0 -p 8000</code>, dans ce cas, le port de Flask sera changé à 8000.</p>
+<h6 id="routes">Routes</h6>
+<p>Flask fonctionne avec un système de routes. Les routes sont écrites de la manière suivantes :</p>
+<pre><code class="language-python">@app.route('/nom_de_la_route')
+def nom_de_la_fonction():
+    # Code ...
+    return html_a_afficher
+</code></pre>
+<p>Lors de l'accès à une route, le code à l'intérieur de la fonction sera exécutée puis rendra de l'HTML à afficher.</p>
+<p>On peut aussi récupérer une valeur depuis la route de la manière suivante :</p>
+<pre><code class="language-python">@app.route('/hello/&lt;name&gt;')
+def hello(param_name):
+    return render_template('hello.html', name=param_name)
+</code></pre>
+<h6 id="templates">Templates</h6>
+<p>Si les routes rendent de l'HTML, c'est que l'on peut injécter des valeurs dans du code HTML pré-écris. Pour ce faire, à la racine du projet, il faut créer une dossier précisément nommé de la sorte : <code>templates</code>. Ce répertoire contiendra les différents templates HTML à afficher. Voici comment un fichier de template HTML est écrit :</p>
+<pre><code class="language-HTML">&lt;!doctype html&gt;
+&lt;title&gt;Hello from Flask&lt;/title&gt;
+{% if name %}
+  &lt;h1&gt;Hello {{ name }}!&lt;/h1&gt;
+{% else %}
+  &lt;h1&gt;Hello, World!&lt;/h1&gt;
+{% endif %}
+</code></pre>
+<p>Les balises {% ... %} permettent d'écrire du code comme des tests et des boucles.</p>
+<p>Les balises {{ nom_de_la_variable }} permettent d'injecter des valeurs dans l'HTML dynamiquement.</p>
+<p>Depuis le code python, pour pouvoir utiliser des templates, il faut importer <code>render_template</code> comme suit : <code>from flask import render_template</code></p>
+<h6 id="formulaires">Formulaires</h6>
+<p>Les formulaires avec Flask sont écrit en HTML classique :</p>
+<pre><code class="language-html">&lt;form action=&quot;/route_apres_validation&quot; method=&quot;POST ou GET&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;input_txt&quot; placeholder=&quot;...&quot;/&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;input_cbx&quot; checked=&quot;true&quot;/&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;valider&quot; name=&quot;input_validation&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Pour récupérer les informations des différents champs du fomulaire, voici le code qui permet de les récupérer :</p>
+<pre><code class="language-python">@app.route('/route_apres_validation', methods=['GET', 'POST'])
+def nom_de_fonction():
+    if request.method == 'POST' and request.form[&quot;input_validation&quot;]:
+        valeur = request.form[&quot;nom_input_html&quot;]
+        # Traitement ...
+    return html_a_afficher
+</code></pre>
+<p>Dans le paramètre <code>methods</code> de la route, la paramètre GET est celui de base mais peut être changé par POST.</p>
+<h3 id="bluetooth">Bluetooth</h3>
+<h4 id="quest-ce-que-le-bluetooth">Qu'est-ce que le bluetooth ?</h4>
+<p>Le bluetooth est norme de communication à courte distance utilisant des ondes radios sur la bande de fréquence 2,4GHz. Ce qui permet d'échanger des données dans les deux sens en <em>peer-to-peer</em> dans un picoréseau.</p>
+<p><img alt="Logo du Bluetooth" src="../images/bluetooth_logo.png" title="Logo du Bluetooth" /></p>
+<p>Un picoréseau (en anglais piconet) est un mini-réseau qui se crée de manière instantanée et automatique quand plusieurs périphériques Bluetooth sont dans un même rayon.</p>
+<h4 id="comment-est-il-structure">Comment est-il structuré ?</h4>
+<p>Quand on parle de bluetooth, au niveau des protocoles, on peut parler de relations <em>Maîtres</em> et d'<em>Esclaves</em>. Le <em>Maître</em> Bluetooth est celui qui peut initier une connexion avec un périphérique (ou <em>Esclave</em>), cependant une fois les appareils connectés, le <em>Maître</em> et l'<em>Esclave</em> peuvent échanger des informations sans restriction (en fonction de la limitation de l'application). </p>
+<p><img alt="Schéma d'un picoréseau (Piconet en anglais)" src="../images/bluetooth_picoreseau.png" title="Schéma d'un picoréseau (Piconet en anglais)" /></p>
+<p>Les relations <em>Maître</em>-<em>Esclave</em> sont gérées par le gestionnaire de liason. Il implémente le protocole L2CAP (de l'anglais <em>Logical Link Control and Adaptation Protocol</em>) et le gère (création, destruction de canaux). Il implémente aussi les mécanismes de sécurité comme :</p>
+<ul>
+<li>l'authentification</li>
+<li>l'appairage (l'association)</li>
+<li>la création et la modification des clés</li>
+<li>et le chiffrement</li>
+</ul>
+<h5 id="securite">Sécurité</h5>
+<p>Il exite 3 modes de sécurité :</p>
+<ul>
+<li>Mode 1 <ul>
+<li>Non sécurisé pour toutes opérations</li>
+<li>Peut uniquement communiquer avec des appareils du même mode</li>
+</ul>
+</li>
+<li>Mode 2<ul>
+<li>Fournit un niveau de sécurité à la couche application après l'établissement d'une liaison avec un autre dispositif</li>
+</ul>
+</li>
+<li>Mode 3<ul>
+<li>Fournit un niveau de sécurité avant l'établissement du canal de communication</li>
+<li>Chiffrement sécurisé au niveau de la liaison avec autre dispositif</li>
+</ul>
+</li>
+</ul>
+<p>À noter, si un service effectue une demande de connexion, le mode de sécurité les plus haut sera celui utilisé afin de traiter la demande toute en s'assurant de la sécurité relatives au différents modes.</p>
+<p>Le bluetooth est divisé en deux parties : </p>
+<ol>
+<li>La couche contrôleur implémentant la partie matérielle</li>
+<li>la couche hôte implémentant la partie logicielle. </li>
+</ol>
+<p>L'émission et la réception de signaux radio sont possible grâce à un module RF (RadioFrequency). </p>
+<p>L'interface host-controller (HCI) fait la liaison entre la couche hôte et la couche contrôleur en assurant le transfert des événements et des paquets de données. Cette interface assure le transfert d’information pour que la couche hôte puisse découvrir, ajouter et gérer les appareils dans un picoréseau.</p>
+<p>Chaque paquets possèdent un champ header permettant de distinguer le picoréseau de l’appareil des autres picoréseaux. Voici le format d'un paquet :</p>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th align="center">Header</th>
+<th align="center">Access Address</th>
+<th align="center">Protocol Data Unit (PDU)</th>
+<th align="center">Cyclic redundancy Check (CRC)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Taille en bits</td>
+<td align="center">8</td>
+<td align="center">32</td>
+<td align="center">de 2 à 39</td>
+<td align="center">24</td>
+</tr>
+</tbody>
+</table>
+<p>Le PDU est une unité de mesure des informations échangées dans un réseau informatique. Appliqué aux couches du modèle OSI, le PDU de :</p>
+<ul>
+<li>La couche physique est le bit.</li>
+<li>La couche liaison est la trame.</li>
+<li>La couche réseau est le paquet.</li>
+<li>La couche transport est le segment pour TCP, et le datagramme pour UDP.</li>
+<li>Les couches application, présentation et session sont les données.</li>
+</ul>
+<p>Le Cyclic Redundancy Check, autrement appelé contrôle de redondance cyclique, permet de détecter des erreurs de transmission ou de transfert par ajout, combinaison et comparaison de données redondantes, obtenues grâce à une procédure de hachage. Cette méthode est comparable au checksum, mais ce dernier est plus élaboré.</p>
+<p>Les paquets reçus par le HCI sont traités par le protocole L2CAP. Il assure le transport des paquets vers les couches supérieures du modèle OSI, la segmentation et le ré-assemblage des paquets.</p>
+<p>La couche de liaison est définie dans les systèmes bluetooth comme la couche assurant le transport des paquets entre les appareils d’un même picoréseau à travers plusieurs canaux :</p>
+<p><img alt="Architecture du Bluetooth" src="../images/architecture_bluetooth.jpg" title="Architecture du Bluetooth" /></p>
+<ul>
+<li>Basic channel : Canal pour la communication entre deux appareils </li>
+<li>Adapted piconet channel : Canal pour la communication dans le picoréseau </li>
+<li>Inquiry scan : Canal pour l'acquisition des appareils bluetooth aux alentours </li>
+<li>Page scan : Canal pour la connexion avec un nouvel appareil</li>
+</ul>
+<h5 id="quest-ce-que-generic-access-profile">Qu'est-ce que Generic Access Profile</h5>
+<p>Generic Access Profile (GAP), est responsable de la connexion. De plus , il gère aussi :</p>
+<ul>
+<li>les modes d'accès</li>
+<li>les procédures du dispositif</li>
+<li>la découverte du dispositif</li>
+<li>l'établissement et la fin de la liaison</li>
+<li>le lancement des fonctions de sécurité </li>
+<li>la configuration du dispositif.</li>
+</ul>
+<p><img alt="Diagramme d'états du profile GAP" src="../images/diag_etat_gap.png" title="Diagramme d'états du profile GAP" /></p>
+<ul>
+<li>Veille : le dispositif est dans l'état initial de veille lors de la réinitialisation.</li>
+<li>Annonce : Le dispositif envoie un message d'annonce avec des données spécifiques pour faire savoir aux dispositifs initiateurs qu'il est un dispositif connectable (cette annonce contient l'adresse du dispositif et peut contenir des données supplémentaires telles que le nom du dispositif).</li>
+<li>Scan : Lorsqu'il reçoit l'annonce, le dispositif de scan envoie une demande de scan à l'annonceur qui répondra par une réponse d'analyse. Cette méthode est appelé découverte du dispositif. Le dispositif d'analyse connaît le dispositif ayant émit l'annonce et peut établir une connexion avec lui.</li>
+<li>Initiation : Lors de l'initialisation, l'initiateur doit spécifier une adresse de dispositif homologue à laquelle se connecter. S'il reçoit une annonce correspondant à l'adresse du dispositif homologue, le dispositif initiateur envoie une demande de connexion avec les paramètres disponible ci-dessous :<ul>
+<li>Intervale de connexion (entre 7.5 et 3200 ms)</li>
+<li>La latence de l'esclave</li>
+<li>Délai de supervision (entre 10 et 3200 ms)</li>
+</ul>
+</li>
+<li>Esclave/Maître : Lorsqu'une connexion est établie, le dispositif fonctionne comme un esclave s'il s'agit de l'annonceur sinon comme un maître s'il s'agit de l'initiateur.</li>
+</ul>
+<h6 id="quest-ce-que-generic-attribute-profile">Qu'est-ce que Generic Attribute Profile</h6>
+<p>Generic Attribute Profile (GATT), est responsable de la communications de données entre les appareils connectés. Il est structuré en <em>Services</em> et <em>Characteristics</em> comme ci-dessous :</p>
+<p><img alt="Architecture GATT" src="../images/gatt/gatt_comparison_between_hierarchy_and_EFR.png" title="Architecture GATT" /></p>
+<p>Les attributs sont groupés en <em>services</em>, chaque <em>services</em> peut contenir 0 ou + <em>characteristics</em>. Ces dernières peuvent avoir de 0 à + <em>descriptors</em>.</p>
+<ul>
+<li>GATT Server : Technic Hub</li>
+<li>Service : Generic Attribute<ul>
+<li>Characteristic : Service Change</li>
+</ul>
+</li>
+<li>Service : Generic Access<ul>
+<li>Characteristic : Device Name</li>
+<li>Characteristic : Appearance</li>
+<li>Characteristic : Peripheral Preferred Connection Parameters</li>
+</ul>
+</li>
+<li>Service : LegoTechnicHub (renommée car de base l'application affichait Unknown ervice)<ul>
+<li>Characteristic : Unknown Charateristic</li>
+</ul>
+</li>
+</ul>
+<p>Pour avoir accès à ces informations, j'ai utilisé l'application EFRConnect disponible sur le playstore.
+J'ai lancé un scan depuis le Raspberry Pi, voici les informations qui fût retournée :</p>
+<pre><code>[NEW] Device 90:84:2B:50:36:43 Technic Hub
+[CHG] Device 90:84:2B:50:36:43 RSSI: -58
+[CHG] Device 90:84:2B:50:36:43 TxPower: 0
+[CHG] Device 90:84:2B:50:36:43 ManufacturerData Key: 0x0397
+[CHG] Device 90:84:2B:50:36:43 ManufacturerData Value: 
+  00 80 06 00 61 00                                ....a. 
+</code></pre>
+<p>Par la suite, j'ai lancé un scan depuis l'application afin de comparer les données, voici les informations que l'application m'a retrounée concernant le Technic Hub :</p>
+<ul>
+<li>Flags : <code>0x06: LE General Discoverable Mode, BR/EDR Not Supported</code></li>
+<li>Complete list of 128-bit service class UUIDs : <code>00001624-1212-EFDE-1623-785FEABCD123</code> </li>
+<li>
+<p>Manufacturer Data : </p>
+<ol>
+<li>Company Code : <code>0x0397</code></li>
+<li>Data : <code>0x008006004100</code></li>
+<li>Slave connection interval range : <code>20.0ms</code></li>
+<li>Tx power level: <code>0 dBm</code></li>
+<li>Complete local name : <code>Technic Hub</code></li>
+</ol>
+</li>
+<li>
+<p>Generic attribute : <code>0x1801</code></p>
+<ol>
+<li>UUID : <code>0x2A05</code></li>
+<li>Descriptor : <em>champs vide</em></li>
+<li>Client characteristic configuration : <code>0x2902</code></li>
+</ol>
+</li>
+<li>Generic access :<ol>
+<li>Device name : <code>0x1800</code></li>
+<li>Appearance : <code>0x2A01</code></li>
+<li>Peripheral preffered connection parameters : <code>0x2A04</code></li>
+</ol>
+</li>
+<li><em>Unknown Service</em> : <ol>
+<li>UUID : <code>00001624-1212-EFDE-1623-785FEABCD123</code></li>
+<li>Descriptor : <em>champs vide</em></li>
+<li>Client characteristic configuration : <code>0x2902</code></li>
+<li>Value : <code>05 00 04 03 00 2E 00 00 10 00 00 00 10 00 00 00 00 00 00 00</code></li>
+</ol>
+</li>
+</ul>
+<h4 id="tchat-en-bluetooth">T'chat en bluetooth</h4>
+<h5 id="mise-en-place_9">Mise en place</h5>
+<p>Il faut que les 2 Raspberry Pi soit en mode "Découvrable" activable ici :</p>
+<p><img alt="Rendre découvrable le Raspberry Pi" src="../images/raspberrys/rsp_make_discoverable.png" title="Rendre découvrable le Raspberry Pi" />. </p>
+<p>Il faut ensuite effectuer un scan des appareils si nous ne connaissons pas le nom d'hôte de l'autre Raspberry Pi. Le script doit être présent sur les deux Raspberry Pi afin de pouvoir écouter, recevoir ainsi qu'envoyer des messages. La machine hôte, moi dans ce contexte, doit être en mode MODE_SEND tandis que l'autre en mode MODE_RECEIVE.</p>
+<h5 id="utilisation_9">Utilisation</h5>
+<p>Le code fonctionne de la manière suivante. La machine hôte va en premier temps lancer le scan à la recherche de l'appareil nommé <code>morenoPi42</code>.
+<img alt="Scan bluetooth des environs" src="../images/raspberrys/rsp_scan_bluetooth.png" title="Scan bluetooth des environs" /></p>
+<p>Une fois l'appareil trouvé, je m'y appareille, puis lui envoie le premier message.
+<img alt="Transfère de données entre les 2 Raspberry Pi 4" src="../images/raspberrys/rsp_send_data_to_another_rsp.png" title="Transfère de données entre les 2 Raspberry Pi 4" /></p>
+<p>Le mode actuel, change et je deviens la machine qui écoute le port spécifié en attendant un message.</p>
+<p><img alt="T'chat en bluetooth" src="../images/tchat.png" title="T'chat en bluetooth" /></p>
+<p><img alt="Diagramme de séquence du T'chat en bluetooth" src="../images/diag_seq_tchat_bluetooth.png" title="Diagramme de séquence du T'chat en bluetooth" /></p>
+<h2 id="retour-dexperience">Retour d'expérience</h2>
+<h3 id="problemes-rencontres">Problèmes rencontrés</h3>
+<h3 id="resultat">Résultat</h3>
+<h3 id="ce-quil-reste-a-faire">Ce qu'il reste à faire</h3>
+<h3 id="ameliorations-possibles">Améliorations possibles</h3>
+<h3 id="bilan-personnel">Bilan personnel</h3>
+<h3 id="apports-personnels">Apports personnels</h3>
+<h2 id="conclusion">Conclusion</h2>
+<h2 id="journal-de-bord">Journal de bord</h2>
+<h2 id="glossaire">Glossaire</h2>
+<h2 id="code-source">Code source</h2>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href=".." class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Welcome to MkDocs
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../logbook/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Logbook
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      
+    
+  </body>
+</html>
