@@ -420,7 +420,8 @@ RuntimeError: dictionary changed size during iteration
 ### 29.04.2021
 * J'ai commencé par définir plus clairement ce qu'était le bluetooth dans la documentation technique.
 * J'ai recompilé la documentation technique avec MkDocs pour avoir un aperçu de la mise en forme.
-* //TODO// commenter tous le code écrit
+  * J'ai eu des soucis de mise en page en ce qui concerne les listes à points ou numérotées tandis qu'affiche en Markdown fonctionnent très bien.
+  * Pour ne pas perdre plus de temps dessus j'ai commenté tous le code écrit.
 #### Liens consultés
 ##### Bluetooth
 * https://arduino.stackexchange.com/questions/18895/how-master-and-slave-concept-works-with-bluetooth

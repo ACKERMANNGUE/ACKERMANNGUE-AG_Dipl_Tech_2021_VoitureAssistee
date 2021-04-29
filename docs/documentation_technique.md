@@ -564,7 +564,6 @@ Par la suite, j'ai lancé un scan depuis l'application afin de comparer les donn
   5. Complete local name : `Technic Hub`
  
 * Generic attribute : `0x1801`
-
    1. UUID : `0x2A05`
    2. Descriptor : _champs vide_
    3. Client characteristic configuration : `0x2902`
@@ -577,6 +576,11 @@ Par la suite, j'ai lancé un scan depuis l'application afin de comparer les donn
    2. Descriptor : _champs vide_
    3. Client characteristic configuration : `0x2902`
    4. Value : `05 00 04 03 00 2E 00 00 10 00 00 00 10 00 00 00 00 00 00 00`
+
+#### T'chat en bluetooth
+##### Mise en place
+##### Utilisation
+
 ## Retour d'expérience
 
 ### Problèmes rencontrés
