@@ -172,7 +172,7 @@
     * Value : Contient les données de l'attribut, il n'y a pas de restrictions pour le type de données qu'il contient mais jusqu'à une limite de 512 bytes
   * Attribute and data hierarchy
     * ![Architecture GATT](./images/gatt/gatt_comparison_between_hierarchy_and_EFR.png "Architecture GATT")
-        * Profile : Technic Hub
+        * GATT Server : Technic Hub
         * Service : Generic Attribute
           * Characteristic : Service Change
         * Service : Generic Access
@@ -406,14 +406,28 @@ RuntimeError: dictionary changed size during iteration
 
 ### 28.04.2021
 * J'ai continué la documentation technique. Après l'entretien avec M. Bonvin, j'ai mis à disposition le code écrit sur le Raspberry Pi, puis je me suis remis à travailler sur la documentation technique. Pour expliquer plus en détails les composants qui composeront le voiture, j'ai réalisé ce croquis :
-![Plan de la voiture](./images/maquettes/plan_voiture_avec_composants.jpg "Plan de la voiture"). J'ai tenté d'importer l'état actuel de ma documentation technique sur ReadTheDoc.
+
+![Plan de la voiture](./images/maquettes/plan_voiture_avec_composants.jpg "Plan de la voiture")
+
+* J'ai tenté d'importer l'état actuel de ma documentation technique sur ReadTheDoc, mais la version en ligne qui créait une documentation à partir d'un repository Github ne fonctionnait pas vraiment. J'ai alors installé MkDocs pour générer la documentation à partir du fichier Markdown.
 #### Liens consultés
 ##### Flask
 * https://flask.palletsprojects.com/en/1.1.x/quickstart/
 
+##### MkDocs
+* https://www.mkdocs.org/#installation
+
 ### 29.04.2021
+* J'ai commencé par définir plus clairement ce qu'était le bluetooth dans la documentation technique.
+* J'ai recompilé la documentation technique avec MkDocs pour avoir un aperçu de la mise en forme.
+* //TODO// commenter tous le code écrit
 #### Liens consultés
-##### ------
+##### Bluetooth
+* https://arduino.stackexchange.com/questions/18895/how-master-and-slave-concept-works-with-bluetooth
+* https://fr.wikipedia.org/wiki/S%C3%A9curit%C3%A9_des_protocoles_Bluetooth
+* https://fr.wikipedia.org/wiki/Contr%C3%B4le_de_redondance_cyclique
+* https://fr.wikipedia.org/wiki/Protocol_Data_Unit
+* http://software-dl.ti.com/lprf/sdg-latest/html/ble-stack-3.x/gap.html#connection-parameters
 
 ### 30.04.2021
 #### Liens consultés

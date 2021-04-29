@@ -429,6 +429,150 @@ def nom_de_fonction():
 ```
 Dans le paramètre `methods` de la route, la paramètre GET est celui de base mais peut être changé par POST.
 
+### Bluetooth
+
+#### Qu'est-ce que le bluetooth ?
+Le bluetooth est norme de communication à courte distance utilisant des ondes radios sur la bande de fréquence 2,4GHz. Ce qui permet d'échanger des données dans les deux sens en _peer-to-peer_ dans un picoréseau.
+
+![Logo du Bluetooth](./images/bluetooth_logo.png "Logo du Bluetooth")
+
+Un picoréseau (en anglais piconet) est un mini-réseau qui se crée de manière instantanée et automatique quand plusieurs périphériques Bluetooth sont dans un même rayon.
+
+#### Comment est-il structuré ?
+
+Quand on parle de bluetooth, au niveau des protocoles, on peut parler de relations _Maîtres_ et d'_Esclaves_. Le _Maître_ Bluetooth est celui qui peut initier une connexion avec un périphérique (ou _Esclave_), cependant une fois les appareils connectés, le _Maître_ et l'_Esclave_ peuvent échanger des informations sans restriction (en fonction de la limitation de l'application). 
+
+
+![Schéma d'un picoréseau (Piconet en anglais)](./images/bluetooth_picoreseau.png "Schéma d'un picoréseau (Piconet en anglais)")
+
+Les relations _Maître_-_Esclave_ sont gérées par le gestionnaire de liason. Il implémente le protocole L2CAP (de l'anglais _Logical Link Control and Adaptation Protocol_) et le gère (création, destruction de canaux). Il implémente aussi les mécanismes de sécurité comme :
+
+* l'authentification
+* l'appairage (l'association)
+* la création et la modification des clés
+* et le chiffrement
+
+##### Sécurité
+Il exite 3 modes de sécurité :
+* Mode 1 
+  * Non sécurisé pour toutes opérations
+  * Peut uniquement communiquer avec des appareils du même mode
+* Mode 2
+  * Fournit un niveau de sécurité à la couche application après l'établissement d'une liaison avec un autre dispositif
+* Mode 3
+  * Fournit un niveau de sécurité avant l'établissement du canal de communication
+  * Chiffrement sécurisé au niveau de la liaison avec autre dispositif
+
+À noter, si un service effectue une demande de connexion, le mode de sécurité les plus haut sera celui utilisé afin de traiter la demande toute en s'assurant de la sécurité relatives au différents modes.
+
+Le bluetooth est divisé en deux parties : 
+1. La couche contrôleur implémentant la partie matérielle
+2. la couche hôte implémentant la partie logicielle. 
+
+L'émission et la réception de signaux radio sont possible grâce à un module RF (RadioFrequency). 
+
+L'interface host-controller (HCI) fait la liaison entre la couche hôte et la couche contrôleur en assurant le transfert des événements et des paquets de données. Cette interface assure le transfert d’information pour que la couche hôte puisse découvrir, ajouter et gérer les appareils dans un picoréseau.
+
+Chaque paquets possèdent un champ header permettant de distinguer le picoréseau de l’appareil des autres picoréseaux. Voici le format d'un paquet :
+
+| Champ          | Header | Access Address | Protocol Data Unit (PDU) | Cyclic redundancy Check (CRC) |
+|----------------|:------:|:--------------:|:------------------------:|:-----------------------------:|
+| Taille en bits |    8   |       32       |         de 2 à 39        |               24              |
+
+Le PDU est une unité de mesure des informations échangées dans un réseau informatique. Appliqué aux couches du modèle OSI, le PDU de :
+
+* La couche physique est le bit.
+* La couche liaison est la trame.
+* La couche réseau est le paquet.
+* La couche transport est le segment pour TCP, et le datagramme pour UDP.
+* Les couches application, présentation et session sont les données.
+
+Le Cyclic Redundancy Check, autrement appelé contrôle de redondance cyclique, permet de détecter des erreurs de transmission ou de transfert par ajout, combinaison et comparaison de données redondantes, obtenues grâce à une procédure de hachage. Cette méthode est comparable au checksum, mais ce dernier est plus élaboré.
+
+Les paquets reçus par le HCI sont traités par le protocole L2CAP. Il assure le transport des paquets vers les couches supérieures du modèle OSI, la segmentation et le ré-assemblage des paquets.
+
+La couche de liaison est définie dans les systèmes bluetooth comme la couche assurant le transport des paquets entre les appareils d’un même picoréseau à travers plusieurs canaux :
+
+![Architecture du Bluetooth](./images/architecture_bluetooth.jpg "Architecture du Bluetooth")
+
+* Basic channel : Canal pour la communication entre deux appareils 
+* Adapted piconet channel : Canal pour la communication dans le picoréseau 
+* Inquiry scan : Canal pour l'acquisition des appareils bluetooth aux alentours 
+* Page scan : Canal pour la connexion avec un nouvel appareil
+
+##### Qu'est-ce que Generic Access Profile
+Generic Access Profile (GAP), est responsable de la connexion. De plus , il gère aussi :
+* les modes d'accès
+* les procédures du dispositif
+* la découverte du dispositif
+* l'établissement et la fin de la liaison
+* le lancement des fonctions de sécurité 
+* la configuration du dispositif.
+
+![Diagramme d'états du profile GAP](./images/diag_etat_gap.png "Diagramme d'états du profile GAP")
+
+* Veille : le dispositif est dans l'état initial de veille lors de la réinitialisation.
+* Annonce : Le dispositif envoie un message d'annonce avec des données spécifiques pour faire savoir aux dispositifs initiateurs qu'il est un dispositif connectable (cette annonce contient l'adresse du dispositif et peut contenir des données supplémentaires telles que le nom du dispositif).
+* Scan : Lorsqu'il reçoit l'annonce, le dispositif de scan envoie une demande de scan à l'annonceur qui répondra par une réponse d'analyse. Cette méthode est appelé découverte du dispositif. Le dispositif d'analyse connaît le dispositif ayant émit l'annonce et peut établir une connexion avec lui.
+* Initiation : Lors de l'initialisation, l'initiateur doit spécifier une adresse de dispositif homologue à laquelle se connecter. S'il reçoit une annonce correspondant à l'adresse du dispositif homologue, le dispositif initiateur envoie une demande de connexion avec les paramètres disponible ci-dessous :
+  * Intervale de connexion (entre 7.5 et 3200 ms)
+  * La latence de l'esclave
+  * Délai de supervision (entre 10 et 3200 ms)
+* Esclave/Maître : Lorsqu'une connexion est établie, le dispositif fonctionne comme un esclave s'il s'agit de l'annonceur sinon comme un maître s'il s'agit de l'initiateur.
+
+###### Qu'est-ce que Generic Attribute Profile
+Generic Attribute Profile (GATT), est responsable de la communications de données entre les appareils connectés. Il est structuré en _Services_ et _Characteristics_ comme ci-dessous :
+
+![Architecture GATT](./images/gatt/gatt_comparison_between_hierarchy_and_EFR.png "Architecture GATT")
+
+Les attributs sont groupés en _services_, chaque _services_ peut contenir 0 ou + _characteristics_. Ces dernières peuvent avoir de 0 à + _descriptors_.
+
+* GATT Server : Technic Hub
+* Service : Generic Attribute
+  * Characteristic : Service Change
+* Service : Generic Access
+  * Characteristic : Device Name
+  * Characteristic : Appearance
+  * Characteristic : Peripheral Preferred Connection Parameters
+* Service : LegoTechnicHub (renommée car de base l'application affichait Unknown ervice)
+  * Characteristic : Unknown Charateristic
+    * 
+
+Pour avoir accès à ces informations, j'ai utilisé l'application EFRConnect disponible sur le playstore.
+J'ai lancé un scan depuis le Raspberry Pi, voici les informations qui fût retournée :
+
+```
+[NEW] Device 90:84:2B:50:36:43 Technic Hub
+[CHG] Device 90:84:2B:50:36:43 RSSI: -58
+[CHG] Device 90:84:2B:50:36:43 TxPower: 0
+[CHG] Device 90:84:2B:50:36:43 ManufacturerData Key: 0x0397
+[CHG] Device 90:84:2B:50:36:43 ManufacturerData Value: 
+  00 80 06 00 61 00                                ....a. 
+```
+
+Par la suite, j'ai lancé un scan depuis l'application afin de comparer les données, voici les informations que l'application m'a retrounée concernant le Technic Hub :
+* Flags : `0x06: LE General Discoverable Mode, BR/EDR Not Supported`
+* Complete list of 128-bit service class UUIDs : `00001624-1212-EFDE-1623-785FEABCD123` 
+* Manufacturer Data : 
+  1. Company Code : `0x0397`
+  2. Data : `0x008006004100`
+  3. Slave connection interval range : `20.0ms`
+  4. Tx power level: `0 dBm`
+  5. Complete local name : `Technic Hub`
+ 
+* Generic attribute : `0x1801`
+  1. UUID : `0x2A05`
+  2. Descriptor : _champs vide_
+  3. Client characteristic configuration : `0x2902`
+* Generic access :
+  1. Device name : `0x1800`
+  2. Appearance : `0x2A01`
+  3. Peripheral preffered connection parameters : `0x2A04`
+* _Unknown Service_ : 
+   1. UUID : `00001624-1212-EFDE-1623-785FEABCD123`
+   2. Descriptor : _champs vide_
+   3. Client characteristic configuration : `0x2902`
+   4. Value : 
 ## Retour d'expérience
 
 ### Problèmes rencontrés
