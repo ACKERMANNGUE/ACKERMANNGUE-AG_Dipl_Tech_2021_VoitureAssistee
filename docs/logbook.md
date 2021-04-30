@@ -420,9 +420,10 @@ RuntimeError: dictionary changed size during iteration
 ### 29.04.2021
 * J'ai commencé par définir plus clairement ce qu'était le bluetooth dans la documentation technique.
 * J'ai recompilé la documentation technique avec MkDocs pour avoir un aperçu de la mise en forme.
-  * J'ai eu des soucis de mise en page en ce qui concerne les listes à points ou numérotées tandis qu'affiche en Markdown fonctionnent très bien.
-  * Pour ne pas perdre plus de temps dessus j'ai commenté tous le code écrit.
-  * Après avoir tous commenté, je me suis remis sur la documentation afin d'expliquer le T'chat bluetooth fait en collaboration avec M. Moreno
+    * J'ai eu des soucis de mise en page en ce qui concerne les listes à points ou numérotées tandis qu'affiche en Markdown fonctionnent très bien.
+    * Pour ne pas perdre plus de temps dessus j'ai commenté tous le code écrit.
+    * Après avoir tous commenté, je me suis remis sur la documentation afin d'expliquer le T'chat bluetooth fait en collaboration avec M. Moreno
+    * Pour terminer la journée j'ai corrigé les problèmes de mise en forme pour la conversion avec MkDocs.
 #### Liens consultés
 ##### Bluetooth
 * https://arduino.stackexchange.com/questions/18895/how-master-and-slave-concept-works-with-bluetooth
@@ -432,5 +433,49 @@ RuntimeError: dictionary changed size during iteration
 * http://software-dl.ti.com/lprf/sdg-latest/html/ble-stack-3.x/gap.html#connection-parameters
 
 ### 30.04.2021
+* J'ai customisé le thème de la documentation générée par MkDocs.
+* J'ai mis à disposition la documentation technique sur ReadTheDocs : https://ackermanngue-ag-dipl-tech-2021-voitureassistee.readthedocs.io/fr/latest/documentation_technique/
+* J'ai avancé la documentation technique afin de pouvoir me concentrer sur l'implémention de Flask en tant que télécommande pour contrôler la voiture une fois les derniers éléments ajoutés.
+* J'ai commencé à travailler sur l'utilisation de Flask pour gérer la voiture à distance.
+    * J'ai crée une variable globale concernant la voiture (elle s'occupe de la connexion ainsi que du déplacement de la voiture)
+        * J'ai eu une erreur me disant que lors que je tente d'accéder à la route créant l'objet concernant la voiture il n'était pas accessible alors que je l'ai définit en tant que variable globale.
+        * Pour palier à ce problème, j'ai voulu implémenter le design pattern Singleton car j'avais besoin de récupérer la référence sur la classe afin de pouvoir exécuter les méthodes associées. Pour ce faire, je me suis basé sur l'exemple présent [ici](https://blog.finxter.com/how-to-create-a-singleton-in-python/).
+        * La méthode `__init__` est remplacée par la méthode `__new__`. La méthode `__init__` est appellée lorsque l'objet doit être initialisé tandis que la méthode `__new__` est appelée lors de la création de l'objet.
+        * Voici le code écrit pour le constructeur de mon objet `CarController` :
+```python
+def __new__(cls):
+    if(cls.instance is None):
+        cls.instance = super(CarController, cls).__new__(cls)
+        cls.connection = get_connection_gatt(hub_mac=cls.MY_MOVEHUB_ADD)
+        try:
+            # The motors 
+            cls.movehub = MoveHub(cls.connection)
+            cls.front_motor = Motor(cls.movehub, cls.movehub.PORT_A)
+            cls.back_motor = Motor(cls.movehub, cls.movehub.PORT_B)
+            cls.directionnal_motor = EncodedMotor(cls.movehub, cls.movehub.PORT_C)
+        except:
+            cls.movehub = None
+            cls.front_motor = None
+            cls.back_motor = None
+            cls.directionnal_motor = None
+    return cls.instance
+```
+
+* La raison pour laquelle on utilise `cls` à la place de `self` c'est parce que `self` doit être utilisé pour les méthodes d'instances tandis que `cls` est utilisé pour les méthodes de classes.
+  * Par exemple, si une classe contient une méthode `move`, si nous utilisons des éléments propres à la classe dans ce cas on utilisera `self`.
+  * Alors que pour si nous utilision une méthode tel que `__new__` ou `__init__`, étant donné qu'il s'agit de méthodes de classes, on utilisera `cls`.
+
+```python
+#Méthode de classe
+__new__(cls)
+
+# Méthode d'instance
+move(self, motor_speed, angle_rotation)
+```
+
+ 
 #### Liens consultés
-##### ------
+##### Python
+* https://www.python.org/dev/peps/pep-0008/#function-and-method-arguments
+* https://blog.finxter.com/how-to-create-a-singleton-in-python/
+* https://www.geeksforgeeks.org/\_\_new__-in-python/

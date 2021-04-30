@@ -5,10 +5,16 @@
 _Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leurs fonctionnement. Ce projet me fût proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a sû amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisé pour ce projet, la plus value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçable à l'aide une interface web et qui sait se déplacer par elle même en évitant les obstacles sur sa route.
 
 ## Abstract
+_Voiture assistée_ is a study project about autonomous cars and their functioning. This project was proposed to me by Mr. Bonvin since the first draft of the specifications included a simulation of an autonomous car but in a windows form application. Mr. Bonvin heard about my project, he knew how to bring a more interesting and professional side in the work that I will have to realize. Considering the discovery of the different devices used for this project, the added value will be especially the acquisition of new knowledge in the field of physical computing. Therefore, the goal of the project is to realize a car that can be moved by a web interface and that knows how to move by itself and which avoids obstacles on its way.
+
 
 ## Poster
 
 ## Cahier des charges
+
+### Titre du projet
+Le titre du projet est Voiture assistée car le but du projet est d'en réaliser une.
+
 ### Contexte
 Ce projet m'a été proposé par M. Bonvin car il a vu que j'allais faire une simulation de voiture autonome, il s'est dit que l'on pourrait tourner la chose autrement. Il a une multitude de Raspberry Pi, de composants ainsi qu'une voiture LEGO controlable. C'est pourquoi il m'a dirigé vers une programmation utilisant des capteurs et du bluetooth.
 ### Objectif
@@ -83,6 +89,44 @@ La voiture se déplace de manière rectiligne en évitant les obstacles sur sa r
 
 ![Interface de télécommande en mode automatique](./images/maquettes/commande_de_la_voiture_automatique.png "Interface de télécommande en mode automatique")
 
+
+## Contact
+
+| Status                |    Nom    | Prénom |         Email        | Numéro de téléphone |
+|-----------------------|:---------:|:------:|:--------------------:|---------------------|
+|         Élève         | Ackermann |  Gawen | gawen.ackrm@eduge.ch |  +41 79 88 98 69 4  |
+| Professeur de diplôme |   Bonvin  | Pascal | edu-bonvinp@eduge.ch |  +33 6 32 17 84 11  |
+
+## Structure du projet
+```
+├── code
+│   ├── Bluetooth
+│   ├── Bright Pi
+│   ├── Camera
+│   ├── Flask
+│   ├── Lidar
+│   └── OpenCV
+├── docs
+│   ├── images
+│   ├── plans
+│   ├── documentation_technique.md
+│   ├── index.md
+│   ├── logbook.md
+│   └── requirements.txt
+├── site
+│   ├── assets
+│   ├── documentation_technique
+│   ├── images
+│   ├── logbook
+│   ├── plans
+│   ├── search
+│   ├── 404.html
+│   ├── index.html
+│   ├── sitemap.xml
+│   └── sitemap.xml.gz
+├── mkdocs.yml
+└── README.md
+```
 ## Développement
 
 ### Description détaillée de chaques capteurs
@@ -613,7 +657,20 @@ Le mode actuel, change et je deviens la machine qui écoute le port spécifié e
 
 ![Diagramme de séquence du T'chat en bluetooth](./images/diag_seq_tchat_bluetooth.png "Diagramme de séquence du T'chat en bluetooth")
 
-
+## Dates importantes
+* Lundi 19 avril 2021 : Début du travail de diplôme
+* Vendredi 30 avril 2021 : Évaluation intermédiaire 1
+* Vendredi 14 mai 2021 : Rendu du rapport intermédiaire + poster
+* Vendredi 14 mai 2021 : Rendu version intermédiaire du résumé et de l’abstract (pour conseils par l’enseignant d’anglais)
+Lundi 17 mai 2021 : Évaluation intermédiaire 2
+* Jeudi 20 mai 2021 après-midi : Soirée poster : amis, famille, CFC, experts
+    * 14h00 : Visite des classes de 1re année (cf. SG)
+    * 16h30 : Amis, famille, experts, enseignants Tech ES…
+    * 18h00 : Fin de la soirée poster
+* Lundi 31 mai 2021 : Évaluation intermédiaire 3
+* Vendredi 11 juin 2021 : Rendu du travail avant 12h00
+* Jeudi 17 juin 2021 : Défenses à blanc + harmonisation des notes
+* Lundi 21 juin ou mardi 22 juin 2021 : Défenses de diplôme
 
 ## Retour d'expérience
 
