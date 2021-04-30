@@ -1,3 +1,7 @@
 site_name: Documentation Technique Voiture Assistée
 theme:
   name: material
+  palette:
+    primary: teal
+    accent: light blue
+    scheme: slate
