@@ -23,6 +23,10 @@
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
         
+          
+          
+          <meta name="theme-color" content="#009485">
+        
       
     
     
@@ -48,7 +52,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="light-blue">
   
     
     <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
@@ -612,8 +616,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#-" class="md-nav__link">
-    ------
+  <a href="#python" class="md-nav__link">
+    Python
   </a>
   
 </li>
@@ -1049,8 +1053,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#-" class="md-nav__link">
-    ------
+  <a href="#python" class="md-nav__link">
+    Python
   </a>
   
 </li>
@@ -1580,10 +1584,13 @@ RuntimeError: dictionary changed size during iteration
 <h3 id="29042021">29.04.2021</h3>
 <ul>
 <li>J'ai commencé par définir plus clairement ce qu'était le bluetooth dans la documentation technique.</li>
-<li>J'ai recompilé la documentation technique avec MkDocs pour avoir un aperçu de la mise en forme.</li>
+<li>J'ai recompilé la documentation technique avec MkDocs pour avoir un aperçu de la mise en forme.<ul>
 <li>J'ai eu des soucis de mise en page en ce qui concerne les listes à points ou numérotées tandis qu'affiche en Markdown fonctionnent très bien.</li>
 <li>Pour ne pas perdre plus de temps dessus j'ai commenté tous le code écrit.</li>
 <li>Après avoir tous commenté, je me suis remis sur la documentation afin d'expliquer le T'chat bluetooth fait en collaboration avec M. Moreno</li>
+<li>Pour terminer la journée j'ai corrigé les problèmes de mise en forme pour la conversion avec MkDocs.</li>
+</ul>
+</li>
 </ul>
 <h4 id="liens-consultes_8">Liens consultés</h4>
 <h5 id="bluetooth_4">Bluetooth</h5>
@@ -1595,8 +1602,56 @@ RuntimeError: dictionary changed size during iteration
 <li>http://software-dl.ti.com/lprf/sdg-latest/html/ble-stack-3.x/gap.html#connection-parameters</li>
 </ul>
 <h3 id="30042021">30.04.2021</h3>
+<ul>
+<li>J'ai customisé le thème de la documentation générée par MkDocs.</li>
+<li>J'ai mis à disposition la documentation technique sur ReadTheDocs : https://ackermanngue-ag-dipl-tech-2021-voitureassistee.readthedocs.io/fr/latest/documentation_technique/</li>
+<li>J'ai avancé la documentation technique afin de pouvoir me concentrer sur l'implémention de Flask en tant que télécommande pour contrôler la voiture une fois les derniers éléments ajoutés.</li>
+<li>J'ai commencé à travailler sur l'utilisation de Flask pour gérer la voiture à distance.<ul>
+<li>J'ai crée une variable globale concernant la voiture (elle s'occupe de la connexion ainsi que du déplacement de la voiture)<ul>
+<li>J'ai eu une erreur me disant que lors que je tente d'accéder à la route créant l'objet concernant la voiture il n'était pas accessible alors que je l'ai définit en tant que variable globale.</li>
+<li>Pour palier à ce problème, j'ai voulu implémenter le design pattern Singleton car j'avais besoin de récupérer la référence sur la classe afin de pouvoir exécuter les méthodes associées. Pour ce faire, je me suis basé sur l'exemple présent <a href="https://blog.finxter.com/how-to-create-a-singleton-in-python/">ici</a>.</li>
+<li>La méthode <code>__init__</code> est remplacée par la méthode <code>__new__</code>. La méthode <code>__init__</code> est appellée lorsque l'objet doit être initialisé tandis que la méthode <code>__new__</code> est appelée lors de la création de l'objet.</li>
+<li>Voici le code écrit pour le constructeur de mon objet <code>CarController</code> :</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def __new__(cls):
+    if(cls.instance is None):
+        cls.instance = super(CarController, cls).__new__(cls)
+        cls.connection = get_connection_gatt(hub_mac=cls.MY_MOVEHUB_ADD)
+        try:
+            # The motors 
+            cls.movehub = MoveHub(cls.connection)
+            cls.front_motor = Motor(cls.movehub, cls.movehub.PORT_A)
+            cls.back_motor = Motor(cls.movehub, cls.movehub.PORT_B)
+            cls.directionnal_motor = EncodedMotor(cls.movehub, cls.movehub.PORT_C)
+        except:
+            cls.movehub = None
+            cls.front_motor = None
+            cls.back_motor = None
+            cls.directionnal_motor = None
+    return cls.instance
+</code></pre>
+<ul>
+<li>La raison pour laquelle on utilise <code>cls</code> à la place de <code>self</code> c'est parce que <code>self</code> doit être utilisé pour les méthodes d'instances tandis que <code>cls</code> est utilisé pour les méthodes de classes.</li>
+<li>Par exemple, si une classe contient une méthode <code>move</code>, si nous utilisons des éléments propres à la classe dans ce cas on utilisera <code>self</code>.</li>
+<li>Alors que pour si nous utilision une méthode tel que <code>__new__</code> ou <code>__init__</code>, étant donné qu'il s'agit de méthodes de classes, on utilisera <code>cls</code>.</li>
+</ul>
+<pre><code class="language-python">#Méthode de classe
+__new__(cls)
+
+# Méthode d'instance
+move(self, motor_speed, angle_rotation)
+</code></pre>
 <h4 id="liens-consultes_9">Liens consultés</h4>
-<h5 id="-">------</h5>
+<h5 id="python">Python</h5>
+<ul>
+<li>https://www.python.org/dev/peps/pep-0008/#function-and-method-arguments</li>
+<li>https://blog.finxter.com/how-to-create-a-singleton-in-python/</li>
+<li>https://www.geeksforgeeks.org/__new__-in-python/</li>
+</ul>
                 
               
               
