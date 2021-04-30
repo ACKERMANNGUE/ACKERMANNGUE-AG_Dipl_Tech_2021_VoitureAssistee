@@ -1,0 +1,19 @@
+
+<h1>Interface de commande de la voiture</h1>
+<form action="/form_response" method="POST">
+    <label for="cbxAutomaticMode">Mode automatique</label>
+    <input type="checkbox" value="{{mode}}" id="cbxAutomaticMode" name="cbxMode">
+    <br>
+    <label for="rngMove">Vitesse</label>
+    <span>Reculer</span>
+    <input type="range" value="{{speed}}" min="-100" max="100" id="rngMove" name="rngMove">
+    <span>Avancer</span>
+    <br>
+    <label for="rngRotationAngle">Angle de rotation</label>
+    <span>Gauche</span>
+    <input type="range" value="{{angle}}" min="-150" max="150" id="rngRotationAngle" name="rngRotationAngle">
+    <span>Droite</span>
+    <br>
+    <input type="submit" value="validate" id="btn_validation" name="send_request" />
+    <input type="submit" value="stop" id="btn_stop" name="send_request" />
+</form>
