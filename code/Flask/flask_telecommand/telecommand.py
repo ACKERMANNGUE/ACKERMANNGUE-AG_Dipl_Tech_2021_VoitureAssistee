@@ -5,8 +5,8 @@ from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
 from pylgbst.comms.cgatt import GattConnection
-from flask_caching import Cache
 from car import CarController
+import RPi.GPIO as GPIO
 
 
 DEFAULT_MODE = False
@@ -17,23 +17,16 @@ BTN_REQUEST_VALIDATE = "validate"
 BTN_REQUEST_STOP = "stop"
 BTN_REQUEST_DISCONNECT = "disconnect"
 
-topbar = Navbar(
-    View('Accueil', 'home'),
-    View('Télécommande', 'control_car'),
-    View('Déconnexion', 'close_connection'),
-    View('Créer une connexion', 'create_car'),
-)
 
-nav = Nav()
-nav.register_element('top', topbar)
 
+def get_grounded_state(self):
+    """Will stop the motors if the ground isn't detected anymore
+    """
+    car = CarController()
+    if GPIO.input(23):
+        car.stop_moving()
 
 app = Flask(__name__)
-Bootstrap(app)
-cache = Cache(config={'CACHE_TYPE': 'null'})
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
-cache.init_app(app)
-
 
 @app.route('/')
 def hello():
@@ -66,7 +59,6 @@ def create_car_test():
 def create_car():
     """Used to the creation of the car
     """
-    cache.clear()
     car = None
     while car == None:
         car = CarController()
@@ -109,7 +101,9 @@ def bg_process():
     move_speed = request.form["rngMove"]
     angle_rotation = request.form["rngRotationAngle"]
     car = CarController()
-    car.move(float(move_speed), int(angle_rotation))
+    # Reverse the result because it returns True if there isn't a ground below
+    grounded = not GPIO.input(23)
+    car.move(float(move_speed), int(angle_rotation), grounded)
     return render_template("form.html", mode=automatic_mode, speed=move_speed, angle=angle_rotation)
 
 
@@ -145,7 +139,9 @@ def form_response():
                     # Convert them into float values because the range are int between negative and positive 100
                     # and the method which activate the motors is a range between negative and positive 1
                     # so in the move methods I divide the input values by 100
-                    car.move(float(move_speed), int(angle_rotation))
+                    # Reverse the result because it returns True if there isn't a ground below
+                    grounded = not GPIO.input(23)
+                    car.move(float(move_speed), int(angle_rotation), grounded)
                 else:
                     returned_value = error
         elif request.form["send_request"] == BTN_REQUEST_STOP:
@@ -164,9 +160,28 @@ def error(msg):
     return render_template("error.html", msg=msg)
 
 
-nav.init_app(app)
-
-
 if __name__ == '__main__':
+    Bootstrap(app)
+    # Set the mode into Broadcom SOC channel
+    # It allows to use GPIO number instead of pin number
+    GPIO.setmode(GPIO.BCM)
+    # Set the GPIO 23 into input mode
+    GPIO.setup(23, GPIO.IN)
+    # Add the event
+    GPIO.add_event_detect(23, GPIO.RISING, callback=get_grounded_state, bouncetime=100)
+
+    
+    topbar = Navbar(
+    View('Accueil', 'home'),
+    View('Télécommande', 'control_car'),
+    View('Déconnexion', 'close_connection'),
+    View('Créer une connexion', 'create_car'),
+    )
+    
+    nav = Nav()    
+    nav.register_element('top', topbar)
+    nav.init_app(app)
     # Lance le serveur et donne l'accès à toutes les personnes sur le réseaux
     app.run(host='0.0.0.0', debug=True)
+
+

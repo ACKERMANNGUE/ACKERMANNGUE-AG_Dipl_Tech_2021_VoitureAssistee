@@ -2,6 +2,7 @@ from pylgbst.comms.cgatt import GattConnection
 from pylgbst.hub import MoveHub
 from pylgbst.peripherals import Motor, EncodedMotor
 from pylgbst import *
+from time import *
 import os
 
 class CarController:
@@ -37,20 +38,22 @@ class CarController:
                 cls.old_angle = None
         return cls.instance
     
-    def move(self, motor_speed, angle_rotation):
+    def move(self, motor_speed, angle_rotation, grounded):
         """Moves the car with a specific speed and rotation
         
         motor_speed : The motor's speed
                       NOTE : to move forward, the value must be reversed because it is basically negative
         angle_rotation : The rotation of the directionnal motor
+        grounded : True if there is the ground below,
+                   False if there isn't
         """ 
         # Invert the power direction
         motor_speed *= (-1)
         # Max value of motor is -1 and +1 but in the HTML form, the range input can be set between -100 to +100
         motor_speed /= 100
-        
-        self.front_motor.start_power(motor_speed)
-        self.back_motor.start_power(motor_speed)
+        if grounded:
+            self.front_motor.start_power(motor_speed)
+            self.back_motor.start_power(motor_speed)
         self.turn(angle_rotation)
     
 
@@ -73,6 +76,9 @@ class CarController:
         
     def disconnect(self):
         self.connection.disconnect()
-        os.system("sudo systemctl restart bluetooth.service")
+        os.system("sudo systemctl stop bluetooth.service")
+        sleep(0.5)
+        print("rebooting bluetooth")
+        os.system("sudo systemctl start bluetooth.service")
         
         
