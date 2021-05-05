@@ -552,6 +552,10 @@ self._sync_lock = threading.Lock()
 
 ![Plan de la plaque gauche / droite s'occupant du support des Bright Pi et caméras](./images/plans/plaque_vue_du_cote_gauche_plan_qcad_avec_camera_brightpi.jpg "Plan de la plaque gauche / droite s'occupant du support des Bright Pi et caméras")
 
+* De manière très schématique voici ce à quoi ça devrait ressemble (en omettant la plaque supérieur pour le moment) :
+
+![Voiture avec les "plaques" supportant les capteurs](./images/plans/voiture_avec_plaques_de_support.jpg "Voiture avec les \"plaques\" supportant les capteurs")
+
 #### Liens consultés
 ##### Python
 * https://codehandbook.org/python-flask-jquery-ajax-post/
@@ -563,8 +567,38 @@ self._sync_lock = threading.Lock()
 * https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#document-index
 
 ### 05.05.2021
+* J'ai commencé la journée par continué ma documentation technique.
+* Par la suite, j'ai mis en place le système d'évenement avec le GPIO. Grâce à cela, j'ai pu lancer l'arrêt des moteurs lorsque le flying-fish ne détecte plus de sol :
+
+```python
+def get_grounded_state(self):
+  """Will stop the motors if the ground isn't detected anymore
+  """
+  car = CarController()
+  if GPIO.input(23):
+      car.stop_moving()
+
+[...]
+
+if __name__ == '__main__':
+[...]
+    # Set the mode into Broadcom SOC channel
+    # It allows to use GPIO number instead of pin number
+    GPIO.setmode(GPIO.BCM)
+    # Set the GPIO 23 into input mode
+    GPIO.setup(23, GPIO.IN)
+    # Add the event
+    GPIO.add_event_detect(23, GPIO.RISING, callback=get_grounded_state, bouncetime=100)
+
+[...]        
+```
 #### Liens consultés
-##### 
+##### GPIO
+* https://magpi.raspberrypi.org/articles/remote-control-gpio-raspberry-pi-gpio-zero
+* https://raspberrypi.stackexchange.com/questions/12966/what-is-the-difference-between-board-and-bcm-for-gpio-pin-numbering
+
+##### Pull-up resistor
+* https://www.electronics-tutorials.ws/logic/pull-up-resistor.html
 
 ### 06.05.2021
 #### Liens consultés

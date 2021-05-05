@@ -31,6 +31,7 @@ L'objectif principale de ce projet est de réaliser une voiture capable de se d�
 * QCAD
 * Photoshop CS6
 * Pencil
+* Trello
 
 #### Matériels
 * Raspberry Pi 0 WiFi
@@ -226,8 +227,36 @@ Comme le montre ce schéma, le Flying-Fish doit être connecté à une alimentat
 
 ![Schéma du module Flying-Fish](./images/schema_flying_fish.jpg "Commande affichant le branchement du Bright Pi")
 
+Il faut importer l'accès au GPIO du Raspberry Pi avec :
+
+```python
+import RPi.GPIO as GPIO
+```
+
 ##### Utilisation
-C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du GPIO, car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. Je n'ai pas encore branché le _Out_ étant donné que je ne sais pas encore ou je dois le brancher exactement afin de récupérer le signal dans le Raspberry.
+C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du GPIO, car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. J'ai branché le _Out_ à la pin 16 (GPIO 23). Voici le code de test :
+
+```python
+import RPi.GPIO as GPIO
+import time
+
+# Set the mode into Broadcom SOC channel
+# It allows to use GPIO number instead of pin number
+GPIO.setmode(GPIO.BCM)
+
+# Set the GPIO 23 into input mode
+GPIO.setup(23, GPIO.IN)
+
+while True:
+    # The actual state of the GPIO 23
+    input_state = GPIO.input(23)
+    if input_state == True:
+        print("ATTENTION ! IL N'Y A PLUS DE SOL !")
+        time.sleep(0.5)
+    else:
+        print("Sol détecté")
+        time.sleep(0.5)
+```
 
 #### Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader
 Le LEGO 4x4 X-trem Off-Roader est une voiture télécommandable en bluetooth.
@@ -466,6 +495,48 @@ Les balises {{ nom_de_la_variable }} permettent d'injecter des valeurs dans l'HT
 
 Depuis le code python, pour pouvoir utiliser des templates, il faut importer `render_template` comme suit : `from flask import render_template`
 
+###### Barre de navigation
+En prérequis, il faut installer les librairies :
+
+1. flask_bootstrap
+2. flask_nav
+
+Voici la commande à utiliser : `sudo pip3 install flask_bootstrap && sudo pip3 install flask_nav`
+
+Ensuite, dans le code une fois les libraires importées comme suit :
+
+```python
+from flask_bootstrap import Bootstrap
+from flask_nav import Nav
+from flask_nav.elements import *
+```
+
+Nous pouvons initialiser notre barre de navigation avec un nom ainsi que leurs routes :
+
+```python
+topbar = Navbar(
+    View('Accueil', 'home'),
+    View('Télécommande', 'control_car'),
+    View('Déconnexion', 'close_connection'),
+    View('Créer une connexion', 'create_car'),
+)
+
+nav = Nav()
+nav.register_element('top', topbar)
+
+
+app = Flask(__name__)
+Bootstrap(app)
+```
+Pour y avoir accès, on peut l'inclure dans une page HTML de la manière suivante :
+
+```python
+{% block navbar %}
+    {{nav.top.render(id='top-navbar')}}
+{% endblock %}
+```
+
+
 ###### Formulaires
 Les formulaires avec Flask sont écrit en HTML classique :
 ```html
@@ -485,6 +556,13 @@ def nom_de_fonction():
     return html_a_afficher
 ```
 Dans le paramètre `methods` de la route, la paramètre GET est celui de base mais peut être changé par POST.
+
+###### Javascript / AJAX
+Étant donné que Flask nous permet d'écrire des pages HTML qui seront insérés dans la page lors de l'appel (voir la section regroupant les Templates), cela veut dire que nous pouvons écrire du javascript à l'aide des balises `<script type=text/javascript></script>`. Pour le cas d'AJAX, il suffit de télécharger la librairie JQuery afin d'y avoir accès ou en utilisant le CDN `<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="    
+crossorigin="anonymous"></script>`.
+
+À noter, que l'unique différence entre ces deux manières d'avoir accès à JQuery, est que l'un est accessible en ligne et l'autre sur la machine donc la rapidité d'exécution car en utilisant la version en ligne, en fonction du débit de la connexion, il peut y avoir de la latence.
+
 
 ### Bluetooth
 
@@ -656,6 +734,51 @@ Le mode actuel, change et je deviens la machine qui écoute le port spécifié e
 ![T'chat en bluetooth](./images/bluetooth/tchat.png "T'chat en bluetooth")
 
 ![Diagramme de séquence du T'chat en bluetooth](./images/bluetooth/diag_seq_tchat_bluetooth.png "Diagramme de séquence du T'chat en bluetooth")
+
+#### Remote GPIO
+Le GPIO nous permet d'accéder aux entrées / sorties des appareils connectés au Raspberry Pi.
+##### Mise en place
+Pour pouvoir utiliser le Remote GPIO, il faut tout d'abord l'activé dans l'interface de configuration présente ci dessous :
+
+![Diagramme de séquence du T'chat en bluetooth](./images/raspberrys/rsp_config-rsp.png "Diagramme de séquence du T'chat en bluetooth")
+
+Puis dans la fenêtre présente, tout en bas, cliquer sur _Activé_ :
+
+![Diagramme de séquence du T'chat en bluetooth](./images/raspberrys/rsp_config-rsp_remote-gpio.png "Diagramme de séquence du T'chat en bluetooth")
+
+Une fois que la configuration des différents Raspberry Pi est faite, il ne manque plus qu'à télécharger GPIO Zero, une librairie nous donnant accès à la gestion des différentes pins.
+
+##### Utilisation
+Pour pouvoir se connecter au Raspberry Pi, il faut connaître son adresse IP. Une fois connue, voici comment établir une connexion :
+
+```python
+import gpiozero
+from gpiozero import LED,Button
+from gpiozero.pins.pigpio import PiGPIOFactory
+from signal import pause
+
+factory = PiGPIOFactory('10.5.50.42')
+
+btn = Button(2) # local RPi.GPIO pin
+led = LED(17, pin_factory=factory) # remote pin
+
+btn.wait_for_press()
+print("button pressed !")
+led.off()
+pause()
+```
+
+Dans notre cas, avec M. Moreno interprétant le Raspberry Pi _principal_ qui intéragirait avec les pins de mon Raspberry Pi.
+
+![breadboard de M. Moreno](./images/breadboard_moreno.jpeg "breadboard de M. Moreno")
+
+* Le bouton est connecté au GPIO 2, donc la pin 3
+
+![breadboard de M. Ackermann](./images/breadboard_ackermann.jpeg "breadboard de M. Ackermann")
+
+* La led est connectée au GPIO 17, donc la pin 11
+
+![breadboard de M. Ackermann](./images/raspberrys/GPIO-connected_pin_remote-gpio.png "breadboard de M. Ackermann")
 
 ## Dates importantes
 * Lundi 19 avril 2021 : Début du travail de diplôme
