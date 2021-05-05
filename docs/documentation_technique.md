@@ -56,10 +56,10 @@ Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
 La voiture est télécommandable à distance à l'aide d'une interface web. Sur le site internet, on a accès à l'état des différents capteurs ainsi que les données qu'ils envoient.
 
 #### Plans de la voiture
-![Plan de la voiture](./images/maquettes/plan_voiture_avec_composants.jpg "Plan de la voiture")
+![Croquis du plan de la voiture](./images/maquettes/plan_voiture_avec_composants_v2.jpg "Croquis du plan de la voiture")
 Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncé le rôle de chaque composant.
 
-1. Les phares sont représenté par le Bright Pi
+1. Les phares sont représentés par le Bright Pi
 2. Les détecteurs de sol placés au niveau des roues sont représenté par le Flying-Fish
 3. Le Raspberry Pi 4 est représenté par RSP 4
 4. Le Raspberry Pi 0 WiFi est représenté par RSP 0 W
@@ -67,7 +67,7 @@ Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncé le r�
 
 En comparaison, voici de quoi est équipée une vraie voiture autonome :
 
-![Plan d'une voiture autonome](./images/autonomous_car.png "Plan d'une voiture autonome")
+![Plan d'une voiture autonome](./images/plans/autonomous_car.png "Plan d'une voiture autonome")
 
 #### Schéma explicatif de l'application
 L'application offre plusieurs pages.
@@ -491,7 +491,7 @@ Dans le paramètre `methods` de la route, la paramètre GET est celui de base ma
 #### Qu'est-ce que le bluetooth ?
 Le bluetooth est norme de communication à courte distance utilisant des ondes radios sur la bande de fréquence 2,4GHz. Ce qui permet d'échanger des données dans les deux sens en _peer-to-peer_ dans un picoréseau.
 
-![Logo du Bluetooth](./images/bluetooth_logo.png "Logo du Bluetooth")
+![Logo du Bluetooth](./images/bluetooth/bluetooth_logo.png "Logo du Bluetooth")
 
 Un picoréseau (en anglais piconet) est un mini-réseau qui se crée de manière instantanée et automatique quand plusieurs périphériques Bluetooth sont dans un même rayon.
 
@@ -500,7 +500,7 @@ Un picoréseau (en anglais piconet) est un mini-réseau qui se crée de manière
 Quand on parle de bluetooth, au niveau des protocoles, on peut parler de relations _Maîtres_ et d'_Esclaves_. Le _Maître_ Bluetooth est celui qui peut initier une connexion avec un périphérique (ou _Esclave_), cependant une fois les appareils connectés, le _Maître_ et l'_Esclave_ peuvent échanger des informations sans restriction (en fonction de la limitation de l'application). 
 
 
-![Schéma d'un picoréseau (Piconet en anglais)](./images/bluetooth_picoreseau.png "Schéma d'un picoréseau (Piconet en anglais)")
+![Schéma d'un picoréseau (Piconet en anglais)](./images/bluetooth/bluetooth_picoreseau.png "Schéma d'un picoréseau (Piconet en anglais)")
 
 Les relations _Maître_-_Esclave_ sont gérées par le gestionnaire de liason. Il implémente le protocole L2CAP (de l'anglais _Logical Link Control and Adaptation Protocol_) et le gère (création, destruction de canaux). Il implémente aussi les mécanismes de sécurité comme :
 
@@ -552,7 +552,7 @@ Les paquets reçus par le HCI sont traités par le protocole L2CAP. Il assure le
 
 La couche de liaison est définie dans les systèmes bluetooth comme la couche assurant le transport des paquets entre les appareils d’un même picoréseau à travers plusieurs canaux :
 
-![Architecture du Bluetooth](./images/architecture_bluetooth.jpg "Architecture du Bluetooth")
+![Architecture du Bluetooth](./images/bluetooth/architecture_bluetooth.jpg "Architecture du Bluetooth")
 
 * Basic channel : Canal pour la communication entre deux appareils 
 * Adapted piconet channel : Canal pour la communication dans le picoréseau 
@@ -569,7 +569,7 @@ Generic Access Profile (GAP), est responsable de la connexion. De plus , il gèr
 * le lancement des fonctions de sécurité 
 * la configuration du dispositif.
 
-![Diagramme d'états du profile GAP](./images/diag_etat_gap.png "Diagramme d'états du profile GAP")
+![Diagramme d'états du profile GAP](./images/bluetooth/diag_etat_gap.png "Diagramme d'états du profile GAP")
 
 * Veille : le dispositif est dans l'état initial de veille lors de la réinitialisation.
 * Annonce : Le dispositif envoie un message d'annonce avec des données spécifiques pour faire savoir aux dispositifs initiateurs qu'il est un dispositif connectable (cette annonce contient l'adresse du dispositif et peut contenir des données supplémentaires telles que le nom du dispositif).
@@ -653,9 +653,9 @@ Une fois l'appareil trouvé, je m'y appareille, puis lui envoie le premier messa
 
 Le mode actuel, change et je deviens la machine qui écoute le port spécifié en attendant un message.
 
-![T'chat en bluetooth](./images/tchat.png "T'chat en bluetooth")
+![T'chat en bluetooth](./images/bluetooth/tchat.png "T'chat en bluetooth")
 
-![Diagramme de séquence du T'chat en bluetooth](./images/diag_seq_tchat_bluetooth.png "Diagramme de séquence du T'chat en bluetooth")
+![Diagramme de séquence du T'chat en bluetooth](./images/bluetooth/diag_seq_tchat_bluetooth.png "Diagramme de séquence du T'chat en bluetooth")
 
 ## Dates importantes
 * Lundi 19 avril 2021 : Début du travail de diplôme

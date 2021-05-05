@@ -43,7 +43,7 @@
       * 0 veut dire que nous sommes en attente d'un message
       * 1 veut dire que nous allons envoyé un message
 
-![T'chat en bluetooth](./images/tchat.png "T'chat en bluetooth")
+![T'chat en bluetooth](./images/bluetooth/tchat.png "T'chat en bluetooth")
 1. Affiche le nom d'hôte et l'adresse mac de l'appareil connecté
 2. Espace de saisie de message à envoyer
 3. Connexion réussie à l'appareil (adresse mac, port)
@@ -407,7 +407,7 @@ RuntimeError: dictionary changed size during iteration
 ### 28.04.2021
 * J'ai continué la documentation technique. Après l'entretien avec M. Bonvin, j'ai mis à disposition le code écrit sur le Raspberry Pi, puis je me suis remis à travailler sur la documentation technique. Pour expliquer plus en détails les composants qui composeront le voiture, j'ai réalisé ce croquis :
 
-![Plan de la voiture](./images/maquettes/plan_voiture_avec_composants.jpg "Plan de la voiture")
+![Croquis du plan de la voiture](./images/maquettes/plan_voiture_avec_composants_v1.jpg "Croquis du plan de la voiture")
 
 * J'ai tenté d'importer l'état actuel de ma documentation technique sur ReadTheDoc, mais la version en ligne qui créait une documentation à partir d'un repository Github ne fonctionnait pas vraiment. J'ai alors installé MkDocs pour générer la documentation à partir du fichier Markdown.
 #### Liens consultés
@@ -479,3 +479,117 @@ move(self, motor_speed, angle_rotation)
 * https://www.python.org/dev/peps/pep-0008/#function-and-method-arguments
 * https://blog.finxter.com/how-to-create-a-singleton-in-python/
 * https://www.geeksforgeeks.org/\_\_new__-in-python/
+
+### 03.05.2021
+* J'ai commencé par continué le code de la télécommande bluetooth avec Flask
+    * J'ai eu un problème, lors de la tentative de déconnexion de l'appareil depuis un bouton présent sur le formulaire
+    * lorsque j'accédais à la route depuis l'URL, cela déconnectait bien les appareils, cependant lorsque j'utilisais une redirection depuis le code, la déconnexion ne se faisait pas
+        * C'est peut-être dû au fait qu'il doit passer au return quand même, même si un redirect est présent dans la méthode
+        * En fait, le redirect c'est une fonction a retourner comme pour le `render_template`
+    * Pour rendre l'application plus simple d'accès entre les différents routes j'ai regardé comment mettre en place une navbar 
+    * J'ai regardé [ce tutoriel](https://medium.com/analytics-vidhya/flask-how-create-a-responsive-navbar-146c7213df60) pour comprendre les navbar étaients écrites
+        * Premièrement il faut télécharger Bootstrap pour Flask, les navbar pour Flask avec la commande suivante `sudo pip3 install flask_bootstrap && sudo pip3 install flask_nav`
+        * Après avoir mis en place une interface plus user friendly avec Bootstrap ainsi qu'une Navbar
+            * J'ai tenté de régler problème `dictionary changed size during iteration`. De ce que j'ai pu voir sur internet, il faudrait modifier le code parcourant une liste en utilisant ses clés comme suit : `for i in d.keys():` ou en forçant la création d'une liste `for i in list(d):`
+        * Au fur et à mesure que j'avançais, j'ai tenté de voir si la déconnexion fonctionnait bien et en soit oui elle fonctionne, cependant lorsque l'on suit ce schéma ça ne recréé pas une connexion :
+
+![Schéma du problème avec la connexion bluetooth](./images/bluetooth/schema_probleme_bluetooth_connection.jpg "Schéma du problème avec la connexion bluetooth")
+
+* Je vais voir s'il n'y a pas moyen de clear le cache. J'ai lu cette [documentation](https://flask-caching.readthedocs.io/en/latest/index.html) j'ai par conséquent désactiver le cache car je pensais qu'il devait stocker une forme d'exécution des méthodes ou quelque chose dans le genre. Après l'avoir désactivé puis après avoir retesté le scénario présent sur le schéma ça n'a pas réglé le problème.
+* J'ai passé le reste de l'après midi sur la tentative de compréhension de ce problème.
+    * J'ai regardé dans les méthodes des objets fournis voir s'il y avait moyen d'avoir un callback sur la déconnexion pour s'assurer de la déconnexion
+
+
+#### Liens consultés
+##### Flask
+* https://medium.com/analytics-vidhya/flask-how-create-a-responsive-navbar-146c7213df60
+* https://medium.com/analytics-vidhya/flask-how-create-a-responsive-navbar-146c7213df60
+* https://pypi.org/project/flask-navbar/
+* https://flask-caching.readthedocs.io/en/latest/index.html
+##### Jquery
+* https://jquery.com/download/
+##### Bootstrap
+* https://getbootstrap.com/docs/4.0/components/buttons/
+
+### 04.05.2021
+* J'ai commencé la journée en m'informant sur la manière d'implémenter du JQuery avec Flask.
+    * De ce que j'ai vu dans [cet article](https://codehandbook.org/python-flask-jquery-ajax-post/), vu qu'il s'agit de code Javascript on peut l'inclure dans nos fichiers comporant de l'HTML
+    * Lors de la mise en place, j'ai eu une erreur HTTP : `405 Method Not Allowed` ce qui est normal car j'avais oublié d'inclure ceci : `methods=['POST']` dans la fonction de la route Flask
+    * Ensuite j'ai eu une erreur 500 car lors de l'envoie de trop de données d'un coup, le Hub est surchargé et renvoie ce message : `AssertionError: Pending request MsgPortOutput({'payload': b'02110b240000009c647f03', 'needs_reply': True, 'port': 2, 'is_buffered': False, 'do_feedback': True, 'subcommand': 11, 'params': b'240000009c647f03'}) while trying to put MsgPortOutput({'payload': b'00110164', 'needs_reply': True, 'port': 0, 'is_buffered': False, 'do_feedback': True, 'subcommand': 1, 'params': b'64'})` car lors de l'envoie d'une commande il va bloquer un thread afin de s'en occuper. C'est pourquoi je pense qu'il ne faut pas que l'utilisateur surchage le changement de valeurs des sliders car je ne sais pas pour l'heure s'il est possible de palier à ce problème.
+    * Voici la variable utilisée pour bloquer le thread.
+
+```python
+self._sync_lock = threading.Lock()
+```
+
+* J'ai refait le croquis du plan de la voiture après en avoir parlé à M. Bonvin. Voici ci-dessous la nouvelle version :
+
+![Croquis du plan de la voiture](./images/maquettes/plan_voiture_avec_composants_v2.jpg "Croquis du plan de la voiture")
+
+* Je me suis ensuite mis à réaliser le plan de la voiture avec QCAD. Après avoir terminé les mesures des endroits susceptible de gêner donc qu'il faudra découper pour pouvoir les laisser passer, j'ai tenté de prendre une photo du LEGO 4x4 depuis le dessus de la manière la plus droite possible afin de pouvoir faire une preview de ou et comment la plaque en plastique se positionnera sur la voiture. La photo n'étant pas prise parfaitement, il faut prendre en compte la perspective qu'ajoute la focale de l'appareil.
+* À noter que le schéma ci-dessous est à l'échelle 1:2
+
+![Plan de la plaque en plastique recouvrant la voiture permettant de disposer les différents capteurs](./images/plans/voiture_vue_du_dessus_avec_plan_qcad.jpg "Plan de la plaque en plastique recouvrant la voiture permettant de disposer les différents capteurs")
+
+* Pour poursuivre, je me suis occupé de la plaque qui sera devant et derrière. Celle qui s'occupera du support des Flying-Fish :
+
+![Schéma de la plaque avant / arrière s'occupant du support des Flying-Fish](./images/plans/schema_plaque_vue_du_cote_avant_plan_qcad_avec_flying-fish.jpg "Schéma de la plaque avant / arrière s'occupant du support des Flying-Fish")
+
+* Voici la version imprimée et testée avec une feuille (Il est incrusté dans la feuille, non pas juste poser dessus):
+
+![Schéma de la plaque avant / arrière s'occupant du support des Flying-Fish](./images/plans/plaque_vue_du_cote_avant_plan_qcad_avec_flying-fish.jpg "Schéma de la plaque avant / arrière s'occupant du support des Flying-Fish")
+
+* Voici ou la plaque avant et arrière devrait se située :
+
+![Plan de la plaque avant / arrière s'occupant du support des Flying-Fish](./images/plans/voiture_vue_du_cote_arriere_avec_plan_qcad.jpg "Plan de la plaque avant / arrière s'occupant du support des Flying-Fish")
+
+* Je vais faire le plan de la voiture vue de côté car il y aura la caméra et le bright pi dessus.
+* Voici où le Bright Pi et la caméra sera fixé sur le côté (dans le carré de 30 par 30) :
+
+![Plan de la plaque gauche / droite s'occupant du support des Bright Pi et caméras](./images/plans/voiture_vue_du_cote_gauche_avec_plan_qcad.jpg "Plan de la plaque gauche / droite s'occupant du support des Bright Pi et caméras")
+
+* Voici ce comment la caméra et le Bright Pi seront disposés :
+
+![Plan de la plaque gauche / droite s'occupant du support des Bright Pi et caméras](./images/plans/plaque_vue_du_cote_gauche_plan_qcad_avec_camera_brightpi.jpg "Plan de la plaque gauche / droite s'occupant du support des Bright Pi et caméras")
+
+#### Liens consultés
+##### Python
+* https://codehandbook.org/python-flask-jquery-ajax-post/
+
+##### QCad
+* https://qcad.org/doc/qcad/latest/reference/en/index.php?page=scripts/Draw/Image/doc/Image
+
+##### LEGO Bluetooth
+* https://lego.github.io/lego-ble-wireless-protocol-docs/index.html#document-index
+
+### 05.05.2021
+#### Liens consultés
+##### 
+
+### 06.05.2021
+#### Liens consultés
+##### 
+
+### 07.05.2021
+#### Liens consultés
+##### 
+
+### 10.05.2021
+#### Liens consultés
+#####
+
+### 11.05.2021
+#### Liens consultés
+#####
+
+### 12.05.2021
+#### Liens consultés
+##### 
+
+### 13.05.2021
+#### Liens consultés
+##### 
+
+### 14.05.2021
+#### Liens consultés
+##### 
