@@ -10,6 +10,8 @@ _Voiture assistée_ is a study project about autonomous cars and their functioni
 
 ## Poster
 
+![Poster du projet Voiture Assistée](./images/ag_poster_voiture-assistee.png "Poster du projet Voiture Assistée")
+
 ## Cahier des charges
 
 ### Titre du projet

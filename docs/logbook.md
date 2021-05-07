@@ -601,12 +601,73 @@ if __name__ == '__main__':
 * https://www.electronics-tutorials.ws/logic/pull-up-resistor.html
 
 ### 06.05.2021
+* Aujourd'hui, j'avais envie de faire quelque chose d'autre que du code. C'est pourquoi j'ai décidé de commencer la journée sur l'élaboration du Poster qui doit être rendu le 14.05.2021
+* J'ai d'abord commencé par réfléchir à comment j'allais mettre en avant les différents capteurs et technologies que je vais utiliser
+* Pour le découpage j'ai pensé découpé l'affiche en 4 parties
+    1. Titre
+    2. Liste des capteurs + image de la voiture
+    3. Technologies utilisées
+    4. Nom / Classe / Travail diplôme
+
+* Pour la voiture, je me suis dit que ce serait une bonne idée de reprendre ce schéma afin de décrire les capteurs que nous alions utiliser et quel sont leur champs d'actions :
+
+![Plan d'une voiture autonome](./images/references_poster/system_autonomous-car.jpg "Plan d'une voiture autonome")
+
+* Pour la voiture, j'ai pris une photo du 4x4 que j'ai détourée puis sur laquelle j'ai ajouté un filtre permettant d'en faire un _flat design_ :
+
+![LEGO 4x4 Flat design](./images/references_poster/voiture_flatdesign.png "LEGO 4x4 Flat design")
+
+* Ensuite, j'ai ajouté les capteurs avec différents couleurs afin de les représenter différements chacun :
+
+
+![LEGO 4x4 Flat design avec les capteurs](./images/references_poster/voiture_flatdesign_sensors_range.png "LEGO 4x4 Flat design avec les capteurs")
+
+* Le turquoise représente les caméras ainsi que les bright pi
+* Le bleu sous les roues représente la détection du sol faite par le Flying-FIsh
+* Le rouge pale représente la balayage du lidar
+
+* Une fois les différents éléments assemblés voici le résultat : 
+![Plan d'une voiture autonome](./images/croquis_poster_comparaison_version_finie.png "Plan d'une voiture autonome")
+
+
+* Pour avancer dans le projet, j'ai mis en place le routeur wifi
+    * J'ai connecté le routeur puis j'ai été sur router.asus.com, l'interface d'accès au routeur.
+    * Lors de l'arrivé sur le site, les logs pour se connecter sont user : admin, mdp : admin
+        * Dès lors on peut modifier ces valeurs, pour ma part j'ai mis user : rtr_ackermanngue, mdp : cfpt18
+        * J'ai aussi renommé le routeur en rtr_ackermanngue
+* Une fois le routeur installé, j'ai mis en place un raspberry pi 0 wifi (en version desktop pour avoir une interface graphique sur le fonctionnement du streaming de la caméra)
+
 #### Liens consultés
 ##### 
 
 ### 07.05.2021
+* J'ai mis en place un Raspberry Pi 0 Wifi pour avoir accès à la caméra depuis un autre Raspberry Pi
+    * J'ai cherché un câble comme ceci (celui à gauche) :
+
+![Différents types de câble pour la caméra](./images/raspberrys/camera-cables.png "Différents types de câble pour la caméra")
+
+* Ensuite sur le Raspberry Pi 0 Wifi, j'ai téléchargé OpenCV avec les commandes suivantes :
+* `pip3 install opencv-python &&
+sudo apt install libcblas-dev &&
+sudo apt install libhdf5-dev &&
+sudo apt install libhdf5-serial-dev &&
+sudo apt install libatlas-base-dev &&
+sudo apt install libjasper-dev  &&
+sudo apt install libqtgui4  &&
+sudo apt install libqt4-test`
+* `sudo pip3 install imutils`
+* puis j'ai lancé le programme qui stream un flux de caméra sur un serveur Flask et je m'y suis connecté avec mon téléphone pour voir le flux.
+* Dans le programme flask qui controlera la caméra, bright pi et le flying fish, j'ai commencé par ajouter le système de stream de la caméra.
+    * Vu que je voulais une image à afficher lorsque l'utilisateur veut désactiver la caméra, pas qu'il y aie un simple rectangle noir.
+    * Voici l'image faite :
+  
+![Image affichée lorsque la caméra est éteinte](./images/camera_down.png "Image affichée lorsque la caméra est éteinte")
+
+* J'ai ensuite créé la page d'interface utilisateur.
+
 #### Liens consultés
-##### 
+##### Raspberry
+* https://projects.raspberrypi.org/en/projects/raspberry-pi-zero-time-lapse-cam/2
 
 ### 10.05.2021
 #### Liens consultés
