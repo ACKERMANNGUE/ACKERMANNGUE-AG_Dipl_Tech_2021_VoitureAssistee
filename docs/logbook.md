@@ -663,6 +663,8 @@ sudo apt install libqt4-test`
   
 ![Image affichée lorsque la caméra est éteinte](./images/camera_down.png "Image affichée lorsque la caméra est éteinte")
 
+* J'ai perdu 2 heures de mon temps car je voulais rentourner l'image à travers une route, comme pour le flux de la caméra qui est une _frame_ envoyée chaque milliseconde afin d'en faire une animation.
+* J'ai remarqué une erreur étrange que je n'ai pas sû résoudre, il s'agit de la connexion SSH. Lorsque je tente de me connecter en SSH à mon Pi 0 Wifi, il me dit `the remote's host architecture isn't supported` alors que l'interface SSH est bien activée. Lorsque cette même carte SD est sur le Pi 4, je peux.
 * J'ai ensuite créé la page d'interface utilisateur.
 
 #### Liens consultés
