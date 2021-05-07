@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Interface de commande de la voiture</h1>
+    <form action="/form_response" method="POST">
+        <div class="row">
+            <div class="col-md-12">
+                <label for="cbxAutomaticMode">Mode automatique</label>
+                <input type="checkbox" value="{{mode}}" id="cbxAutomaticMode" name="cbxMode" onclick="execute()">
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="rngMove">Vitesse</label>
+            </div>
+            <div class="col-md-1">
+                <span>Reculer</span>
+            </div>
+            <div class="col-md-7">
+                <input type="range" value="{{speed}}" min="-100" max="100" id="rngMove" name="rngMove">
+            </div>
+            <div class="col-md-2">
+                <span>Avancer</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="rngRotationAngle">Angle de rotation</label>
+            </div>
+            <div class="col-md-1">
+                <span>Gauche</span>
+            </div>
+            <div class="col-md-7">
+                <input type="range" value="{{angle}}" min="-150" max="150" id="rngRotationAngle"
+                    name="rngRotationAngle">
+            </div>
+            <div class="col-md-2">
+                <span>Droite</span>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="submit" value="validate" name="send_request" id="validate_action"
+                        class="btn btn-success" />
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" value="stop" name="send_request" class="btn btn-info" />
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" value="disconnect" name="send_request" class="btn btn-danger" />
+                </div>
+    </form>
+</div>
+
+<script type=text/javascript>
+
+$(document).on('input', '#rngMove', function() {
+    execute();
+});
+
+$(document).on('input', '#rngRotationAngle', function() {
+    execute();
+});
+
+function execute(){
+    $.ajax({
+            url: '/bg_processing',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                console.log("action performed");
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
+
+{% endblock %}
