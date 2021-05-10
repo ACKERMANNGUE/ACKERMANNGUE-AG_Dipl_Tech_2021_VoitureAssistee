@@ -55,6 +55,7 @@ class CarController:
             self.front_motor.start_power(motor_speed)
             self.back_motor.start_power(motor_speed)
         self.turn(angle_rotation)
+        time.sleep(0.5)
     
 
     def turn(self, angle):
