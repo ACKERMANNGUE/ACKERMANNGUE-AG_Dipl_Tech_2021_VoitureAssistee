@@ -8,19 +8,17 @@ import time
 import threading
 import os
 import cv2
+from sensor import Sensor
+import json
+import constants
+
 
 app = Flask(__name__)
 
-SENSOR_BRIGHTPI = 0
-SENSOR_CAMERA = 1
-SENSOR_FLYINGFISH = 2
-
-STATE_ON = 0
-STATE_OFF = 1
-
 light = BrightPiSpecialEffects()
 light.reset()
-pi_camera = VideoCamera(flip=True) # flip pi camera if upside down.
+pi_camera = VideoCamera(flip=True)
+
 
 @app.route('/')
 def hello_world():
@@ -29,38 +27,58 @@ def hello_world():
 
 @app.route('/<sensor>/<state>')
 def sensor_control(sensor=None, state=None):
-    if sensor == SENSOR_BRIGHTPI:
-        led_state = brightpilib.OFF
-        if state == STATE_ON:
-            led_state = brightpilib.ON    
-        light.set_led_on_off(brightpilib.LED_ALL, led_state)
-    if sensor == SENSOR_CAMERA:
-        camera_state = STATE_OFF
-        if state == STATE_ON:
-            if pi_camera == None:
-                pi_camera = VideoCamera(flip=True) # flip pi camera if upside down.
-                camera_state = STATE_ON
+    #print(brightpi_state)
+    state = int(state)
+    
+    global brightpi_state
+    global camera_state
+    global flyingfish_state
+    
+    sensors = []
+    if sensor == constants.SENSOR_BRIGHTPI:
+        if state == constants.STATE_ON:
+            brightpi_state = constants.STATE_ON
+        elif state == constants.STATE_OFF:
+            brightpi_state = constants.STATE_OFF
+        light.set_led_on_off(brightpilib.LED_ALL, brightpi_state)
+
+    if sensor == constants.SENSOR_CAMERA:
+        if state == constants.STATE_ON:
+            camera_state = constants.STATE_ON
+        elif state == constants.STATE_OFF:
+            camera_state = constants.STATE_OFF
+
+    if sensor == constants.SENSOR_FLYINGFISH:
+        if state == constants.STATE_ON:
+            flyingfish_state = constants.STATE_ON
+        elif state == constants.STATE_OFF:
+            flyingfish_state = constants.STATE_OFF
+
+    sensors.append(Sensor(constants.SENSOR_BRIGHTPI, brightpi_state))
+    sensors.append(Sensor(constants.SENSOR_CAMERA, camera_state))
+    sensors.append(Sensor(constants.SENSOR_FLYINGFISH, flyingfish_state))
+
+    return convert_array_to_json(sensors)
+
+
+def convert_array_to_json(array):
+    json_string = "["
+    for i in range(len(array)):
+        if i + 1 < len(array):
+            json_string += array[i].convert_to_json() + ","
         else:
-            pi_camera = None
-            camera_state = STATE_OFF
-    if sensor == SENSOR_FLYINGFISH:
-        if state == STATE_ON:
-            a = 2
-            
-    return 'Hello, World!'
+            json_string += array[i].convert_to_json() + "]"
+    return json_string
 
 
-def a():
+def a(self):
     print("a")
 
+@app.route('/stream')
+def index():
+    global camera_state
+    return render_template('index.html', name=constants.CAMERA_FRONT, mode=camera_state, on=constants.STATE_ON, off=constants.STATE_OFF)
 
-def b():
-    print("b")
-
-@app.route('/stream/<state>')
-def index(state):
-    return render_template('index.html', name="Caméra avant", mode=state) 
-    
 def gen(camera):
     #get camera frame
     while True:
@@ -73,12 +91,6 @@ def video_feed():
     return Response(gen(pi_camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/video_feed_down')
-def video_feed_down():
-    image_binary = read_image("./static/camera_down.png")
-    response = make_response(image_binary)
-    response.headers.set('Content-Type', 'image/jpeg')
-    return response
 
 if __name__ == '__main__':
     # Set the mode into Broadcom SOC channel
@@ -89,9 +101,9 @@ if __name__ == '__main__':
     # Add the event
     GPIO.add_event_detect(
         23, GPIO.RISING, callback=a, bouncetime=100)
-    GPIO.add_event_detect(
-        23, GPIO.FALLING, callback=b, bouncetime=100)
 
-    
+    brightpi_state = constants.STATE_OFF
+    camera_state = constants.STATE_OFF
+    flyingfish_state = constants.STATE_OFF
     # Start the server and make it accessible by all user in the network
     app.run(host='0.0.0.0', debug=True)

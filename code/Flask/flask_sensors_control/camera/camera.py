@@ -12,9 +12,12 @@ class VideoCamera(object):
     def __init__(self, flip = False):
         self.vs = PiVideoStream().start()
         self.flip = flip
+        print("cam init")
         time.sleep(2.0)
+        
 
     def __del__(self):
+        print("cam del")
         self.vs.stop()
 
     def flip_if_needed(self, frame):
