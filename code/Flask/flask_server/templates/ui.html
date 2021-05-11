@@ -2,26 +2,26 @@
 {% block content %}
 <div class="container">
     <h1>Interface utilisateur</h1>
-    <form action="" method="POST">
+    <form action="/form_dashboard_response" method="POST">
         <div class="row">
             <div class="col-md-3">
                 <h3>Phares</h3>
                 <ul>
                     <li>
-                        <label for="cbxAutomaticMode">Avant</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxLightFront">Avant</label>
+                        <input type="checkbox" value="#"  name="cbxLightFront">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Droite</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxLightRight">Droite</label>
+                        <input type="checkbox" value="#"  name="cbxLightRight">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Arrière</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxLightBack">Arrière</label>
+                        <input type="checkbox" value="#"  name="cbxLightBack">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Gauche</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxLightLeft">Gauche</label>
+                        <input type="checkbox" value="#"  name="cbxLightLeft">
                     </li>
                 </ul>
 
@@ -30,20 +30,20 @@
                 <h3>Caméras</h3>
                 <ul>
                     <li>
-                        <label for="cbxAutomaticMode">Avant</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxCameraFront">Avant</label>
+                        <input type="checkbox" value="#"  name="cbxCameraFront">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Droite</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxCameraRight">Droite</label>
+                        <input type="checkbox" value="#"  name="cbxCameraRight">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Arrière</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxCameraBack">Arrière</label>
+                        <input type="checkbox" value="#"  name="cbxCameraBack">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Gauche</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxCameraLeft">Gauche</label>
+                        <input type="checkbox" value="#"  name="cbxCameraLeft">
                     </li>
                 </ul>
 
@@ -52,20 +52,20 @@
                 <h3>Détecteur de sol</h3>
                 <ul>
                     <li>
-                        <label for="cbxAutomaticMode">Avant</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxGroundDetectionFront">Avant</label>
+                        <input type="checkbox" value="#"  name="cbxGroundDetectionFront">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Droite</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxGroundDetectionRight">Droite</label>
+                        <input type="checkbox" value="#"  name="cbxGroundDetectionRight">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Arrière</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxGroundDetectionBack">Arrière</label>
+                        <input type="checkbox" value="#"  name="cbxGroundDetectionBack">
                     </li>
                     <li>
-                        <label for="cbxAutomaticMode">Gauche</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxGroundDetectionLeft">Gauche</label>
+                        <input type="checkbox" value="#"  name="cbxGroundDetectionLeft">
                     </li>
                 </ul>
 
@@ -74,8 +74,8 @@
                 <h3>Scanner 360°</h3>
                 <ul>
                     <li>
-                        <label for="cbxAutomaticMode">Activer</label>
-                        <input type="checkbox" value="#"  name="cbx">
+                        <label for="cbxScanner">Activer</label>
+                        <input type="checkbox" value="#"  name="cbxScanner">
                     </li>
                 </ul>
 
@@ -93,6 +93,7 @@
                 <img src="../static/img/camera_down.png" class="cameras">
             </div>
         </div>
+        <input type="submit" value="validate" name="send_request" class="btn btn-success" />
     </form>
 </div>
 
