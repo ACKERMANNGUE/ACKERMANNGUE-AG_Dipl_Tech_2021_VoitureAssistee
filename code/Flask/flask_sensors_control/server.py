@@ -1,7 +1,6 @@
 from time import sleep
 from flask import Flask, request, render_template, Response, redirect
 import RPi.GPIO as GPIO
-from libs.brightpi import brightpilib
 from libs.brightpi.brightpilib import BrightPiSpecialEffects
 from libs.camera import VideoCamera
 import time
@@ -19,7 +18,7 @@ def hello_world():
     return 'Hello, World!'
 
 
-@app.route('/<sensor>/<state>')
+@app.route('/<string:sensor>/<int:state>')
 def sensor_control(sensor=None, state=None):
     #print(brightpi_state)
     state = int(state)
@@ -66,13 +65,13 @@ def convert_array_to_json(array):
     return json_string
 
 
-def a(self):
-    print("a")
+def change_flyingfish_state(self):
+    global flyingfish_state
+    flyingfish_state = constants.STATE_ON
 
 @app.route('/stream')
 def stream():
     global camera_state
-    print(camera_state)
     return render_template('index.html', name=constants.CAMERA_FRONT, mode=camera_state, on=constants.STATE_ON, off=constants.STATE_OFF)
 
 def gen(camera):
@@ -89,7 +88,8 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
+    pi_camera = VideoCamera() 
     # Set the mode into Broadcom SOC channel
     # It allows to use GPIO number instead of pin number
     GPIO.setmode(GPIO.BCM)
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     GPIO.setup(23, GPIO.IN)
     # Add the event
     GPIO.add_event_detect(
-        23, GPIO.RISING, callback=a, bouncetime=100)
+        23, GPIO.RISING, callback=change_flyingfish_state, bouncetime=100)
 
     brightpi_state = constants.STATE_OFF
     camera_state = constants.STATE_OFF
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     
     light = BrightPiSpecialEffects()
     light.reset()
-    pi_camera = VideoCamera()
+    
     
     # Start the server and make it accessible by all user in the network
     app.run(host='0.0.0.0', debug=True)

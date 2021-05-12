@@ -3,7 +3,7 @@
 #Desc: This scrtipt script..
 
 import cv2
-from pivideostream import PiVideoStream
+from libs.pivideostream import PiVideoStream
 import imutils
 import time
 import numpy as np
@@ -12,7 +12,7 @@ class VideoCamera(object):
     def __init__(self, flip = False, fps=10, res=(160, 128)):
         print("cam init")
         self.vs = PiVideoStream(resolution=res, framerate=fps).start()
-        time.sleep(10.0)
+        time.sleep(2.0)
         if self.vs != None:
             print("cam init done")
         self.flip = flip
