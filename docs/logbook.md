@@ -771,12 +771,21 @@ def __init__(self, flip = False, fps=10, res=(160, 128)):
 * https://forums.pimoroni.com/t/camera-not-working-mmal-mmal-vc-component-enable-failed-to-enable-component-enospc/3789/7
 
 ### 12.05.2021
+* J'ai commencé ma journée en modifiant l'arboressence du dossier `flask_sensor_control` afin d'avoir un répertoir clean.
+* La dernière chose à laquelle j'ai pensé pour palier au fait que la caméra est `Ouf of Resources` c'était de faire le test sur une version sans affichage graphique (OS du Raspberry Pi)
+* J'ai mis un temps fou à mettre en place le Pi 0 car entre les temps d'installations, la configuration du raspberry ainsi que l'accès en SSH ça a pris un temps énorme juste pour mettre en place la Pi 0 avec l'OS lite pour faire le test de la caméra pour s'assurer des problèmes de charge CPU.
+    * Pour le SSH, j'ai dû désactiver le login au lancement du Pi 0 car si je ne me suis pas connecté en tant que pi avec le mot de passe raspberry, je n'ai pas accès la connexion en SSH car d'après cette [issue github](https://github.com/microsoft/vscode-remote-release/issues/669) l'architecture n'est pas supportée par VSCode Remote SSH
+    * Par conséquent, j'ai demandé à M. Moreno comment il a fait pour intéragir avec, ce à quoi il m'a répondu qu'il a utilisé Putty
+    * Après avoir lancé le programme, j'ai toujours eu l'erreur concernant le `Out of Resources`
+* J'ai aidé M. Fasler à faire son poster car M. Schmid n'a pas accepté la version qu'il avait proposé et il m'a donc demandé d'aider M. Fasler
 #### Liens consultés
-##### 
+##### Python
+* https://www.askpython.com/python-modules/daemon-threads-in-python
+##### Raspberry Pi
+* https://github.com/microsoft/vscode-remote-release/issues/669
+* https://raspberrypi.stackexchange.com/questions/41032/i-changed-my-raspberry-pi-default-keyboard-settings-how-can-i-reset-this-change
+* https://raspberrypi.stackexchange.com/questions/9826/couldnt-establish-raspberry-pi-ssh-connection
 
-### 13.05.2021
-#### Liens consultés
-##### 
 
 ### 14.05.2021
 #### Liens consultés

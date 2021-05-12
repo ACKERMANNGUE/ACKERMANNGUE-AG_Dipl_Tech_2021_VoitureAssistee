@@ -1,5 +1,7 @@
 
 from time import sleep
+
+from flask.helpers import url_for
 from brightpi import brightpilib
 from brightpi.brightpilib import BrightPiSpecialEffects
 from flask import Flask, request, render_template, Response, redirect
@@ -14,7 +16,8 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 
 
 DEFAULT_MODE = False
-DEFAULT_CHECKBOX_VALUE = False
+MODE_OFF = 0
+MODE_ON = 1
 DEFAULT_SPEED = 0
 DEFAULT_ANGLE = 0
 
@@ -22,7 +25,15 @@ BTN_REQUEST_VALIDATE = "validate"
 BTN_REQUEST_STOP = "stop"
 BTN_REQUEST_DISCONNECT = "disconnect"
 
-factory_front = PiGPIOFactory(host='192.168.50.240')
+FRONT_PI_IP = "192.168.50.240"
+RIGHT_PI_IP = "192.168.50.XX"
+BACK_PI_IP = "192.168.50.XX"
+LEFT_PI_IP = "192.168.50.XX"
+
+SENSOR_BRIGHTPI = "bright-pi"
+SENSOR_CAMERA = "camera"
+SENSOR_FLYINGFISH = "flying-fish"
+
 
 def get_grounded_state(self):
     """Will stop the motors if the ground isn't detected anymore
@@ -108,7 +119,7 @@ def control_car():
 def bg_process():
     """Process the values passed by Javascript
     """
-    automatic_mode = DEFAULT_MODE
+    automatic_mode = MODE_OFF
     # move_speed = DEFAULT_SPEED
     # angle_rotation = DEFAULT_ANGLE
     # if request.form["cbxMode"] != None:
@@ -128,24 +139,27 @@ def form_dashboard_response():
     """
     if request.method == 'POST':
         # Init
-        light_front = DEFAULT_CHECKBOX_VALUE
-        camera_front = DEFAULT_CHECKBOX_VALUE
-        ground_detection_front = DEFAULT_CHECKBOX_VALUE
-        light_right = DEFAULT_CHECKBOX_VALUE
-        camera_right = DEFAULT_CHECKBOX_VALUE
-        ground_detection_right = DEFAULT_CHECKBOX_VALUE
-        light_back = DEFAULT_CHECKBOX_VALUE
-        camera_back = DEFAULT_CHECKBOX_VALUE
-        ground_detection_back = DEFAULT_CHECKBOX_VALUE
-        light_left = DEFAULT_CHECKBOX_VALUE
-        camera_left = DEFAULT_CHECKBOX_VALUE
-        ground_detection_left = DEFAULT_CHECKBOX_VALUE
-        lidar = DEFAULT_CHECKBOX_VALUE
+        light_front = MODE_OFF
+        camera_front = MODE_OFF
+        ground_detection_front = MODE_OFF
+        light_right = MODE_OFF
+        camera_right = MODE_OFF
+        ground_detection_right = MODE_OFF
+        light_back = MODE_OFF
+        camera_back = MODE_OFF
+        ground_detection_back = MODE_OFF
+        light_left = MODE_OFF
+        camera_left = MODE_OFF
+        ground_detection_left = MODE_OFF
+        lidar = MODE_OFF
 
         if request.form["send_request"] == BTN_REQUEST_VALIDATE:
             # front
+            url_brightpi_front = "http://{ip}/{sensor}/".format(ip=FRONT_PI_IP, sensor=SENSOR_BRIGHTPI)
             if request.form.getlist("cbxLightFront") != None:
-                light_front = request.form.getlist("cbxLightFront")
+                light_front = MODE_ON
+            url_for(url_brightpi_front + str(light_front))
+
             if request.form.getlist("cbxCameraFront") != None:
                 camera_front = request.form.getlist("cbxCameraFront")
             if request.form.getlist("cbxGroundDetectionFront") != None:
