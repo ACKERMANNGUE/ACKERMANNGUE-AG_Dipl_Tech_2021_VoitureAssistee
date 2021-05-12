@@ -3,17 +3,19 @@
 #Desc: This scrtipt script..
 
 import cv2
-from imutils.video.pivideostream import PiVideoStream
+from pivideostream import PiVideoStream
 import imutils
 import time
 import numpy as np
 
 class VideoCamera(object):
-    def __init__(self, flip = False):
-        self.vs = PiVideoStream().start()
-        self.flip = flip
+    def __init__(self, flip = False, fps=10, res=(160, 128)):
         print("cam init")
-        time.sleep(2.0)
+        self.vs = PiVideoStream(resolution=res, framerate=fps).start()
+        time.sleep(10.0)
+        if self.vs != None:
+            print("cam init done")
+        self.flip = flip
         
 
     def __del__(self):
@@ -27,5 +29,5 @@ class VideoCamera(object):
 
     def get_frame(self):
         frame = self.flip_if_needed(self.vs.read())
-        ret, jpeg = cv2.imencode('.jpg', frame)
-        return jpeg.tobytes()
+        ret, jpg = cv2.imencode('.jpg', frame)
+        return jpg.tobytes()
