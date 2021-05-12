@@ -748,7 +748,13 @@ Puis dans la fenêtre présente, tout en bas, cliquer sur _Activé_ :
 
 ![Diagramme de séquence du T'chat en bluetooth](./images/raspberrys/rsp_config-rsp_remote-gpio.png "Diagramme de séquence du T'chat en bluetooth")
 
-Une fois que la configuration des différents Raspberry Pi est faite, il ne manque plus qu'à télécharger GPIO Zero, une librairie nous donnant accès à la gestion des différentes pins.
+Une fois que la configuration des différents Raspberry Pi est faite, il ne manque plus qu'à télécharger GPIO Zero, une librairie nous donnant accès à la gestion des différentes pins :
+`sudo pip3 install gpiozero`
+
+Ensuite nous aurons besoin de Pi GPIO : 
+`sudo apt install pigpio`
+
+Une fois installé, il faut lancer le service PiGPIO : `sudo pigpiod` sur la machine qui sera controllée à distance.
 
 ##### Utilisation
 Pour pouvoir se connecter au Raspberry Pi, il faut connaître son adresse IP. Une fois connue, voici comment établir une connexion :

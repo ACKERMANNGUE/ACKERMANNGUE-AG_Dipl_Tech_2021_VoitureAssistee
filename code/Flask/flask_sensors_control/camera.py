@@ -10,10 +10,12 @@ import numpy as np
 
 class VideoCamera(object):
     def __init__(self, flip = False, fps=10, res=(160, 128)):
-        self.vs = PiVideoStream(resolution=res, framerate=fps).start()
-        self.flip = flip
         print("cam init")
-        time.sleep(2.0)
+        self.vs = PiVideoStream(resolution=res, framerate=fps).start()
+        time.sleep(10.0)
+        if self.vs != None:
+            print("cam init done")
+        self.flip = flip
         
 
     def __del__(self):

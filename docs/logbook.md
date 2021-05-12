@@ -663,21 +663,112 @@ sudo apt install libqt4-test`
   
 ![Image affichée lorsque la caméra est éteinte](./images/camera_down.png "Image affichée lorsque la caméra est éteinte")
 
-* J'ai perdu 2 heures de mon temps car je voulais rentourner l'image à travers une route, comme pour le flux de la caméra qui est une _frame_ envoyée chaque milliseconde afin d'en faire une animation.
-* J'ai remarqué une erreur étrange que je n'ai pas sû résoudre, il s'agit de la connexion SSH. Lorsque je tente de me connecter en SSH à mon Pi 0 Wifi, il me dit `the remote's host architecture isn't supported` alors que l'interface SSH est bien activée. Lorsque cette même carte SD est sur le Pi 4, je peux.
-* J'ai ensuite créé la page d'interface utilisateur.
+* J'ai aidé M. Borel à réaliser son poster.
+* J'ai commencé à réaliser le système de flux de caméra sur le serveur
+    * J'ai perdu 2 heures de mon temps car je voulais rentourner l'image à travers une route, comme pour le flux de la caméra qui est une _frame_ envoyée chaque milliseconde afin d'en faire une animation.
+* J'ai remarqué une erreur étrange que je n'ai pas sû résoudre, il s'agit de la connexion SSH. Lorsque je tente de me connecter en SSH à mon Pi 0 Wifi, il me dit `the remote's host architecture isn't supported` alors que l'interface SSH est bien activée. Lorsque cette même carte SD est sur le Pi 4, je peux y accéder en SSH.
+* J'ai terminé la journée en créant la page d'interface utilisateur.
 
 #### Liens consultés
 ##### Raspberry
 * https://projects.raspberrypi.org/en/projects/raspberry-pi-zero-time-lapse-cam/2
 
 ### 10.05.2021
+* J'ai décidé de commencer la journée en réalisant un petit système avec le Remote GPIO me permettant d'intéragir depuis le Pi 4 avec les composants branchés au Pi 0 W
+* La première chose que j'ai remarqué, c'est que le Bright Pi n'offre pas la possibilité d'être contrôlé en remote.
+    * Ce que j'ai fais pour palier à ce soucis, c'est que je me suis dit qu'il faudrait un serveur flask qui tourne sur le Pi 0 WiFi. Son role est de géré les capteurs associés. Le contrôle sera fait à l'aide de route tel que : `/sensor/state` donc pour l'exemple du Bright Pi avant : `light/on`
+* Avant de continuer, j'ai aidé M. Paulino à faire son poster.
+* Pendant le développement du serveur Flask qui tourne sur le Pi 0 WiFi, je me suis aperçu que de temps en temps, j'ai cette erreur pour la caméra : `picamera.exc.PiCameraMMALError: Failed to enable connection: Out of resources`
+    * J'ai tenté de reboot le Pi 0 pour voir si cela aurait pu résoudre le problème, cependant ça n'a pas changé le soucis
+    * Quand je tentais de lancer, j'avais l'explorateur de fichier ouvert en fond, donc j'ai tenté de reboot puis lancer le serveur sans que rien d'autre ne soit activé mais toujours la même erreur.
+    * Cependant lorsque je lance uniquement le code du stream de flask cela fonctionne sans soucis
+    * À voir si le problème est uniquement un problème de ressource car si c'est le cas, il faudra switch sur de Pi 4
+* Pour retourner les informations, étant donné que j'ai créé une classe qui stock les informations des capteurs, je l'ai convertie en JSON
+    * J'ai eu des problèmes au début, du style que l'objet n'était pas convertissable en JSON etc... mais grâce à la méthode ci-dessous, j'ai pu résoudre ce problème :
+
+```python
+import json
+class Sensor:
+    """Class containing the values of the sensor
+    """
+
+    def __init__(cls, sensor_type, sensor_state):
+        cls.type = sensor_type
+        cls.state = sensor_state
+    
+    def convert_to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
+
+```
+
+* En continuant de coder, j'ai eu l'erreur suivante :
+    * `UnboundLocalError: local variable 'brightpi_state' referenced before assignment`
+    * Ce qui est étrange avec cette erreur, c'est que la variable `brightpi_state` est instancié globalement et lorsque je la print dans la console, tandis que lorsque j'en ai besoin dans la méthode gérant les capteurs, l'erreur surgit
+    * Pour palier à ce problème, j'ai vu qu'il suffisait d'indiquer dans la méthode que les variable étaient global, comme suit :
+```python
+global brightpi_state
+global camera_state
+global flyingfish_state
+```
 #### Liens consultés
-#####
+##### Python
+* https://stackoverflow.com/questions/20941539/how-to-get-if-checkbox-is-checked-on-flask
+* https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable#15538391
+* https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable
+* https://www.tutorialspoint.com/json-encoder-and-decoder-package-in-python
+* https://pythonexamples.org/python-list-to-json/
 
 ### 11.05.2021
+* J'ai commencé la journée en continuant de coder le serveur Flask présent sur le Raspberry Pi 0 WiFi.
+* J'ai de nouveau eu l'erreur pour la caméra : `picamera.exc.PiCameraMMALError: Failed to enable connection: Out of resources`
+    * J'ai regardé avec la commande `htop` l'utilisation du CPU
+        * Lorsque je lance le programme qui gère les capteurs (bright pi, camera et flying-fish), lors de l'initialisation de la caméra, le CPU est à 100% et fait crash le programme
+        * Cependant, lorsque je lance le programme gérant uniquement le stream de la caméra, la caméra s'initialise bien et fonctionne tout aussi bien mais la charge CPU est à 100% constamment
+    * En attendant la disponibilité de M. Bonvin, j'ai aidé M. Paulino à réaliser son logo
+    * Après discussion avec M. Bonvin, il m'a conseillé de réduire la résolution ainsi que le nombre d'images par seconde
+        * La résolution de base était : 320 par 240
+            * Que j'ai réduit à 160 par 128
+        * Le nombre d'image par seconde étaient 32
+            * Que j'ai réduit à 10
+    * Étonnement j'ai toujours le même soucis
+        * J'ai remarqué que même si j'avais fait ça : 
+  
+```python
+def __init__(self, flip = False, fps=10, res=(160, 128)):
+        self.vs = PiVideoStream(resolution=res, framerate=fps).start()
+        self.flip = flip
+        print("cam init")
+        time.sleep(2.0)
+```
+
+* Les valeurs resolution et framerate n'ont pas été changés.
+    * Étant donné que `PiVideoStream` est définit dans la libraire `imutils` et par conséquent n'est pas modifiable, j'ai décidé de faire une copie de ce fichier pour tester si les valeurs changeait si j'utilisais une version local à mon serveur flask tandis que d'aller piocher dans la libraire elle même
+        * Après avoir importer les éléments nécessaire du fichier, j'ai retenté en vérifiant à l'aide de print dans la console les différents valeurs passées en paramètres tel que la résolution ainsi que le nombre d'images par secondes
+        * Hélas, j'ai toujours eu le problème `Out of resources`
+    * En regardant sur internet, les gens parlaient du fait que c'est peut-être un problème de Thread donc il faudrait s'assurer que le thread ne soit pas modifié avant l'initialisation complète de la caméra
+        * J'ai tenté de mettre un sleep de 10 secondes après la création de l'objet caméra :
+
+```python
+def __init__(self, flip = False, fps=10, res=(160, 128)):
+        print("cam init")
+        self.vs = PiVideoStream(resolution=res, framerate=fps).start()
+        time.sleep(10.0)
+        if self.vs != None:
+            print("cam init done")
+        self.flip = flip
+```
+
+* Mais cela n'a pas résolu le problème, je pense que le fait que la charge CPU arrive à 100% et que les autres capteurs soit utilisés que ça pose problème
+* J'ai tenté les commandes présentes sur [cet article](https://forums.pimoroni.com/t/camera-not-working-mmal-mmal-vc-component-enable-failed-to-enable-component-enospc/3789/7) mais ça n'a rien changé, je pense vraiment que le problème de charge CPU est inévitable et il faudrait donc changer de modèle de Raspberry Pi
 #### Liens consultés
-#####
+##### Python
+* https://www.pythontutorial.net/advanced-python/python-threading-lock/
+* https://raspberrypi.stackexchange.com/questions/26829/picamera-not-working
+* https://stackoverflow.com/questions/36283347/raspberry-pi-camera-out-of-resources
+* https://github.com/waveform80/picamera/issues/488
+* https://www.pyimagesearch.com/2016/08/29/common-errors-using-the-raspberry-pi-camera-module/
+* https://forums.pimoroni.com/t/camera-not-working-mmal-mmal-vc-component-enable-failed-to-enable-component-enospc/3789/7
 
 ### 12.05.2021
 #### Liens consultés
