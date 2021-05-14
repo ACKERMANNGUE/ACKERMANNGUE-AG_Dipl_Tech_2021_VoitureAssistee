@@ -1,9 +1,5 @@
 
 from time import sleep
-
-from flask.helpers import url_for
-from brightpi import brightpilib
-from brightpi.brightpilib import BrightPiSpecialEffects
 from flask import Flask, request, render_template, Response, redirect
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
@@ -33,6 +29,7 @@ LEFT_PI_IP = "192.168.50.XX"
 SENSOR_BRIGHTPI = "bright-pi"
 SENSOR_CAMERA = "camera"
 SENSOR_FLYINGFISH = "flying-fish"
+
 
 
 def get_grounded_state(self):
@@ -133,62 +130,62 @@ def bg_process():
     return render_template("form_remote_car.html", mode=automatic_mode, speed=move_speed, angle=angle_rotation)
 
 
-@app.route('/form_dashboard_response', methods=['POST'])
-def form_dashboard_response():
-    """The form's answer of the dashboard
-    """
-    if request.method == 'POST':
-        # Init
-        light_front = MODE_OFF
-        camera_front = MODE_OFF
-        ground_detection_front = MODE_OFF
-        light_right = MODE_OFF
-        camera_right = MODE_OFF
-        ground_detection_right = MODE_OFF
-        light_back = MODE_OFF
-        camera_back = MODE_OFF
-        ground_detection_back = MODE_OFF
-        light_left = MODE_OFF
-        camera_left = MODE_OFF
-        ground_detection_left = MODE_OFF
-        lidar = MODE_OFF
+# @app.route('/form_dashboard_response', methods=['POST'])
+# def form_dashboard_response():
+#     """The form's answer of the dashboard
+#     """
+#     if request.method == 'POST':
+#         # Init
+#         light_front = MODE_OFF
+#         camera_front = MODE_OFF
+#         ground_detection_front = MODE_OFF
+#         light_right = MODE_OFF
+#         camera_right = MODE_OFF
+#         ground_detection_right = MODE_OFF
+#         light_back = MODE_OFF
+#         camera_back = MODE_OFF
+#         ground_detection_back = MODE_OFF
+#         light_left = MODE_OFF
+#         camera_left = MODE_OFF
+#         ground_detection_left = MODE_OFF
+#         lidar = MODE_OFF
 
-        if request.form["send_request"] == BTN_REQUEST_VALIDATE:
-            # front
-            url_brightpi_front = "http://{ip}/{sensor}/".format(ip=FRONT_PI_IP, sensor=SENSOR_BRIGHTPI)
-            if request.form.getlist("cbxLightFront") != None:
-                light_front = MODE_ON
-            url_for(url_brightpi_front + str(light_front))
+#         if request.form["send_request"] == BTN_REQUEST_VALIDATE:
+#             # front
+#             url_brightpi_front = "http://{ip}/{sensor}/".format(ip=FRONT_PI_IP, sensor=SENSOR_BRIGHTPI)
+#             if request.form.getlist("cbxLightFront") != None:
+#                 light_front = MODE_ON
+#             url_for(url_brightpi_front + str(light_front))
 
-            if request.form.getlist("cbxCameraFront") != None:
-                camera_front = request.form.getlist("cbxCameraFront")
-            if request.form.getlist("cbxGroundDetectionFront") != None:
-                ground_detection_front = request.form.getlist("cbxGroundDetectionFront")
+#             if request.form.getlist("cbxCameraFront") != None:
+#                 camera_front = request.form.getlist("cbxCameraFront")
+#             if request.form.getlist("cbxGroundDetectionFront") != None:
+#                 ground_detection_front = request.form.getlist("cbxGroundDetectionFront")
 
-            # right
-            if request.form.getlist("cbxLightRight") != None:
-                light_right = request.form.getlist("cbxLightRight")
-            if request.form.getlist("cbxCameraRight") != None:
-                camera_right = request.form.getlist("cbxCameraRight")
-            if request.form.getlist("cbxGroundDetectionRight") != None:
-                ground_detection_right = request.form.getlist("cbxGroundDetectionRight")
-            # back
-            if request.form.getlist("cbxLightBack") != None:
-                light_back = request.form.getlist("cbxLightBack")
-            if request.form.getlist("cbxCameraBack") != None:
-                camera_back = request.form.getlist("cbxCameraBack")
-            if request.form.getlist("cbxGroundDetectionBack") != None:
-                ground_detection_back = request.form.getlist("cbxGroundDetectionBack")
-            # left
-            if request.form.getlist("cbxLightLeft") != None:
-                light_left = request.form.getlist("cbxLightLeft")
-            if request.form.getlist("cbxCameraLeft") != None:
-                camera_left = request.form.getlist("cbxCameraLeft")
-            if request.form.getlist("cbxGroundDetectionLeft") != None:
-                ground_detection_left = request.form.getlist("cbxGroundDetectionLeft")
-            # lidar
-            lidar = request.form.getlist("cbxScanner")
-    return render_template("ui.html")
+#             # right
+#             if request.form.getlist("cbxLightRight") != None:
+#                 light_right = request.form.getlist("cbxLightRight")
+#             if request.form.getlist("cbxCameraRight") != None:
+#                 camera_right = request.form.getlist("cbxCameraRight")
+#             if request.form.getlist("cbxGroundDetectionRight") != None:
+#                 ground_detection_right = request.form.getlist("cbxGroundDetectionRight")
+#             # back
+#             if request.form.getlist("cbxLightBack") != None:
+#                 light_back = request.form.getlist("cbxLightBack")
+#             if request.form.getlist("cbxCameraBack") != None:
+#                 camera_back = request.form.getlist("cbxCameraBack")
+#             if request.form.getlist("cbxGroundDetectionBack") != None:
+#                 ground_detection_back = request.form.getlist("cbxGroundDetectionBack")
+#             # left
+#             if request.form.getlist("cbxLightLeft") != None:
+#                 light_left = request.form.getlist("cbxLightLeft")
+#             if request.form.getlist("cbxCameraLeft") != None:
+#                 camera_left = request.form.getlist("cbxCameraLeft")
+#             if request.form.getlist("cbxGroundDetectionLeft") != None:
+#                 ground_detection_left = request.form.getlist("cbxGroundDetectionLeft")
+#             # lidar
+#             lidar = request.form.getlist("cbxScanner")
+#     return render_template("ui.html")
     
 
 

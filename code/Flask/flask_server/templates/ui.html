@@ -2,26 +2,26 @@
 {% block content %}
 <div class="container">
     <h1>Interface utilisateur</h1>
-    <form action="/form_dashboard_response" method="POST">
+    <form action="#" method="POST" id="form_dashboard">
         <div class="row">
             <div class="col-md-3">
                 <h3>Phares</h3>
                 <ul>
                     <li>
-                        <label for="cbxLightFront">Avant</label>
-                        <input type="checkbox" value="#"  name="cbxLightFront">
+                        <label for="cbxLight0">Avant</label>
+                        <input type="checkbox" value="bright-pi" name="cbxLight0">
                     </li>
                     <li>
-                        <label for="cbxLightRight">Droite</label>
-                        <input type="checkbox" value="#"  name="cbxLightRight">
+                        <label for="cbxLight1">Droite</label>
+                        <input type="checkbox" value="bright-pi" name="cbxLight1">
                     </li>
                     <li>
-                        <label for="cbxLightBack">Arrière</label>
-                        <input type="checkbox" value="#"  name="cbxLightBack">
+                        <label for="cbxLight2">Arrière</label>
+                        <input type="checkbox" value="bright-pi" name="cbxLight2">
                     </li>
                     <li>
-                        <label for="cbxLightLeft">Gauche</label>
-                        <input type="checkbox" value="#"  name="cbxLightLeft">
+                        <label for="cbxLight3">Gauche</label>
+                        <input type="checkbox" value="bright-pi" name="cbxLight3">
                     </li>
                 </ul>
 
@@ -30,20 +30,20 @@
                 <h3>Caméras</h3>
                 <ul>
                     <li>
-                        <label for="cbxCameraFront">Avant</label>
-                        <input type="checkbox" value="#"  name="cbxCameraFront">
+                        <label for="cbxCamera0">Avant</label>
+                        <input type="checkbox" value="camera" name="cbxCamera0">
                     </li>
                     <li>
-                        <label for="cbxCameraRight">Droite</label>
-                        <input type="checkbox" value="#"  name="cbxCameraRight">
+                        <label for="cbxCamera1">Droite</label>
+                        <input type="checkbox" value="camera" name="cbxCamera1">
                     </li>
                     <li>
-                        <label for="cbxCameraBack">Arrière</label>
-                        <input type="checkbox" value="#"  name="cbxCameraBack">
+                        <label for="cbxCamera2">Arrière</label>
+                        <input type="checkbox" value="camera" name="cbxCamera2">
                     </li>
                     <li>
-                        <label for="cbxCameraLeft">Gauche</label>
-                        <input type="checkbox" value="#"  name="cbxCameraLeft">
+                        <label for="cbxCamera3">Gauche</label>
+                        <input type="checkbox" value="camera" name="cbxCamera3">
                     </li>
                 </ul>
 
@@ -52,20 +52,20 @@
                 <h3>Détecteur de sol</h3>
                 <ul>
                     <li>
-                        <label for="cbxGroundDetectionFront">Avant</label>
-                        <input type="checkbox" value="#"  name="cbxGroundDetectionFront">
+                        <label for="cbxGroundDetection0">Avant</label>
+                        <input type="checkbox" value="flying-fish" name="cbxGroundDetection0">
                     </li>
                     <li>
-                        <label for="cbxGroundDetectionRight">Droite</label>
-                        <input type="checkbox" value="#"  name="cbxGroundDetectionRight">
+                        <label for="cbxGroundDetection1">Droite</label>
+                        <input type="checkbox" value="flying-fish" name="cbxGroundDetection1">
                     </li>
                     <li>
-                        <label for="cbxGroundDetectionBack">Arrière</label>
-                        <input type="checkbox" value="#"  name="cbxGroundDetectionBack">
+                        <label for="cbxGroundDetection2">Arrière</label>
+                        <input type="checkbox" value="flying-fish" name="cbxGroundDetection2">
                     </li>
                     <li>
-                        <label for="cbxGroundDetectionLeft">Gauche</label>
-                        <input type="checkbox" value="#"  name="cbxGroundDetectionLeft">
+                        <label for="cbxGroundDetection3">Gauche</label>
+                        <input type="checkbox" value="flying-fish" name="cbxGroundDetection3">
                     </li>
                 </ul>
 
@@ -74,8 +74,8 @@
                 <h3>Scanner 360°</h3>
                 <ul>
                     <li>
-                        <label for="cbxScanner">Activer</label>
-                        <input type="checkbox" value="#"  name="cbxScanner">
+                        <label for="cbxScanner4">Activer</label>
+                        <input type="checkbox" value="lidar" name="cbxScanner4">
                     </li>
                 </ul>
 
@@ -96,5 +96,82 @@
         <input type="submit" value="validate" name="send_request" class="btn btn-success" />
     </form>
 </div>
+
+<script type=text/javascript>
+const STATE_ON = 1;
+const STATE_OFF = 0;
+
+const CODE_FRONT = 0;
+const CODE_RIGHT = 1;
+const CODE_BACK = 2;
+const CODE_LEFT = 3;
+const CODE_OTHER = 4;
+
+
+const IP_RSP_FRONT = 240;
+const IP_RSP_RIGHT = -1;
+const IP_RSP_BACK = -1;
+const IP_RSP_LEFT = -1;
+const IP_RSP_MAIN = 241;
+
+$(document).ready(function () {
+    $("#form_dashboard :checkbox").change(function () {
+        let endpoint = "";
+        let ip_address = "192.168.50.";
+        // get the value of the checkbok, it can be "bright-pi", "camera" or "flying-fish"
+        let cbx_value = $(this).val()
+        // get the name of the checkbox
+        let cbx_name = $(this).attr('name')
+        // get the last char of the checkbox's name in order to know which side needs to be changed
+        // example : cbxLight0, the 0 = the bright pi front sensors
+        let cbx_name_code_position = parseInt(cbx_name.substring(cbx_name.length - 1, cbx_name.length))
+        // choose the correct ip for the raspberry 
+        switch (cbx_name_code_position) {
+            case CODE_FRONT:
+                ip_address+=IP_RSP_FRONT
+                break;
+            case CODE_RIGHT:
+                ip_address+=IP_RSP_RIGHT
+                break;
+            case CODE_BACK:
+                ip_address+=IP_RSP_BACK
+                break;
+            case CODE_LEFT:
+                ip_address+=IP_RSP_LEFT
+                break;
+            case CODE_OTHER:
+                ip_address+=IP_RSP_MAIN
+                break;
+            default:
+                break;
+        }
+        // verify the state of the checkbox
+        if (this.checked) {
+            cbx_state = STATE_ON;
+        } else {
+            cbx_state = STATE_OFF;
+        }
+        // add the Flask port
+        ip_address += ":5000"
+        // set the URL
+        endpoint = `http://${ip_address}/${cbx_value}/${cbx_state}`
+        execute(endpoint);
+    });
+});
+
+function execute(endpoint) {
+    $.ajax({
+        url: endpoint,
+        type: "POST",
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (error) {
+            console.log(error);
+        },
+    });
+}
+
+    </script>
 
 {% endblock %}
