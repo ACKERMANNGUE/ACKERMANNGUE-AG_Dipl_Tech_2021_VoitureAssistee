@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/stream/<state>')
 def index(state):
-    return render_template('index.html', name="Caméra avant", mode=state) 
+    return render_template('index.html', name="Caméra avant", mode=state, on="on", off="off") 
     
 def gen(camera):
     #get camera frame
