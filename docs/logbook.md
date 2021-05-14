@@ -627,7 +627,7 @@ if __name__ == '__main__':
 * Le rouge pale représente la balayage du lidar
 
 * Une fois les différents éléments assemblés voici le résultat : 
-![Plan d'une voiture autonome](./images/croquis_poster_comparaison_version_finie.png "Plan d'une voiture autonome")
+![Poster du projet](./images/croquis_poster_comparaison_version_finie.png "Poster du projet")
 
 
 * Pour avancer dans le projet, j'ai mis en place le routeur wifi
@@ -788,5 +788,26 @@ def __init__(self, flip = False, fps=10, res=(160, 128)):
 
 
 ### 14.05.2021
+* J'ai commencé la journée en remplaçant le Pi 0 par un Pi 4 pour voir si le problème de `Out of Resources` était toujours présent. Malheureusement oui, par contre j'ai remarqué que l'intialisation de la caméra se faisait 2 fois. Je me suis alors renseigné sur internet pour savoir pourquoi est-ce que le init se faisait deux fois. N'ayant rien trouvé à ce sujet, j'ai été demandé de l'aide à M. Beney. Il m'a montré les paramètres qu'il utilisait dans la méthode `app.run()` pour stream sa caméra, ses paramètres sont `app.run(host='0.0.0.0', debug=True, threaded=True, use_reloader=False)`. Grâce à lui j'ai pu comprendre quel était le problème, car de base `use_reloader`est à true, ce qui lors du lancement du serveur, le lançait 2 fois. Grâce à lui je n'ai plus de soucis de caméra `Out of Resources`, car la caméra se lançait 2 fois.
+    * Vu que ce problème est réglé, je vais mettre en place de l'AJAX pour l'appuie sur les boutons qui vont changer l'état des capteurs sur l'autre raspberry
+        * J'ai une erreur HTTP 405 lors de l'appel AJAX
+* Après discussion avec M. Bonvin par rapport au poster, j'ai fait les modifications discutées. Voici la nouvelle version : 
+![Poster du projet](./images/references_poster/ag_poster_voiture-assistee.png "Poster du projet")
+* Je l'ai ajouté à la documentation technique
 #### Liens consultés
-##### 
+##### Python / Flask
+* https://www.paramiko.org/installing.html
+* https://stackoverflow.com/questions/3586106/perform-commands-over-ssh-with-python$
+* https://developpaper.com/python-flash-solves-cross-domain-problems/
+* https://stackoverflow.com/questions/28461001/python-flask-cors-issue#43019954
+* https://flask-cors.readthedocs.io/en/latest/
+* https://www.arundhaj.com/blog/definitive-guide-to-solve-cors-access-control-allow-origin-python-flask.html
+* https://stackoverflow.com/questions/42681311/flask-access-control-allow-origin-for-multiple-urls
+##### JQuery / Javascript
+* https://stackoverflow.com/questions/1133770/how-to-convert-a-string-to-an-integer-in-javascript#1133814
+* https://www.w3schools.com/jsref/jsref_substring.asp
+* https://stackoverflow.com/questions/19304833/how-to-get-name-of-an-input-field-using-jquery#19304924
+* https://stackoverflow.com/questions/2834350/get-checkbox-value-in-jquery
+* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Text_formatting
+* https://learn.jquery.com/using-jquery-core/document-ready/
+* https://stackoverflow.com/questions/3442322/jquery-checkbox-event-handling

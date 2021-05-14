@@ -2,7 +2,7 @@
 
 ## Résumé
 
-_Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leurs fonctionnement. Ce projet me fût proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a sû amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisé pour ce projet, la plus value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçable à l'aide une interface web et qui sait se déplacer par elle même en évitant les obstacles sur sa route.
+_Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leur fonctionnement. Ce projet m'a été proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a su amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisés pour ce projet, la plus value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçable à l'aide d'une interface web et qui sait se déplacer par elle-même en évitant les obstacles sur sa route.
 
 ## Abstract
 _Voiture assistée_ is a study project about autonomous cars and their functioning. This project was proposed to me by Mr. Bonvin since the first draft of the specifications included a simulation of an autonomous car but in a windows form application. Mr. Bonvin heard about my project, he knew how to bring a more interesting and professional side in the work that I will have to realize. Considering the discovery of the different devices used for this project, the added value will be especially the acquisition of new knowledge in the field of physical computing. Therefore, the goal of the project is to realize a car that can be moved by a web interface and that knows how to move by itself and which avoids obstacles on its way.
@@ -10,7 +10,7 @@ _Voiture assistée_ is a study project about autonomous cars and their functioni
 
 ## Poster
 
-![Poster du projet Voiture Assistée](./images/ag_poster_voiture-assistee.png "Poster du projet Voiture Assistée")
+![Poster du projet Voiture Assistée](./images/references_poster/ag_poster_voiture-assistee.png "Poster du projet Voiture Assistée")
 
 ## Cahier des charges
 
@@ -107,6 +107,7 @@ La voiture se déplace de manière rectiligne en évitant les obstacles sur sa r
 │   ├── Bright Pi
 │   ├── Camera
 │   ├── Flask
+│   ├── Flying-Fish
 │   ├── Lidar
 │   └── OpenCV
 ├── docs
