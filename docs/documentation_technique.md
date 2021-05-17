@@ -149,6 +149,9 @@ Un Raspberry Pi 4B est constitué des différents éléments :
 
 ![Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)")
 À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du `PoE HAT Header`.
+
+## PARLER DU PI 0 WIFI
+
 #### Caméra
 La caméra est un module permettant d'avoir accès à un flux vidéo.
 ##### Mise en place

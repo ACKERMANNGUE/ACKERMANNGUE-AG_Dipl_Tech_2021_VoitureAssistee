@@ -811,3 +811,77 @@ def __init__(self, flip = False, fps=10, res=(160, 128)):
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Text_formatting
 * https://learn.jquery.com/using-jquery-core/document-ready/
 * https://stackoverflow.com/questions/3442322/jquery-checkbox-event-handling
+
+
+### 17.05.2021
+* J'ai commencé la journée par tenter de résoudre le problème que j'avais avec l'AJAX, le code HTTP que je recevais était le 405
+    * Pour résoudre ce problème, j'ai ajouté à ma route le paramètre `methods=['POST', 'OPTIONS']` car de ce que j'ai vu sur internet, la première vérification de la page (pour les headers) se fait avec la méthode `OPTIONS`. Et j'ai ajouté entre la route et le nom de la fonction, la méthode `cross_origin()`
+
+```python
+@app.route('/<string:sensor>/<int:state>', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def sensor_control(sensor=None, state=None):
+  # code ...
+```
+
+* Ensuite, je me suis informé sur une manière d'afficher un stream en `HTML5` à la place d'utiliser un `iframe`.
+    * J'ai commencé par regarder ce que fournissait la librairie [GStreamer](https://gstreamer.freedesktop.org/) mais j'ai pu voir dans le code du `Hello World`, qu'il permettait la transmission de flux depuis un fichier en entrée
+    * Ensuite, je suis tombé sur [cet article](https://randomnerdtutorials.com/video-streaming-with-raspberry-pi-camera/), et j'ai pu voir qu'il utilisait une manière similaire à celle que j'utilise à présent, qui est d'encodé chaque frames de la caméra en `MJPEG` afin de change la source d'une balise `<img>`
+    * J'ai continué à chercher et j'ai vu plusieurs fois apparaître le terme `RTMP` donc j'ai lu [cet article](https://streamhash.com/how-rtmp-helps-in-video-streaming/). En le lisant, j'ai pu lire qu'il avait plusieur avantages, tel que : sa capacité à précharger les paquets en temps réel ce qui permet une faible latence dans le flux vidéo, que la plupart des appareils supportent le RTMP
+        * J'ai trouvé qu'il pouvait être pratique, cependant je ne l'utiliserai pas pour le moment car je trouve que j'ai pris pas mal de retard donc il faut que je continue à avancer sans me lancer dans une technologie inconnue, mais c'est une piste à garder pour sûr en cas d'améliorations
+* C'est pourquoi je pense continuer avec mon histoire d'`<iframe>`
+* Après avoir mis en place les iframes ainsi que la recharche automatique des canvas lors du changement d'état des caméras.
+* J'ai remis la caméra ainsi que le bright pi sur un Pi 0 W pour refaire les tests
+    * Tout fonctionne parfaitement
+* Après avoir fait la vérification pour le Pi 0 Wifi, j'ai décidé de copier le contenue de la carte SD afin de pouvoir installer l'exacte même configuration pour chaque Pi 0 Wifi
+    * Pour la copie, j'ai utilisé `Win32 Disk Imager`
+
+![Interface du programme Win32 Disk Imager](./images/win32_DiskImager-rsp_copy.png "Interface du programme Win32 Disk Imager")
+
+* Maintenant que l'interface utilisateur, le tableau de bord est terminé à 70%, car il manque encore le changement d'état pour le lidar, j'ai décidé de me pencher sur le problème du lidar qui output les données dans la console. Je vais tenter de faire en sorte que les données du lidar soit retournées soit dans le code, soit par une route en JSON
+* J'ai commencé à regarder le code affichant les distances pour chaque angles afin de pouvoir le modifier
+
+#### Liens consultés
+##### Streaming
+* https://gstreamer.freedesktop.org/
+* https://randomnerdtutorials.com/video-streaming-with-raspberry-pi-camera/
+* https://streamhash.com/how-rtmp-helps-in-video-streaming/
+
+##### Javascript / JQuery / HTML
+* https://www.w3schools.com/tags/tag_iframe.asp
+* https://stackoverflow.com/questions/13477451/can-i-force-a-hard-refresh-on-an-iframe-with-javascript
+* https://stackoverflow.com/questions/48852888/iframe-contentwindow-undefined-even-after-load-function
+* https://stackoverflow.com/questions/23711448/iframe-contentwindow-is-undefined-when-use-window-framesname-to-access
+* https://stackoverflow.com/questions/4249809/reload-an-iframe-with-jquery
+
+### 18.05.2021
+#### Liens consultés
+##### --------
+
+### 19.05.2021
+#### Liens consultés
+##### --------
+
+### 20.05.2021
+#### Liens consultés
+##### --------
+
+### 21.05.2021
+#### Liens consultés
+##### --------
+
+### 25.05.2021
+#### Liens consultés
+##### --------
+
+### 26.05.2021
+#### Liens consultés
+##### --------
+
+### 27.05.2021
+#### Liens consultés
+##### --------
+
+### 28.05.2021
+#### Liens consultés
+##### --------
