@@ -1,21 +1,23 @@
 from time import sleep
-from flask import Flask, request, render_template, Response, redirect, jsonify
+from flask import Flask, request, render_template, Response, redirect, jsonify, make_response
 from flask_cors import CORS
-import RPi.GPIO as GPIO
 from flask_cors.decorator import cross_origin
-from libs.brightpi import brightpilib
-from libs.brightpi.brightpilib import BrightPiSpecialEffects
-from libs.camera import VideoCamera
+import RPi.GPIO as GPIO
 import time
 import threading
 import os
 import cv2
 from libs.sensor import Sensor
-import json
+from libs.brightpi import brightpilib
+from libs.brightpi.brightpilib import BrightPiSpecialEffects
+from libs.camera import VideoCamera
 import libs.constants as constants
+import json
+
+
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, withCredentials = True)
 
 
 @app.route('/')
@@ -23,10 +25,9 @@ def hello_world():
     return 'Hello, World!'
 
 
-@app.route('/<string:sensor>/<int:state>')
-@cross_origin("192.168.50.241:5000")
+@app.route('/<string:sensor>/<int:state>', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def sensor_control(sensor=None, state=None):
-    #print(brightpi_state)
     state = int(state)
     
     global brightpi_state
@@ -35,29 +36,31 @@ def sensor_control(sensor=None, state=None):
     global light
     
     sensors = []
-    if sensor == constants.SENSOR_BRIGHTPI:
-        if state == constants.STATE_ON:
-            brightpi_state = constants.STATE_ON
-        elif state == constants.STATE_OFF:
-            brightpi_state = constants.STATE_OFF
-        light.set_led_on_off(brightpilib.LED_ALL, brightpi_state)
 
-    if sensor == constants.SENSOR_CAMERA:
-        if state == constants.STATE_ON:
-            camera_state = constants.STATE_ON
-        elif state == constants.STATE_OFF:
-            camera_state = constants.STATE_OFF
+    if request.method == "POST": 
+        if sensor == constants.SENSOR_BRIGHTPI:
+            if state == constants.STATE_ON:
+                brightpi_state = constants.STATE_ON
+            elif state == constants.STATE_OFF:
+                brightpi_state = constants.STATE_OFF
+            light.set_led_on_off(brightpilib.LED_ALL, brightpi_state)
 
-    if sensor == constants.SENSOR_FLYINGFISH:
-        if state == constants.STATE_ON:
-            flyingfish_state = constants.STATE_ON
-        elif state == constants.STATE_OFF:
-            flyingfish_state = constants.STATE_OFF
+        if sensor == constants.SENSOR_CAMERA:
+            if state == constants.STATE_ON:
+                camera_state = constants.STATE_ON
+            elif state == constants.STATE_OFF:
+                camera_state = constants.STATE_OFF
+
+        if sensor == constants.SENSOR_FLYINGFISH:
+            if state == constants.STATE_ON:
+                flyingfish_state = constants.STATE_ON
+            elif state == constants.STATE_OFF:
+                flyingfish_state = constants.STATE_OFF
 
     sensors.append(Sensor(constants.SENSOR_BRIGHTPI, brightpi_state))
     sensors.append(Sensor(constants.SENSOR_CAMERA, camera_state))
     sensors.append(Sensor(constants.SENSOR_FLYINGFISH, flyingfish_state))
-    #jsonify(sensors)
+
     return convert_array_to_json(sensors)
 
 
@@ -75,10 +78,10 @@ def change_flyingfish_state(self):
     global flyingfish_state
     flyingfish_state = constants.STATE_ON
 
-@app.route('/stream')
-def stream():
+@app.route('/streaming_camera')
+def cam_stream():
     global camera_state
-    return render_template('index.html', name=constants.CAMERA_FRONT, mode=camera_state, on=constants.STATE_ON, off=constants.STATE_OFF)
+    return render_template('index.html', name=constants.FRONT_CAM, mode=camera_state, on=constants.STATE_ON, off=constants.STATE_OFF)
 
 def gen(camera):
     #get camera frame

@@ -1,4 +1,3 @@
-{% import "server.py" as const %}
 <!DOCTYPE html>
 <html>
 
@@ -36,6 +35,8 @@
       overflow: hidden;
       background-color: black;
     }
+
+
   </style>
 </head>
 
@@ -45,17 +46,16 @@
 
 <body>
   <div class="main" id="newpost">
+
     {% if mode == on %}
     <img class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center"
       src="{{ url_for('video_feed') }}">
     {% elif mode == off %}
     <img class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center"
-      src="../static/camera_down.png">
+      src="../static/img/camera_down.png">
     {% endif %}
 
   </div>
-  <div>
-    <a>{{name}}</a>
-  </div>
+  
 </body>
 </html>

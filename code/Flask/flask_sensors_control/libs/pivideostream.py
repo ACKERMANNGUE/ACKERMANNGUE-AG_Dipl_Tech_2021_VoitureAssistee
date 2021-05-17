@@ -6,7 +6,6 @@ import cv2
 
 class PiVideoStream:
 	def __init__(self, resolution=(320, 240), framerate=32, **kwargs):
-		print("allo")
 		# initialize the camera
 		self.camera = PiCamera()
 		# set camera parameters
