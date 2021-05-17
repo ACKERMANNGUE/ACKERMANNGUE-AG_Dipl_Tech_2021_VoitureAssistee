@@ -50,7 +50,7 @@ def hello():
     return render_template("home.html")
 
 
-@app.route("/dashboard")
+@app.route("/dashboard/")
 def user_interface():
     """Route used to show the User Interface
     """
@@ -58,14 +58,14 @@ def user_interface():
     return render_template("ui.html")
 
 
-@app.route('/home')
+@app.route('/home/')
 def home():
     """Route used to know if the server is on
     """
     return render_template("home.html")
 
 
-@app.route('/create_car_test')
+@app.route('/create_car_test/')
 def create_car_test():
     """Used to test the creation of the car
     """
@@ -78,7 +78,7 @@ def create_car_test():
     return render_template("connection.html", msg=output)
 
 
-@app.route('/create_car')
+@app.route('/create_car/')
 def create_car():
     """Used to the creation of the car
     """
@@ -91,7 +91,7 @@ def create_car():
             return render_template("form_remote_car.html")
 
 
-@app.route('/close_connection')
+@app.route('/close_connection/')
 def close_connection():
     """Close the connection between the Raspberry Pi and the Technic Hub
     """
@@ -112,7 +112,7 @@ def control_car():
     return render_template("form_remote_car.html", mode=DEFAULT_MODE, speed=DEFAULT_SPEED, angle=DEFAULT_ANGLE)
 
 
-@app.route('/bg_processing', methods=['POST'])
+@app.route('/bg_processing/', methods=['POST'])
 def bg_process():
     """Process the values passed by Javascript
     """
@@ -189,7 +189,7 @@ def bg_process():
     
 
 
-@app.route('/form_remote_response', methods=['POST'])
+@app.route('/form_remote_response/', methods=['POST'])
 def form_remote_response():
     """The form's answer of the remote 
     """
@@ -237,7 +237,7 @@ def form_remote_response():
     return returned_value
 
 
-@app.route("/error")
+@app.route("/error/")
 def error(msg):
     return render_template("error.html", msg=msg)
 

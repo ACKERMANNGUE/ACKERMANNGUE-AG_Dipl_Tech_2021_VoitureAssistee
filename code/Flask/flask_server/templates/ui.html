@@ -81,19 +81,18 @@
 
             </div>
             <div class="col-md-6">
-                <img src="../static/img/camera_down.png" class="cameras">
+                <iframe class="cameras" id="cnvCam0" src="http://192.168.50.240:5000/streaming_camera"></iframe>
             </div>
             <div class="col-md-6">
-                <img src="../static/img/camera_down.png" class="cameras">
+                <iframe class="cameras" id="cnvCam1" src="http://192.168.50.240:5000/streaming_camera"></iframe>
             </div>
             <div class="col-md-6">
-                <img src="../static/img/camera_down.png" class="cameras">
+                <iframe class="cameras" id="cnvCam2" src="http://192.168.50.240:5000/streaming_camera"></iframe>
             </div>
             <div class="col-md-6">
-                <img src="../static/img/camera_down.png" class="cameras">
+                <iframe class="cameras" id="cnvCam3" src="http://192.168.50.240:5000/streaming_camera"></iframe>
             </div>
         </div>
-        <input type="submit" value="validate" name="send_request" class="btn btn-success" />
     </form>
 </div>
 
@@ -107,6 +106,7 @@ const CODE_BACK = 2;
 const CODE_LEFT = 3;
 const CODE_OTHER = 4;
 
+const SENSOR_CAMERA = "camera"
 
 const IP_RSP_FRONT = 240;
 const IP_RSP_RIGHT = -1;
@@ -124,9 +124,16 @@ $(document).ready(function () {
         let cbx_name = $(this).attr('name')
         // get the last char of the checkbox's name in order to know which side needs to be changed
         // example : cbxLight0, the 0 = the bright pi front sensors
-        let cbx_name_code_position = parseInt(cbx_name.substring(cbx_name.length - 1, cbx_name.length))
+        let code_position = parseInt(cbx_name.substring(cbx_name.length - 1, cbx_name.length))
+        // reload the iframe of the selected camera
+        if(cbx_value == SENSOR_CAMERA){
+            var iframe = document.getElementById(`cnvCam${code_position}`);
+            console.log(iframe.src)
+            iframe.src = iframe.src
+        }
+
         // choose the correct ip for the raspberry 
-        switch (cbx_name_code_position) {
+        switch (code_position) {
             case CODE_FRONT:
                 ip_address+=IP_RSP_FRONT
                 break;
