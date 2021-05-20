@@ -26,9 +26,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <cmath>
 #include "rplidar.h" //RPLIDAR standard sdk, all-in-one header
-
 
 #ifndef _countof
 #define _countof(_Array) (int)(sizeof(_Array) / sizeof(_Array[0]))
@@ -36,134 +35,159 @@
 
 #ifdef _WIN32
 #include <Windows.h>
-#define delay(x)   ::Sleep(x)
+#define delay(x) ::Sleep(x)
 #else
 #include <unistd.h>
-static inline void delay(_word_size_t ms){
-    while (ms>=1000){
-        usleep(1000*1000);
-        ms-=1000;
+static inline void delay(_word_size_t ms)
+{
+    while (ms >= 1000)
+    {
+        usleep(1000 * 1000);
+        ms -= 1000;
     };
-    if (ms!=0)
-        usleep(ms*1000);
+    if (ms != 0)
+        usleep(ms * 1000);
 }
 #endif
 
 using namespace rp::standalone::rplidar;
 
-void print_usage(int argc, const char * argv[])
+void print_usage(int argc, const char *argv[])
 {
     printf("Simple LIDAR data grabber for RPLIDAR.\n"
-           "Version: "RPLIDAR_SDK_VERSION"\n"
+           "Version: " RPLIDAR_SDK_VERSION "\n"
            "Usage:\n"
            "%s <com port> [baudrate]\n"
-           "The default baudrate is 115200(for A2) or 256000(for A3). Please refer to the datasheet for details.\n"
-           , argv[0]);
+           "The default baudrate is 115200(for A2) or 256000(for A3). Please refer to the datasheet for details.\n",
+           argv[0]);
 }
 
-
-void plot_histogram(rplidar_response_measurement_node_t * nodes, size_t count)
+void plot_histogram(rplidar_response_measurement_node_t *nodes, size_t count)
 {
-    const int BARCOUNT =  75;
+    const int BARCOUNT = 75;
     const int MAXBARHEIGHT = 20;
-    const float ANGLESCALE = 360.0f/BARCOUNT;
+    const float ANGLESCALE = 360.0f / BARCOUNT;
 
     float histogram[BARCOUNT];
-    for (int pos = 0; pos < _countof(histogram); ++pos) {
+    for (int pos = 0; pos < _countof(histogram); ++pos)
+    {
         histogram[pos] = 0.0f;
     }
 
     float max_val = 0;
-    for (int pos =0 ; pos < (int)count; ++pos) {
-        int int_deg = (int)((nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT)/64.0f/ANGLESCALE);
-        if (int_deg >= BARCOUNT) int_deg = 0;
+    for (int pos = 0; pos < (int)count; ++pos)
+    {
+        int int_deg = (int)((nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT) / 64.0f / ANGLESCALE);
+        if (int_deg >= BARCOUNT)
+            int_deg = 0;
         float cachedd = histogram[int_deg];
-        if (cachedd == 0.0f ) {
-            cachedd = nodes[pos].distance_q2/4.0f;
-        } else {
-            cachedd = (nodes[pos].distance_q2/4.0f + cachedd)/2.0f;
+        if (cachedd == 0.0f)
+        {
+            cachedd = nodes[pos].distance_q2 / 4.0f;
+        }
+        else
+        {
+            cachedd = (nodes[pos].distance_q2 / 4.0f + cachedd) / 2.0f;
         }
 
-        if (cachedd > max_val) max_val = cachedd;
+        if (cachedd > max_val)
+            max_val = cachedd;
         histogram[int_deg] = cachedd;
     }
 
-    for (int height = 0; height < MAXBARHEIGHT; ++height) {
-        float threshold_h = (MAXBARHEIGHT - height - 1) * (max_val/MAXBARHEIGHT);
-        for (int xpos = 0; xpos < BARCOUNT; ++xpos) {
-            if (histogram[xpos] >= threshold_h) {
+    for (int height = 0; height < MAXBARHEIGHT; ++height)
+    {
+        float threshold_h = (MAXBARHEIGHT - height - 1) * (max_val / MAXBARHEIGHT);
+        for (int xpos = 0; xpos < BARCOUNT; ++xpos)
+        {
+            if (histogram[xpos] >= threshold_h)
+            {
                 putc('*', stdout);
-            }else {
+            }
+            else
+            {
                 putc(' ', stdout);
             }
         }
         printf("\n");
     }
-    for (int xpos = 0; xpos < BARCOUNT; ++xpos) {
+    for (int xpos = 0; xpos < BARCOUNT; ++xpos)
+    {
         putc('-', stdout);
     }
     printf("\n");
 }
 
-u_result capture_and_display(RPlidarDriver * drv)
+float *capture_and_display(float angle_dist[], RPlidarDriver *drv)
 {
     u_result ans;
-    
+    int old_angle = 0;
+    float threshold_range = 2000.0f; // equal to 1 meter 50
+    float max_range = 16000.0f;      // equal to the max range of the sensor which is 16 meters
     rplidar_response_measurement_node_t nodes[8192];
-    size_t   count = _countof(nodes);
+    size_t count = _countof(nodes);
 
-    printf("waiting for data...\n");
 
     // fetech extactly one 0-360 degrees' scan
     ans = drv->grabScanData(nodes, count);
-    if (IS_OK(ans) || ans == RESULT_OPERATION_TIMEOUT) {
+    if (IS_OK(ans) || ans == RESULT_OPERATION_TIMEOUT)
+    {
         drv->ascendScanData(nodes, count);
-        plot_histogram(nodes, count);
+        for (int pos = 0; pos < (int)count; ++pos)
+        {
+            float angle = (nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT) / 64.0f;
+            float distance = nodes[pos].distance_q2 / 4.0f;
 
-        printf("Do you want to see all the data? (y/n) ");
-        int key = getchar();
-        if (key == 'Y' || key == 'y') {
-            for (int pos = 0; pos < (int)count ; ++pos) {
-                printf("%s theta: %03.2f Dist: %08.2f \n", 
-                    (nodes[pos].sync_quality & RPLIDAR_RESP_MEASUREMENT_SYNCBIT) ?"S ":"  ", 
-                    (nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT)/64.0f,
-                    nodes[pos].distance_q2/4.0f);
-            }
+            // printf("%s theta: %03.2f Dist: %08.2f \n",
+            //        (nodes[pos].sync_quality & RPLIDAR_RESP_MEASUREMENT_SYNCBIT) ? "S " : "  ",
+            //        angle,
+            //        distance);
+
+            int rounded_angle = (int)round(angle);
+            (distance <= 0) ? distance = 0 : distance;
+            (distance > threshold_range || distance > max_range) ? distance = 0 : distance;
+            angle_dist[rounded_angle] = distance;
         }
-    } else {
+    }
+    else
+    {
         printf("error code: %x\n", ans);
     }
-
-    return ans;
+    return angle_dist;
 }
 
-int main(int argc, const char * argv[]) {
-    const char * opt_com_path = NULL;
-    _u32         opt_com_baudrate = 115200;
-    u_result     op_result;
+int main(int argc, const char *argv[])
+{
+    const char *opt_com_path = NULL;
+    _u32 opt_com_baudrate = 115200;
+    u_result op_result;
 
-    if (argc < 2) {
+    if (argc < 2)
+    {
         print_usage(argc, argv);
         return -1;
     }
     opt_com_path = argv[1];
-    if (argc>2) opt_com_baudrate = strtoul(argv[2], NULL, 10);
+    if (argc > 2)
+        opt_com_baudrate = strtoul(argv[2], NULL, 10);
 
     // create the driver instance
-    RPlidarDriver * drv = RPlidarDriver::CreateDriver(DRIVER_TYPE_SERIALPORT);
+    RPlidarDriver *drv = RPlidarDriver::CreateDriver(DRIVER_TYPE_SERIALPORT);
 
-    if (!drv) {
+    if (!drv)
+    {
         fprintf(stderr, "insufficent memory, exit\n");
         exit(-2);
     }
 
     rplidar_response_device_health_t healthinfo;
     rplidar_response_device_info_t devinfo;
-    do {
+    do
+    {
         // try to connect
-        if (IS_FAIL(drv->connect(opt_com_path, opt_com_baudrate))) {
-            fprintf(stderr, "Error, cannot bind to the specified serial port %s.\n"
-                , opt_com_path);
+        if (IS_FAIL(drv->connect(opt_com_path, opt_com_baudrate)))
+        {
+            fprintf(stderr, "Error, cannot bind to the specified serial port %s.\n", opt_com_path);
             break;
         }
 
@@ -171,11 +195,15 @@ int main(int argc, const char * argv[]) {
         ////////////////////////////////////////
         op_result = drv->getDeviceInfo(devinfo);
 
-        if (IS_FAIL(op_result)) {
-            if (op_result == RESULT_OPERATION_TIMEOUT) {
+        if (IS_FAIL(op_result))
+        {
+            if (op_result == RESULT_OPERATION_TIMEOUT)
+            {
                 // you can check the detailed failure reason
                 fprintf(stderr, "Error, operation time out.\n");
-            } else {
+            }
+            else
+            {
                 fprintf(stderr, "Error, unexpected error, code: %x\n", op_result);
                 // other unexpected result
             }
@@ -183,28 +211,28 @@ int main(int argc, const char * argv[]) {
         }
 
         // print out the device serial number, firmware and hardware version number..
-        printf("RPLIDAR S/N: ");
-        for (int pos = 0; pos < 16 ;++pos) {
-            printf("%02X", devinfo.serialnum[pos]);
-        }
+        // printf("RPLIDAR S/N: ");
+        // for (int pos = 0; pos < 16; ++pos)
+        // {
+        //     printf("%02X", devinfo.serialnum[pos]);
+        // }
 
-        printf("\n"
-                "Version: "RPLIDAR_SDK_VERSION"\n"
-                "Firmware Ver: %d.%02d\n"
-                "Hardware Rev: %d\n"
-                , devinfo.firmware_version>>8
-                , devinfo.firmware_version & 0xFF
-                , (int)devinfo.hardware_version);
-
+        // printf("\n"
+        //        "Version: " RPLIDAR_SDK_VERSION "\n"
+        //        "Firmware Ver: %d.%02d\n"
+        //        "Hardware Rev: %d\n",
+        //        devinfo.firmware_version >> 8, devinfo.firmware_version & 0xFF, (int)devinfo.hardware_version);
 
         // check the device health
         ////////////////////////////////////////
         op_result = drv->getHealth(healthinfo);
-        if (IS_OK(op_result)) { // the macro IS_OK is the preperred way to judge whether the operation is succeed.
-            printf("RPLidar health status : ");
-            switch (healthinfo.status) {
+        if (IS_OK(op_result))
+        { // the macro IS_OK is the preperred way to judge whether the operation is succeed.
+            //printf("RPLidar health status : ");
+            switch (healthinfo.status)
+            {
             case RPLIDAR_STATUS_OK:
-                printf("OK.");
+                //printf("OK.");
                 break;
             case RPLIDAR_STATUS_WARNING:
                 printf("Warning.");
@@ -214,14 +242,15 @@ int main(int argc, const char * argv[]) {
                 break;
             }
             printf(" (errorcode: %d)\n", healthinfo.error_code);
-
-        } else {
+        }
+        else
+        {
             fprintf(stderr, "Error, cannot retrieve the lidar health code: %x\n", op_result);
             break;
         }
 
-
-        if (healthinfo.status == RPLIDAR_STATUS_ERROR) {
+        if (healthinfo.status == RPLIDAR_STATUS_ERROR)
+        {
             fprintf(stderr, "Error, rplidar internal error detected. Please reboot the device to retry.\n");
             // enable the following code if you want rplidar to be reboot by software
             // drv->reset();
@@ -232,19 +261,52 @@ int main(int argc, const char * argv[]) {
 
         // take only one 360 deg scan and display the result as a histogram
         ////////////////////////////////////////////////////////////////////////////////
-        if (IS_FAIL(drv->startScan( 0,1 ))) // you can force rplidar to perform scan operation regardless whether the motor is rotating
+        if (IS_FAIL(drv->startScan(0, 1))) // you can force rplidar to perform scan operation regardless whether the motor is rotating
         {
             fprintf(stderr, "Error, cannot start the scan operation.\n");
             break;
         }
-
-        if (IS_FAIL(capture_and_display(drv))) {
-            fprintf(stderr, "Error, cannot grab scan data.\n");
-            break;
-
+        int max_size_arr_angle_dist = 360;
+        int nb_scan = 10;
+        float angle_dist_tmp[max_size_arr_angle_dist];
+        float angle_dist[max_size_arr_angle_dist];
+        int size_arr_angle_dist = (sizeof(angle_dist) / sizeof(angle_dist[0]));
+        // used as a code in order to treat the data below in another process
+        //printf("<<<\n");
+        for (size_t i = 0; i < nb_scan; i++)
+        {
+            //reset the array to empty (empty represented by the 0)
+            std::fill_n(angle_dist, max_size_arr_angle_dist, 0.0f);
+            capture_and_display(angle_dist, drv);
+            if (size_arr_angle_dist == 0)
+            {
+                fprintf(stderr, "Error, cannot grab scan data.\n");
+                break;
+            }
+            /* Correct the errors */
+            for (size_t j = 0; j < max_size_arr_angle_dist; j++)
+            {
+                if (angle_dist[j] < 0.0f && angle_dist[j] >= 16000.0f)
+                {
+                    angle_dist[j] = 0.0f;
+                }
+            }
+            /* make the average of distance */
+            capture_and_display(angle_dist_tmp, drv);
+            for (size_t j = 0; j < max_size_arr_angle_dist; j++)
+            {
+                if (angle_dist_tmp[j] > 0.0f && angle_dist_tmp[j] < 16000.0f)
+                {
+                    angle_dist[j] = (angle_dist[j] + angle_dist_tmp[j]) / 2;
+                }
+            }
         }
 
-    } while(0);
+        for (size_t j = 0; j < max_size_arr_angle_dist; j++)
+        {
+            printf("%d,%f\n", j, angle_dist[j]);
+        }
+    } while (0);
 
     drv->stop();
     drv->stopMotor();
