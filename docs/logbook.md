@@ -1000,7 +1000,21 @@ plt.scatter(data_x, data_y, s=1)
 * Et voici le résultat : 
 
 ![Affichage du graphique généré avec de bonnes valeurs](./images/graph_good_values.png "Affichage du graphique généré avec de bonnes valeurs") 
-    
+* J'ai ensuite regardé comment on pouvait faire en sorte que plus le point est loin du 0 plus il est vert et à l'inverse plus il est proche plus il est rouge.
+    * Je suis tombé sur [cet exemple](https://matplotlib.org/stable/gallery/color/custom_cmap.html), il m'a permit très rapidement d'implémenter ce dont j'avais besoin. Voici le résultat :
+
+![Affichage du graphique généré avec les couleurs prévenant le danger par rapport à un obstacle](./images/graph_warning_colors.png "Affichage du graphique généré avec les couleurs prévenant le danger par rapport à un obstacle") 
+
+```python
+# Create the colors I need, values between 0 and 1 for (r, g, b)
+colors = [(1, 0.2, 0.3), (1, 0.8, 0), (0.1, 0.5, 0.1)]  # near -> mid -> far
+cmap_name = "distance_warning"
+cmap = matplotlib.colors.LinearSegmentedColormap.from_list(cmap_name, colors)
+```
+
+* Ensuite, j'ai regardé comment faire en sorte de rafraichir le programme afin qu'il sorte 1 graphique toutes les 2-3 secondes environ, car pour lisser les données je lance 10 scans à la suite donc ce processus est répété plusieurs fois, à voir si on peut potentiellement rendre ceci continue
+    * J'ai lancé plusieurs fois le programme pour faire ceci, mais je me suis rendu compte que c'était vraiment pas performant alors j'ai été modifié le code `C++` pour pouvoir accès aux données en temps réel.
+
 #### Liens consultés
 ##### Python
 * https://numpy.org/doc/stable/reference/random/generated/numpy.random.rand.html#numpy.random.rand
@@ -1009,6 +1023,8 @@ html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py
 * https://www.geeksforgeeks.org/how-to-convert-float-to-int-in-python/
 * https://www.geeksforgeeks.org/convert-string-to-float-in-python/
 * https://stackoverflow.com/questions/41659535/valueerror-x-and-y-must-be-the-same-size#41661392
+* https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html#matplotlib.colors.LinearSegmentedColormap.from_list
+* https://matplotlib.org/stable/gallery/color/custom_cmap.html
 
 ### 21.05.2021
 #### Liens consultés
