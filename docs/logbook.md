@@ -855,16 +855,160 @@ def sensor_control(sensor=None, state=None):
 * https://stackoverflow.com/questions/4249809/reload-an-iframe-with-jquery
 
 ### 18.05.2021
+* J'ai commencé la journée par déballer le baterie portable `XB304 Titan` puis mis à charger.
+* Ensuite, j'ai modifié le code présent dans le fichier `simple_grabber.cpp` afin qu'il retourne un tableau de 360 valeurs, pour lesquelles chaque index est un angle avec la distance d'un objet.
+    * Premier problème que j'ai rencontré, était qu'étant donné que le grabber récupére les distances avec des valeurs à virgules comme suit :
+
+```
+...
+
+   theta: 210.31 Dist: 00875.00 
+   theta: 211.12 Dist: 00874.00 
+   theta: 211.83 Dist: 00876.00 
+   theta: 213.91 Dist: 00000.00 
+   theta: 214.59 Dist: 00000.00 
+   theta: 214.61 Dist: 00872.00 
+   theta: 215.28 Dist: 00000.00 
+
+...
+```
+
+* On peut remarquer que des fois vu qu'il s'agit d'un angle non plein, des fois les valeurs que je stock pour des angles pleines sont négatives car ils n'ont pas de valeur vu que chaque scan va être effectué avec un incrément de 0.7 pour les valeurs d'angles :
+
+```
+...
+
+ANGLE : 210  DISTANCE : 875.000000 [mm] 
+ANGLE : 211  DISTANCE : 874.000000 [mm] 
+ANGLE : 212  DISTANCE : -0.431641 [mm] 
+ANGLE : 213  DISTANCE : 0.000000 [mm] 
+ANGLE : 214  DISTANCE : 0.000000 [mm] 
+ANGLE : 215  DISTANCE : 0.000000 [mm] 
+
+...
+```
+
+* J'ai tenté diverse méthode pour palier à ce problème mais aucune ne fut concluantes car je m'y prennais mal.
+    * Après discussion avec M. Bonvin sur le sujet, il m'a dit de récupérer les valeurs, les stockées, refaire le scan puis avec les anciennes valeurs faire une moyenne, d'utiliser un seuil pour les valeurs qui ne m'intéressent pas, par exemple les éléments à plus d'1 mètre (1000 [mm]) et de mettre à 0 les valeurs négatives.
+    * Pour m'aider sur la manière de dessiné le radar, il m'a montré rapidement que c'était facile de le faire à l'aide de trigonométrie :
+  
+![Schéma explicatif sur la manière de connaître les coordonnées du point à placer](./images/lidar/trigonometrie_radar.jpg "Schéma explicatif sur la manière de connaître les coordonnées du point à placer")  
+
 #### Liens consultés
-##### --------
+##### C++
+* https://www.geeksforgeeks.org/list-cpp-stl/
+* https://www.geeksforgeeks.org/listpush_front-listpush_back-c-stl/
+* https://www.interviewsansar.com/cpp-map-insert/
+* https://www.cplusplus.com/reference/list/list/insert/
+* https://www.cplusplus.com/doc/tutorial/arrays/
+* https://www.tutorialspoint.com/how-do-i-find-the-length-of-an-array-in-c-cplusplus
+* https://stackoverflow.com/questions/51609816/return-float-array-from-a-function-c
+* https://www.programiz.com/cpp-programming/library-function/cmath/round
+* https://askubuntu.com/questions/527665/undefined-reference-to-symbol-expglibc-2-2-5
+* https://en.cppreference.com/w/cpp/numeric/math/round
+* https://stackoverflow.com/questions/19901934/libpthread-so-0-error-adding-symbols-dso-missing-from-command-line
+
 
 ### 19.05.2021
+* J'ai commencé la journée en continuant la modification du code `C++`
+    * J'ai d'abord récupérer les valeurs d'angle plusieurs fois afin d'éffectuer un lissage à l'aide de moyennes
+        * J'ai eu une erreur avec Numpy `numpy.core.multiarray failed to import`, pour régler le problème, j'ai dû le mettre à jour avec la commande : `pip install -U numpy` 
+    * Ensuite, j'ai créé un fichier lançant le projet et récupérant les données présentes dans la console
+        * J'ai effectué de traitement de texte pour récupérer les données
+    * Ensuite, j'ai été me documenter sur la libraire `Matplotlib`
+        * J'ai d'abord eu une erreur avec la plugin utilisé pour le rendu `PyQT5`, pour régler le soucis, j'ai dû installer les packages avec la commande suivante : `sudo apt install pyqt5-dev-tools pyqt5-dev`
+        * J'ai pris le code d'exemple présent [ici](https://matplotlib.org/stable/gallery/pie_and_polar_charts/polar_scatter.html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py)
+        * Mais j'avais un bug que je ne comprennais pas, ce dernier m'affichait une fenêtre vide, tel que je voyais à travers la fenêtre qui était sensé affiché le graphique.
+        * J'ai demandé de l'aide à M. Burgener, et il m'a dit d'utiliser `plt.NOM_DE_LA_MÉTHODE` car dans le code d'exemple, il utilise un objet `figure()`
+        * Voici le rendu du graphique généré par le code d'exemple : 
+
+![Affichage du graphique généré par le code d'exemple](./images/test_graph.png "Affichage du graphique généré par le code d'exemple") 
+
 #### Liens consultés
-##### --------
+##### Python
+* https://www.digitalocean.com/community/tutorials/how-to-use-subprocess-to-run-external-programs-in-python-3
+* https://docs.python.org/3/library/subprocess.html#subprocess.CalledProcessError.stderr
+* https://matplotlib.org/stable/gallery/pie_and_polar_charts/polar_scatter.html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py
+* https://matplotlib.org/stable/tutorials/introductory/usage.html#sphx-glr-tutorials-introductory-usage-py
+* https://pythonguides.com/python-degrees-to-radians/
+
+##### C++
+* https://stackoverflow.com/questions/9951678/initializing-an-empty-array-in-c#9951694
+* https://www.cplusplus.com/forum/beginner/106567/
 
 ### 20.05.2021
+* J'ai commencé la journée en continuant de travailler sur l'affichage des éléments reçu par le Lidar
+    * Au début j'ai eu un problème avec les array numpy car en reprennant le code d'exemple, `np.random.rand(N)` retourne un tableau comme suit `[ 2.304320 3.304320 2.304320 ... ]` et lorsque je remplaçait le tableau généré alétoirement par les valeurs que je récupérais du Lidar, j'avais cette erreur `ValueError: x and y must be the same size`
+    * 
+    * mais je n'arrivais pas à comprendre pourquoi  la fonction qui va mettre en place les valeurs sur le graphique me retournait l'erreur
+    * En creusant un peu, j'ai vu que je donnais en X un tableau avec les valeurs X et Y donc j'ai pu me rendre compte qu'en fait la valeur `theta` du code d'exemple représentait la variable x mais pas en terme de position mais en terme d'angles et que la variable `r` représentait la valeur Y à placer sur le graphique
+
+```python
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+# Fixing random state for reproducibility
+np.random.seed(19680801)
+
+# Compute areas and colors
+N = 150
+r = 2 * np.random.rand(N)
+theta = 2 * np.pi * np.random.rand(N)
+area = 200 * r**2
+colors = theta
+
+fig = plt.figure()
+ax = fig.add_subplot(projection='polar')
+c = ax.scatter(theta, r, c=colors, s=area, cmap='hsv', alpha=0.75)
+
+```
+
+* Je m'en suis rendu compte car en plus d'avoir vu qu'il s'agissait des paramètres x et y dans la documentation, je trouvais vraiment étrange qu'il y aie des valeurs négatives en terme de distance vu que dans le programme `C++` j'ai fais un tri des données.
+
+![Affichage du graphique avec des valeurs étranges généré](./images/graph_weird_values.png "Affichage du graphique avec des valeurs étranges généré") 
+
+```python
+r = 1500
+for angle, distance in rows:
+    data.append((
+        math.sin(math.radians(angle) * distance), 
+        math.cos(math.radians(angle) * distance)))
+
+plt.scatter(data, r, c=colors, s=area, cmap="hsv", alpha=0.75)
+
+```
+
+* Vu que j'utilisais les calculs présent sur le tableau pour trouver les coordonées à afficher sur le graphique, puis je me suis dit qu'en fait, le `theta` représentait un angle en radian, vu que dans l'exemple, il s'agit d'une valeur multipliéé par 2 pi.
+
+* Et par conséquent que `r` était la valeur à placer sur le graphique, donc j'ai itéré sur les les lignes du tableau de données splité en [`tuple`](https://www.w3schools.com/python/python_tuples.asp) pour uniquement donner l'angle en radian avec sa valeur dans des tableau différents pour X et Y :
+
+
+```python
+data_x = []
+data_y = []
+for angle, distance in rows:
+    data_x.append(math.radians(angle))
+    data_y.append(distance)
+
+plt.subplot(projection="polar")
+plt.scatter(data_x, data_y, s=1)
+
+```
+
+* Et voici le résultat : 
+
+![Affichage du graphique généré avec de bonnes valeurs](./images/graph_good_values.png "Affichage du graphique généré avec de bonnes valeurs") 
+    
 #### Liens consultés
-##### --------
+##### Python
+* https://numpy.org/doc/stable/reference/random/generated/numpy.random.rand.html#numpy.random.rand
+* https://matplotlib.org/stable/gallery/pie_and_polar_charts/polar_scatter.html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py
+html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py
+* https://www.geeksforgeeks.org/how-to-convert-float-to-int-in-python/
+* https://www.geeksforgeeks.org/convert-string-to-float-in-python/
+* https://stackoverflow.com/questions/41659535/valueerror-x-and-y-must-be-the-same-size#41661392
 
 ### 21.05.2021
 #### Liens consultés
