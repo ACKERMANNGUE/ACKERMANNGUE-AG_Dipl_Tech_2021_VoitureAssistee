@@ -1019,7 +1019,6 @@ cmap = matplotlib.colors.LinearSegmentedColormap.from_list(cmap_name, colors)
 ##### Python
 * https://numpy.org/doc/stable/reference/random/generated/numpy.random.rand.html#numpy.random.rand
 * https://matplotlib.org/stable/gallery/pie_and_polar_charts/polar_scatter.html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py
-html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py
 * https://www.geeksforgeeks.org/how-to-convert-float-to-int-in-python/
 * https://www.geeksforgeeks.org/convert-string-to-float-in-python/
 * https://stackoverflow.com/questions/41659535/valueerror-x-and-y-must-be-the-same-size#41661392
@@ -1027,8 +1026,162 @@ html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py
 * https://matplotlib.org/stable/gallery/color/custom_cmap.html
 
 ### 21.05.2021
+* J'ai continué le programme affichant les données du Lidar en temps réel
+    * Au début j'ai eu une erreur qui me disait que je ne pouvais pas convertir la valeur string float, mais j'ai vite compris lorsque j'affichais la données qu'elle avait un `\n`, une fois retiré cela fonctionnait
+    * J'ai tenté de changer de manière d'utiliser mon `subprocess` avec un Popen car je me suis dit qu'étant donné que la console (pour le programme `C++`) retourne du contenu en temps réel que si je lisais ligne par ligne que ça pourrait être une bonne idée alors j'ai tenté la manière de faire [ici présente](https://www.endpoint.com/blog/2015/01/28/getting-realtime-output-using-python) mais ça n'a pas fonctionné, au contraire ça ne récupérais rien
+    * J'ai donc regardé comment rendre mon code asynchrone en lisant [cet article](https://stackoverflow.com/questions/803265/getting-realtime-output-using-subprocess) car la méthode que j'utilisais de lire le contenu que retourne le code `C++` le faisait en continue et cela était bloquant
+    * J'ai commencé à mettre en place le code ici présent :
+
+
+```python
+
+import asyncio
+from asyncio.subprocess import PIPE
+from asyncio import create_subprocess_exec
+
+
+async def _read_stream(stream, callback):
+    while True:
+        line = await stream.readline()
+        if line:
+            callback(line)
+        else:
+            break
+
+
+async def run(command):
+    process = await create_subprocess_exec(
+        *command, stdout=PIPE, stderr=PIPE
+    )
+
+    await asyncio.wait(
+        [
+            _read_stream(
+                process.stdout,
+                lambda x: print(
+                    "STDOUT: {}".format(x.decode("UTF8"))
+                ),
+            ),
+            _read_stream(
+                process.stderr,
+                lambda x: print(
+                    "STDERR: {}".format(x.decode("UTF8"))
+                ),
+            ),
+        ]
+    )
+
+    await process.wait()
+
+
+async def main():
+    await run("docker build -t my-docker-image:latest .")
+
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+```
+* En implémentant le code, j'ai eu une autre erreur `cannot unpack non-iterable float`. Je me suis rendu compte par la suite que j'utilisais encore le tuple pour faire le parcours de la boucle pour les placer sur le graphique 
+
+```python
+
+for angle, distance in rows:
+    data_x.append(math.radians(angle))
+    data_y.append(distance)
+
+```
+
+* j'utilise donc array simple :
+
+```python
+
+for distance in rows:
+        data_x.append(math.radians(angle))
+        data_y.append(distance)
+        angle += 1
+
+```
+
+* Donc vu que pour le code asynchrone lis le contenu de la console en temps réel ligne par ligne, j'ai dû le modifié ainsi : 
+
+```python
+
+async def _read_stream(stream, callback):
+    while True:
+        line = await stream.readline()
+        if line:
+            callback(line.split(b','))
+        else:
+            break
+
+async def run(should_scan):
+    command = ("./simple_grabber /dev/ttyUSB0 " + should_scan).split()
+    process = await create_subprocess_exec(*command, stdout=PIPE, stderr=PIPE)
+    await asyncio.wait(
+        [
+            _read_stream(
+                process.stdout,
+                # x will be the line
+                lambda x: {
+                    get_radar_data(x)
+                }
+            )
+        ]
+    )
+    await process.wait()
+
+    async def main(should_scan):
+    await run(should_scan)
+
+if __name__ == "__main__":
+
+time_between_scans = 6
+run_scan = True
+# value "hardcoded" in order to preshot the Flask use case
+should_scan = "1"
+try:
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main(should_scan))
+except KeyboardInterrupt:
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main("0"))
+```
+
+
+
+* Pour avoir accès de manière constante au tableau de données, j'en ai fait une variable global `rows`
+* On peut donc avoir accès en quasi temps réel au scanner : 
+
+![Affichage des données en temps réel](./images/radar_animation.gif "Affichage des données en temps réel")
+
+* Vu que dans l'interface utilisateur, il y a un endroit ou le radar doit être activé j'ai commencer à implémenter le programme python que j'ai fait 
+
 #### Liens consultés
-##### --------
+##### Matplotlib
+* https://stackoverflow.com/questions/11874767/how-do-i-plot-in-real-time-in-a-while-loop-using-matplotlib#15720891
+* https://matplotlib.org/stable/gallery/color/custom_cmap.html
+* https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html#matplotlib.colors.LinearSegmentedColormap.from_list
+* https://stackoverflow.com/questions/8213522/when-to-use-cla-clf-or-close-for-clearing-a-plot-in-matplotlib#8228808
+* https://www.pythonpool.com/clear-plot-matplotlib/
+##### Python
+* https://stackoverflow.com/questions/15318208/capture-control-c-in-python#15319004
+* https://stackoverflow.com/questions/803265/getting-realtime-output-using-subprocess
+* https://www.endpoint.com/blog/2015/01/28/getting-realtime-output-using-python
+* https://docs.python.org/3.8/library/codecs.html#codecs.StreamReader.readline
+* https://stackoverflow.com/questions/19243020/in-python-get-the-output-of-system-command-as-a-string#19243080
+* https://www.delftstack.com/howto/python/how-to-read-input-from-stdin-in-python/
+* https://www.programcreek.com/python/example/82053/asyncio.wait
+* https://stackoverflow.com/questions/4056768/how-to-declare-array-of-zeros-in-python-or-an-array-of-a-certain-size
+* https://stackoverflow.com/questions/54273077/cannot-unpack-non-iterable-numpy-float64-object-python3-opencv
+* https://java2blog.com/typeerror-a-bytes-like-object-is-required-not-str/
+* https://stackoverflow.com/questions/62608482/getting-an-error-like-typeerror-cannot-unpack-non-iterable-float-object#62609060
+* https://www.geeksforgeeks.org/python-convert-float-string-list-to-float-values/
+* https://www.geeksforgeeks.org/global-local-variables-python/
+* https://stackoverflow.com/questions/12665994/function-not-changing-global-variable
+
+##### C++
+* https://www.tutorialspoint.com/how-can-i-clear-console-using-cplusplus
 
 ### 25.05.2021
 #### Liens consultés
