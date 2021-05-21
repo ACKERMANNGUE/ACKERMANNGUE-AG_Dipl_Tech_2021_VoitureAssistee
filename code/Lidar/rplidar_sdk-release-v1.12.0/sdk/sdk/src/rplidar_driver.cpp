@@ -1788,7 +1788,7 @@ u_result RPlidarDriverImplCommon::stop(_u32 timeout)
 
 u_result RPlidarDriverImplCommon::grabScanData(rplidar_response_measurement_node_t * nodebuffer, size_t & count, _u32 timeout)
 {
-    DEPRECATED_WARN("grabScanData()", "grabScanDataHq()");
+    //DEPRECATED_WARN("grabScanData()", "grabScanDataHq()");
 
     switch (_dataEvt.wait(timeout))
     {
