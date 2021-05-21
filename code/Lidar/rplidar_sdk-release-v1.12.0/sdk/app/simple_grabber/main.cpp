@@ -127,7 +127,6 @@ float *capture_and_display(float angle_dist[], RPlidarDriver *drv)
     rplidar_response_measurement_node_t nodes[8192];
     size_t count = _countof(nodes);
 
-
     // fetech extactly one 0-360 degrees' scan
     ans = drv->grabScanData(nodes, count);
     if (IS_OK(ans) || ans == RESULT_OPERATION_TIMEOUT)
@@ -161,6 +160,17 @@ int main(int argc, const char *argv[])
     const char *opt_com_path = NULL;
     _u32 opt_com_baudrate = 115200;
     u_result op_result;
+    bool run_scan = false;
+
+    // check if the the program should run scans
+    if(argc == 3) {
+        char arg = (char)*argv[2];
+        if(arg == '1') {
+            run_scan = true;
+        } else if(arg == '0') {
+            run_scan = false;
+        }
+    }
 
     if (argc < 2)
     {
@@ -168,8 +178,8 @@ int main(int argc, const char *argv[])
         return -1;
     }
     opt_com_path = argv[1];
-    if (argc > 2)
-        opt_com_baudrate = strtoul(argv[2], NULL, 10);
+    // if (argc > 2)
+    //     opt_com_baudrate = strtoul(argv[2], NULL, 10);
 
     // create the driver instance
     RPlidarDriver *drv = RPlidarDriver::CreateDriver(DRIVER_TYPE_SERIALPORT);
@@ -241,7 +251,7 @@ int main(int argc, const char *argv[])
                 printf("Error.");
                 break;
             }
-            printf(" (errorcode: %d)\n", healthinfo.error_code);
+            // printf(" (errorcode: %d)\n", healthinfo.error_code);
         }
         else
         {
@@ -273,7 +283,7 @@ int main(int argc, const char *argv[])
         int size_arr_angle_dist = (sizeof(angle_dist) / sizeof(angle_dist[0]));
         // used as a code in order to treat the data below in another process
         //printf("<<<\n");
-        for (size_t i = 0; i < nb_scan; i++)
+        while (run_scan)
         {
             //reset the array to empty (empty represented by the 0)
             std::fill_n(angle_dist, max_size_arr_angle_dist, 0.0f);
@@ -300,12 +310,13 @@ int main(int argc, const char *argv[])
                     angle_dist[j] = (angle_dist[j] + angle_dist_tmp[j]) / 2;
                 }
             }
+            //system("clear");
+            for (size_t j = 0; j < max_size_arr_angle_dist; j++)
+            {
+                printf("%d,%f\n", j, angle_dist[j]);
+            }
         }
 
-        for (size_t j = 0; j < max_size_arr_angle_dist; j++)
-        {
-            printf("%d,%f\n", j, angle_dist[j]);
-        }
     } while (0);
 
     drv->stop();
