@@ -80,6 +80,8 @@
                 </ul>
 
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <iframe class="cameras" id="cnvCam0" src="http://192.168.50.88:5000/streaming_camera"></iframe>
             </div>
@@ -91,6 +93,11 @@
             </div>
             <div class="col-md-6">
                 <iframe class="cameras" id="cnvCam3" src="http://192.168.50.88:5000/streaming_camera"></iframe>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <img src="../static/test.png" alt="radar" />
             </div>
         </div>
     </form>
@@ -107,6 +114,7 @@ const CODE_LEFT = 3;
 const CODE_OTHER = 4;
 
 const SENSOR_CAMERA = "camera"
+const SENSOR_LIDAR = "lidar"
 
 const IP_RSP_FRONT = 88;
 const IP_RSP_RIGHT = -1;
@@ -162,6 +170,9 @@ $(document).ready(function () {
         ip_address += ":5000"
         // set the URL
         endpoint = `http://${ip_address}/${cbx_value}/${cbx_state}`
+        if(cbx_value == SENSOR_LIDAR){
+            endpoint = `/bg_processing_lidar/${cbx_state}`
+        }
         execute(endpoint);
     });
 });
