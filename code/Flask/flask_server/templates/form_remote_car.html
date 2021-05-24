@@ -64,7 +64,7 @@ $(document).on('input', '#rngRotationAngle', function() {
 
 function execute(){
     $.ajax({
-            url: '/bg_processing',
+            url: '/bg_processing_car',
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
