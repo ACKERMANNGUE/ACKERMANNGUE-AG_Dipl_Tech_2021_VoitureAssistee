@@ -97,7 +97,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <img src="../static/test.png" alt="radar" />
+                <img src="{{ url_for('video_feed', state = 0) }}" id="lidar" alt="radar" />
             </div>
         </div>
     </form>
@@ -172,6 +172,7 @@ $(document).ready(function () {
         endpoint = `http://${ip_address}/${cbx_value}/${cbx_state}`
         if(cbx_value == SENSOR_LIDAR){
             endpoint = `/bg_processing_lidar/${cbx_state}`
+            $("#lidar").attr("src", `/video_feed/${cbx_state}`)
         }
         execute(endpoint);
     });

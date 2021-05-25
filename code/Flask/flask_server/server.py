@@ -19,6 +19,8 @@ import sys
 import asyncio
 from asyncio.subprocess import PIPE
 from asyncio import create_subprocess_exec
+import cv2
+from PIL import Image
 
 
 DEFAULT_MODE = False
@@ -40,15 +42,15 @@ SENSOR_BRIGHTPI = "bright-pi"
 SENSOR_CAMERA = "camera"
 SENSOR_FLYINGFISH = "flying-fish"
 
+CHART_PATH = "static/img/"
+CHART_NAME = "test.jpg"
+
 
 def get_grounded_state(self):
     """Will stop the motors if the ground isn't detected anymore"""
     car = CarController()
     if GPIO.input(23):
         car.stop_moving()
-
-
-rows = []
 
 
 def get_radar_data(row):
@@ -93,12 +95,12 @@ def make_chart(time_redraw):
         angle += 1
 
     # set the projection to polar
-    plt.title("Lidar : ")
     plt.subplot(projection="polar")
     plt.scatter(data_x, data_y, s=area, c=data_y, cmap=cmap)
     plt.pause(time_redraw)
     plt.ylim(0, 2000)
-    plt.savefig("static/test.png")
+    plt.savefig(CHART_PATH + CHART_NAME)
+    Image.open(CHART_PATH + CHART_NAME).save(CHART_PATH + CHART_NAME, "JPEG")
     time.sleep(time_redraw)
     plt.clf()
 
@@ -144,7 +146,29 @@ async def main(should_scan):
 size_rows = 360
 rows = [0] * size_rows
 
+loop = asyncio.new_event_loop()
+
 app = Flask(__name__)
+
+def lidar_stream(state=None):
+    
+    while state == MODE_ON:
+        try:
+            # get the picture
+            radar = cv2.imread(CHART_PATH + CHART_NAME)
+            radar = cv2.imencode(".jpg", radar)[1]
+            # convert it to bytes
+            radar_bytes = radar.tobytes()
+            # async encoding
+            yield (b'--frame\r\n'b'Content-Type: image/png\r\n\r\n' + radar_bytes + b'\r\n\r\n')
+        except RuntimeError:
+            print("error")
+            
+        
+@app.route("/video_feed/<int:state>")
+def video_feed(state=None):
+    # prepare the response to send
+    return Response(lidar_stream(state), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route("/")
@@ -310,7 +334,6 @@ def error(msg):
     return render_template("error.html", msg=msg)
 
 
-loop = asyncio.new_event_loop()
 
 if __name__ == "__main__":
     Bootstrap(app)
