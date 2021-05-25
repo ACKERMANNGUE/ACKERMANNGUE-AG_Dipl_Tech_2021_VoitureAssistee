@@ -1329,10 +1329,75 @@ except RuntimeError:  # no event loop running:
 * https://www.tutorialspoint.com/matplotlib/matplotlib_setting_limits.htm
 
 ### 25.05.2021
+* J'ai commencé la journée en tentant de mettre en place le système de streaming que j'avais utilisé pour la caméra, mais je ne comprennais pas pourquoi ça faisait crash le programme
+* J'ai donc tenté d'afficher l'image du scanner avec OpenCV mais j'ai eu cette erreur : `error: (-2:Unspecified error) Can't initialize GTK backend in function 'cvInitSystem'` mais c'est parce que je lançais le code depuis le SSH et non depuis le raspberry pi, car dès que je l'ai lancé depuis le raspberry, j'ai eu la fenêtre qui s'affichait mais instantanément après j'ai eu cette erreur : `UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
+  plt.title("Lidar : ")
+WARNING: QApplication was not created in the main() thread.
+qt5ct: using qt5ct plugin
+/usr/local/lib/python3.7/dist-packages/matplotlib/backends/backend_qt5.py:119: Warning: g_main_context_push_thread_default: assertion 'acquired_context' failed`
+* Cette erreur survenait car je tentais d'afficher l'image avec la méthode d'opencv : `cv2.imshow(img)`, j'utilisais ça pour voir si l'image se mettait bien à jour et la réponse est que oui donc je l'ai enlevé afin d'éviter cette erreur sauf que quand je tente de prévisualiser l'image sur la route associée : `/video_feed/<int:state>`, l'image n'est pas transmise.
+* Voici la manière que j'utilise pour faire le stream :
+
+```python
+
+def lidar_stream(state=None):
+    # get the picture
+    radar = cv2.imread("static/img/test.png")
+    # convert it to bytes
+    radar_bytes = radar.tobytes()
+    while state == MODE_ON:
+        # async encoding
+        yield (b'--frame\r\n'
+               b'Content-Type: image/png\r\n\r\n' + radar_bytes + b'\r\n\r\n')
+    
+        
+@app.route("/video_feed/<int:state>")
+def video_feed(state=None):
+    # prepare the response to send
+    return Response(lidar_stream(state), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+```
+
+* En réfléchissant, je me suis demandé si c'était utile d'encoder l'image en png vu que je récupérais une image en png, mais je me suis dit qu'il fallait tenter étant donné que ça ne marchait pas. Après avoir rajouté cette ligne : `radar = cv2.imencode(".png", radar)[1]`, l'image s'est affiché.
+* Mais elle ne s'actualisait pas, donc j'ai mis le code qui va chercher l'image et l'encoder dans la boucle, et ça a marché, cependant j'ai des erreurs qui surviennent de temps en temps lors du réaffichage de l'image mais en soit ça fonctionne
+* J'ai remarqué que lorsque je relançais le scanner pour la seconde fois depuis l'interface utilisateur, j'avais des problèmes de données (il semblerait) :
+
+![Affichage des données en temps réel mais avec des données étranges](./images/graph_weird_values.gif "Affichage des données en temps réel mais avec des données étranges")
+
+* L'une des erreurs que j'ai eu me disait : `libpng error: Read Error`, en lisant [cet article](https://stackoverflow.com/questions/8827016/matplotlib-savefig-in-jpeg-format), j'ai pu voir que les gens disaient d'utiliser un format JPEG pour les images avec la méthode `plt.savefig("static/img/test.jpg", "JPEG")`, si on spécifie pas le `JPEG` en paramètre, on a l'erreur suivante : `Premature end of JPEG file` et ça a réglé le soucis
+* Peu après, je me suis rendu compte que j'ai toujours des soucis, il me dit que cette méthode requiert 2 arguments et que je lui en fournit 3 : `plt.savefig("static/img/test.jpg", "JPEG")`, n'ayant pas compris pourquoi il me disait ça alors que ça fonctionnait auparavant, j'ai tenté utiliser cette manière de faire, présente dans l'article.
+
+```python
+import Image
+import matplotlib.pyplot as plt
+
+plt.savefig('testplot.png')
+Image.open('testplot.png').save('testplot.jpg','JPEG')
+
+```
+
+* Ceci a résolu mes soucis
 
 #### Liens consultés
 
-##### --------
+##### Python
+* https://stackoverflow.com/questions/59809381/capture-video-stream-flask#62530004
+* https://flask.palletsprojects.com/en/1.1.x/patterns/streaming/
+* https://stackoverflow.com/questions/44663347/python-opencv-reading-the-image-file-name#44663464
+* https://stackoverflow.com/questions/54417742/werkzeug-routing-builderror-could-not-build-url-for-endpoint-success-did-you
+* https://pythonexamples.org/python-opencv-imshow/
+* https://www.programiz.com/python-programming/methods/built-in/bytes
+* https://www.pyimagesearch.com/2019/09/02/opencv-stream-video-to-web-browser-html-page/
+* https://stackoverflow.com/questions/8827016/matplotlib-savefig-in-jpeg-format
+* https://stackoverflow.com/questions/46683264/libpng-error-read-error-by-using-open-cv-imread
+* https://github.com/rytilahti/python-miio/issues/201
+* https://he-arc.github.io/livre-python/pillow/index.html
+* https://stackoverflow.com/questions/63433777/savefig-takes-2-positional-arguments-but-3-were-given-how-to-pass-only-the#63434057
+
+##### HTML / Jquery
+* https://stackoverflow.com/questions/4390627/whats-the-correct-way-to-set-src-attribute-in-jquery#4390635
+* https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_Types?retiredLocale=ar
+* https://developpaper.com/using-multipart-x-mixed-replace-to-realize-http-real-time-video-streaming/
 
 ### 26.05.2021
 
