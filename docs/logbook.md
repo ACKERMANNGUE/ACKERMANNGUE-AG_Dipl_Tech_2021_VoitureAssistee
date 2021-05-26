@@ -1400,10 +1400,36 @@ Image.open('testplot.png').save('testplot.jpg','JPEG')
 * https://developpaper.com/using-multipart-x-mixed-replace-to-realize-http-real-time-video-streaming/
 
 ### 26.05.2021
+* Aujourd'hui j'ai commencé à faire les premiers branchement pour la voiture étant donné que la voiture
+    * En un premier temps, j'ai commencé par brancher les flying-fish puis le phare avant mais je me suis rendu compte que les rapsberry pi ne se connectaient pas au réseau donc j'ai été vérifié l'activation du WiFi sur les Raspberry Pi
+    * J'ai branché les capteurs avant, et je me suis rendu compte que le flying-fish avant gauche ne fonctionnait pas. Il est bien alimenté, mais quand je change la valeur du potentiomètre, rien ne se passe et la led qui indique qu'un élément est détecté ne s'allume pas
+    * Quand j'ai vérifié la carte SD pour le Pi 0, j'ai vu un problème apparaître `Kernel panic-not syncing: VFS: unable to mount root fs on unknown- block(179,6)`, j'ai tenté de faire ce que [cet article](https://raspberrypi.stackexchange.com/questions/40854/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block179-6#40855) propose mais ça n'a pas fonctionné. 
+        * J'ai regardé les différentes cartes SD
+            * 1 fonctionne mais les 2 autres (celle que j'avais copiées) donc il va falloir que je refasse l'image des carte SD afin qu'elle soit fonctionnelles
+    * J'ai tenté de me connecter à distance aux raspberry pi mais le problème que j'ai eu avec le Pi 4 fu ça : `no buffer space available` et en voulant chercher sur internet j'ai remarqué que je n'avais plus accès à internet (depuis mon poste de travail), j'ai tenté de ping google, et ça a fonctionné donc pour potentiellement enlever les erreurs, j'ai redémarré mon poste
+    * Ensuite, j'ai fait le test des différents élément suivant :
+        * La connexion à la voiture, ça fonctionne, mais j'ai toujours des problèmes avec la connexion bluetooth. De temps, la connexion ne se fait pas ou je ne sais pas trop quoi. Vu que j'utilise une singleton pour la connexion à la voiture, je vais tenter d'utiliser une variable global car j'ai l'impression que le singelton fait tout crash
+        * La gestion des capteurs à distance
+            * La caméra, fonctionne parfaitement
+            * Le lidar, fonctionne très bien sauf que le graphique du radar des fois plante et ne permet plus de continuer le stream du graphique
+            * Le bright pi, fonctionne parfaitement
+    * J'ai fait cette image pour pouvoir avoir un aperçu de ce à quoi ressemble la voiture après avoir travaillé dessus :
+
+![Branchement de la voiture](./images/voiture/branchement_voiture.png "Branchement de la voiture")
+
+* J'ai fait une petite démonstration à mes camarades de classe ainsi qu'à messieurs Aigroz et Garcia
+
+
 
 #### Liens consultés
 
-##### --------
+##### Python
+* https://www.pythoncentral.io/how-to-check-if-an-object-has-an-attribute-in-python/
+
+##### Autre
+* https://serverfault.com/questions/131935/network-error-no-buffer-space-available#616474
+* https://www.javatpoint.com/get-hostname-from-ip-address
+* https://raspberrypi.stackexchange.com/questions/40854/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block179-6#40855
 
 ### 27.05.2021
 
