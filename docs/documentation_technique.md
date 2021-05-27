@@ -179,6 +179,13 @@ Le Pi 0 WiFi détient moins d'éléments que le Pi 4, cependant il en détient q
 
 ![Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants](./images/raspberrys/rsp0wifi_schema_captionned.png "Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants")
 
+###### Clonage de carte SD
+
+Pour cloner les cartes SD, j'utilise le programme [balenaEtcher](https://www.balena.io/etcher/). 
+Une fois les cartes SD branchés en USB au PC, lorsque le programme est lancé, il faut sélectionner le disque à copier, puis le disque sur lequelle la copie doit être effectuée et cliquer sur `Flash` : 
+
+![Différentes étapes d'utilisation de balenaEtcher](./images/clone_sd/balenaEtcher_differentes_etapes.png "Différentes étapes d'utilisation de balenaEtcher")
+
 #### Caméra
 
 La caméra est un module permettant d'avoir accès à un flux vidéo.
@@ -1029,7 +1036,7 @@ Dans notre cas, avec M. Moreno interprétant le Raspberry Pi _principal_ qui int
 
 ![breadboard de M. Ackermann](./images/raspberrys/GPIO-connected_pin_remote-gpio.png "breadboard de M. Ackermann")
 
-#### Matplotlib
+### Matplotlib
 
 Matplotlib est une librairie complète permettant la création de statistiques sur un large panel de graphiques utilisable en Python.
 
@@ -1105,6 +1112,138 @@ Voici un exemple du scanner en un quasi temps réel :
 ![Affichage des données en temps réel](./images/radar_animation.gif "Affichage des données en temps réel")
 
 Ici on parle de quasi temps réel car comme vu dans le section parlant du Lidar, on traite les données émises par l'API en temps réel de manière asynchrone, mais le graphique étant une image enregistrée, le temps d'écriture de l'image ainsi que le temps de lecture fait que les images s'accumulent et que par conséquent l'image gagne du délai
+
+
+### Gestion des capteurs à distance
+
+Pour gérer les capteurs à distance, j'utilise 2 serveurs Flask différents.
+
+Le premier est le serveur principale tournant sur le Pi 4, celui sur lequel l'utilisateur sera pour avoir accès au tableau de bord, à la télécommande pour la voiture
+Le second est le serveur tournant sur les Pi 0 WiFi, son rôle est d'effectuer des actions en fonction des divers routes utilisées. Il y a 2 routes très importantes. 
+1. `@app.route('/streaming_camera')`
+2. `@app.route('/<string:sensor>/<int:state>', methods=['POST', 'OPTIONS'])`
+
+La première, sert de route qui affiche le flux vidéo de la caméra.
+La seconde est celle qui effectue les actions sur les capteurs, voici un exemple : `192.168.50.230:5000/camera/1`. À noter, il est important d'utiliser `Flask-CORS` comme suit :
+
+```python
+
+...
+
+from flask_cors import CORS
+from flask_cors.decorator import cross_origin
+
+...
+
+app = Flask(__name__)
+cors = CORS(app, withCredentials = True)
+
+...
+
+@app.route('/<string:sensor>/<int:state>', methods=['POST', 'OPTIONS'])
+@cross_origin()
+def sensor_control(sensor=None, state=None):
+...
+
+```
+
+Car vu que l'on accède à cette route depuis une autre adresse IP, il est nécessaire d'ajouter cette ligne `@cross_origin()` car elle permet de laisser l'accès à cette route depuis un autre domaine. De plus, il est important d'ajouter `'OPTIONS'` car lors de la première _lecture_ de CORS, cette méthode sera utilisée en tant qu'approbation de la part du serveur.
+
+Dans la page du tableau de bord pour l'utilisateur se trouve l'appel AJAX qui va effectué l'action :
+
+```javascript
+
+<script type="text/javascript">
+const STATE_ON = 1;
+const STATE_OFF = 0;
+
+const CODE_FRONT = 0;
+const CODE_RIGHT = 1;
+const CODE_BACK = 2;
+const CODE_LEFT = 3;
+const CODE_OTHER = 4;
+
+const SENSOR_CAMERA = "camera"
+const SENSOR_LIDAR = "lidar"
+
+const IP_RSP_FRONT = 10;
+const IP_RSP_RIGHT = 11;
+const IP_RSP_BACK = 12;
+const IP_RSP_LEFT = 13;
+const IP_RSP_MAIN = 14;
+
+$(document).ready(function () {
+    $("#form_dashboard :checkbox").change(function () {
+        let endpoint = "";
+        let ip_address = "192.168.50.";
+        // get the value of the checkbok, it can be "bright-pi", "camera" or "flying-fish"
+        let cbx_value = $(this).val()
+        // get the name of the checkbox
+        let cbx_name = $(this).attr('name')
+        // get the last char of the checkbox's name in order to know which side needs to be changed
+        // example : cbxLight0, the 0 = the bright pi front sensors
+        let code_position = parseInt(cbx_name.substring(cbx_name.length - 1, cbx_name.length))
+        // reload the iframe of the selected camera
+        if(cbx_value == SENSOR_CAMERA){
+            var iframe = document.getElementById(`cnvCam${code_position}`);
+            console.log(iframe.src)
+            iframe.src = iframe.src
+        }
+
+        // choose the correct ip for the raspberry 
+        switch (code_position) {
+            case CODE_FRONT:
+                ip_address+=IP_RSP_FRONT
+                break;
+            case CODE_RIGHT:
+                ip_address+=IP_RSP_RIGHT
+                break;
+            case CODE_BACK:
+                ip_address+=IP_RSP_BACK
+                break;
+            case CODE_LEFT:
+                ip_address+=IP_RSP_LEFT
+                break;
+            case CODE_OTHER:
+                ip_address+=IP_RSP_MAIN
+                break;
+            default:
+                break;
+        }
+        // verify the state of the checkbox
+        if (this.checked) {
+            cbx_state = STATE_ON;
+        } else {
+            cbx_state = STATE_OFF;
+        }
+        // add the Flask port
+        ip_address += ":5000"
+        // set the URL
+        endpoint = `http://${ip_address}/${cbx_value}/${cbx_state}`
+        if(cbx_value == SENSOR_LIDAR){
+            endpoint = `/bg_processing_lidar/${cbx_state}`
+            $("#lidar").attr("src", `/video_feed/${cbx_state}`)
+        }
+        execute(endpoint);
+    });
+});
+
+function execute(endpoint) {
+    $.ajax({
+        url: endpoint,
+        type: "POST",
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (error) {
+            console.log(error);
+        },
+    });
+}
+
+    </script>
+
+```
 
 ## Dates importantes
 

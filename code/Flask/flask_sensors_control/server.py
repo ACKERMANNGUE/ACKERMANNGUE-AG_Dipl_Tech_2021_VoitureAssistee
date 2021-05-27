@@ -14,11 +14,8 @@ from libs.camera import VideoCamera
 import libs.constants as constants
 import json
 
-
-
 app = Flask(__name__)
 cors = CORS(app, withCredentials = True)
-
 
 @app.route('/')
 def hello_world():

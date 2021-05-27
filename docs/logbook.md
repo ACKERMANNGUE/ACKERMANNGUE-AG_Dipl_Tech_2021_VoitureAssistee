@@ -1500,7 +1500,15 @@ def get_grounded_state(self):
     * Ensuite, j'ai fais une copie de cette carte avec [cette application](https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html) dans une autre similaire en taille
       * Pendant la copie de la carte SD, j'ai continué la documentation, en prennant des captures d'écrans pour la configuration de l'émetteur WiFi
     * Une fois la copie terminée, j'ai testé l'installation, mais ça n'a pas fonctionné. J'ai été demandé à M. Beney comment il avait fait pour cloner ses cartes SD ce à quoi il m'a répondu qu'il a utilisé la commande `DD` ainsi que `balenaEtcher`. 
-        * Vu que chez lui ceci à fonctionner, je me suis dit que j'allais faire de même
+        * Vu que chez lui ceci a fonctionné, je me suis dit que j'allais faire de même.
+        * Je n'ai pas eu besoin d'utiliser la commande `DD` car `balenaEtcher` permet de cloner un disque.
+    * J'ai installé les 4 cartes SD dans le Pi 0 WiFi en m'assurant avant que chaque carte SD avait bien tous les différents éléments nécessaires
+        * Pendant la copie des différentes cartes, j'ai fait cette image montrant comment utiliser balenaEtcher : 
+
+![Différentes étapes d'utilisation de balenaEtcher](./images/clone_sd/balenaEtcher_differentes_etapes.png "Différentes étapes d'utilisation de balenaEtcher")
+
+* J'ai ensuite continuer la documentation
+
 
 #### Liens consultés
 
