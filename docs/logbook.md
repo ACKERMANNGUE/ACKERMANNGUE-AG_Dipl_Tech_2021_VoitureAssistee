@@ -1478,11 +1478,49 @@ def get_grounded_state(self):
         * Cependant, ils disent que cette option est utilisable uniquement sur les cartes de 8Go ou moins, mais pour ma part j'utilise une carte SD de 16Go.
     * Après avoir fait la copie de la carte et de l'avoir mise sur un Pi 4 pour tester l'installation, j'ai toujours le même problème je vais donc essayer de refaire une image car c'est peut-être l'image de base qui est défectueuse
     * Je me suis rendu compte d'une erreur que j'ai faite, n'ayant pas vérifié la taille des cartes SD lors de l'élaboration de l'image, j'ai travaillé sur une carte SD de 64Go et j'essaie de copier cette carte dans une carte de 16Go, évidemment que ça ne fonctionne pas
-    * J'ai donc refait une image sur une carte de 16Go
+    * J'ai donc refait une image sur une carte de 16Go en reconfigurant le Raspberry Pi :
+        * Désactivation du login au démarrage en allant dans la configuration du raspberry pi avec : `sudo raspi-config`, ensuite aller dans `System Options`, ensuite dans `Boot / Auto Login` et `Console Autologin`
+        * Changer le clavier de la langue, aller dans `Localisation Options`, ensuite `Keyboard`, sélectionner le clavier ou la marque de clavier que vous utilisez, dans mon cas `Logitech K120`mais n'étant pas présent dans la liste, j'utilise juste le clavier `Logitech`, ensuite il faut cliquer sur `Other`, allez dans `German (Switerland)`, sélectionner `German (Switzerland) - French (Switzerland)`, sélectionner `The default for the keyboard layout`, `No compose key`
+        * Activer le WiFi : toujours dans la configuration du raspberry pi dans le menu `Localisation Options`, il faut aller dans `WLAN Country Set legal wireless channels for your country`, ensuite dans la sélection des pays, il faut chercher cette ligne `CH Switzerland`, par la suite aller dans `System Options`, `Wireless LAN`, il faut entrer le nom du réseau `rtr_ackermanngue` puis le mot de passe : `Super2012`
+        * Activer les interfaces utilisées : en allant dans `Interface Options` et en activant :
+            * La `Camera`
+            * Le `SSH`
+            * Le `I2C`
+        * Mettre à jour le raspberry pi avec la commande : `sudo apt update && sudo apt full-upgrade`
+        * Installer git : `sudo apt install git`
+            * Cloner le repos : `git clone https://github.com/ACKERMANNGUE/ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee`
+        * Installer les dépendences :
+            * `sudo apt install python3-pip`
+            * `sudo pip3 install flask`
+            * `sudo pip3 install RPi.GPIO`
+            * `sudo apt install python-opencv`
+            * `sudo pip3 install smbus`
+            * `sudo pip3 install picamera`
+        * Une fois installées, j'ai lancé le projet pour faire les tests et ça fonctionne parfaitement
+    * Ensuite, j'ai fais une copie de cette carte avec [cette application](https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html) dans une autre similaire en taille
+      * Pendant la copie de la carte SD, j'ai continué la documentation, en prennant des captures d'écrans pour la configuration de l'émetteur WiFi
+    * Une fois la copie terminée, j'ai testé l'installation, mais ça n'a pas fonctionné. J'ai été demandé à M. Beney comment il avait fait pour cloner ses cartes SD ce à quoi il m'a répondu qu'il a utilisé la commande `DD` ainsi que `balenaEtcher`. 
+        * Vu que chez lui ceci à fonctionner, je me suis dit que j'allais faire de même
 
 #### Liens consultés
 
-##### --------
+##### Raspberry
+* https://learn.pi-supply.com/make/bright-pi-quickstart-faq/
+* https://tutorials-raspberrypi.com/transfer-raspberry-pi-raspbian-os-to-an-sd-card-windows/
+* https://raspberrypi.stackexchange.com/questions/40415/how-to-enable-auto-login#76275
+
+##### Python
+* https://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3
+* https://raspberrypi.stackexchange.com/questions/60774/importerror-no-module-named-rpi#61462
+* https://stackoverflow.com/questions/48012582/pillow-libopenjp2-so-7-cannot-open-shared-object-file-no-such-file-or-directo#50583153
+* https://stackoverflow.com/questions/57860201/importerror-libavcodec-so-57-cannot-open-shared-object-file-no-such-file-or-d
+
+##### Autre
+* https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/
+* https://www.sdcard.org/pdf/SD_CardFormatterUserManualEN.pdf
+* https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html
+* https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html
+* https://www.balena.io/etcher/
 
 ### 28.05.2021
 

@@ -524,9 +524,63 @@ Cela dit, la méthode que j'utilise actuellement se résume à ça :
 
 #### Émetteur WiFi (ASUS RT-AC58U)
 
+Un émetteur sans fil diffuse des ondes en utilisant la fréquence radio (RF). Il permet de rendre une connexion internet sans y être connecté de manière filaire. Pour ce projet, nous utilisons un ASUS RT-AC58U.
+
 ##### Mise en place
 
+###### Branchement
+
+Pour mettre en place le routeur, il faut d'abord brancher l'alimentation dans le port indiqué ainsi que le câble ethernet permettant la connexion à internet dans le port bleu. Pour récupérer les sorties ethernet, il faut les brancher dans les ports jaunes.
+
+![Branchements à faire pour le routeur](./images/asus_wifi/router_branchement.png "Branchements à faire pour le routeur")
+
+Sur le haut du routeur, on peut voir différentes leds s'allumer, voici la signification de ces dernières : 
+
+![Branchements à faire pour le routeur](./images/asus_wifi/router_leds_signification.png "Branchements à faire pour le routeur")
+
+Une fois que le branchement est fait, il faut se rendre sur http://router.asus.com/, la page de connexion vous sera alors affichée. Par défaut, les identifiants pour s'y connecter sont pour le nom d'utilisateur ainsi que pour le mot de passe `admin`.
+
+![Page de connexion](./images/asus_wifi/page_connexion.png "Page de connexion")
+
+###### Configuration
+
+Pour commencer à paramétrer le réseau, il faut en un premier temps cliquer sur le bouton `Quick Internet Setup`
+
+![Bouton de configuration du réseau](./images/asus_wifi/bouton_configuration.png "Bouton de configuration du réseau")
+
+Cette première page sera affichée, vous laissant le choix entre une configuration rapide ou détaillée. Le mode avancé n'étant pas nécessaire, il est préférable de cliquer sur le bouton `Create A New Network`
+
+![Création d'un nouveau réseau](./images/asus_wifi/configuration_creer_nouveau_reseau.png "Création d'un nouveau réseau")
+
+Ensuite, cette page de configuration s'affichera, et vous pourrez renter les différentes informations tel que le SSID (nom du réseau) et son mot de passe. Une fois les différents champs remplis, il faut cliquer sur `Apply`.
+
+![Champs à remplir](./images/asus_wifi/configuration_creer_nouveau_reseau_differents_champs_a_remplir.png "Champs à remplir")
+
+Le routeur va nous demander si l'on veut que `Yandex` soit active, son rôle est de restreindre l'accès aux sites malicieux et aux contenu pour adulte. Dans mon cas, je l'ai activé :  
+
+![Activation de Yandex](./images/asus_wifi/configuration_creer_nouveau_reseau_yandex.png "Activation de Yandex")
+
+Il est fort probable que vous deviez mettre à jour votre appareil avec le firmware :
+
+![Mise à jour du firmware](./images/asus_wifi/configuration_creer_nouveau_reseau_firmware.png "Mise à jour du firmware")
+
+###### Changement des paramètres de connexion à l'interface web
+
+Pour modifier le nom d'utilisateur ainsi que son mot de passe, il faut cliquer sur le bouton `Administration` : 
+
+![Bouton d'administration du réseau](./images/asus_wifi/bouton_administration.png "Bouton d'administration du réseau")
+
+Cette page s'affichera, et il faudra cliquer sur l'onglet `System` afin d'avoir accès à l'interface nous permettant de modifier ces informations : 
+
+![Onglet system](./images/asus_wifi/bouton_administration_system.png "Onglet system")
+
+Une fois dans l'onglet, vous pourrez modifier les informations ici : 
+
+![Changement du nom d'utilisateur ainsi que de son mot de passe pour se connecter à l'interface web](./images/asus_wifi/bouton_administration_system_change_username_and_password.png "Changement du nom d'utilisateur ainsi que de son mot de passe pour se connecter à l'interface web")
+
 ##### Utilisation
+
+Il faut activer le WiFi sur l'appareil que l'on souhaite connecté, une fois les réseaux scannés. Nous devrions pouvoir avoir accès au réseau `le_SSID_du_réseau` et s'y connecter en entrant le mot de passe choisi sur l'interface nous permettant de paramétrer notre réseau.
 
 ### Python Flask
 
