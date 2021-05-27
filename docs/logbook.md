@@ -1455,6 +1455,7 @@ def get_grounded_state(self):
 ```
 
 - Pour par la suite, créer une méthode qu initialisera les différents événements pour le flying-fish (Front, Right, Back, Left) avec leurs GPIO ainsi que leur évenement à chacun
+- Ensuite j'ai fait un peu de documentation
 
 #### Liens consultés
 
@@ -1469,6 +1470,15 @@ def get_grounded_state(self):
 - https://raspberrypi.stackexchange.com/questions/40854/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block179-6#40855
 
 ### 27.05.2021
+
+* J'ai commencé la journée en continuant la documentation faite la veille
+* Ensuite j'ai lu [cet article](https://tutorials-raspberrypi.com/transfer-raspberry-pi-raspbian-os-to-an-sd-card-windows/) afin de cloner à nouveau les cartes SD car la dernière fois que je l'avais fait, elles étaient illisibles et provoquait cette erreur : `Kernel panic-not syncing: VFS: unable to mount root fs on unknown- block(179,6)`
+    * Dans cet article, ils disent d'utiliser [ce logiciel](https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/) pour formater les cartes SD
+        * Dans l'article, ils disent de cocher la case `format size adjustment` mais l'exécutable ne nous permet pas de cocher cette case. En lisant le [manuel utilisateur](https://www.sdcard.org/pdf/SD_CardFormatterUserManualEN.pdf), ils disent que cette option est disponible uniquement sur l'exécutable windows (celui dans lequel je suis), donc étrange que ça ne fonctionne pas.
+        * Cependant, ils disent que cette option est utilisable uniquement sur les cartes de 8Go ou moins, mais pour ma part j'utilise une carte SD de 16Go.
+    * Après avoir fait la copie de la carte et de l'avoir mise sur un Pi 4 pour tester l'installation, j'ai toujours le même problème je vais donc essayer de refaire une image car c'est peut-être l'image de base qui est défectueuse
+    * Je me suis rendu compte d'une erreur que j'ai faite, n'ayant pas vérifié la taille des cartes SD lors de l'élaboration de l'image, j'ai travaillé sur une carte SD de 64Go et j'essaie de copier cette carte dans une carte de 16Go, évidemment que ça ne fonctionne pas
+    * J'ai donc refait une image sur une carte de 16Go
 
 #### Liens consultés
 

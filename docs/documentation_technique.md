@@ -2,7 +2,7 @@
 
 ## Résumé
 
-_Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leur fonctionnement. Ce projet m'a été proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a su amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisés pour ce projet, la plus value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçable à l'aide d'une interface web et qui sait se déplacer par elle-même en évitant les obstacles sur sa route.
+_Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leur fonctionnement. Ce projet m'a été proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a su amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisés pour ce projet, la plus value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçant à l'aide d'une interface web et qui sait se déplacer par elle-même en évitant les obstacles sur sa route.
 
 ## Abstract
 
@@ -691,7 +691,7 @@ Pour mettre en place de l'AJAX, il faut dans des balises script sur l'une des pa
 <script>
 function execute(){
     $.ajax({
-            url: '/bg_processing_car',
+            url: '/bg_processing_car/',
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
@@ -704,6 +704,45 @@ function execute(){
     }
 </script>
 ```
+
+Et dans le code python, voici comment on récupère et traite les données : 
+
+
+On peut considéré les données envoyées par l'appel AJAX comme ceci :
+
+```javascript
+
+[
+  {
+    rngMove : 75,
+    rngRotationAngle : 1
+  }
+]
+
+```
+
+Et on les récupèrent exactement comme pour un formulaire classique : 
+
+```python
+
+@app.route("/bg_processing_car/", methods=["POST"])
+def bg_process_car():
+    """Process the values passed by Javascript"""
+    automatic_mode = MODE_OFF
+    move_speed = request.form["rngMove"]
+    angle_rotation = request.form["rngRotationAngle"]
+    car = CarController()
+    # Reverse the result because it returns True if there isn't a ground below
+    grounded = not GPIO.input(GPIO_FLYING_FISH_FRONT_RIGHT)
+    car.move(float(move_speed), int(angle_rotation), grounded)
+    return render_template(
+        "form_remote_car.html",
+        mode=automatic_mode,
+        speed=move_speed,
+        angle=angle_rotation,
+    )
+```
+
 
 ### Bluetooth
 
@@ -938,9 +977,80 @@ Dans notre cas, avec M. Moreno interprétant le Raspberry Pi _principal_ qui int
 
 #### Matplotlib
 
+Matplotlib est une librairie complète permettant la création de statistiques sur un large panel de graphiques utilisable en Python.
+
 ##### Mise en place
 
+Il faut d'abord installer Matplotlib avec la commande `sudo apt-get install python3-matplotlib` 
+
 ##### Utilisation
+
+Sur le site officiel, il y a cette exemple que j'ai repris pour en faire l'affichage de mon radar 360° :
+
+```python
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+# Fixing random state for reproducibility
+np.random.seed(19680801)
+
+# Compute areas and colors
+N = 150
+r = 2 * np.random.rand(N)
+theta = 2 * np.pi * np.random.rand(N)
+area = 200 * r**2
+colors = theta
+
+plt.subplot(projection='polar')
+plt.scatter(theta, r, c=colors, s=area, cmap='hsv', alpha=0.75)
+
+```
+
+Voici ce que l'exemple [ici](https://matplotlib.org/stable/gallery/pie_and_polar_charts/polar_scatter.html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py) présent donne : 
+
+![Affichage du graphique généré par le code d'exemple](./images/test_graph.png "Affichage du graphique généré par le code d'exemple")
+
+Voici le code créant le graphique que j'utilise pour afficher les points : 
+
+```python
+
+def make_graph(time_redraw):
+    global rows
+    area = 5
+    # Create the colors I need, values between 0 and 1 for (r, g, b)
+    colors = [(1, 0.2, 0.3), (1, 0.8, 0), (0.1, 0.5, 0.1)]  # near -> mid -> far
+    cmap_name = "distance_warning"
+    cmap = matplotlib.colors.LinearSegmentedColormap.from_list(cmap_name, colors)
+    data_x = []
+    data_y = []
+    angle = 0
+    # add angle in radian and his value in two array x and y
+    for distance in rows:
+        data_x.append(math.radians(angle))
+        data_y.append(distance)
+        angle += 1
+
+    # set the projection to polar
+    plt.title("Lidar : ")
+    plt.subplot(projection="polar")
+    plt.scatter(data_x, data_y, s=area, c=data_y, cmap=cmap)
+    plt.pause(0.05)
+    plt.savefig("chart.jpg")
+    time.sleep(time_redraw)
+    plt.clf()
+
+```
+
+![Affichage du graphique généré avec les couleurs prévenant le danger par rapport à un obstacle](./images/graph_warning_colors.png "Affichage du graphique généré avec les couleurs prévenant le danger par rapport à un obstacle")
+
+Voici un exemple du scanner en un quasi temps réel : 
+
+
+![Affichage des données en temps réel](./images/radar_animation.gif "Affichage des données en temps réel")
+
+Ici on parle de quasi temps réel car comme vu dans le section parlant du Lidar, on traite les données émises par l'API en temps réel de manière asynchrone, mais le graphique étant une image enregistrée, le temps d'écriture de l'image ainsi que le temps de lecture fait que les images s'accumulent et que par conséquent l'image gagne du délai
 
 ## Dates importantes
 
