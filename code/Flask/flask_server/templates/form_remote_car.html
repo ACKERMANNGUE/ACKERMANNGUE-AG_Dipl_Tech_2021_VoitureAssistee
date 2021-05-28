@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     <h1>Interface de commande de la voiture</h1>
-    <form action="/form_remote_response" method="POST">
+    <form action="/form_remote_response/" method="POST">
         <div class="row">
             <div class="col-md-12">
                 <label for="cbxAutomaticMode">Mode automatique</label>
@@ -64,7 +64,7 @@ $(document).on('input', '#rngRotationAngle', function() {
 
 function execute(){
     $.ajax({
-            url: '/bg_processing_car',
+            url: '/bg_processing_car/',
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
