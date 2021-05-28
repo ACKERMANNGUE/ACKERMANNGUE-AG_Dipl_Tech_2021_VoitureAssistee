@@ -1329,14 +1329,11 @@ except RuntimeError:  # no event loop running:
 * https://www.tutorialspoint.com/matplotlib/matplotlib_setting_limits.htm
 
 ### 25.05.2021
-* J'ai commencé la journée en tentant de mettre en place le système de streaming que j'avais utilisé pour la caméra, mais je ne comprennais pas pourquoi ça faisait crash le programme
-* J'ai donc tenté d'afficher l'image du scanner avec OpenCV mais j'ai eu cette erreur : `error: (-2:Unspecified error) Can't initialize GTK backend in function 'cvInitSystem'` mais c'est parce que je lançais le code depuis le SSH et non depuis le raspberry pi, car dès que je l'ai lancé depuis le raspberry, j'ai eu la fenêtre qui s'affichait mais instantanément après j'ai eu cette erreur : `UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail.
-  plt.title("Lidar : ")
-WARNING: QApplication was not created in the main() thread.
-qt5ct: using qt5ct plugin
-/usr/local/lib/python3.7/dist-packages/matplotlib/backends/backend_qt5.py:119: Warning: g_main_context_push_thread_default: assertion 'acquired_context' failed`
-* Cette erreur survenait car je tentais d'afficher l'image avec la méthode d'opencv : `cv2.imshow(img)`, j'utilisais ça pour voir si l'image se mettait bien à jour et la réponse est que oui donc je l'ai enlevé afin d'éviter cette erreur sauf que quand je tente de prévisualiser l'image sur la route associée : `/video_feed/<int:state>`, l'image n'est pas transmise.
-* Voici la manière que j'utilise pour faire le stream :
+
+- J'ai commencé la journée en tentant de mettre en place le système de streaming que j'avais utilisé pour la caméra, mais je ne comprennais pas pourquoi ça faisait crash le programme
+- J'ai donc tenté d'afficher l'image du scanner avec OpenCV mais j'ai eu cette erreur : `error: (-2:Unspecified error) Can't initialize GTK backend in function 'cvInitSystem'` mais c'est parce que je lançais le code depuis le SSH et non depuis le raspberry pi, car dès que je l'ai lancé depuis le raspberry, j'ai eu la fenêtre qui s'affichait mais instantanément après j'ai eu cette erreur : `UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail. plt.title("Lidar : ") WARNING: QApplication was not created in the main() thread. qt5ct: using qt5ct plugin /usr/local/lib/python3.7/dist-packages/matplotlib/backends/backend_qt5.py:119: Warning: g_main_context_push_thread_default: assertion 'acquired_context' failed`
+- Cette erreur survenait car je tentais d'afficher l'image avec la méthode d'opencv : `cv2.imshow(img)`, j'utilisais ça pour voir si l'image se mettait bien à jour et la réponse est que oui donc je l'ai enlevé afin d'éviter cette erreur sauf que quand je tente de prévisualiser l'image sur la route associée : `/video_feed/<int:state>`, l'image n'est pas transmise.
+- Voici la manière que j'utilise pour faire le stream :
 
 ```python
 
@@ -1349,8 +1346,8 @@ def lidar_stream(state=None):
         # async encoding
         yield (b'--frame\r\n'
                b'Content-Type: image/png\r\n\r\n' + radar_bytes + b'\r\n\r\n')
-    
-        
+
+
 @app.route("/video_feed/<int:state>")
 def video_feed(state=None):
     # prepare the response to send
@@ -1358,14 +1355,14 @@ def video_feed(state=None):
 
 ```
 
-* En réfléchissant, je me suis demandé si c'était utile d'encoder l'image en png vu que je récupérais une image en png, mais je me suis dit qu'il fallait tenter étant donné que ça ne marchait pas. Après avoir rajouté cette ligne : `radar = cv2.imencode(".png", radar)[1]`, l'image s'est affiché.
-* Mais elle ne s'actualisait pas, donc j'ai mis le code qui va chercher l'image et l'encoder dans la boucle, et ça a marché, cependant j'ai des erreurs qui surviennent de temps en temps lors du réaffichage de l'image mais en soit ça fonctionne
-* J'ai remarqué que lorsque je relançais le scanner pour la seconde fois depuis l'interface utilisateur, j'avais des problèmes de données (il semblerait) :
+- En réfléchissant, je me suis demandé si c'était utile d'encoder l'image en png vu que je récupérais une image en png, mais je me suis dit qu'il fallait tenter étant donné que ça ne marchait pas. Après avoir rajouté cette ligne : `radar = cv2.imencode(".png", radar)[1]`, l'image s'est affiché.
+- Mais elle ne s'actualisait pas, donc j'ai mis le code qui va chercher l'image et l'encoder dans la boucle, et ça a marché, cependant j'ai des erreurs qui surviennent de temps en temps lors du réaffichage de l'image mais en soit ça fonctionne
+- J'ai remarqué que lorsque je relançais le scanner pour la seconde fois depuis l'interface utilisateur, j'avais des problèmes de données (il semblerait) :
 
 ![Affichage des données en temps réel mais avec des données étranges](./images/graph_weird_values.gif "Affichage des données en temps réel mais avec des données étranges")
 
-* L'une des erreurs que j'ai eu me disait : `libpng error: Read Error`, en lisant [cet article](https://stackoverflow.com/questions/8827016/matplotlib-savefig-in-jpeg-format), j'ai pu voir que les gens disaient d'utiliser un format JPEG pour les images avec la méthode `plt.savefig("static/img/test.jpg", "JPEG")`, si on spécifie pas le `JPEG` en paramètre, on a l'erreur suivante : `Premature end of JPEG file` et ça a réglé le soucis
-* Peu après, je me suis rendu compte que j'ai toujours des soucis, il me dit que cette méthode requiert 2 arguments et que je lui en fournit 3 : `plt.savefig("static/img/test.jpg", "JPEG")`, n'ayant pas compris pourquoi il me disait ça alors que ça fonctionnait auparavant, j'ai tenté utiliser cette manière de faire, présente dans l'article.
+- L'une des erreurs que j'ai eu me disait : `libpng error: Read Error`, en lisant [cet article](https://stackoverflow.com/questions/8827016/matplotlib-savefig-in-jpeg-format), j'ai pu voir que les gens disaient d'utiliser un format JPEG pour les images avec la méthode `plt.savefig("static/img/test.jpg", "JPEG")`, si on spécifie pas le `JPEG` en paramètre, on a l'erreur suivante : `Premature end of JPEG file` et ça a réglé le soucis
+- Peu après, je me suis rendu compte que j'ai toujours des soucis, il me dit que cette méthode requiert 2 arguments et que je lui en fournit 3 : `plt.savefig("static/img/test.jpg", "JPEG")`, n'ayant pas compris pourquoi il me disait ça alors que ça fonctionnait auparavant, j'ai tenté utiliser cette manière de faire, présente dans l'article.
 
 ```python
 import Image
@@ -1376,40 +1373,162 @@ Image.open('testplot.png').save('testplot.jpg','JPEG')
 
 ```
 
-* Ceci a résolu mes soucis
+- Ceci a résolu mes soucis
 
 #### Liens consultés
 
 ##### Python
-* https://stackoverflow.com/questions/59809381/capture-video-stream-flask#62530004
-* https://flask.palletsprojects.com/en/1.1.x/patterns/streaming/
-* https://stackoverflow.com/questions/44663347/python-opencv-reading-the-image-file-name#44663464
-* https://stackoverflow.com/questions/54417742/werkzeug-routing-builderror-could-not-build-url-for-endpoint-success-did-you
-* https://pythonexamples.org/python-opencv-imshow/
-* https://www.programiz.com/python-programming/methods/built-in/bytes
-* https://www.pyimagesearch.com/2019/09/02/opencv-stream-video-to-web-browser-html-page/
-* https://stackoverflow.com/questions/8827016/matplotlib-savefig-in-jpeg-format
-* https://stackoverflow.com/questions/46683264/libpng-error-read-error-by-using-open-cv-imread
-* https://github.com/rytilahti/python-miio/issues/201
-* https://he-arc.github.io/livre-python/pillow/index.html
-* https://stackoverflow.com/questions/63433777/savefig-takes-2-positional-arguments-but-3-were-given-how-to-pass-only-the#63434057
+
+- https://stackoverflow.com/questions/59809381/capture-video-stream-flask#62530004
+- https://flask.palletsprojects.com/en/1.1.x/patterns/streaming/
+- https://stackoverflow.com/questions/44663347/python-opencv-reading-the-image-file-name#44663464
+- https://stackoverflow.com/questions/54417742/werkzeug-routing-builderror-could-not-build-url-for-endpoint-success-did-you
+- https://pythonexamples.org/python-opencv-imshow/
+- https://www.programiz.com/python-programming/methods/built-in/bytes
+- https://www.pyimagesearch.com/2019/09/02/opencv-stream-video-to-web-browser-html-page/
+- https://stackoverflow.com/questions/8827016/matplotlib-savefig-in-jpeg-format
+- https://stackoverflow.com/questions/46683264/libpng-error-read-error-by-using-open-cv-imread
+- https://github.com/rytilahti/python-miio/issues/201
+- https://he-arc.github.io/livre-python/pillow/index.html
+- https://stackoverflow.com/questions/63433777/savefig-takes-2-positional-arguments-but-3-were-given-how-to-pass-only-the#63434057
 
 ##### HTML / Jquery
-* https://stackoverflow.com/questions/4390627/whats-the-correct-way-to-set-src-attribute-in-jquery#4390635
-* https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_Types?retiredLocale=ar
-* https://developpaper.com/using-multipart-x-mixed-replace-to-realize-http-real-time-video-streaming/
+
+- https://stackoverflow.com/questions/4390627/whats-the-correct-way-to-set-src-attribute-in-jquery#4390635
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_Types?retiredLocale=ar
+- https://developpaper.com/using-multipart-x-mixed-replace-to-realize-http-real-time-video-streaming/
 
 ### 26.05.2021
 
+- Aujourd'hui j'ai commencé à faire les premiers branchement pour la voiture étant donné que la voiture
+  - En un premier temps, j'ai commencé par brancher les flying-fish puis le phare avant mais je me suis rendu compte que les rapsberry pi ne se connectaient pas au réseau donc j'ai été vérifié l'activation du WiFi sur les Raspberry Pi
+  - J'ai branché les capteurs avant, et je me suis rendu compte que le flying-fish avant gauche ne fonctionnait pas. Il est bien alimenté, mais quand je change la valeur du potentiomètre, rien ne se passe et la led qui indique qu'un élément est détecté ne s'allume pas
+  - Quand j'ai vérifié la carte SD pour le Pi 0, j'ai vu un problème apparaître `Kernel panic-not syncing: VFS: unable to mount root fs on unknown- block(179,6)`, j'ai tenté de faire ce que [cet article](https://raspberrypi.stackexchange.com/questions/40854/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block179-6#40855) propose mais ça n'a pas fonctionné.
+    - J'ai regardé les différentes cartes SD
+      - 1 fonctionne mais les 2 autres (celle que j'avais copiées) donc il va falloir que je refasse l'image des carte SD afin qu'elle soit fonctionnelles
+  - J'ai tenté de me connecter à distance aux raspberry pi mais le problème que j'ai eu avec le Pi 4 fu ça : `no buffer space available` et en voulant chercher sur internet j'ai remarqué que je n'avais plus accès à internet (depuis mon poste de travail), j'ai tenté de ping google, et ça a fonctionné donc pour potentiellement enlever les erreurs, j'ai redémarré mon poste
+  - Ensuite, j'ai fait le test des différents élément suivant :
+    - La connexion à la voiture, ça fonctionne, mais j'ai toujours des problèmes avec la connexion bluetooth. De temps en temps, la connexion ne se fait pas ou je ne sais pas trop quoi. Vu que j'utilise une singleton pour la connexion à la voiture, je vais tenter d'utiliser une variable global car j'ai l'impression que le singelton fait tout crash
+    - La gestion des capteurs à distance
+      - La caméra, fonctionne parfaitement
+      - Le lidar, fonctionne très bien sauf que le graphique du radar des fois plante et ne permet plus de continuer le stream du graphique
+      - Le bright pi, fonctionne parfaitement
+  - J'ai fait cette image pour pouvoir avoir un aperçu de ce à quoi ressemble la voiture après avoir travaillé dessus :
+
+![Branchement de la voiture](./images/voiture/branchement_voiture.png "Branchement de la voiture")
+
+- J'ai fait une petite démonstration à mes camarades de classe ainsi qu'à messieurs Aigroz et Garcia
+
+* Ensuite, j'ai modifié le code pour pouvoir avoir accès à l'output que génère le flying-fish, dans mon précédent code j'utilise cette manière de faire :
+
+```python
+ def get_grounded_state(self):
+    """Will stop the motors if the ground isn't detected anymore"""
+    car = CarController()
+    if GPIO.input(23):
+        car.stop_moving()
+```
+
+- Donc j'ai changé le code de la sorte :
+
+```python
+GPIO_FLYINGFISH_FRONT = 17
+
+def get_grounded_state(self):
+    """Will stop the motors if the ground isn't detected anymore"""
+    car = CarController()
+    if GPIO.input(GPIO_FLYINGFISH_FRONT):
+        car.stop_moving()
+
+...
+
+# Reverse the result because it returns True if there isn't a ground below
+    grounded = not GPIO.input(GPIO_FLYINGFISH_FRONT)
+
+...
+
+# Set the GPIO GPIO_FLYINGFISH_FRONT into input mode
+    GPIO.setup(GPIO_FLYINGFISH_FRONT, GPIO.IN)
+    # Add the event
+    GPIO.add_event_detect(GPIO_FLYINGFISH_FRONT, GPIO.RISING, callback=get_grounded_state, bouncetime=100)
+
+```
+
+- Pour par la suite, créer une méthode qu initialisera les différents événements pour le flying-fish (Front, Right, Back, Left) avec leurs GPIO ainsi que leur évenement à chacun
+- Ensuite j'ai fait un peu de documentation
+
 #### Liens consultés
 
-##### --------
+##### Python
+
+- https://www.pythoncentral.io/how-to-check-if-an-object-has-an-attribute-in-python/
+
+##### Autre
+
+- https://serverfault.com/questions/131935/network-error-no-buffer-space-available#616474
+- https://www.javatpoint.com/get-hostname-from-ip-address
+- https://raspberrypi.stackexchange.com/questions/40854/kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block179-6#40855
 
 ### 27.05.2021
 
+* J'ai commencé la journée en continuant la documentation faite la veille
+* Ensuite j'ai lu [cet article](https://tutorials-raspberrypi.com/transfer-raspberry-pi-raspbian-os-to-an-sd-card-windows/) afin de cloner à nouveau les cartes SD car la dernière fois que je l'avais fait, elles étaient illisibles et provoquait cette erreur : `Kernel panic-not syncing: VFS: unable to mount root fs on unknown- block(179,6)`
+    * Dans cet article, ils disent d'utiliser [ce logiciel](https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/) pour formater les cartes SD
+        * Dans l'article, ils disent de cocher la case `format size adjustment` mais l'exécutable ne nous permet pas de cocher cette case. En lisant le [manuel utilisateur](https://www.sdcard.org/pdf/SD_CardFormatterUserManualEN.pdf), ils disent que cette option est disponible uniquement sur l'exécutable windows (celui dans lequel je suis), donc étrange que ça ne fonctionne pas.
+        * Cependant, ils disent que cette option est utilisable uniquement sur les cartes de 8Go ou moins, mais pour ma part j'utilise une carte SD de 16Go.
+    * Après avoir fait la copie de la carte et de l'avoir mise sur un Pi 4 pour tester l'installation, j'ai toujours le même problème je vais donc essayer de refaire une image car c'est peut-être l'image de base qui est défectueuse
+    * Je me suis rendu compte d'une erreur que j'ai faite, n'ayant pas vérifié la taille des cartes SD lors de l'élaboration de l'image, j'ai travaillé sur une carte SD de 64Go et j'essaie de copier cette carte dans une carte de 16Go, évidemment que ça ne fonctionne pas
+    * J'ai donc refait une image sur une carte de 16Go en reconfigurant le Raspberry Pi :
+        * Désactivation du login au démarrage en allant dans la configuration du raspberry pi avec : `sudo raspi-config`, ensuite aller dans `System Options`, ensuite dans `Boot / Auto Login` et `Console Autologin`
+        * Changer le clavier de la langue, aller dans `Localisation Options`, ensuite `Keyboard`, sélectionner le clavier ou la marque de clavier que vous utilisez, dans mon cas `Logitech K120`mais n'étant pas présent dans la liste, j'utilise juste le clavier `Logitech`, ensuite il faut cliquer sur `Other`, allez dans `German (Switerland)`, sélectionner `German (Switzerland) - French (Switzerland)`, sélectionner `The default for the keyboard layout`, `No compose key`
+        * Activer le WiFi : toujours dans la configuration du raspberry pi dans le menu `Localisation Options`, il faut aller dans `WLAN Country Set legal wireless channels for your country`, ensuite dans la sélection des pays, il faut chercher cette ligne `CH Switzerland`, par la suite aller dans `System Options`, `Wireless LAN`, il faut entrer le nom du réseau `rtr_ackermanngue` puis le mot de passe : `Super2012`
+        * Activer les interfaces utilisées : en allant dans `Interface Options` et en activant :
+            * La `Camera`
+            * Le `SSH`
+            * Le `I2C`
+        * Mettre à jour le raspberry pi avec la commande : `sudo apt update && sudo apt full-upgrade`
+        * Installer git : `sudo apt install git`
+            * Cloner le repos : `git clone https://github.com/ACKERMANNGUE/ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee`
+        * Installer les dépendences :
+            * `sudo apt install python3-pip`
+            * `sudo pip3 install flask`
+            * `sudo pip3 install RPi.GPIO`
+            * `sudo apt install python-opencv`
+            * `sudo pip3 install smbus`
+            * `sudo pip3 install picamera`
+        * Une fois installées, j'ai lancé le projet pour faire les tests et ça fonctionne parfaitement
+    * Ensuite, j'ai fais une copie de cette carte avec [cette application](https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html) dans une autre similaire en taille
+      * Pendant la copie de la carte SD, j'ai continué la documentation, en prennant des captures d'écrans pour la configuration de l'émetteur WiFi
+    * Une fois la copie terminée, j'ai testé l'installation, mais ça n'a pas fonctionné. J'ai été demandé à M. Beney comment il avait fait pour cloner ses cartes SD ce à quoi il m'a répondu qu'il a utilisé la commande `DD` ainsi que `balenaEtcher`. 
+        * Vu que chez lui ceci a fonctionné, je me suis dit que j'allais faire de même.
+        * Je n'ai pas eu besoin d'utiliser la commande `DD` car `balenaEtcher` permet de cloner un disque.
+    * J'ai installé les 4 cartes SD dans le Pi 0 WiFi en m'assurant avant que chaque carte SD avait bien tous les différents éléments nécessaires
+        * Pendant la copie des différentes cartes, j'ai fait cette image montrant comment utiliser balenaEtcher : 
+
+![Différentes étapes d'utilisation de balenaEtcher](./images/clone_sd/balenaEtcher_differentes_etapes.png "Différentes étapes d'utilisation de balenaEtcher")
+
+* J'ai ensuite continuer la documentation
+
+
 #### Liens consultés
 
-##### --------
+##### Raspberry
+* https://learn.pi-supply.com/make/bright-pi-quickstart-faq/
+* https://tutorials-raspberrypi.com/transfer-raspberry-pi-raspbian-os-to-an-sd-card-windows/
+* https://raspberrypi.stackexchange.com/questions/40415/how-to-enable-auto-login#76275
+
+##### Python
+* https://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3
+* https://raspberrypi.stackexchange.com/questions/60774/importerror-no-module-named-rpi#61462
+* https://stackoverflow.com/questions/48012582/pillow-libopenjp2-so-7-cannot-open-shared-object-file-no-such-file-or-directo#50583153
+* https://stackoverflow.com/questions/57860201/importerror-libavcodec-so-57-cannot-open-shared-object-file-no-such-file-or-d
+
+##### Autre
+* https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/
+* https://www.sdcard.org/pdf/SD_CardFormatterUserManualEN.pdf
+* https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html
+* https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html
+* https://www.balena.io/etcher/
 
 ### 28.05.2021
 
