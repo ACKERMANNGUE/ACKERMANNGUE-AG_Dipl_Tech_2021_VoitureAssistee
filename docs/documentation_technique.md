@@ -514,7 +514,7 @@ Il y avait 2 possibilité :
    - RX
    - VCC
    - Ground
-   - MotorCTL (Peut-être une pin EEPROM ou SPI)
+   - MotorCTL est un PWM
 
 Comme indique ce schéma du GPIO du raspberry pi de manière plus détaillé que le premier vu dans la séction parlant des Raspberry Pi :
 
@@ -528,6 +528,8 @@ Il s'agirait donc des pins : 2 (VCC), 6 (GND), 8 (TX), 9 (RX)
 Cela dit, la méthode que j'utilise actuellement se résume à ça :
 
 ![Méthode utilisée pour récupérer en temps réel les données du Lidar](./images/lidar/flowchart_lidar_api.png "Méthode utilisée pour récupérer en temps réel les données du Lidar")
+
+Le problème de cette méthode est qu'elle n'est vraiment pas optimisée car on va lire de manière asynchrone les données reçues par le programme `C++` et traitée puis mise dans le tableau de distance à chaque itération. Cette même itération est stoppable à tout moment avec un paramètre à changer dans le lancement du processus.
 
 #### Émetteur WiFi (ASUS RT-AC58U)
 

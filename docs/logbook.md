@@ -1532,6 +1532,47 @@ def get_grounded_state(self):
 
 ### 28.05.2021
 
+* J'ai commencé la journée en corrigeant le bug que j'avais hier par rapport au Flying-Fish, cependant j'en ai un autre. Ce problème est que l'évenement se déclenche 2x. Il se déclenche lorsque ça ne capte plus et lorsque ça capte :
+
+```
+Détecteur avant gauche
+Détecteur avant gauche
+Détecteur avant droit
+Détecteur avant droit
+```
+
+* Sachant que j'utilisais cette méthode ci-dessous pour stop les moteurs en cas d'événement, il va falloir que je règle ce soucis afin que la voiture ne soit pas bloquée lorsqu'un sol est présent :
+
+```python
+def get_grounded_state(self):
+    """Will stop the motors if the ground isn't detected anymore"""
+    car = CarController()
+    if hasattr(car, "connection"):
+        for sensor_gpio, sensor_name in GPIO_FLYING_FISH:
+            if self == sensor_gpio:
+                car.stop_moving()
+                break
+```
+
+* J'ai remarqué quand passant le bounceback à 2 secondes que ça résolvait le problème.
+* Ensuite, j'ai tenté de changer le code pour le bluetooth en une variable global afin de s'assurer de la connexion à la voiture car à chaque fois que je créé un nouvel objet `car` j'ai l'impression que la connexion établie n'est pas retrouvée et cela pose des problèmes avec des attributs de la classe.
+    * En modifiant le code pour la voiture, je me suis aperçu que lorsque je voulais récupérer l'objet `car`, sachant qu'anciennement j'utilise la méthode de classe `__new__`, cette dernière effectue des actions à la création de l'objet tandis que `__init__` initialise l'objet et le retourne.
+* Depuis que j'ai changé le code pour en faire une variable global, je n'ai plus de soucis de connexion avec le bluetooth
+* Le code qui stop la voiture si un des capteurs ne trouve plus de sol fonctionne parfaitement
+* Par la suite, j'ai réfléchis sur l'utilité de pouvoir activer ou désactiver les flying-fish car à la base les flying-fish étaient branchés aux pi 0 wifi mais vu que les flying-fish déclenchent des évenements ça aurait été compliqué de déclancher les fonctions d'arrêts à distance depuis un autre rapsberry pi sachant qu'il s'agit du pi 4 qui gère le déplacement de la voiture. Donc j'ai décidé d'enlever cette fonctionnalité.
+* J'ai rajouté des checkbox permettant d'activer et désactiver les leds infrarouges et modifier le code associé
+* J'ai fait une liste des éléments qui devait être fait 
+* Puis j'ai commencé à travailler sur la résolution du problème concernant le radar
+    * Le problème principale est la lecture du fichier, car vu que le graphique est une image mis à jour à chaque tour de boucle, pour pouvoir rendre cette image streamable, j'utilise un scénario comme celui ci-dessous :
+
+![Problème du lidar](./images/problem_lidar.png "Problème du lidar")
+
+* Le problème survient très probablement lors de la lecture de l'image car j'ai cette erreur habituellement : `error: (-215:Assertion failed) !image.empty() in function 'imencode'` ce qui veut dire que l'image n'a pas pu être ouverte, très certainement car à l'instant ou le fichier doit être lu, le graphique se met à jour (donc s'enregistre et n'est pas modifiable à l'instant T)
+    * J'ai tenté d'utiliser des `time.sleep()` pour tenter de m'assurer d'une pause entre chaque mise à jour du graphique 
+
 #### Liens consultés
 
-##### --------
+##### Python
+* https://stackoverflow.com/questions/415511/how-to-get-the-current-time-in-python#415519
+* https://www.raspberrypi.org/forums/viewtopic.php?p=1255152
+* https://www.makeuseof.com/tag/gpio-zero-raspberry-pi/
