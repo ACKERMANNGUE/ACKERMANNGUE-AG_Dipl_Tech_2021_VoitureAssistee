@@ -1,6 +1,6 @@
-SENSOR_BRIGHTPI = "bright-pi"
+SENSOR_BRIGHTPI_LED = "bright-pi-l"
+SENSOR_BRIGHTPI_IR = "bright-pi-i"
 SENSOR_CAMERA = "camera"
-SENSOR_FLYINGFISH = "flying-fish"
 
 STATE_ON = 1
 STATE_OFF = 0

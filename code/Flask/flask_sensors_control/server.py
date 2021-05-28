@@ -27,20 +27,26 @@ def hello_world():
 def sensor_control(sensor=None, state=None):
     state = int(state)
     
-    global brightpi_state
+    global brightpi_led_state
+    global brightpi_ir_state
     global camera_state
-    global flyingfish_state
     global light
     
     sensors = []
 
     if request.method == "POST": 
-        if sensor == constants.SENSOR_BRIGHTPI:
+        if sensor == constants.SENSOR_BRIGHTPI_LED:
             if state == constants.STATE_ON:
-                brightpi_state = constants.STATE_ON
+                brightpi_led_state = constants.STATE_ON
             elif state == constants.STATE_OFF:
-                brightpi_state = constants.STATE_OFF
-            light.set_led_on_off(brightpilib.LED_ALL, brightpi_state)
+                brightpi_led_state = constants.STATE_OFF
+            light.set_led_on_off(brightpilib.LED_WHITE, brightpi_led_state)
+        elif sensor == constants.SENSOR_BRIGHTPI_IR:
+            if state == constants.STATE_ON:
+                brightpi_ir_state = constants.STATE_ON
+            elif state == constants.STATE_OFF:
+                brightpi_ir_state = constants.STATE_OFF
+            light.set_led_on_off(brightpilib.LED_IR, brightpi_ir_state)
 
         if sensor == constants.SENSOR_CAMERA:
             if state == constants.STATE_ON:
@@ -48,15 +54,10 @@ def sensor_control(sensor=None, state=None):
             elif state == constants.STATE_OFF:
                 camera_state = constants.STATE_OFF
 
-        if sensor == constants.SENSOR_FLYINGFISH:
-            if state == constants.STATE_ON:
-                flyingfish_state = constants.STATE_ON
-            elif state == constants.STATE_OFF:
-                flyingfish_state = constants.STATE_OFF
 
-    sensors.append(Sensor(constants.SENSOR_BRIGHTPI, brightpi_state))
+    sensors.append(Sensor(constants.SENSOR_BRIGHTPI_LED, brightpi_led_state))
+    sensors.append(Sensor(constants.SENSOR_BRIGHTPI_IR, brightpi_ir_state))
     sensors.append(Sensor(constants.SENSOR_CAMERA, camera_state))
-    sensors.append(Sensor(constants.SENSOR_FLYINGFISH, flyingfish_state))
 
     return convert_array_to_json(sensors)
 
@@ -70,10 +71,6 @@ def convert_array_to_json(array):
             json_string += array[i].convert_to_json() + "]"
     return json_string
 
-
-def change_flyingfish_state(self):
-    global flyingfish_state
-    flyingfish_state = constants.STATE_ON
 
 @app.route('/streaming_camera')
 def cam_stream():
@@ -95,18 +92,10 @@ def video_feed():
 
 
 if __name__ == '__main__':
-    # Set the mode into Broadcom SOC channel
-    # It allows to use GPIO number instead of pin number
-    GPIO.setmode(GPIO.BCM)
-    # Set the GPIO 23 into input mode
-    GPIO.setup(23, GPIO.IN)
-    # Add the event
-    GPIO.add_event_detect(
-        23, GPIO.RISING, callback=change_flyingfish_state, bouncetime=100)
-
-    brightpi_state = constants.STATE_OFF
+    brightpi_led_state = constants.STATE_OFF
+    brightpi_ir_state = constants.STATE_OFF
     camera_state = constants.STATE_OFF
-    flyingfish_state = constants.STATE_OFF
+
     pi_camera = VideoCamera() 
     
     light = BrightPiSpecialEffects()
