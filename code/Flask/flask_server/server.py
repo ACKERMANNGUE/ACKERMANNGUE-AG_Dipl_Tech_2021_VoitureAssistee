@@ -22,53 +22,22 @@ from asyncio import create_subprocess_exec
 import cv2
 from PIL import Image
 import datetime
-
-WAIT_SECONDS = 0.5
-
-DEFAULT_MODE = False
-MODE_OFF = 0
-MODE_ON = 1
-DEFAULT_SPEED = 0
-DEFAULT_ANGLE = 0
-
-BTN_REQUEST_VALIDATE = "validate"
-BTN_REQUEST_STOP = "stop"
-BTN_REQUEST_DISCONNECT = "disconnect"
-
-FRONT_PI_IP = "192.168.50.133"
-RIGHT_PI_IP = "192.168.50.XX"
-BACK_PI_IP = "192.168.50.XX"
-LEFT_PI_IP = "192.168.50.XX"
-
-SENSOR_BRIGHTPI = "bright-pi"
-SENSOR_CAMERA = "camera"
-SENSOR_FLYINGFISH = "flying-fish"
-
-CHART_PATH = "static/img/"
-CHART_NAME = "chart.jpg"
-
-GPIO_FLYING_FISH_FRONT_RIGHT = 17
-NAME_FLYING_FISH_FRONT_RIGHT = "Détecteur avant droit"
-GPIO_FLYING_FISH_FRONT_LEFT = 23
-NAME_FLYING_FISH_FRONT_LEFT = "Détecteur avant gauche"
+import static.constants as constants
 
 
-GPIO_FLYING_FISH = [
-    (GPIO_FLYING_FISH_FRONT_LEFT, NAME_FLYING_FISH_FRONT_LEFT),
-    (GPIO_FLYING_FISH_FRONT_RIGHT, NAME_FLYING_FISH_FRONT_RIGHT),
-]
+
 
 
 def get_grounded_state(self):
     """Will stop the motors if the ground isn't detected anymore"""
     global car
-    for sensor_gpio, sensor_name in GPIO_FLYING_FISH:
+    for sensor_gpio, sensor_name in constants.GPIO_FLYING_FISH:
         if self == sensor_gpio:
             if car != None:
                 car.stop_moving()
-            print(datetime.datetime.now())
-            print(sensor_gpio)
-            print(sensor_name)
+            # print(datetime.datetime.now())
+            # print(sensor_gpio)
+            # print(sensor_name)
             break
 
 
@@ -117,7 +86,7 @@ def make_chart():
     plt.scatter(data_x, data_y, s=area, c=data_y, cmap=cmap)
     # plt.pause(time_redraw)
     plt.ylim(0, 2000)
-    plt.savefig(CHART_PATH + CHART_NAME)
+    plt.savefig(constants.CHART_PATH + constants.CHART_NAME)
     # Image.open(CHART_PATH + CHART_NAME).save(CHART_PATH + CHART_NAME, "JPEG")
     plt.clf()
 
@@ -172,12 +141,12 @@ car = None
 
 def lidar_stream(state=None):
 
-    while state == MODE_ON:
+    while state == constants.MODE_ON:
         make_chart()
         try:
             # get the picture
             sleep(1)
-            radar = cv2.imread(CHART_PATH + CHART_NAME)
+            radar = cv2.imread(constants.CHART_PATH + constants.CHART_NAME)
             radar = cv2.imencode(".jpg", radar)[1]
             # convert it to bytes
             radar_bytes = radar.tobytes()
@@ -253,9 +222,10 @@ def close_connection():
     global car
     output = "Connexion toujours en cours"
     if car != None:
-        if car.connection != None:
-            car.disconnect()
-            output = "Connexion fermée avec l'appareil {0}".format(car.MY_MOVEHUB_ADD)
+        print("deco")
+        car.disconnect()
+        output = "Connexion fermée avec l'appareil {0}".format(car.MY_MOVEHUB_ADD)
+        car = None
 
     return render_template("connection.html", msg=output)
 
@@ -265,9 +235,9 @@ def control_car():
     """Render the form which allows to control the car"""
     return render_template(
         "form_remote_car.html",
-        mode=DEFAULT_MODE,
-        speed=DEFAULT_SPEED,
-        angle=DEFAULT_ANGLE,
+        mode=constants.DEFAULT_MODE,
+        speed=constants.DEFAULT_SPEED,
+        angle=constants.DEFAULT_ANGLE,
     )
 
 
@@ -277,17 +247,16 @@ def bg_process_car():
 
     global car
 
-    automatic_mode = MODE_OFF
+    automatic_mode = constants.MODE_OFF
     move_speed = request.form["rngMove"]
     angle_rotation = request.form["rngRotationAngle"]
-    grounded = True
 
-    for sensor_gpio, sensor_name in GPIO_FLYING_FISH:
-        # Will change the value only if there isn't a ground below
-        if GPIO.input(sensor_gpio):
-            grounded = False
-    if not car == None:
-        car.move(float(move_speed), int(angle_rotation), grounded)
+    actions = get_actions_for_car()
+
+    if car != None:
+        move_speed = float(move_speed)
+        angle_rotation = int(angle_rotation)
+        car.move(move_speed, angle_rotation, actions)
     return render_template(
         "form_remote_car.html",
         mode=automatic_mode,
@@ -295,6 +264,45 @@ def bg_process_car():
         angle=angle_rotation,
     )
 
+def get_actions_for_car():
+    actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_NOTHING)
+    # INDEX 0 represent the turn code
+    # INDEX 1 represent the move code
+
+    if GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("les deux")
+        actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_BACKWARD)
+
+    elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
+        print("gauche")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_NOTHING)
+    
+    elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("droite")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_NOTHING)
+
+    elif  GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT) and not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
+        print("droite mais pas gauche")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_BACKWARD)
+
+    elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("gauche mais pas droite")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_BACKWARD)
+
+    # todo for the back flyingfish
+    # elif not GPIO.input(GPIO_FLYING_FISH_BACK_LEFT):
+    #     arr_actions[0] = CODE_TURN_RIGHT
+    #     arr_actions[1] = CODE_MOVE_BACKWARD
+
+    # elif not GPIO.input(GPIO_FLYING_FISH_BACK_RIGHT):
+    #     arr_actions[0] = CODE_TURN_LEFT
+    #     arr_actions[1] = CODE_MOVE_BACKWARD
+
+    # elif not GPIO.input(GPIO_FLYING_FISH_BACK_LEFT) and not GPIO.input(GPIO_FLYING_FISH_BACK_RIGHT):
+    #     arr_actions[0] = CODE_TURN_NOTHING
+    #     arr_actions[1] = CODE_MOVE_FORWARD
+
+    return actions
 
 @app.route("/bg_processing_lidar/<string:state>", methods=["POST"])
 def bg_process_lidar(state=None):
@@ -315,9 +323,9 @@ def form_remote_response():
     """The form's answer of the remote"""
     global car
     # Init
-    automatic_mode = DEFAULT_MODE
-    move_speed = DEFAULT_SPEED
-    angle_rotation = DEFAULT_ANGLE
+    automatic_mode = constants.DEFAULT_MODE
+    move_speed = constants.DEFAULT_SPEED
+    angle_rotation = constants.DEFAULT_ANGLE
 
     returned_value = render_template(
         "form_remote_car.html",
@@ -330,7 +338,7 @@ def form_remote_response():
     )
     if request.method == "POST":
         # Validate will send the values to the car
-        if request.form["send_request"] == BTN_REQUEST_VALIDATE:
+        if request.form["send_request"] == constants.BTN_REQUEST_VALIDATE:
             automatic_mode = request.form.get("cbxMode")
             # form.get return a list of values and None if the checkbox isn't checked
             if request.form.get("cbxMode") != None:
@@ -345,22 +353,25 @@ def form_remote_response():
                 angle=angle_rotation,
             )
             if car != None:
-                if type(car.connection) is GattConnection:
-                    # Convert them into float values because the range are int between negative and positive 100
-                    # and the method which activate the motors is a range between negative and positive 1
-                    # so in the move methods I divide the input values by 100
-                    # Reverse the result because it returns True if there isn't a ground below
-                    grounded = not GPIO.input(GPIO_FLYING_FISH_FRONT_RIGHT)
-                    car.move(float(move_speed), int(angle_rotation), grounded)
-                else:
-                    returned_value = error
-        elif request.form["send_request"] == BTN_REQUEST_STOP:
+                # Convert them into float values because the range are int between negative and positive 100
+                # and the method which activate the motors is a range between negative and positive 1
+                # so in the move methods I divide the input values by 100
+                # Reverse the result because it returns True if there isn't a ground below
+                if GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT) or GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
+                    print(move_speed)
+                    grounded = False
+                    if move_speed < 0:
+                        grounded = True
+                car.move(float(move_speed), int(angle_rotation), grounded)
+            else:
+                returned_value = error
+        elif request.form["send_request"] == constants.BTN_REQUEST_STOP:
             if car != None:
                 if car.connection != None:
                     car.stop_moving()
                 else:
                     returned_value = error
-        elif request.form["send_request"] == BTN_REQUEST_DISCONNECT:
+        elif request.form["send_request"] == constants.BTN_REQUEST_DISCONNECT:
             returned_value = redirect("/close_connection/")
     return returned_value
 
@@ -376,17 +387,17 @@ if __name__ == "__main__":
     # It allows to use GPIO number instead of pin number
     GPIO.setmode(GPIO.BCM)
     # Set the GPIO into input mode
-    GPIO.setup(GPIO_FLYING_FISH_FRONT_RIGHT, GPIO.IN)
-    GPIO.setup(GPIO_FLYING_FISH_FRONT_LEFT, GPIO.IN)
+    GPIO.setup(constants.GPIO_FLYING_FISH_FRONT_RIGHT, GPIO.IN)
+    GPIO.setup(constants.GPIO_FLYING_FISH_FRONT_LEFT, GPIO.IN)
     # Add the event
     GPIO.add_event_detect(
-        GPIO_FLYING_FISH_FRONT_RIGHT,
+        constants.GPIO_FLYING_FISH_FRONT_RIGHT,
         GPIO.FALLING,
         callback=get_grounded_state,
         bouncetime=2000,
     )
     GPIO.add_event_detect(
-        GPIO_FLYING_FISH_FRONT_LEFT,
+        constants.GPIO_FLYING_FISH_FRONT_LEFT,
         GPIO.FALLING,
         callback=get_grounded_state,
         bouncetime=2000,
@@ -395,9 +406,11 @@ if __name__ == "__main__":
     topbar = Navbar(
         View("Accueil", "home"),
         View("Télécommande", "control_car"),
-        View("Déconnexion", "close_connection"),
-        View("Créer une connexion", "create_car"),
         View("Tableau de bord", "user_interface"),
+
+        View("Créer une connexion", "create_car"),
+        View("Déconnexion", "close_connection"),
+
     )
 
     asyncio.set_event_loop(loop)

@@ -4,6 +4,8 @@ from pylgbst.peripherals import Motor, EncodedMotor
 from pylgbst import *
 import time
 import os
+import static.constants as constants
+
 
 
 class CarController:
@@ -35,26 +37,46 @@ class CarController:
             cls.old_angle = None
 
     def __del__(cls):
-        cls.disconnect()
+        cls.connection.disconnect()
         print("disconnection")
 
-    def move(self, motor_speed, angle_rotation, grounded):
+    def move(self, motor_speed, angle_rotation, actions):
         """Moves the car with a specific speed and rotation
 
         motor_speed : The motor's speed
                       NOTE : to move forward, the value must be reversed because it is basically negative
         angle_rotation : The rotation of the directionnal motor
-        grounded : True if there is the ground below,
-                   False if there isn't
+        actions : The list of the possible actions
         """
         # Invert the power direction
         motor_speed *= -1
         # Max value of motor is -1 and +1 but in the HTML form, the range input can be set between -100 to +100
         motor_speed /= 100
-        if grounded:
+
+        print(actions[0])
+        print(actions[1])
+        
+        if actions[0] == constants.CODE_TURN_LEFT and angle_rotation < 0:
+            self.turn(angle_rotation)
+
+        elif actions[0] == constants.CODE_TURN_RIGHT and angle_rotation > 0:
+            self.turn(angle_rotation)
+
+        elif actions[0] == constants.CODE_TURN_NOTHING:
+            self.turn(angle_rotation)
+
+        if actions[1] == constants.CODE_MOVE_FORWARD and motor_speed < 0:
             self.front_motor.start_power(motor_speed)
             self.back_motor.start_power(motor_speed)
-        self.turn(angle_rotation)
+
+        elif actions[1] == constants.CODE_MOVE_BACKWARD and motor_speed > 0:
+            self.front_motor.start_power(motor_speed)
+            self.back_motor.start_power(motor_speed)
+
+        elif actions[1] == constants.CODE_MOVE_NOTHING:
+            self.front_motor.start_power(motor_speed)
+            self.back_motor.start_power(motor_speed)
+
         time.sleep(0.5)
 
     def turn(self, angle):
@@ -74,8 +96,10 @@ class CarController:
 
     def disconnect(self):
         self.connection.disconnect()
-        print("stopping bluetooth")
-        os.system("sudo systemctl stop bluetooth.service")
-        time.sleep(0.5)
-        print("starting bluetooth")
-        os.system("sudo systemctl start bluetooth.service")
+        # print("stopping bluetooth")
+        # os.system("sudo systemctl stop bluetooth.service")
+        # time.sleep(1)
+        # print("starting bluetooth")
+        # os.system("sudo systemctl start bluetooth.service")
+        # time.sleep(3)
+

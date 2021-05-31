@@ -1604,7 +1604,101 @@ def get_grounded_state(self):
 
 ### 31.05.2021
 
-* J'ai commencé la journée par mettre en place le code permettant de détecter quels sont les flying-fish ne détectant plus de sol afin de pouvoir tout de même manœuvrer 
+* J'ai commencé la journée par mettre en place le code permettant de détecter quels sont les flying-fish ne détectant plus de sol afin de pouvoir tout de même manœuvrer
+    * La manière que j'utilise jusqu'à présent, c'était de vérifier l'état de tous les flying-fish afin de savoir quand est-ce que la voiture doit s'arrêter. Je vais donc revoir le code afin de pouvoir savoir quoi faire en fonction des flying-fish ne détectant pas de sol
+    * Je me suis dit qu'en fonction de l'état des flying-fish, la voiture peut effectuer certaines actions, je vais fournir à ma méthode `move()` une liste d'actions possible comme suit :
+
+```python
+arr_actions = [CODE_TURN, CODE_MOVE]
+```
+* Ces constantes représentent les actions à effectuer : pour `CODE_TURN`, la valeur `0` représente de ne pas tourner, `1` de tourner à droite et `2` à gauche. Pour `CODE_MOVE`, la valeur `0` représente de stopper les moteurs, `1` d'avancer et `2` de reculer.
+* Avant, je donnais un booléen à ma méthode `move()` afin de savoir si la voiture pouvait avancer, mais maintenant je vais lui passer la liste afin de pouvoir certaine actions uniquement.
+* J'ai utilisé un tuple à la place d'un array étant donné que je n'utilise que 2 valeurs.
+    * Je pensais pouvoir accès aux données du tuple en faisant `nom_du_tuple.nom_de_la_valeur` mais ce n'est pas accessible de cette manière j'ai donc utilisé les index
+* J'ai mis beaucoup de temps sur le code car j'ai vite commencé à m'emmêler les pinceaux car vu que je devais faire en un premier temps un code qui fonctionne avant de faire un code propre voici ce que j'ai fait :
+
+```python
+def get_actions_for_car():
+    actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_NOTHING)
+    # INDEX 0 represent the turn code
+    # INDEX 1 represent the move code
+    if not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
+        print("gauche")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_FORWARD)
+    
+    elif not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("droite")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_FORWARD)
+
+    elif not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT) and GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
+        print("droite mais pas gauche")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_BACKWARD)
+
+    elif not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("gauche mais pas droite")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_BACKWARD)
+
+    elif not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("les deux")
+        actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_BACKWARD)
+```
+
+* Le problème qui survient, c'est que de base il me dit que le capteur gauche ne détecte plus de sol alors que dans la situation initiale, il est sur un sol plein. De plus, une fois la première action exécutée, il ne rentre plus dans aucun `if` et donc renvois les codes : `CODE_TURN_NOTHING`, `CODE_MOVE_NOTHING`
+* La question que je me suis posée par rapport à ce problème était : Vu que pour détecter un sol on inverse le résultat, le problème ne serait-il pas celui-ci ?
+* La réponse fut oui partiellement, car il s'agissait aussi de l'ordre dans lequel j'effectuais mes conditions car en les changeant de la sorte, maintenant cela fonctionne :
+
+```python
+    if GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("les deux")
+        actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_BACKWARD)
+    elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
+        print("gauche")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_NOTHING)
+    
+    elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("droite")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_NOTHING)
+
+    elif  GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT) and not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
+        print("droite mais pas gauche")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_BACKWARD)
+
+    elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("gauche mais pas droite")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_BACKWARD)
+```
+
+* Maintenant, à cause du code écrit pour gérer les différents actions avec les moteurs, si on déplace la voiture et qu'une fois à l'arrêt on souhaite changer son angle pour le guidon, le code va exécuter la méthode activant les moteurs :
+
+```python
+        if actions[0] == constants.CODE_TURN_LEFT and angle_rotation < 0:
+            self.turn(angle_rotation)
+
+        elif actions[0] == constants.CODE_TURN_RIGHT and angle_rotation > 0:
+            self.turn(angle_rotation)
+
+        elif actions[0] == constants.CODE_TURN_NOTHING:
+            self.turn(angle_rotation)
+
+        if actions[1] == constants.CODE_MOVE_FORWARD and motor_speed < 0:
+            self.front_motor.start_power(motor_speed)
+            self.back_motor.start_power(motor_speed)
+
+        elif actions[1] == constants.CODE_MOVE_BACKWARD and motor_speed > 0:
+            self.front_motor.start_power(motor_speed)
+            self.back_motor.start_power(motor_speed)
+
+        elif actions[1] == constants.CODE_MOVE_NOTHING:
+            self.front_motor.start_power(motor_speed)
+            self.back_motor.start_power(motor_speed)
+```
+
+* Après avoir fait fonctionné le code, le raspberry pi à commencer à bug car il faisait que de se déconnecter du SSH, je l'ai donc redémarré et sans toucher au code, le code ne fonctionne plus. C'est très problématique sachant que y'a 10 minutes même pas il fonctionnait parfaitement.
+
+* J'ai constaté, je ne sais pas pourquoi, mais la déconnexion à la voiture des fois ne se fait pas et des fois oui.
+    * Ce que j'ai remarqué et qui est très étrange, c'est que lorsque je recréé une connexion à la voiture (même si elle est déjà connectée) je peux la déconnecter sans soucis mais lorsque je la déconnecte de temps en temps j'ai ce message d'erreur dans la console `dbus.exceptions.DBusException: org.freedesktop.DBus.Error.ServiceUnknown: The name :1.72 was not provided by any .service files`
+    * Pour faire la déconnexion, j'utilise la méthode fournie qui est `disconnect()` et ensuite je désactivais puis réactivais le bluetooth car auparavant (avec le singleton) la connexion restait ouverte et cela causait des problèmes. En enlevant ces lignes ça n'a pas résolu le problème de déconnexion
+* 
 
 #### Liens consultés
 
