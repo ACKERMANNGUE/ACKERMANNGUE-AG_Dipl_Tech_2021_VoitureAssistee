@@ -13,7 +13,7 @@ from subprocess import Popen
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-import time
+import time, threading
 import math
 import sys
 import asyncio
@@ -23,6 +23,7 @@ import cv2
 from PIL import Image
 import datetime
 
+WAIT_SECONDS = 0.5
 
 DEFAULT_MODE = False
 MODE_OFF = 0
@@ -54,8 +55,8 @@ NAME_FLYING_FISH_FRONT_LEFT = "Détecteur avant gauche"
 
 GPIO_FLYING_FISH = [
     (GPIO_FLYING_FISH_FRONT_LEFT, NAME_FLYING_FISH_FRONT_LEFT),
-    (GPIO_FLYING_FISH_FRONT_RIGHT, NAME_FLYING_FISH_FRONT_RIGHT)
-    ]
+    (GPIO_FLYING_FISH_FRONT_RIGHT, NAME_FLYING_FISH_FRONT_RIGHT),
+]
 
 
 def get_grounded_state(self):
@@ -69,7 +70,6 @@ def get_grounded_state(self):
             print(sensor_gpio)
             print(sensor_name)
             break
-    
 
 
 def get_radar_data(row):
@@ -86,17 +86,16 @@ def get_radar_data(row):
         # remove the line return
         dist = tmp[1].replace(b"\n", b"")
         rows[angle] = float(dist)
-    # 360 values but it begins at 0
-    if angle == 359:
-        make_chart(0.05)
+    # # 360 values but it begins at 0
+    # if angle == 359:
+    #     make_chart(0.1)
 
 
-def make_chart(time_redraw):
+def make_chart():
     """
     Will process the chart and save it into a png
 
 
-    time_redraw : The time to wait before "refreshing" the picture
     """
     global rows
     area = 5
@@ -116,11 +115,10 @@ def make_chart(time_redraw):
     # set the projection to polar
     plt.subplot(projection="polar")
     plt.scatter(data_x, data_y, s=area, c=data_y, cmap=cmap)
-    plt.pause(time_redraw)
+    # plt.pause(time_redraw)
     plt.ylim(0, 2000)
     plt.savefig(CHART_PATH + CHART_NAME)
-    Image.open(CHART_PATH + CHART_NAME).save(CHART_PATH + CHART_NAME, "JPEG")
-    time.sleep(time_redraw)
+    # Image.open(CHART_PATH + CHART_NAME).save(CHART_PATH + CHART_NAME, "JPEG")
     plt.clf()
 
 
@@ -173,24 +171,31 @@ car = None
 
 
 def lidar_stream(state=None):
-    
+
     while state == MODE_ON:
+        make_chart()
         try:
             # get the picture
+            sleep(1)
             radar = cv2.imread(CHART_PATH + CHART_NAME)
             radar = cv2.imencode(".jpg", radar)[1]
             # convert it to bytes
             radar_bytes = radar.tobytes()
             # async encoding
-            yield (b'--frame\r\n'b'Content-Type: image/png\r\n\r\n' + radar_bytes + b'\r\n\r\n')
+            yield (
+                b"--frame\r\n"
+                b"Content-Type: image/png\r\n\r\n" + radar_bytes + b"\r\n\r\n"
+            )
         except RuntimeError:
             print("error")
-            
-        
+
+
 @app.route("/video_feed/<int:state>")
 def video_feed(state=None):
     # prepare the response to send
-    return Response(lidar_stream(state), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(
+        lidar_stream(state), mimetype="multipart/x-mixed-replace; boundary=frame"
+    )
 
 
 @app.route("/")
@@ -237,7 +242,9 @@ def create_car():
         return render_template("form_remote_car.html")
     else:
         car = None
-        return render_template("error.html", msg="Une connexion est nécessaire pour pouvoir intéragir avec")
+        return render_template(
+            "error.html", msg="Une connexion est nécessaire pour pouvoir intéragir avec"
+        )
 
 
 @app.route("/close_connection/")
@@ -249,7 +256,7 @@ def close_connection():
         if car.connection != None:
             car.disconnect()
             output = "Connexion fermée avec l'appareil {0}".format(car.MY_MOVEHUB_ADD)
-                
+
     return render_template("connection.html", msg=output)
 
 
@@ -297,7 +304,8 @@ def bg_process_lidar(state=None):
         loop = asyncio.get_running_loop()
     except RuntimeError:  # no event loop running:
         loop = asyncio.new_event_loop()
-        return loop.run_until_complete(main(state))
+    finally:
+        loop.run_until_complete(main(state))
 
     return ""
 
@@ -371,8 +379,18 @@ if __name__ == "__main__":
     GPIO.setup(GPIO_FLYING_FISH_FRONT_RIGHT, GPIO.IN)
     GPIO.setup(GPIO_FLYING_FISH_FRONT_LEFT, GPIO.IN)
     # Add the event
-    GPIO.add_event_detect(GPIO_FLYING_FISH_FRONT_RIGHT, GPIO.FALLING, callback=get_grounded_state, bouncetime=2000)
-    GPIO.add_event_detect(GPIO_FLYING_FISH_FRONT_LEFT, GPIO.FALLING, callback=get_grounded_state, bouncetime=2000)
+    GPIO.add_event_detect(
+        GPIO_FLYING_FISH_FRONT_RIGHT,
+        GPIO.FALLING,
+        callback=get_grounded_state,
+        bouncetime=2000,
+    )
+    GPIO.add_event_detect(
+        GPIO_FLYING_FISH_FRONT_LEFT,
+        GPIO.FALLING,
+        callback=get_grounded_state,
+        bouncetime=2000,
+    )
 
     topbar = Navbar(
         View("Accueil", "home"),

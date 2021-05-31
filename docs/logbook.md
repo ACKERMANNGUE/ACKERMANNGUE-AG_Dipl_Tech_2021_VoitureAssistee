@@ -1576,3 +1576,61 @@ def get_grounded_state(self):
 * https://stackoverflow.com/questions/415511/how-to-get-the-current-time-in-python#415519
 * https://www.raspberrypi.org/forums/viewtopic.php?p=1255152
 * https://www.makeuseof.com/tag/gpio-zero-raspberry-pi/
+
+
+### 29.05.2021
+
+* Je me suis mis à travailler sur la résolution de bug du graphique affichant les objets à des certaines distances.
+    * J'ai commencé par implémenter la manière de faire présente dans [cet article](https://medium.com/greedygame-engineering/an-elegant-way-to-run-periodic-tasks-in-python-61b7c477b679), j'ai donc essayé d'appeler la méthode toutes les secondes avec la méthode `threading.Timer(WAIT_SECONDS, make_chart).start()` mais ça n'avait pas l'air de fonctionné
+    * Après avoir regardé les différents liens ci-dessous, je me suis aperçu que pour ce qui était des animations, c'était une série de données puis qui sont enregistré dans le format mp4 mais par conséquent ne permet pas de faire du streaming de graphique
+    * Alors je me suis dit qu'au lieu d'appeller la méthode générant le graphique il serait plus judicieux de le faire tourner sur un autre thread avec une loop d'asyncio mais en fait ce n'était pas une bonne idée car la méthode ne s'exécutait même pas, je n'ai pas très bien compris pourquoi
+    * Ensuite j'ai tenté la manière de faire [présente ici](https://stackoverflow.com/questions/10813195/run-a-python-function-every-second#10813316) mais au final je me suis dit qu'autant la mettre dans la méthode dans la boucle qui gère le streaming aurait été une meilleure idée c'est donc ce que j'ai fait, par conséquent je n'ai plus d'erreur qui pop dans la console, cependant de temps en temps le graph affiche des données étranges mais le retard qui s'accumule sur le graphique est très agaçant et je ne sais pas vraiment comment palier à ça
+
+
+#### Liens consultés
+
+##### Python
+* https://matplotlib.org/2.0.2/examples/animation/moviewriter.html
+* https://stackoverflow.com/questions/42024817/plotting-a-continuous-stream-of-data-with-matplotlib
+* https://www.youtube.com/watch?v=Ercd-Ip5PfQ&ab_channel=CoreySchafer
+* https://stackoverflow.com/questions/32018049/plotting-realtime-data-with-flask-and-bokeh
+* https://github.com/cerickson/flask-matplotlib-tutorial
+* https://stackoverflow.com/questions/37505696/multiple-route-mapping-to-different-matplotlib-graphs-in-flask-app
+* https://stackoverflow.com/questions/42024817/plotting-a-continuous-stream-of-data-with-matplotlib#42026341
+* https://stackoverflow.com/questions/10813195/run-a-python-function-every-second#10813316
+* https://medium.com/greedygame-engineering/an-elegant-way-to-run-periodic-tasks-in-python-61b7c477b679
+* https://www.geeksforgeeks.org/try-except-else-and-finally-in-python/
+
+
+### 31.05.2021
+
+* J'ai commencé la journée par mettre en place le code permettant de détecter quels sont les flying-fish ne détectant plus de sol afin de pouvoir tout de même manœuvrer 
+
+#### Liens consultés
+
+##### --
+
+
+### 1.06.2021
+
+#### Liens consultés
+
+##### --
+
+### 2.06.2021
+
+#### Liens consultés
+
+##### --
+
+### 3.06.2021
+
+#### Liens consultés
+
+##### --
+
+### 4.06.2021
+
+#### Liens consultés
+
+##### --
