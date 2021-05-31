@@ -1698,7 +1698,7 @@ def get_actions_for_car():
 * J'ai constaté, je ne sais pas pourquoi, mais la déconnexion à la voiture des fois ne se fait pas et des fois oui.
     * Ce que j'ai remarqué et qui est très étrange, c'est que lorsque je recréé une connexion à la voiture (même si elle est déjà connectée) je peux la déconnecter sans soucis mais lorsque je la déconnecte de temps en temps j'ai ce message d'erreur dans la console `dbus.exceptions.DBusException: org.freedesktop.DBus.Error.ServiceUnknown: The name :1.72 was not provided by any .service files`
     * Pour faire la déconnexion, j'utilise la méthode fournie qui est `disconnect()` et ensuite je désactivais puis réactivais le bluetooth car auparavant (avec le singleton) la connexion restait ouverte et cela causait des problèmes. En enlevant ces lignes ça n'a pas résolu le problème de déconnexion
-* 
+* Pour terminer la journée, j'ai vérifié toutes les fautes d'orthographes de ma documentation technique
 
 #### Liens consultés
 
