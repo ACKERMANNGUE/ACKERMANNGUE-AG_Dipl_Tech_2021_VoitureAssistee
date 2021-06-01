@@ -1705,25 +1705,123 @@ def get_actions_for_car():
 ##### --
 
 
-### 1.06.2021
+### 01.06.2021
+
+* J'ai commencé la journée par m'atteler au problème du guidon
+    * Pendant que je codais, je me suis aperçu que pour le code qui gère les moteurs en fonction des flying-fish fonctionnait bien mais qu'il devait accepter une rapidité max car par exemple (de manière sécurisée) j'ai tenté de voir si dans cette position :
+
+![Voiture sur le bord de table](./images/voiture/voiture_bord_de_table.jpg "Voiture sur le bord de table")
+
+* Car au bord de table, dans la version du code actuelle, on peut toujours avancé à fond et donc la voiture tombe du bord de table. Donc je pense que je vais ajouter une valeur maximale lorsque l'un des capteurs ne détecte plus de sol.
+* Puis j'ai pu remarqué une chose, lorsque la voiture est sur la point de tombé. Lorsqu'on lui demande de reculer, elle le fait cependant vu que j'utilise le système d'événement pour faire l'arrêt d'urgence. Il faut que je stock l'ancien état car lorsqu'elle recule lorsqu'elle redétecte un sol la voiture se stop.
+* Donc dans le tableau listante les GPIO des différents flying-fish, j'en ai fait des tuple afain de pouvoir y stocker leurs états.
+* J'ai remarqué un problème vu que j'utilisais cette manière de faire pour gérer leurs états :
+
+
+```python
+def get_grounded_state(self):
+    """Will stop the motors if the ground isn't detected anymore"""
+    global car
+    global flying_fish_state
+    for sensor_gpio, sensor_state in constants.GPIO_FLYING_FISH:
+        # Loop in flying_fish_state array
+        for sensor in flying_fish_state:
+            print(sensor[0])
+            print(not GPIO.input(sensor_gpio))
+            # Check if the actual sensor is the sensor which triggered event
+            if sensor[0] == sensor_gpio and sensor[0] != (GPIO.input(sensor_gpio)):
+                if car != None:
+                    car.stop_moving()
+                    # Invert his state
+                    sensor[1] = not sensor[1]
+                    print(sensor_gpio)
+                    break
+
+```
+
+* Le problème est le suivant : `sensor[1] = not sensor[1] TypeError: 'tuple' object does not support item assignment`, en lisant [ce post](https://stackoverflow.com/questions/7735838/typeerror-tuple-object-does-not-support-item-assignment-when-swapping-values#7735850), j'ai pu voir que les tuples sont immutables et qu'il faut les transformer en liste lorsque le l'on doit y modifier ses valeurs.
+* Ensuite, pendant que je codais, j'ai pu m'apercevoir que du coup le bounceback était trop élevé et ne change donc pas l'état du capteur de suite. Lorsque j'ai changé le bounceback, l'état des capteurs changeait, mais pas les valeurs du tableau :
+
+```python
+def get_grounded_state(self):
+    """Will stop the motors if the ground isn't detected anymore"""
+    global car
+    global flying_fish_state
+    for sensor_gpio, sensor_state in constants.GPIO_FLYING_FISH:
+        # Loop in flying_fish_state array
+        for sensor in flying_fish_state:
+            if not isinstance(sensor, int):
+                sensor = list(sensor)
+                print(sensor)
+                print(not GPIO.input(sensor_gpio))
+                # Check if the actual sensor is the sensor which triggered event
+                if sensor[0] == sensor_gpio and sensor[1] != (not GPIO.input(sensor_gpio)):
+                    if car != None:
+                        car.stop_moving()
+                        # Invert his state
+                        sensor[1] = not GPIO.input(sensor_gpio)
+                        flying_fish_state = tuple(sensor)
+                        print(sensor)
+                        break
+```
+
+* Entre temps, j'ai eu un call avec M. Bonvin afin de faire le point sur la situation.
+    * Il m'a dit :
+        *  D'ajouter dans la documentation ce qui reste à faire
+        *  De transformer le Pi 4 en un hotspot à l'aide de [cette librairie](https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/)
+        *  Que pour le système d'évitement d'obstacles il serait intéressant de voir devant et derrière avec un angle d'ouverture de 30° et de modifier la puissance moteur en fonction de notre position. Le but étant que l'on se mette derrière la voiture et qu'elle avance si je suis derrière elle à une certaine distance 
+
+* Ensuite je me suis remis à travailler sur le problème. J'ai perdu tellement de temps à tenter d'utiliser les tuples convertit en liste puis reconverti en tuple pour changer leurs états car je trouvais le concept plus simple en terme d'approche "propre" mais je me suis résolu à faire un tableau qui contient un tablea avec comme premier index le flying-fish de devant à gauche puis en dernier le flying-fish derrière droit. Ce tableau contient la valeur des capteurs. Voici la version modifiée et fonctionnelle :
+
+```python
+def get_grounded_state(self):
+    """Will stop the motors if the ground isn't detected anymore"""
+    global car
+    global flying_fish_state
+
+    for i in range(len(constants.GPIO_FLYING_FISH)):
+        for sensor_state in flying_fish_state:
+            input_values = not GPIO.input(constants.GPIO_FLYING_FISH[i][0])
+            if sensor_state != input_values:
+                if car != None and (input_values) != True:
+                    car.stop_moving()
+                # Invert his state
+                sensor_state = input_values
+        flying_fish_state[i] = sensor_state
+    print(flying_fish_state)
+```
+
+* Ensuite, je me suis remis sur le réglage du guidon :
+    * J'ai commencé par tenter de faire une boucle qui décrémente la valeur de l'angle pour le faire arriver à 0, ça n'a pas fonctionné
+    * Ensuite j'ai tenté de mettre en place une version alternative à ça, c'est à dire de diviser par 2 la valeur de l'angle jusqu'à arriver à 0 donc dans une boucle, mais ce n'était pas propre donc j'ai opté pour une autre méthode.
+    * J'ai tenté d'utiliser la méthode qui divise par 2, car par exemple, lorsque j'oriente de 0.45 à droite lorsque dans ma méthode qui reset l'angle j'utilise l'inverse donc `0.45 * -1 ` bah il va à l'opposer sans s'arrêter au 0
+    * Donc j'ai tenté d'utiliser la version qui divise par 2 car si il va à l'exact opposé cela veut dire que le centre est la moitiée de la valeur de l'angle inversée. Le problème avec ça, c'est que des fois les arrondis se font mal et il n'arrive pas vraiment à sa position d'origine. Donc ça marche à moitié
+
+#### Liens consultés
+
+##### Raspberry Pi
+* https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/
+
+##### Python
+* https://stackoverflow.com/questions/7735838/typeerror-tuple-object-does-not-support-item-assignment-when-swapping-values#7735850
+* https://www.pythonpool.com/typeerror-int-object-is-not-subscriptable/
+* https://pythonguides.com/python-check-if-the-variable-is-an-integer/
+* https://pythonguides.com/python-convert-tuple-to-list/
+* https://www.tutorialspoint.com/convert-a-list-into-a-tuple-in-python
+
+### 02.06.2021
 
 #### Liens consultés
 
 ##### --
 
-### 2.06.2021
+### 03.06.2021
 
 #### Liens consultés
 
 ##### --
 
-### 3.06.2021
-
-#### Liens consultés
-
-##### --
-
-### 4.06.2021
+### 04.06.2021
 
 #### Liens consultés
 
