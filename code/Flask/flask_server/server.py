@@ -26,19 +26,23 @@ import static.constants as constants
 
 
 
-
+flying_fish_state = [constants.FLYING_FISH_STATE_GROUNDED, constants.FLYING_FISH_STATE_GROUNDED, constants.FLYING_FISH_STATE_GROUNDED, constants.FLYING_FISH_STATE_GROUNDED]
 
 def get_grounded_state(self):
     """Will stop the motors if the ground isn't detected anymore"""
     global car
-    for sensor_gpio, sensor_name in constants.GPIO_FLYING_FISH:
-        if self == sensor_gpio:
-            if car != None:
-                car.stop_moving()
-            # print(datetime.datetime.now())
-            # print(sensor_gpio)
-            # print(sensor_name)
-            break
+    global flying_fish_state
+
+    for i in range(len(constants.GPIO_FLYING_FISH)):
+        for sensor_state in flying_fish_state:
+            input_values = not GPIO.input(constants.GPIO_FLYING_FISH[i][0])
+            if sensor_state != input_values:
+                if car != None and (input_values) != True:
+                    car.stop_moving()
+                # Invert his state
+                sensor_state = input_values
+        flying_fish_state[i] = sensor_state
+    print(flying_fish_state)
 
 
 def get_radar_data(row):
@@ -394,13 +398,13 @@ if __name__ == "__main__":
         constants.GPIO_FLYING_FISH_FRONT_RIGHT,
         GPIO.FALLING,
         callback=get_grounded_state,
-        bouncetime=2000,
+        bouncetime=300,
     )
     GPIO.add_event_detect(
         constants.GPIO_FLYING_FISH_FRONT_LEFT,
         GPIO.FALLING,
         callback=get_grounded_state,
-        bouncetime=2000,
+        bouncetime=300,
     )
 
     topbar = Navbar(

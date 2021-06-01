@@ -1,3 +1,4 @@
+import math
 from pylgbst.comms.cgatt import GattConnection
 from pylgbst.hub import MoveHub
 from pylgbst.peripherals import Motor, EncodedMotor
@@ -17,6 +18,7 @@ class CarController:
     DEFAULT_ANGLE = 0
     MAX_MOTOR_POWER = 1
     MOTOR_STOP_POWER = 0
+    MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED = 0.2
 
     def __init__(cls):
         cls.connection = get_connection_gatt(hub_mac=cls.MY_MOVEHUB_ADD)
@@ -49,12 +51,14 @@ class CarController:
         actions : The list of the possible actions
         """
         # Invert the power direction
-        motor_speed *= -1
+        if motor_speed != 0:
+            motor_speed *= -1
         # Max value of motor is -1 and +1 but in the HTML form, the range input can be set between -100 to +100
         motor_speed /= 100
+        angle_rotation /= 100
 
-        print(actions[0])
-        print(actions[1])
+        # print(actions[0])
+        # print(actions[1])
         
         if actions[0] == constants.CODE_TURN_LEFT and angle_rotation < 0:
             self.turn(angle_rotation)
@@ -66,10 +70,14 @@ class CarController:
             self.turn(angle_rotation)
 
         if actions[1] == constants.CODE_MOVE_FORWARD and motor_speed < 0:
+            if motor_speed > self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED:
+                motor_speed = self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED
             self.front_motor.start_power(motor_speed)
             self.back_motor.start_power(motor_speed)
 
         elif actions[1] == constants.CODE_MOVE_BACKWARD and motor_speed > 0:
+            if motor_speed > self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED:
+                motor_speed = self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED
             self.front_motor.start_power(motor_speed)
             self.back_motor.start_power(motor_speed)
 
@@ -84,22 +92,34 @@ class CarController:
 
         angle : The angle we wants the directionnal motor goes to
         """
+        print("to " + str(angle))
 
         # Reset the angle
-        self.directionnal_motor.start_power(angle + (-1) * self.old_angle)
+        if angle > self.old_angle:
+            self.reset_handlebar()
+        else:
+            angle -= self.old_angle
+        if angle > 1:
+            angle = 1
+        elif angle < -1:
+            angle = 1
+        self.directionnal_motor.start_power(angle)
         self.old_angle = angle
+        
 
+    def reset_handlebar(self):
+        # Reset the angle
+        angle = math.floor((self.old_angle * -1) / 2)
+        print(angle)
+        self.directionnal_motor.start_power(angle)
+          
     def stop_moving(self):
         """Stop the motors"""
+        # Reset the angle
+        self.reset_handlebar()
         self.front_motor.start_power(self.MOTOR_STOP_POWER)
         self.back_motor.start_power(self.MOTOR_STOP_POWER)
 
     def disconnect(self):
         self.connection.disconnect()
-        # print("stopping bluetooth")
-        # os.system("sudo systemctl stop bluetooth.service")
-        # time.sleep(1)
-        # print("starting bluetooth")
-        # os.system("sudo systemctl start bluetooth.service")
-        # time.sleep(3)
 
