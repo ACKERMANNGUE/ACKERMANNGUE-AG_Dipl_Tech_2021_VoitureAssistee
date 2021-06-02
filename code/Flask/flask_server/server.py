@@ -59,16 +59,12 @@ def get_radar_data(row):
         # remove the line return
         dist = tmp[1].replace(b"\n", b"")
         rows[angle] = float(dist)
-    # # 360 values but it begins at 0
-    # if angle == 359:
-    #     make_chart(0.1)
+
 
 
 def make_chart():
     """
     Will process the chart and save it into a png
-
-
     """
     global rows
     area = 5
@@ -88,7 +84,6 @@ def make_chart():
     # set the projection to polar
     plt.subplot(projection="polar")
     plt.scatter(data_x, data_y, s=area, c=data_y, cmap=cmap)
-    # plt.pause(time_redraw)
     plt.ylim(0, 2000)
     plt.savefig(constants.CHART_PATH + constants.CHART_NAME)
     # Image.open(CHART_PATH + CHART_NAME).save(CHART_PATH + CHART_NAME, "JPEG")
