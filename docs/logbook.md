@@ -1810,12 +1810,84 @@ def get_grounded_state(self):
 * https://www.tutorialspoint.com/convert-a-list-into-a-tuple-in-python
 
 ### 02.06.2021
+* J'ai commencé la journée par continuer de travailler sur le guidon vu que mes tentatives d'hier étaient à peu près fonctionnelles. Entre temps, pour essayer de potentiellement mieux comprendre comment le guidon pouvait fonctionné, j'ai été regardé dans l'application `CONTROL+` comment le guidon intéragissait et si ils pouvaient le ramené à l'angle 0.
+    * Ce qu'ils font eux, c'est qu'il utilise une manette comme ceci : 
+![Interface de télécommande de la voiture avec CONTROL+](./images/control+/ui_remote_control+.jpg "Interface de télécommande de la voiture avec CONTROL+")
+
+* Cette manette est composée de divers éléments mais dans ce cas là, la chose qui nous intéresse c'est la manette en bas à gauche, celle qui ressemble un peu à mon slider sur le site Flask.
+    * Son comportement est qu'au lancement de l'application, si le guidon n'est pas au centre, ils ne le recentre pas eux même. Ensuite, si vous jouez avec la manette elle risque d'être un peu difficile à utiliser.
+    * Cependant ils ont un méthode qui permet de recalibrer les roues et ceci en butant à gauche puis à droite afin de recentrer le guidon
+    * C'est donc la solution pour laquelle j'ai opté de faire ceci
+* Je me suis aperçu que vu que je pensais que pour le guidon il s'agissait de valeur d'angle alors qu'en fait c'est une puissance min et max comprise entre -1 et 1. Cela est fait comme ceci car le guidon est géré par un moteur, donc il a besoin d'une valeur correspondante à la puissance. C'est-à-dire que si on imagine que l'on peut faire changer la position des roues d'environ 15° de chaque côté, bah que le 15 sera notre 1 et le -15 le -1. Donc il a fallu que je change la range max de l'angle dans mon interface de 120 à 100.
+    * La méthode que j'ai utilisée est que, j'inverse l'ancien angle et je le divise par 2
+* Ensuite j'ai suivi le tutoriel présent [ici](https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/)
+	* Il faut d'abord mettre son raspberry pi à jour avec `sudo apt update && sudo apt full-upgrade`
+	* Après la mise à jour, il faut télécharger le code disponible sur le github avec la commande : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`
+    	* Pendant l'installation, il faut dire oui à tout à moins d'avoir de bonne raison mais dans ce cas ce n'est pas nécessaire
+    	* Après l'installation il faut redémarrer le raspberry pi : `sudo reboot now`
+  	* L'adresse IP du pi 4 devient 10.3.141.1, cette adresse nous donne accès au tableau de bord du hotspot
+    	* Pour s'y connecter, il faut entrer comme nom d'utilisateur : `admin` et `secret` comme mot de passe
+    	* Pour pouvoir s'y connecter à distance (toujours avec les valeurs par défaut) le nom du réseau est : `raspi-webgui` avec pour mot de passe `ChangeMe`
+  	* Depuis l'interface, il faut cliquer sur `Hotspot` pour pouvoir changer le nom du réseau `SSID`, pour changer le mot de passe `Pre Shared Key` il faut aller dans l'onglet `Security`
+    	* Puis cliquer sur `Restart hotspot` en bas à droite de la page
+  	* Ensuite, j'ai tenté de connecté mon téléphone, ça a fonctionné et le pi 0, mais je ne sais pas pourquoi il reste connecté au réseau du router et non pas au pi alors que je change dans les config du pi 0 le réseau WLAN sur lequel il doit se connecter.
+    	* J'ai été lire [cet article](https://linuxhint.com/rasperberry_pi_wifi_wpa_supplicant/) et j'ai vu qu'il y avait un fichier qui stockais les connexions aux WLAN, pour y accéder il faut utiliser : `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf`
+
+```
+country=CH
+update_config=1
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+
+network={
+	ssid="rtr_ackermanngue"
+	psk="Super2012"
+}
+
+network={
+	ssid="rsp4_access_point"
+	psk="Super2012"
+}
+```
+
+* J'ai donc enlevé le premier network car il ne servait plus à rien et ça a fonctionné
+* Ensuite, j'ai fait le branchement intégral du reste de la voiture
+* J'ai tenté de me connecter au Pi 4, mais il était pas connecté au routeur donc j'ai été voir ce qu'il se passait et j'ai vu que lorsque je voulais activer le wifi, dans la configuration du raspberry pi, il me dit cette erreur lorsque j'active le WLAN : `Could not communicate with wpa_supplicant` puis `There was an error running option l4 WLAN Country`
+    * J'ai été vérifié `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf` et le routeur est bien enregistré
+    * Ensuite, j'ai tenté de changé l'hostname du raspberry pi car j'ai vu sur [cet article](https://forum.ubuntu-fr.org/viewtopic.php?id=1944501) qu'il pouvait y avoir un problème de hostname et dans mon cas, ça n'a pas résolu le problème, mais le problème de hostname était réel c'est-à-dire que l'hostname du pi était `rsp_main` mais dans le `cat /etc/hosts` il y avait `rspmain` et je me suis dit que si je changeait le hostname en `rspmain` ça fonctionnerait mais ce n'est pas le cas
+    * Après avoir tenté plusieur articles, je me suis dit que pour le moment je m'y branche en ethernet pour pouvoir travailler dessus en SSH
+        * Je ne comprends vraiment pas pourquoi, lorsque j'utilise la carte SD pour le pi 4 si la carte est sur le pi 4 sur ma place de travail ça fonctionne (l'access point) mais lorsque je le met sur le pi 4 de la voiture, il ne se lance pas. Lorsque je connecte le pi 4 de la voiture en ethernet, le port ne s'allume pas alors que celui sur mon bureau oui
+* Ensuite, pour faire le test, j'ai été modifié les adresses ip qui étaient `192.168.50.X` en `10.3.141.X` dans les fichiers qui utilisent des IP
+* Je me suis rendu compte que je ne pouvais pas me connecter en SSH au raspberry pi arrière, j'ai donc vérifié si le SSh était activé dans les interface. J'ai activé l'interface afin d'être sûr puis je me suis rendu compte que même si je faisais un ping, je n'y avais pas accès alors j'ai été vérifié l'installation pour le WiFi sur le pi 0 en question
+    * Après avoir vérifié le `wpa_supplicant.conf`, j'ai tenté de me reconnecté en SSH mais toujours rien
 
 #### Liens consultés
 
-##### --
+##### Linux / Raspberry
+* https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/
+* https://www.raspberrypi.org/forums/viewtopic.php?p=1596133
+* https://raspberrypi.stackexchange.com/questions/89576/after-fresh-raspbian-stretch-install-my-wifi-isn-t-working-on-my-raspberry-pi-3/89627#89627
+* https://linustechtips.com/topic/1302800-emergency-linux-raspi-config-wifi-not-working/
+* https://www.reddit.com/r/raspberry_pi/comments/805due/cant_get_raspberry_to_enable_wifi_through_wpa/
+* https://www.raspberrypi.org/forums/viewtopic.php?t=191252
+* https://forum.ubuntu-fr.org/viewtopic.php?id=1944501
+* https://www.tecmint.com/fix-no-route-to-host-ssh-error-in-linux/
 
 ### 03.06.2021
+
+* J'ai commencé la journée sur la résolution de ce problème : `ssh: connect to host 10.3.141.179 port 22: No route to host`
+      * La première chose que j'ai faite était d'échanger les cartes SD du Pi 0 Avant avec celui de l'arrière pour voir si c'était un problème de cartes ou de pi 0
+          * En ayant inversé les cartes et avoir tenté de me connecter à l'IP `10.3.141.179`, le même problème
+          * Je vais maintenant essayer avec un autre Pi 0 afin de voir si c'est un problème hardware
+            * En essayant la carte SD connectée par l'alimentation générale, j'ai vu que le pi 0 que je venais de prendre rebootais en boucle alors qu'avec l'alimentation micro-USB non j'en conclus donc que ce n'était pas un problème de la carte SD
+          * En me connectant en HDMI, sur le pi 0 arrière j'ai pu constaté qu'en effet il reboot en boucle pour m'assurer qu'il s'agisse bien de l'alimentation
+              * J'ai pris le câble alimentant le pi 0 pour les attacher au pi 0 que j'ai pris pour faire les tests et il reboot quand même automatiquement
+              * Ensuite, j'ai pris le pi 0 de test, je l'ai branché sur l'alimentation générale (sans passer par un câble rallonger) et il ne reboot pas
+              * J'ai tenté de connecté le pi 0 avec une rallonge et ça fonctionne sans reboot automatiquement, je pense donc que c'est un problème de câblage
+                  * Oui c'était un problème de câblage, les câbles faisant l'alimentation était défectueux car après les avoir changés, il ne reboot plus automatiquement
+* Ensuite, j'ai effectué le test des capteurs arrière vu que c'était les seuls que je n'avais pas encore pu tester, commande importante pour lancer les scripts sur les divers raspberry pi 0 : `python3 ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee/code/Flask/flask_sensors_control/server.py`
+  * Tout fonctionne très bien
+  * Après être revenu de la pause, j'ai remarqué que lorsque j'ai lancé de redémmaré tous les raspberr pi 0, le pi 0 de droite ne permettait pas la connexion au SSH, donc qu'il devait y avoir un soucis, donc je vais voir ce qu'il se passe.
+    * Encore une fois je crois que le problème venait de l'alimentation générale car dés que j'ai changé l'alimentation du pi 0 de droite sur les pins de gauche ça a fonctionné
 
 #### Liens consultés
 
