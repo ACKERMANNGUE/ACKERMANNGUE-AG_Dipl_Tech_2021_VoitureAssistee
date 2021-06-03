@@ -14,7 +14,8 @@ class CarController:
 
     MY_MOVEHUB_ADD = "90:84:2B:50:36:43"
     MY_BTCTRLR_HCI = "hci0"
-    MAX_ANGLE = 120
+    MIN_ANGLE = -1
+    MAX_ANGLE = 1
     DEFAULT_ANGLE = 0
     MAX_MOTOR_POWER = 1
     MOTOR_STOP_POWER = 0
@@ -92,26 +93,35 @@ class CarController:
 
         angle : The angle we wants the directionnal motor goes to
         """
-        print("to " + str(angle))
+        print("from " + str(self.old_angle))
 
         # Reset the angle
-        if angle > self.old_angle:
-            self.reset_handlebar()
-        else:
-            angle -= self.old_angle
-        if angle > 1:
-            angle = 1
-        elif angle < -1:
-            angle = 1
+        # if angle < self.old_angle:
+        #     angle -= self.old_angle
+        # else:
+        #     angle += self.old_angle
+        # if angle > self.MAX_ANGLE:
+        #     angle = self.MAX_ANGLE
+        # elif angle < self.MIN_ANGLE:
+        #     angle = self.MIN_ANGLE
+        # print("computed " + str(angle))
+        
         self.directionnal_motor.start_power(angle)
+        print("to " + str(angle))
+
         self.old_angle = angle
         
 
     def reset_handlebar(self):
         # Reset the angle
-        angle = math.floor((self.old_angle * -1) / 2)
-        print(angle)
+        angle = self.old_angle  * -1
+        print("from " + str(self.old_angle))
+        angle /= 2
+        print("to " + str(angle))
+
         self.directionnal_motor.start_power(angle)
+        self.old_angle = angle
+        # self.directionnal_motor.start_power(self.MAX_ANGLE)
           
     def stop_moving(self):
         """Stop the motors"""
