@@ -24,9 +24,17 @@ from PIL import Image
 import datetime
 import static.constants as constants
 
-
-
 flying_fish_state = [constants.FLYING_FISH_STATE_GROUNDED, constants.FLYING_FISH_STATE_GROUNDED, constants.FLYING_FISH_STATE_GROUNDED, constants.FLYING_FISH_STATE_GROUNDED]
+
+# Init
+size_rows = 360
+rows = [0] * size_rows
+
+loop = asyncio.new_event_loop()
+
+app = Flask(__name__)
+
+car = None
 
 def get_grounded_state(self):
     """Will stop the motors if the ground isn't detected anymore"""
@@ -36,6 +44,8 @@ def get_grounded_state(self):
     for i in range(len(constants.GPIO_FLYING_FISH)):
         for sensor_state in flying_fish_state:
             input_values = not GPIO.input(constants.GPIO_FLYING_FISH[i][0])
+            print(input_values)
+            print(constants.GPIO_FLYING_FISH[i][1])
             if sensor_state != input_values:
                 if car != None and (input_values) != True:
                     car.stop_moving()
@@ -126,16 +136,6 @@ async def main(should_scan):
     """
     await run(should_scan)
 
-
-# Init
-size_rows = 360
-rows = [0] * size_rows
-
-loop = asyncio.new_event_loop()
-
-app = Flask(__name__)
-
-car = None
 
 
 def lidar_stream(state=None):
@@ -250,11 +250,12 @@ def bg_process_car():
     move_speed = request.form["rngMove"]
     angle_rotation = request.form["rngRotationAngle"]
 
-    actions = get_actions_for_car()
 
     if car != None:
         move_speed = float(move_speed)
         angle_rotation = int(angle_rotation)
+        actions = get_actions_for_car(move_speed)
+        print(actions)
         car.move(move_speed, angle_rotation, actions)
     return render_template(
         "form_remote_car.html",
@@ -263,13 +264,13 @@ def bg_process_car():
         angle=angle_rotation,
     )
 
-def get_actions_for_car():
+def get_actions_for_car(speed):
     actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_NOTHING)
     # INDEX 0 represent the turn code
     # INDEX 1 represent the move code
-
-    if GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
-        print("les deux")
+    print(speed)
+    if GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT) and not GPIO.input(constants.GPIO_FLYING_FISH_BACK_LEFT) and not GPIO.input(constants.GPIO_FLYING_FISH_BACK_RIGHT):
+        print("les deux avant")
         actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_BACKWARD)
 
     elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
@@ -288,18 +289,17 @@ def get_actions_for_car():
         print("gauche mais pas droite")
         actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_BACKWARD)
 
-    # todo for the back flyingfish
-    # elif not GPIO.input(GPIO_FLYING_FISH_BACK_LEFT):
-    #     arr_actions[0] = CODE_TURN_RIGHT
-    #     arr_actions[1] = CODE_MOVE_BACKWARD
+    elif not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT) and GPIO.input(constants.GPIO_FLYING_FISH_BACK_LEFT) and GPIO.input(constants.GPIO_FLYING_FISH_BACK_RIGHT):
+        print("les deux arrière")
+        actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_FORWARD)
 
-    # elif not GPIO.input(GPIO_FLYING_FISH_BACK_RIGHT):
-    #     arr_actions[0] = CODE_TURN_LEFT
-    #     arr_actions[1] = CODE_MOVE_BACKWARD
-
-    # elif not GPIO.input(GPIO_FLYING_FISH_BACK_LEFT) and not GPIO.input(GPIO_FLYING_FISH_BACK_RIGHT):
-    #     arr_actions[0] = CODE_TURN_NOTHING
-    #     arr_actions[1] = CODE_MOVE_FORWARD
+    elif GPIO.input(constants.GPIO_FLYING_FISH_BACK_LEFT):
+        print("gauche")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_FORWARD)
+    
+    elif GPIO.input(constants.GPIO_FLYING_FISH_BACK_RIGHT):
+        print("droite")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_FORWARD)
 
     return actions
 
@@ -379,29 +379,46 @@ def form_remote_response():
 def error(msg):
     return render_template("error.html", msg=msg)
 
-
-if __name__ == "__main__":
-    Bootstrap(app)
+def initFlyingfish():
     # Set the mode into Broadcom SOC channel
     # It allows to use GPIO number instead of pin number
     GPIO.setmode(GPIO.BCM)
     # Set the GPIO into input mode
     GPIO.setup(constants.GPIO_FLYING_FISH_FRONT_RIGHT, GPIO.IN)
     GPIO.setup(constants.GPIO_FLYING_FISH_FRONT_LEFT, GPIO.IN)
+    GPIO.setup(constants.GPIO_FLYING_FISH_BACK_RIGHT, GPIO.IN)
+    GPIO.setup(constants.GPIO_FLYING_FISH_BACK_LEFT, GPIO.IN)
     # Add the event
     GPIO.add_event_detect(
         constants.GPIO_FLYING_FISH_FRONT_RIGHT,
         GPIO.FALLING,
         callback=get_grounded_state,
-        bouncetime=300,
+        bouncetime=constants.GPIO_BOUNCEBACK,
     )
     GPIO.add_event_detect(
         constants.GPIO_FLYING_FISH_FRONT_LEFT,
         GPIO.FALLING,
         callback=get_grounded_state,
-        bouncetime=300,
+        bouncetime=constants.GPIO_BOUNCEBACK,
+    )
+    GPIO.add_event_detect(
+        constants.GPIO_FLYING_FISH_BACK_RIGHT,
+        GPIO.FALLING,
+        callback=get_grounded_state,
+        bouncetime=constants.GPIO_BOUNCEBACK,
+    )
+    GPIO.add_event_detect(
+        constants.GPIO_FLYING_FISH_BACK_LEFT,
+        GPIO.FALLING,
+        callback=get_grounded_state,
+        bouncetime=constants.GPIO_BOUNCEBACK,
     )
 
+
+if __name__ == "__main__":
+    Bootstrap(app)
+    
+    initFlyingfish()
     topbar = Navbar(
         View("Accueil", "home"),
         View("Télécommande", "control_car"),
