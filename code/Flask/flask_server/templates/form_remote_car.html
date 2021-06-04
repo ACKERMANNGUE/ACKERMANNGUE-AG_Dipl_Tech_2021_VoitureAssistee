@@ -3,50 +3,43 @@
 <div class="container">
     <h1>Interface de commande de la voiture</h1>
     <form action="/form_remote_response/" method="POST">
+        
         <div class="row">
-            <div class="col-md-12">
-                <label for="cbxAutomaticMode">Mode automatique</label>
-                <input type="checkbox" value="{{mode}}" id="cbxAutomaticMode" name="cbxMode" onclick="execute()">
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-2">
+            <div class="col-xs-2">
                 <label for="rngMove">Vitesse</label>
             </div>
-            <div class="col-md-1">
+            <div class="col-xs-1">
                 <span>Reculer</span>
             </div>
-            <div class="col-md-7">
+            <div class="col-xs-7">
                 <input type="range" value="{{speed}}" min="-100" max="100" id="rngMove" name="rngMove">
             </div>
-            <div class="col-md-2">
+            <div class="col-xs-2">
                 <span>Avancer</span>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-xs-2">
                 <label for="rngRotationAngle">Angle de rotation</label>
             </div>
-            <div class="col-md-1">
+            <div class="col-xs-1">
                 <span>Gauche</span>
             </div>
-            <div class="col-md-7">
+            <div class="col-xs-7">
                 <input type="range" value="{{angle}}" min="-100" max="100" id="rngRotationAngle"
                     name="rngRotationAngle">
             </div>
-            <div class="col-md-2">
+            <div class="col-xs-2">
                 <span>Droite</span>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <input type="submit" value="validate" name="send_request" id="validate_action"
-                        class="btn btn-success" />
+            <div class="row text-center">
+                <div class="col-xs-3">
+                    <input type="submit" value="reset angle" name="send_request"  class="btn btn-info" />
                 </div>
-                <div class="col-md-3">
+                <div class="col-xs-3">
                     <input type="submit" value="stop" name="send_request" class="btn btn-info" />
                 </div>
-                <div class="col-md-3">
+                <div class="col-xs-3">
                     <input type="submit" value="disconnect" name="send_request" class="btn btn-danger" />
                 </div>
     </form>

@@ -1,4 +1,8 @@
 .cameras{
-    width: 600px;
-    height: 318px;
+    width: 640px;
+    height: 512px;
+}
+
+#lidar{
+    width: 640px;
 }

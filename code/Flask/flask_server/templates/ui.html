@@ -4,7 +4,14 @@
     <h1>Interface utilisateur</h1>
     <form action="#" method="POST" id="form_dashboard">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-xs-12">
+                <label for="cbxAutomaticMode">Mode automatique</label>
+                <input type="checkbox" value="{{mode}}" id="cbxAutomaticMode" name="cbxMode" onclick="execute()">
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
                 <h3>Phares</h3>
                 <ul>
                     <li>
@@ -30,7 +37,7 @@
                 </ul>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-3">
                 <h3>Caméras</h3>
                 <ul>
                     <li>
@@ -52,7 +59,7 @@
                 </ul>
 
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-3">
                 <h3>Scanner 360°</h3>
                 <ul>
                     <li>
@@ -64,22 +71,27 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
+                <p class="font-italic ">Caméra avant</p>
                 <iframe class="cameras" id="cnvCam0" src="http://10.3.141.60:5000/streaming_camera"></iframe>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
+                <p class="font-italic ">Caméra droite</p>
                 <iframe class="cameras" id="cnvCam1" src="http://10.3.141.114:5000/streaming_camera"></iframe>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
+                <p class="font-italic ">Caméra arrière</p>
                 <iframe class="cameras" id="cnvCam2" src="http://10.3.141.172:5000/streaming_camera"></iframe>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
+                <p class="font-italic ">Caméra gauche</p>
                 <iframe class="cameras" id="cnvCam3" src="http://10.3.141.218:5000/streaming_camera"></iframe>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <img src="{{ url_for('video_feed', state = 0) }}" id="lidar" alt="radar" />
+            <div class="col-xs-12">
+                <p class="font-italic ">Données du Lidar</p>
+                <img src="{{ url_for('video_feed', state = 0) }}" id="lidar" alt="radar"/>
             </div>
         </div>
     </form>

@@ -234,7 +234,6 @@ def control_car():
     """Render the form which allows to control the car"""
     return render_template(
         "form_remote_car.html",
-        mode=constants.DEFAULT_MODE,
         speed=constants.DEFAULT_SPEED,
         angle=constants.DEFAULT_ANGLE,
     )
@@ -246,7 +245,6 @@ def bg_process_car():
 
     global car
 
-    automatic_mode = constants.MODE_OFF
     move_speed = request.form["rngMove"]
     angle_rotation = request.form["rngRotationAngle"]
 
@@ -259,7 +257,6 @@ def bg_process_car():
         car.move(move_speed, angle_rotation, actions)
     return render_template(
         "form_remote_car.html",
-        mode=automatic_mode,
         speed=move_speed,
         angle=angle_rotation,
     )
@@ -322,13 +319,11 @@ def form_remote_response():
     """The form's answer of the remote"""
     global car
     # Init
-    automatic_mode = constants.DEFAULT_MODE
     move_speed = constants.DEFAULT_SPEED
     angle_rotation = constants.DEFAULT_ANGLE
 
     returned_value = render_template(
         "form_remote_car.html",
-        mode=automatic_mode,
         speed=move_speed,
         angle=angle_rotation,
     )
@@ -337,39 +332,16 @@ def form_remote_response():
     )
     if request.method == "POST":
         # Validate will send the values to the car
-        if request.form["send_request"] == constants.BTN_REQUEST_VALIDATE:
-            automatic_mode = request.form.get("cbxMode")
-            # form.get return a list of values and None if the checkbox isn't checked
-            if request.form.get("cbxMode") != None:
-                automatic_mode = True
-            move_speed = request.form["rngMove"]
-            angle_rotation = request.form["rngRotationAngle"]
-            # Updates of the inputed values
-            returned_value = render_template(
-                "form_remote_car.html",
-                mode=automatic_mode,
-                speed=move_speed,
-                angle=angle_rotation,
-            )
+        if request.form["send_request"] == constants.BTN_REQUEST_RESET_ANGLE:
             if car != None:
-                # Convert them into float values because the range are int between negative and positive 100
-                # and the method which activate the motors is a range between negative and positive 1
-                # so in the move methods I divide the input values by 100
-                # Reverse the result because it returns True if there isn't a ground below
-                if GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT) or GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
-                    print(move_speed)
-                    grounded = False
-                    if move_speed < 0:
-                        grounded = True
-                car.move(float(move_speed), int(angle_rotation), grounded)
+                car.reset_handlebar()
             else:
                 returned_value = error
         elif request.form["send_request"] == constants.BTN_REQUEST_STOP:
             if car != None:
-                if car.connection != None:
-                    car.stop_moving()
-                else:
-                    returned_value = error
+                car.stop_moving()
+            else:
+                returned_value = error
         elif request.form["send_request"] == constants.BTN_REQUEST_DISCONNECT:
             returned_value = redirect("/close_connection/")
     return returned_value
