@@ -1914,6 +1914,42 @@ network={
 
 ### 04.06.2021
 
+* J'ai commencé la journée en terminant les changement visuels de l'application Flask.
+* Ensuite, j'ai commencé à travailler sur le système de déplacement de la voiture automatiquement en fonction des distances des objets face et de dos à la voiture.
+    * La première chose que j'ai fait était de répertorier tout ce dont j'avais besoin pour le mode automatique
+    * Le premier problème sur lequel je suis tombé, c'est que la route qui active le mode automatique est dans une boucle while et cette dernière tourne en fonction de l'état de la route comme suit :
+
+```python
+@app.route("/automatic_mode/<int:state>", methods=["POST"])
+def automatic_mode(state=None):
+    global car
+    global rows
+    while state == constants.MODE_ON:
+        for i in range(len(rows)):
+            distance = rows[i]
+            if i < constants.MAX_ANGLE_OBSTACLE_DETECTION or i > 360 - constants.MAX_ANGLE_OBSTACLE_DETECTION:
+                if distance < constants.FRONT_DISTANCE_OBSTACLE_DETECTION:
+                    print("avancer")
+            elif i < 180 + constants.MAX_ANGLE_OBSTACLE_DETECTION or i > 180 - constants.MAX_ANGLE_OBSTACLE_DETECTION:
+                if distance < constants.BACK_DISTANCE_OBSTACLE_DETECTION:
+                    print("reculer")
+    return ""
+```
+
+* Le problème est que la première fois que la boucle est lancée, elle tourne en fond et on ne peut donc plus avoir accès. C'est-à-dire, que même si l'on change l'état de la checkbox associée la boucle ne s'arrête pas
+    * Je me suis dit que l'on pourrait peut-être faire un système ou l'on fait une vérification toutes les X secondes et qu'après ce temps on vérifie l'état de la route et faire les modifications associées
+    * Cette méthode n'ayant pas fonctionné, j'ai tenté d'utiliser `asyncio` une nouvelle fois pour pouvoir lancer des "ordres" et pouvoir cesser leurs exécution comme je le souhaite. Par la suite, j'ai eu cette erreur `TypeError: An asyncio.Future, a coroutine or an awaitable is required`
+        * Je ne comprennais vraiment pas pourquoi lorsque j'utilisais quasiment la même technique que pour le lidar (au niveau de la gestion) je pouvais changer l'état du bouton mais la boucle while ne s'arrêtait pas
+        * J'ai donc tenté de faire une méthode récursive, c'est à dire que si l'état à MODE_ON, je rappelais la méthode elle même afin de simuler une boucle mais j'ai eu cette erreur : `RecursionError: maximum recursion depth exceeded while calling a Python object`
+
 #### Liens consultés
 
-##### --
+##### Python
+* https://stackoverflow.com/questions/51074511/how-to-stop-execution-of-infinite-loop-with-exception-handling
+* https://medium.com/@chaoren/how-to-timeout-in-python-726002bf2291
+* https://stackoverflow.com/questions/7370801/how-to-measure-elapsed-time-in-python#7370824
+* https://stackoverflow.com/questions/67774622/function-takes-1-positional-argument-but-2-were-given
+* https://stackoverflow.com/questions/50592540/asyncio-create-task-to-run-forever#50592692
+* https://docs.python.org/3/library/asyncio-task.html#asyncio.run
+* https://stackoverflow.com/questions/59481105/typeerror-an-asyncio-future-a-coroutine-or-an-awaitable-is-required#59481376
+* https://realpython.com/python-while-loop/
