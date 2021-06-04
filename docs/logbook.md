@@ -1888,10 +1888,29 @@ network={
   * Tout fonctionne très bien
   * Après être revenu de la pause, j'ai remarqué que lorsque j'ai lancé de redémmaré tous les raspberr pi 0, le pi 0 de droite ne permettait pas la connexion au SSH, donc qu'il devait y avoir un soucis, donc je vais voir ce qu'il se passe.
     * Encore une fois je crois que le problème venait de l'alimentation générale car dés que j'ai changé l'alimentation du pi 0 de droite sur les pins de gauche ça a fonctionné
+  * Des fois, certainement après une surchage de CPU ou je ne sais pas quoi car il n'y a pas d'erreur retournée dans la console gérant les SSH mais en tout cas depuis le tableau de bord après avoir joué un peu avec les pi 0 doivent bug car on ne peut plus s'y connecter par IP donc pas par SSH
+      * Je vais m'y connecter en mini-HDMI à un pi 0 et regarder ce qu'il se passe
+      * Je n'ai pas pu faire apparaître le problème, car après 30 minutes de tests intensif, il ne s'est pas reproduit
+  * Pendant les tests, je me suis rendu compte que le CPU chauffait énormément, j'ai donc été prendre un ventilateur disponible et je l'ai branch sur le pi 4 afin de réduire sa température, je suis passé de 70 en moyenne à 55 - 60 degré en moyenne
+  * Ensuite, j'ai remis la carte SD du pi 4 sur le pi 4 de la voiture afin de faire les tests de déplacement et j'ai remarqué que le point d'accès n'est pas activé, donc j'ai enlever les visses qui le fixait afin de pouvoir y brancher un câble micro HDMI et je ne reçois pas d'image alors que sur le pi 4 de test oui
+      * En le détachant de la voiture pour le tester à part, j'ai pu me rendre compte qu'il s'agissait pour lui aussi un problème d'alimentation car quand je l'ai branché avec l'USB tout fonctionnais bien et quand j'ai connecté les câbles de l'alimation générale pour test ça rebootais
+  * J'ai modifié le code des flying-fish afin de tous les faire communiquer leurs informations pour prévenir des bords de tables
+      * J'ai remarqué, ce qui est logique, c'est que si on est au bord de table, mais qu'elle tout de même détectée comme suit :
+
+![Voiture au bord de table, cas extrême](./images/voiture/voiture_bord_de_table_extreme.png "Voiture au bord de table, cas extrême")
+
+* Que l'on peut aller à fond avec la voiture, ce que je me suis dit pour palier à ce problème en vérifiant si les flying-fish (avant ou arrière) au niveau de la même ligne de roues ne détectent plus rien et que la vitesse est supérieur à 0.3 ou -0.3 en fonction de l'avant ou de l'arrière, il faut mettre un coup de gaz inverse et un peu plus fort pour la faire avancer un petit coup mais je ne vais pas l'implémenter car ça me ferait perdre du temps donc actuellement on va se baser sur le fait que l'utilisateur est conscient de ce qu'il fait s'il met un coup de boost alors qu'il voit qu'il est au bord de table
+* Ensuite, après avoir réglé les 2-3 bugs que j'avais avec les flying-fish (de nouveau le bug qui fait que lorsque l'on retrouvais du sol, la voiture s'arrêtait), j'ai modifié l'interface du site afin de d'enlever le mode automatique de la page de télécommande car cette fonctionnalitée est plus pratique sur la page de dashboard
+    * J'ai remplacé le bouton `validate` par `reset angle` car ce bouton servait à effectuer les actions pour la voiture en fonction des données du formulaire HTML
+    * J'ai fait cette image pour le radar éteint
+
+![Image à afficher quand le radar est éteint](./images/radar_down.png "Image à afficher quand le radar est éteint")
 
 #### Liens consultés
 
-##### --
+##### Raspberry
+* https://raspberrypi.stackexchange.com/questions/58840/ssh-connect-to-host-192-168-1-49-port-22no-route-to-host-wifi-adapter-on-lapt
+* https://appuals.com/find-mac-address-linux/
 
 ### 04.06.2021
 
