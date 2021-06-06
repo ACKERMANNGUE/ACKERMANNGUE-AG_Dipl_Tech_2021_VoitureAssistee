@@ -92,6 +92,7 @@ class CarController:
         except AssertionError:
             pass
 
+
     def turn(self, angle):
         """Turn the directionnal motor from the input value
 

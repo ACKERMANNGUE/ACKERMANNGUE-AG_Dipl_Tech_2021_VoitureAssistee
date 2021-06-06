@@ -44,6 +44,9 @@ app = Flask(__name__)
 
 car = None
 
+obstacles_distances_front_left = []
+obstacles_distances_front_right = []
+
 
 def get_grounded_state(self):
     """Will stop the motors if the ground isn't detected anymore"""
@@ -157,12 +160,16 @@ def automatic_mode():
     global car
     global rows
     global automatic_mode_state
+    global obstacles_distances_front_left
+    global obstacles_distances_front_right
 
     print("=======================")
     print(automatic_mode_state)
     print("=======================")
+
     while automatic_mode_state == constants.MODE_ON:
-        print("a")
+        obstacles_distances_front_left = []
+        obstacles_distances_front_right = []
         for i in range(len(rows)):
             distance = rows[i]
             actions = get_actions_for_car(0)
@@ -182,6 +189,14 @@ def automatic_mode():
                         distance < constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                         and distance > 0
                     ):
+                        if i < constants.MAX_ANGLE_OBSTACLE_DETECTION:
+                            obstacles_distances_front_left.append(distance)
+                        if (
+                            i
+                            > constants.FULL_ANGLE
+                            - constants.MAX_ANGLE_OBSTACLE_DETECTION
+                        ):
+                            obstacles_distances_front_right.append(distance)
                         # Compute the power
                         speed = distance / constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                         print("reculer")
@@ -201,6 +216,28 @@ def automatic_mode():
                         car.auto_move(speed * (-1))
                 else:
                     car.stop_moving()
+
+                average_left = 0
+                for i in range(len(obstacles_distances_front_left)):
+                    average_left += obstacles_distances_front_left[i]
+                if average_left != 0:
+                    average_left /= len(obstacles_distances_front_left)
+
+                average_right = 0
+                for i in range(len(obstacles_distances_front_right)):
+                    average_right += obstacles_distances_front_right[i]
+                if average_right != 0:
+                    average_right /= len(obstacles_distances_front_right)
+                print(average_left)
+                print("--------------")
+                print(average_right)
+                if average_left != 0 and average_right != 0:
+                    if average_left < average_right:
+                        angle = average_left / average_right * -1
+                        car.turn(angle)
+                    else:
+                        angle = average_right / average_left
+                        car.turn(angle)
 
 
 def lidar_stream(state=None):
