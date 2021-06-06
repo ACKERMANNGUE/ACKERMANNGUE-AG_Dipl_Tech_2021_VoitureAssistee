@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <label for="cbxAutomaticMode">Mode automatique</label>
-                <input type="checkbox" value="{{mode}}" id="cbxAutomaticMode" name="cbxMode" onclick="execute()">
+                <input type="checkbox" value="auto" id="cbxAutomaticMode" name="cbxMode" onclick="execute()">
             </div>
 
         </div>
@@ -110,6 +110,8 @@ const CODE_OTHER = 4;
 const SENSOR_CAMERA = "camera"
 const SENSOR_LIDAR = "lidar"
 
+const MODE_AUTOMATIC = "auto"
+
 const IP_RSP_FRONT = 60;
 const IP_RSP_RIGHT = 114;
 const IP_RSP_BACK = 172;
@@ -168,6 +170,9 @@ $(document).ready(function () {
         if(cbx_value == SENSOR_LIDAR){
             endpoint = `/bg_processing_lidar/${cbx_state}`
             $("#lidar").attr("src", `/video_feed/${cbx_state}`)
+        }
+        if(cbx_value == MODE_AUTOMATIC){
+            endpoint = `/launch_automatic_mode/${cbx_state}`
         }
         execute(endpoint);
     });

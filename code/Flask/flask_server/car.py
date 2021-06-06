@@ -8,7 +8,6 @@ import os
 import static.constants as constants
 
 
-
 class CarController:
     """Class controlling the car"""
 
@@ -57,36 +56,41 @@ class CarController:
         # Max value of motor is -1 and +1 but in the HTML form, the range input can be set between -100 to +100
         motor_speed /= 100
         angle_rotation /= 100
+        try:
+            if actions[0] == constants.CODE_TURN_LEFT and angle_rotation < 0:
+                self.turn(angle_rotation)
 
-        # print(actions[0])
-        # print(actions[1])
-        
-        if actions[0] == constants.CODE_TURN_LEFT and angle_rotation < 0:
-            self.turn(angle_rotation)
+            elif actions[0] == constants.CODE_TURN_RIGHT and angle_rotation > 0:
+                self.turn(angle_rotation)
 
-        elif actions[0] == constants.CODE_TURN_RIGHT and angle_rotation > 0:
-            self.turn(angle_rotation)
+            elif actions[0] == constants.CODE_TURN_NOTHING:
+                self.turn(angle_rotation)
 
-        elif actions[0] == constants.CODE_TURN_NOTHING:
-            self.turn(angle_rotation)
+            if actions[1] == constants.CODE_MOVE_FORWARD and motor_speed < 0:
+                if motor_speed > self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED:
+                    motor_speed = self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED
+                self.front_motor.start_power(motor_speed)
+                self.back_motor.start_power(motor_speed)
 
-        if actions[1] == constants.CODE_MOVE_FORWARD and motor_speed < 0:
-            if motor_speed > self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED:
-                motor_speed = self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED
+            elif actions[1] == constants.CODE_MOVE_BACKWARD and motor_speed > 0:
+                if motor_speed > self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED:
+                    motor_speed = self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED
+                self.front_motor.start_power(motor_speed)
+                self.back_motor.start_power(motor_speed)
+
+            elif actions[1] == constants.CODE_MOVE_NOTHING:
+                self.front_motor.start_power(motor_speed)
+                self.back_motor.start_power(motor_speed)
+        except AssertionError:
+            pass
+
+    def auto_move(self, motor_speed):
+        print(motor_speed)
+        try:
             self.front_motor.start_power(motor_speed)
             self.back_motor.start_power(motor_speed)
-
-        elif actions[1] == constants.CODE_MOVE_BACKWARD and motor_speed > 0:
-            if motor_speed > self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED:
-                motor_speed = self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED
-            self.front_motor.start_power(motor_speed)
-            self.back_motor.start_power(motor_speed)
-
-        elif actions[1] == constants.CODE_MOVE_NOTHING:
-            self.front_motor.start_power(motor_speed)
-            self.back_motor.start_power(motor_speed)
-
-        time.sleep(0.5)
+        except AssertionError:
+            pass
 
     def turn(self, angle):
         """Turn the directionnal motor from the input value
@@ -105,16 +109,15 @@ class CarController:
         # elif angle < self.MIN_ANGLE:
         #     angle = self.MIN_ANGLE
         # print("computed " + str(angle))
-        
+
         self.directionnal_motor.start_power(angle)
         print("to " + str(angle))
 
         self.old_angle = angle
-        
 
     def reset_handlebar(self):
         # Reset the angle
-        angle = self.old_angle  * -1
+        angle = self.old_angle * -1
         print("from " + str(self.old_angle))
         angle /= 2
         print("to " + str(angle))
@@ -122,7 +125,7 @@ class CarController:
         self.directionnal_motor.start_power(angle)
         self.old_angle = angle
         # self.directionnal_motor.start_power(self.MAX_ANGLE)
-          
+
     def stop_moving(self):
         """Stop the motors"""
         # Reset the angle
@@ -132,4 +135,3 @@ class CarController:
 
     def disconnect(self):
         self.connection.disconnect()
-
