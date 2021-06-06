@@ -1471,68 +1471,70 @@ def get_grounded_state(self):
 
 ### 27.05.2021
 
-* J'ai commencé la journée en continuant la documentation faite la veille
-* Ensuite j'ai lu [cet article](https://tutorials-raspberrypi.com/transfer-raspberry-pi-raspbian-os-to-an-sd-card-windows/) afin de cloner à nouveau les cartes SD car la dernière fois que je l'avais fait, elles étaient illisibles et provoquait cette erreur : `Kernel panic-not syncing: VFS: unable to mount root fs on unknown- block(179,6)`
-    * Dans cet article, ils disent d'utiliser [ce logiciel](https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/) pour formater les cartes SD
-        * Dans l'article, ils disent de cocher la case `format size adjustment` mais l'exécutable ne nous permet pas de cocher cette case. En lisant le [manuel utilisateur](https://www.sdcard.org/pdf/SD_CardFormatterUserManualEN.pdf), ils disent que cette option est disponible uniquement sur l'exécutable windows (celui dans lequel je suis), donc étrange que ça ne fonctionne pas.
-        * Cependant, ils disent que cette option est utilisable uniquement sur les cartes de 8Go ou moins, mais pour ma part j'utilise une carte SD de 16Go.
-    * Après avoir fait la copie de la carte et de l'avoir mise sur un Pi 4 pour tester l'installation, j'ai toujours le même problème je vais donc essayer de refaire une image car c'est peut-être l'image de base qui est défectueuse
-    * Je me suis rendu compte d'une erreur que j'ai faite, n'ayant pas vérifié la taille des cartes SD lors de l'élaboration de l'image, j'ai travaillé sur une carte SD de 64Go et j'essaie de copier cette carte dans une carte de 16Go, évidemment que ça ne fonctionne pas
-    * J'ai donc refait une image sur une carte de 16Go en reconfigurant le Raspberry Pi :
-        * Désactivation du login au démarrage en allant dans la configuration du raspberry pi avec : `sudo raspi-config`, ensuite aller dans `System Options`, ensuite dans `Boot / Auto Login` et `Console Autologin`
-        * Changer le clavier de la langue, aller dans `Localisation Options`, ensuite `Keyboard`, sélectionner le clavier ou la marque de clavier que vous utilisez, dans mon cas `Logitech K120`mais n'étant pas présent dans la liste, j'utilise juste le clavier `Logitech`, ensuite il faut cliquer sur `Other`, allez dans `German (Switerland)`, sélectionner `German (Switzerland) - French (Switzerland)`, sélectionner `The default for the keyboard layout`, `No compose key`
-        * Activer le WiFi : toujours dans la configuration du raspberry pi dans le menu `Localisation Options`, il faut aller dans `WLAN Country Set legal wireless channels for your country`, ensuite dans la sélection des pays, il faut chercher cette ligne `CH Switzerland`, par la suite aller dans `System Options`, `Wireless LAN`, il faut entrer le nom du réseau `rtr_ackermanngue` puis le mot de passe : `Super2012`
-        * Activer les interfaces utilisées : en allant dans `Interface Options` et en activant :
-            * La `Camera`
-            * Le `SSH`
-            * Le `I2C`
-        * Mettre à jour le raspberry pi avec la commande : `sudo apt update && sudo apt full-upgrade`
-        * Installer git : `sudo apt install git`
-            * Cloner le repos : `git clone https://github.com/ACKERMANNGUE/ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee`
-        * Installer les dépendences :
-            * `sudo apt install python3-pip`
-            * `sudo pip3 install flask`
-            * `sudo pip3 install RPi.GPIO`
-            * `sudo apt install python-opencv`
-            * `sudo pip3 install smbus`
-            * `sudo pip3 install picamera`
-        * Une fois installées, j'ai lancé le projet pour faire les tests et ça fonctionne parfaitement
-    * Ensuite, j'ai fais une copie de cette carte avec [cette application](https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html) dans une autre similaire en taille
-      * Pendant la copie de la carte SD, j'ai continué la documentation, en prennant des captures d'écrans pour la configuration de l'émetteur WiFi
-    * Une fois la copie terminée, j'ai testé l'installation, mais ça n'a pas fonctionné. J'ai été demandé à M. Beney comment il avait fait pour cloner ses cartes SD ce à quoi il m'a répondu qu'il a utilisé la commande `DD` ainsi que `balenaEtcher`. 
-        * Vu que chez lui ceci a fonctionné, je me suis dit que j'allais faire de même.
-        * Je n'ai pas eu besoin d'utiliser la commande `DD` car `balenaEtcher` permet de cloner un disque.
-    * J'ai installé les 4 cartes SD dans le Pi 0 WiFi en m'assurant avant que chaque carte SD avait bien tous les différents éléments nécessaires
-        * Pendant la copie des différentes cartes, j'ai fait cette image montrant comment utiliser balenaEtcher : 
+- J'ai commencé la journée en continuant la documentation faite la veille
+- Ensuite j'ai lu [cet article](https://tutorials-raspberrypi.com/transfer-raspberry-pi-raspbian-os-to-an-sd-card-windows/) afin de cloner à nouveau les cartes SD car la dernière fois que je l'avais fait, elles étaient illisibles et provoquait cette erreur : `Kernel panic-not syncing: VFS: unable to mount root fs on unknown- block(179,6)`
+  - Dans cet article, ils disent d'utiliser [ce logiciel](https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/) pour formater les cartes SD
+    - Dans l'article, ils disent de cocher la case `format size adjustment` mais l'exécutable ne nous permet pas de cocher cette case. En lisant le [manuel utilisateur](https://www.sdcard.org/pdf/SD_CardFormatterUserManualEN.pdf), ils disent que cette option est disponible uniquement sur l'exécutable windows (celui dans lequel je suis), donc étrange que ça ne fonctionne pas.
+    - Cependant, ils disent que cette option est utilisable uniquement sur les cartes de 8Go ou moins, mais pour ma part j'utilise une carte SD de 16Go.
+  - Après avoir fait la copie de la carte et de l'avoir mise sur un Pi 4 pour tester l'installation, j'ai toujours le même problème je vais donc essayer de refaire une image car c'est peut-être l'image de base qui est défectueuse
+  - Je me suis rendu compte d'une erreur que j'ai faite, n'ayant pas vérifié la taille des cartes SD lors de l'élaboration de l'image, j'ai travaillé sur une carte SD de 64Go et j'essaie de copier cette carte dans une carte de 16Go, évidemment que ça ne fonctionne pas
+  - J'ai donc refait une image sur une carte de 16Go en reconfigurant le Raspberry Pi :
+    - Désactivation du login au démarrage en allant dans la configuration du raspberry pi avec : `sudo raspi-config`, ensuite aller dans `System Options`, ensuite dans `Boot / Auto Login` et `Console Autologin`
+    - Changer le clavier de la langue, aller dans `Localisation Options`, ensuite `Keyboard`, sélectionner le clavier ou la marque de clavier que vous utilisez, dans mon cas `Logitech K120`mais n'étant pas présent dans la liste, j'utilise juste le clavier `Logitech`, ensuite il faut cliquer sur `Other`, allez dans `German (Switerland)`, sélectionner `German (Switzerland) - French (Switzerland)`, sélectionner `The default for the keyboard layout`, `No compose key`
+    - Activer le WiFi : toujours dans la configuration du raspberry pi dans le menu `Localisation Options`, il faut aller dans `WLAN Country Set legal wireless channels for your country`, ensuite dans la sélection des pays, il faut chercher cette ligne `CH Switzerland`, par la suite aller dans `System Options`, `Wireless LAN`, il faut entrer le nom du réseau `rtr_ackermanngue` puis le mot de passe : `Super2012`
+    - Activer les interfaces utilisées : en allant dans `Interface Options` et en activant :
+      - La `Camera`
+      - Le `SSH`
+      - Le `I2C`
+    - Mettre à jour le raspberry pi avec la commande : `sudo apt update && sudo apt full-upgrade`
+    - Installer git : `sudo apt install git`
+      - Cloner le repos : `git clone https://github.com/ACKERMANNGUE/ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee`
+    - Installer les dépendences :
+      - `sudo apt install python3-pip`
+      - `sudo pip3 install flask`
+      - `sudo pip3 install RPi.GPIO`
+      - `sudo apt install python-opencv`
+      - `sudo pip3 install smbus`
+      - `sudo pip3 install picamera`
+    - Une fois installées, j'ai lancé le projet pour faire les tests et ça fonctionne parfaitement
+  - Ensuite, j'ai fais une copie de cette carte avec [cette application](https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html) dans une autre similaire en taille
+    - Pendant la copie de la carte SD, j'ai continué la documentation, en prennant des captures d'écrans pour la configuration de l'émetteur WiFi
+  - Une fois la copie terminée, j'ai testé l'installation, mais ça n'a pas fonctionné. J'ai été demandé à M. Beney comment il avait fait pour cloner ses cartes SD ce à quoi il m'a répondu qu'il a utilisé la commande `DD` ainsi que `balenaEtcher`.
+    - Vu que chez lui ceci a fonctionné, je me suis dit que j'allais faire de même.
+    - Je n'ai pas eu besoin d'utiliser la commande `DD` car `balenaEtcher` permet de cloner un disque.
+  - J'ai installé les 4 cartes SD dans le Pi 0 WiFi en m'assurant avant que chaque carte SD avait bien tous les différents éléments nécessaires
+    - Pendant la copie des différentes cartes, j'ai fait cette image montrant comment utiliser balenaEtcher :
 
 ![Différentes étapes d'utilisation de balenaEtcher](./images/clone_sd/balenaEtcher_differentes_etapes.png "Différentes étapes d'utilisation de balenaEtcher")
 
-* J'ai ensuite continuer la documentation
-
+- J'ai ensuite continuer la documentation
 
 #### Liens consultés
 
 ##### Raspberry
-* https://learn.pi-supply.com/make/bright-pi-quickstart-faq/
-* https://tutorials-raspberrypi.com/transfer-raspberry-pi-raspbian-os-to-an-sd-card-windows/
-* https://raspberrypi.stackexchange.com/questions/40415/how-to-enable-auto-login#76275
+
+- https://learn.pi-supply.com/make/bright-pi-quickstart-faq/
+- https://tutorials-raspberrypi.com/transfer-raspberry-pi-raspbian-os-to-an-sd-card-windows/
+- https://raspberrypi.stackexchange.com/questions/40415/how-to-enable-auto-login#76275
 
 ##### Python
-* https://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3
-* https://raspberrypi.stackexchange.com/questions/60774/importerror-no-module-named-rpi#61462
-* https://stackoverflow.com/questions/48012582/pillow-libopenjp2-so-7-cannot-open-shared-object-file-no-such-file-or-directo#50583153
-* https://stackoverflow.com/questions/57860201/importerror-libavcodec-so-57-cannot-open-shared-object-file-no-such-file-or-d
+
+- https://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3
+- https://raspberrypi.stackexchange.com/questions/60774/importerror-no-module-named-rpi#61462
+- https://stackoverflow.com/questions/48012582/pillow-libopenjp2-so-7-cannot-open-shared-object-file-no-such-file-or-directo#50583153
+- https://stackoverflow.com/questions/57860201/importerror-libavcodec-so-57-cannot-open-shared-object-file-no-such-file-or-d
 
 ##### Autre
-* https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/
-* https://www.sdcard.org/pdf/SD_CardFormatterUserManualEN.pdf
-* https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html
-* https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html
-* https://www.balena.io/etcher/
+
+- https://www.sdcard.org/downloads/formatter/sd-memory-card-formatter-for-windows-download/
+- https://www.sdcard.org/pdf/SD_CardFormatterUserManualEN.pdf
+- https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html
+- https://www.diskpart.com/articles/copy-sd-card-to-sd-card-windows-7201.html
+- https://www.balena.io/etcher/
 
 ### 28.05.2021
 
-* J'ai commencé la journée en corrigeant le bug que j'avais hier par rapport au Flying-Fish, cependant j'en ai un autre. Ce problème est que l'évenement se déclenche 2x. Il se déclenche lorsque ça ne capte plus et lorsque ça capte :
+- J'ai commencé la journée en corrigeant le bug que j'avais hier par rapport au Flying-Fish, cependant j'en ai un autre. Ce problème est que l'évenement se déclenche 2x. Il se déclenche lorsque ça ne capte plus et lorsque ça capte :
 
 ```
 Détecteur avant gauche
@@ -1541,7 +1543,7 @@ Détecteur avant droit
 Détecteur avant droit
 ```
 
-* Sachant que j'utilisais cette méthode ci-dessous pour stop les moteurs en cas d'événement, il va falloir que je règle ce soucis afin que la voiture ne soit pas bloquée lorsqu'un sol est présent :
+- Sachant que j'utilisais cette méthode ci-dessous pour stop les moteurs en cas d'événement, il va falloir que je règle ce soucis afin que la voiture ne soit pas bloquée lorsqu'un sol est présent :
 
 ```python
 def get_grounded_state(self):
@@ -1554,68 +1556,68 @@ def get_grounded_state(self):
                 break
 ```
 
-* J'ai remarqué quand passant le bounceback à 2 secondes que ça résolvait le problème.
-* Ensuite, j'ai tenté de changer le code pour le bluetooth en une variable global afin de s'assurer de la connexion à la voiture car à chaque fois que je créé un nouvel objet `car` j'ai l'impression que la connexion établie n'est pas retrouvée et cela pose des problèmes avec des attributs de la classe.
-    * En modifiant le code pour la voiture, je me suis aperçu que lorsque je voulais récupérer l'objet `car`, sachant qu'anciennement j'utilise la méthode de classe `__new__`, cette dernière effectue des actions à la création de l'objet tandis que `__init__` initialise l'objet et le retourne.
-* Depuis que j'ai changé le code pour en faire une variable global, je n'ai plus de soucis de connexion avec le bluetooth
-* Le code qui stop la voiture si un des capteurs ne trouve plus de sol fonctionne parfaitement
-* Par la suite, j'ai réfléchis sur l'utilité de pouvoir activer ou désactiver les flying-fish car à la base les flying-fish étaient branchés aux pi 0 wifi mais vu que les flying-fish déclenchent des évenements ça aurait été compliqué de déclancher les fonctions d'arrêts à distance depuis un autre rapsberry pi sachant qu'il s'agit du pi 4 qui gère le déplacement de la voiture. Donc j'ai décidé d'enlever cette fonctionnalité.
-* J'ai rajouté des checkbox permettant d'activer et désactiver les leds infrarouges et modifier le code associé
-* J'ai fait une liste des éléments qui devait être fait 
-* Puis j'ai commencé à travailler sur la résolution du problème concernant le radar
-    * Le problème principale est la lecture du fichier, car vu que le graphique est une image mis à jour à chaque tour de boucle, pour pouvoir rendre cette image streamable, j'utilise un scénario comme celui ci-dessous :
+- J'ai remarqué quand passant le bounceback à 2 secondes que ça résolvait le problème.
+- Ensuite, j'ai tenté de changer le code pour le bluetooth en une variable global afin de s'assurer de la connexion à la voiture car à chaque fois que je créé un nouvel objet `car` j'ai l'impression que la connexion établie n'est pas retrouvée et cela pose des problèmes avec des attributs de la classe.
+  - En modifiant le code pour la voiture, je me suis aperçu que lorsque je voulais récupérer l'objet `car`, sachant qu'anciennement j'utilise la méthode de classe `__new__`, cette dernière effectue des actions à la création de l'objet tandis que `__init__` initialise l'objet et le retourne.
+- Depuis que j'ai changé le code pour en faire une variable global, je n'ai plus de soucis de connexion avec le bluetooth
+- Le code qui stop la voiture si un des capteurs ne trouve plus de sol fonctionne parfaitement
+- Par la suite, j'ai réfléchis sur l'utilité de pouvoir activer ou désactiver les flying-fish car à la base les flying-fish étaient branchés aux pi 0 wifi mais vu que les flying-fish déclenchent des évenements ça aurait été compliqué de déclancher les fonctions d'arrêts à distance depuis un autre rapsberry pi sachant qu'il s'agit du pi 4 qui gère le déplacement de la voiture. Donc j'ai décidé d'enlever cette fonctionnalité.
+- J'ai rajouté des checkbox permettant d'activer et désactiver les leds infrarouges et modifier le code associé
+- J'ai fait une liste des éléments qui devait être fait
+- Puis j'ai commencé à travailler sur la résolution du problème concernant le radar
+  - Le problème principale est la lecture du fichier, car vu que le graphique est une image mis à jour à chaque tour de boucle, pour pouvoir rendre cette image streamable, j'utilise un scénario comme celui ci-dessous :
 
 ![Problème du lidar](./images/problem_lidar.png "Problème du lidar")
 
-* Le problème survient très probablement lors de la lecture de l'image car j'ai cette erreur habituellement : `error: (-215:Assertion failed) !image.empty() in function 'imencode'` ce qui veut dire que l'image n'a pas pu être ouverte, très certainement car à l'instant ou le fichier doit être lu, le graphique se met à jour (donc s'enregistre et n'est pas modifiable à l'instant T)
-    * J'ai tenté d'utiliser des `time.sleep()` pour tenter de m'assurer d'une pause entre chaque mise à jour du graphique 
+- Le problème survient très probablement lors de la lecture de l'image car j'ai cette erreur habituellement : `error: (-215:Assertion failed) !image.empty() in function 'imencode'` ce qui veut dire que l'image n'a pas pu être ouverte, très certainement car à l'instant ou le fichier doit être lu, le graphique se met à jour (donc s'enregistre et n'est pas modifiable à l'instant T)
+  - J'ai tenté d'utiliser des `time.sleep()` pour tenter de m'assurer d'une pause entre chaque mise à jour du graphique
 
 #### Liens consultés
 
 ##### Python
-* https://stackoverflow.com/questions/415511/how-to-get-the-current-time-in-python#415519
-* https://www.raspberrypi.org/forums/viewtopic.php?p=1255152
-* https://www.makeuseof.com/tag/gpio-zero-raspberry-pi/
 
+- https://stackoverflow.com/questions/415511/how-to-get-the-current-time-in-python#415519
+- https://www.raspberrypi.org/forums/viewtopic.php?p=1255152
+- https://www.makeuseof.com/tag/gpio-zero-raspberry-pi/
 
 ### 29.05.2021
 
-* Je me suis mis à travailler sur la résolution de bug du graphique affichant les objets à des certaines distances.
-    * J'ai commencé par implémenter la manière de faire présente dans [cet article](https://medium.com/greedygame-engineering/an-elegant-way-to-run-periodic-tasks-in-python-61b7c477b679), j'ai donc essayé d'appeler la méthode toutes les secondes avec la méthode `threading.Timer(WAIT_SECONDS, make_chart).start()` mais ça n'avait pas l'air de fonctionné
-    * Après avoir regardé les différents liens ci-dessous, je me suis aperçu que pour ce qui était des animations, c'était une série de données puis qui sont enregistré dans le format mp4 mais par conséquent ne permet pas de faire du streaming de graphique
-    * Alors je me suis dit qu'au lieu d'appeller la méthode générant le graphique il serait plus judicieux de le faire tourner sur un autre thread avec une loop d'asyncio mais en fait ce n'était pas une bonne idée car la méthode ne s'exécutait même pas, je n'ai pas très bien compris pourquoi
-    * Ensuite j'ai tenté la manière de faire [présente ici](https://stackoverflow.com/questions/10813195/run-a-python-function-every-second#10813316) mais au final je me suis dit qu'autant la mettre dans la méthode dans la boucle qui gère le streaming aurait été une meilleure idée c'est donc ce que j'ai fait, par conséquent je n'ai plus d'erreur qui pop dans la console, cependant de temps en temps le graph affiche des données étranges mais le retard qui s'accumule sur le graphique est très agaçant et je ne sais pas vraiment comment palier à ça
-
+- Je me suis mis à travailler sur la résolution de bug du graphique affichant les objets à des certaines distances.
+  - J'ai commencé par implémenter la manière de faire présente dans [cet article](https://medium.com/greedygame-engineering/an-elegant-way-to-run-periodic-tasks-in-python-61b7c477b679), j'ai donc essayé d'appeler la méthode toutes les secondes avec la méthode `threading.Timer(WAIT_SECONDS, make_chart).start()` mais ça n'avait pas l'air de fonctionné
+  - Après avoir regardé les différents liens ci-dessous, je me suis aperçu que pour ce qui était des animations, c'était une série de données puis qui sont enregistré dans le format mp4 mais par conséquent ne permet pas de faire du streaming de graphique
+  - Alors je me suis dit qu'au lieu d'appeller la méthode générant le graphique il serait plus judicieux de le faire tourner sur un autre thread avec une loop d'asyncio mais en fait ce n'était pas une bonne idée car la méthode ne s'exécutait même pas, je n'ai pas très bien compris pourquoi
+  - Ensuite j'ai tenté la manière de faire [présente ici](https://stackoverflow.com/questions/10813195/run-a-python-function-every-second#10813316) mais au final je me suis dit qu'autant la mettre dans la méthode dans la boucle qui gère le streaming aurait été une meilleure idée c'est donc ce que j'ai fait, par conséquent je n'ai plus d'erreur qui pop dans la console, cependant de temps en temps le graph affiche des données étranges mais le retard qui s'accumule sur le graphique est très agaçant et je ne sais pas vraiment comment palier à ça
 
 #### Liens consultés
 
 ##### Python
-* https://matplotlib.org/2.0.2/examples/animation/moviewriter.html
-* https://stackoverflow.com/questions/42024817/plotting-a-continuous-stream-of-data-with-matplotlib
-* https://www.youtube.com/watch?v=Ercd-Ip5PfQ&ab_channel=CoreySchafer
-* https://stackoverflow.com/questions/32018049/plotting-realtime-data-with-flask-and-bokeh
-* https://github.com/cerickson/flask-matplotlib-tutorial
-* https://stackoverflow.com/questions/37505696/multiple-route-mapping-to-different-matplotlib-graphs-in-flask-app
-* https://stackoverflow.com/questions/42024817/plotting-a-continuous-stream-of-data-with-matplotlib#42026341
-* https://stackoverflow.com/questions/10813195/run-a-python-function-every-second#10813316
-* https://medium.com/greedygame-engineering/an-elegant-way-to-run-periodic-tasks-in-python-61b7c477b679
-* https://www.geeksforgeeks.org/try-except-else-and-finally-in-python/
 
+- https://matplotlib.org/2.0.2/examples/animation/moviewriter.html
+- https://stackoverflow.com/questions/42024817/plotting-a-continuous-stream-of-data-with-matplotlib
+- https://www.youtube.com/watch?v=Ercd-Ip5PfQ&ab_channel=CoreySchafer
+- https://stackoverflow.com/questions/32018049/plotting-realtime-data-with-flask-and-bokeh
+- https://github.com/cerickson/flask-matplotlib-tutorial
+- https://stackoverflow.com/questions/37505696/multiple-route-mapping-to-different-matplotlib-graphs-in-flask-app
+- https://stackoverflow.com/questions/42024817/plotting-a-continuous-stream-of-data-with-matplotlib#42026341
+- https://stackoverflow.com/questions/10813195/run-a-python-function-every-second#10813316
+- https://medium.com/greedygame-engineering/an-elegant-way-to-run-periodic-tasks-in-python-61b7c477b679
+- https://www.geeksforgeeks.org/try-except-else-and-finally-in-python/
 
 ### 31.05.2021
 
-* J'ai commencé la journée par mettre en place le code permettant de détecter quels sont les flying-fish ne détectant plus de sol afin de pouvoir tout de même manœuvrer
-    * La manière que j'utilise jusqu'à présent, c'était de vérifier l'état de tous les flying-fish afin de savoir quand est-ce que la voiture doit s'arrêter. Je vais donc revoir le code afin de pouvoir savoir quoi faire en fonction des flying-fish ne détectant pas de sol
-    * Je me suis dit qu'en fonction de l'état des flying-fish, la voiture peut effectuer certaines actions, je vais fournir à ma méthode `move()` une liste d'actions possible comme suit :
+- J'ai commencé la journée par mettre en place le code permettant de détecter quels sont les flying-fish ne détectant plus de sol afin de pouvoir tout de même manœuvrer
+  - La manière que j'utilise jusqu'à présent, c'était de vérifier l'état de tous les flying-fish afin de savoir quand est-ce que la voiture doit s'arrêter. Je vais donc revoir le code afin de pouvoir savoir quoi faire en fonction des flying-fish ne détectant pas de sol
+  - Je me suis dit qu'en fonction de l'état des flying-fish, la voiture peut effectuer certaines actions, je vais fournir à ma méthode `move()` une liste d'actions possible comme suit :
 
 ```python
 arr_actions = [CODE_TURN, CODE_MOVE]
 ```
-* Ces constantes représentent les actions à effectuer : pour `CODE_TURN`, la valeur `0` représente de ne pas tourner, `1` de tourner à droite et `2` à gauche. Pour `CODE_MOVE`, la valeur `0` représente de stopper les moteurs, `1` d'avancer et `2` de reculer.
-* Avant, je donnais un booléen à ma méthode `move()` afin de savoir si la voiture pouvait avancer, mais maintenant je vais lui passer la liste afin de pouvoir certaine actions uniquement.
-* J'ai utilisé un tuple à la place d'un array étant donné que je n'utilise que 2 valeurs.
-    * Je pensais pouvoir accès aux données du tuple en faisant `nom_du_tuple.nom_de_la_valeur` mais ce n'est pas accessible de cette manière j'ai donc utilisé les index
-* J'ai mis beaucoup de temps sur le code car j'ai vite commencé à m'emmêler les pinceaux car vu que je devais faire en un premier temps un code qui fonctionne avant de faire un code propre voici ce que j'ai fait :
+
+- Ces constantes représentent les actions à effectuer : pour `CODE_TURN`, la valeur `0` représente de ne pas tourner, `1` de tourner à droite et `2` à gauche. Pour `CODE_MOVE`, la valeur `0` représente de stopper les moteurs, `1` d'avancer et `2` de reculer.
+- Avant, je donnais un booléen à ma méthode `move()` afin de savoir si la voiture pouvait avancer, mais maintenant je vais lui passer la liste afin de pouvoir certaine actions uniquement.
+- J'ai utilisé un tuple à la place d'un array étant donné que je n'utilise que 2 valeurs.
+  - Je pensais pouvoir accès aux données du tuple en faisant `nom_du_tuple.nom_de_la_valeur` mais ce n'est pas accessible de cette manière j'ai donc utilisé les index
+- J'ai mis beaucoup de temps sur le code car j'ai vite commencé à m'emmêler les pinceaux car vu que je devais faire en un premier temps un code qui fonctionne avant de faire un code propre voici ce que j'ai fait :
 
 ```python
 def get_actions_for_car():
@@ -1625,7 +1627,7 @@ def get_actions_for_car():
     if not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
         print("gauche")
         actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_FORWARD)
-    
+
     elif not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
         print("droite")
         actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_FORWARD)
@@ -1643,9 +1645,9 @@ def get_actions_for_car():
         actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_BACKWARD)
 ```
 
-* Le problème qui survient, c'est que de base il me dit que le capteur gauche ne détecte plus de sol alors que dans la situation initiale, il est sur un sol plein. De plus, une fois la première action exécutée, il ne rentre plus dans aucun `if` et donc renvois les codes : `CODE_TURN_NOTHING`, `CODE_MOVE_NOTHING`
-* La question que je me suis posée par rapport à ce problème était : Vu que pour détecter un sol on inverse le résultat, le problème ne serait-il pas celui-ci ?
-* La réponse fut oui partiellement, car il s'agissait aussi de l'ordre dans lequel j'effectuais mes conditions car en les changeant de la sorte, maintenant cela fonctionne :
+- Le problème qui survient, c'est que de base il me dit que le capteur gauche ne détecte plus de sol alors que dans la situation initiale, il est sur un sol plein. De plus, une fois la première action exécutée, il ne rentre plus dans aucun `if` et donc renvois les codes : `CODE_TURN_NOTHING`, `CODE_MOVE_NOTHING`
+- La question que je me suis posée par rapport à ce problème était : Vu que pour détecter un sol on inverse le résultat, le problème ne serait-il pas celui-ci ?
+- La réponse fut oui partiellement, car il s'agissait aussi de l'ordre dans lequel j'effectuais mes conditions car en les changeant de la sorte, maintenant cela fonctionne :
 
 ```python
     if GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT) and GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
@@ -1654,7 +1656,7 @@ def get_actions_for_car():
     elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
         print("gauche")
         actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_NOTHING)
-    
+
     elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
         print("droite")
         actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_NOTHING)
@@ -1668,7 +1670,7 @@ def get_actions_for_car():
         actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_BACKWARD)
 ```
 
-* Maintenant, à cause du code écrit pour gérer les différents actions avec les moteurs, si on déplace la voiture et qu'une fois à l'arrêt on souhaite changer son angle pour le guidon, le code va exécuter la méthode activant les moteurs :
+- Maintenant, à cause du code écrit pour gérer les différents actions avec les moteurs, si on déplace la voiture et qu'une fois à l'arrêt on souhaite changer son angle pour le guidon, le code va exécuter la méthode activant les moteurs :
 
 ```python
         if actions[0] == constants.CODE_TURN_LEFT and angle_rotation < 0:
@@ -1693,30 +1695,28 @@ def get_actions_for_car():
             self.back_motor.start_power(motor_speed)
 ```
 
-* Après avoir fait fonctionné le code, le raspberry pi à commencer à bug car il faisait que de se déconnecter du SSH, je l'ai donc redémarré et sans toucher au code, le code ne fonctionne plus. C'est très problématique sachant que y'a 10 minutes même pas il fonctionnait parfaitement.
+- Après avoir fait fonctionné le code, le raspberry pi à commencer à bug car il faisait que de se déconnecter du SSH, je l'ai donc redémarré et sans toucher au code, le code ne fonctionne plus. C'est très problématique sachant que y'a 10 minutes même pas il fonctionnait parfaitement.
 
-* J'ai constaté, je ne sais pas pourquoi, mais la déconnexion à la voiture des fois ne se fait pas et des fois oui.
-    * Ce que j'ai remarqué et qui est très étrange, c'est que lorsque je recréé une connexion à la voiture (même si elle est déjà connectée) je peux la déconnecter sans soucis mais lorsque je la déconnecte de temps en temps j'ai ce message d'erreur dans la console `dbus.exceptions.DBusException: org.freedesktop.DBus.Error.ServiceUnknown: The name :1.72 was not provided by any .service files`
-    * Pour faire la déconnexion, j'utilise la méthode fournie qui est `disconnect()` et ensuite je désactivais puis réactivais le bluetooth car auparavant (avec le singleton) la connexion restait ouverte et cela causait des problèmes. En enlevant ces lignes ça n'a pas résolu le problème de déconnexion
-* Pour terminer la journée, j'ai vérifié toutes les fautes d'orthographes de ma documentation technique
+- J'ai constaté, je ne sais pas pourquoi, mais la déconnexion à la voiture des fois ne se fait pas et des fois oui.
+  - Ce que j'ai remarqué et qui est très étrange, c'est que lorsque je recréé une connexion à la voiture (même si elle est déjà connectée) je peux la déconnecter sans soucis mais lorsque je la déconnecte de temps en temps j'ai ce message d'erreur dans la console `dbus.exceptions.DBusException: org.freedesktop.DBus.Error.ServiceUnknown: The name :1.72 was not provided by any .service files`
+  - Pour faire la déconnexion, j'utilise la méthode fournie qui est `disconnect()` et ensuite je désactivais puis réactivais le bluetooth car auparavant (avec le singleton) la connexion restait ouverte et cela causait des problèmes. En enlevant ces lignes ça n'a pas résolu le problème de déconnexion
+- Pour terminer la journée, j'ai vérifié toutes les fautes d'orthographes de ma documentation technique
 
 #### Liens consultés
 
 ##### --
 
-
 ### 01.06.2021
 
-* J'ai commencé la journée par m'atteler au problème du guidon
-    * Pendant que je codais, je me suis aperçu que pour le code qui gère les moteurs en fonction des flying-fish fonctionnait bien mais qu'il devait accepter une rapidité max car par exemple (de manière sécurisée) j'ai tenté de voir si dans cette position :
+- J'ai commencé la journée par m'atteler au problème du guidon
+  - Pendant que je codais, je me suis aperçu que pour le code qui gère les moteurs en fonction des flying-fish fonctionnait bien mais qu'il devait accepter une rapidité max car par exemple (de manière sécurisée) j'ai tenté de voir si dans cette position :
 
 ![Voiture sur le bord de table](./images/voiture/voiture_bord_de_table.jpg "Voiture sur le bord de table")
 
-* Car au bord de table, dans la version du code actuelle, on peut toujours avancé à fond et donc la voiture tombe du bord de table. Donc je pense que je vais ajouter une valeur maximale lorsque l'un des capteurs ne détecte plus de sol.
-* Puis j'ai pu remarqué une chose, lorsque la voiture est sur la point de tombé. Lorsqu'on lui demande de reculer, elle le fait cependant vu que j'utilise le système d'événement pour faire l'arrêt d'urgence. Il faut que je stock l'ancien état car lorsqu'elle recule lorsqu'elle redétecte un sol la voiture se stop.
-* Donc dans le tableau listante les GPIO des différents flying-fish, j'en ai fait des tuple afain de pouvoir y stocker leurs états.
-* J'ai remarqué un problème vu que j'utilisais cette manière de faire pour gérer leurs états :
-
+- Car au bord de table, dans la version du code actuelle, on peut toujours avancé à fond et donc la voiture tombe du bord de table. Donc je pense que je vais ajouter une valeur maximale lorsque l'un des capteurs ne détecte plus de sol.
+- Puis j'ai pu remarqué une chose, lorsque la voiture est sur la point de tombé. Lorsqu'on lui demande de reculer, elle le fait cependant vu que j'utilise le système d'événement pour faire l'arrêt d'urgence. Il faut que je stock l'ancien état car lorsqu'elle recule lorsqu'elle redétecte un sol la voiture se stop.
+- Donc dans le tableau listante les GPIO des différents flying-fish, j'en ai fait des tuple afain de pouvoir y stocker leurs états.
+- J'ai remarqué un problème vu que j'utilisais cette manière de faire pour gérer leurs états :
 
 ```python
 def get_grounded_state(self):
@@ -1739,8 +1739,8 @@ def get_grounded_state(self):
 
 ```
 
-* Le problème est le suivant : `sensor[1] = not sensor[1] TypeError: 'tuple' object does not support item assignment`, en lisant [ce post](https://stackoverflow.com/questions/7735838/typeerror-tuple-object-does-not-support-item-assignment-when-swapping-values#7735850), j'ai pu voir que les tuples sont immutables et qu'il faut les transformer en liste lorsque le l'on doit y modifier ses valeurs.
-* Ensuite, pendant que je codais, j'ai pu m'apercevoir que du coup le bounceback était trop élevé et ne change donc pas l'état du capteur de suite. Lorsque j'ai changé le bounceback, l'état des capteurs changeait, mais pas les valeurs du tableau :
+- Le problème est le suivant : `sensor[1] = not sensor[1] TypeError: 'tuple' object does not support item assignment`, en lisant [ce post](https://stackoverflow.com/questions/7735838/typeerror-tuple-object-does-not-support-item-assignment-when-swapping-values#7735850), j'ai pu voir que les tuples sont immutables et qu'il faut les transformer en liste lorsque le l'on doit y modifier ses valeurs.
+- Ensuite, pendant que je codais, j'ai pu m'apercevoir que du coup le bounceback était trop élevé et ne change donc pas l'état du capteur de suite. Lorsque j'ai changé le bounceback, l'état des capteurs changeait, mais pas les valeurs du tableau :
 
 ```python
 def get_grounded_state(self):
@@ -1765,13 +1765,14 @@ def get_grounded_state(self):
                         break
 ```
 
-* Entre temps, j'ai eu un call avec M. Bonvin afin de faire le point sur la situation.
-    * Il m'a dit :
-        *  D'ajouter dans la documentation ce qui reste à faire
-        *  De transformer le Pi 4 en un hotspot à l'aide de [cette librairie](https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/)
-        *  Que pour le système d'évitement d'obstacles il serait intéressant de voir devant et derrière avec un angle d'ouverture de 30° et de modifier la puissance moteur en fonction de notre position. Le but étant que l'on se mette derrière la voiture et qu'elle avance si je suis derrière elle à une certaine distance 
+- Entre temps, j'ai eu un call avec M. Bonvin afin de faire le point sur la situation.
 
-* Ensuite je me suis remis à travailler sur le problème. J'ai perdu tellement de temps à tenter d'utiliser les tuples convertit en liste puis reconverti en tuple pour changer leurs états car je trouvais le concept plus simple en terme d'approche "propre" mais je me suis résolu à faire un tableau qui contient un tablea avec comme premier index le flying-fish de devant à gauche puis en dernier le flying-fish derrière droit. Ce tableau contient la valeur des capteurs. Voici la version modifiée et fonctionnelle :
+  - Il m'a dit :
+    - D'ajouter dans la documentation ce qui reste à faire
+    - De transformer le Pi 4 en un hotspot à l'aide de [cette librairie](https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/)
+    - Que pour le système d'évitement d'obstacles il serait intéressant de voir devant et derrière avec un angle d'ouverture de 30° et de modifier la puissance moteur en fonction de notre position. Le but étant que l'on se mette derrière la voiture et qu'elle avance si je suis derrière elle à une certaine distance
+
+- Ensuite je me suis remis à travailler sur le problème. J'ai perdu tellement de temps à tenter d'utiliser les tuples convertit en liste puis reconverti en tuple pour changer leurs états car je trouvais le concept plus simple en terme d'approche "propre" mais je me suis résolu à faire un tableau qui contient un tablea avec comme premier index le flying-fish de devant à gauche puis en dernier le flying-fish derrière droit. Ce tableau contient la valeur des capteurs. Voici la version modifiée et fonctionnelle :
 
 ```python
 def get_grounded_state(self):
@@ -1791,47 +1792,49 @@ def get_grounded_state(self):
     print(flying_fish_state)
 ```
 
-* Ensuite, je me suis remis sur le réglage du guidon :
-    * J'ai commencé par tenter de faire une boucle qui décrémente la valeur de l'angle pour le faire arriver à 0, ça n'a pas fonctionné
-    * Ensuite j'ai tenté de mettre en place une version alternative à ça, c'est à dire de diviser par 2 la valeur de l'angle jusqu'à arriver à 0 donc dans une boucle, mais ce n'était pas propre donc j'ai opté pour une autre méthode.
-    * J'ai tenté d'utiliser la méthode qui divise par 2, car par exemple, lorsque j'oriente de 0.45 à droite lorsque dans ma méthode qui reset l'angle j'utilise l'inverse donc `0.45 * -1 ` bah il va à l'opposer sans s'arrêter au 0
-    * Donc j'ai tenté d'utiliser la version qui divise par 2 car si il va à l'exact opposé cela veut dire que le centre est la moitiée de la valeur de l'angle inversée. Le problème avec ça, c'est que des fois les arrondis se font mal et il n'arrive pas vraiment à sa position d'origine. Donc ça marche à moitié
+- Ensuite, je me suis remis sur le réglage du guidon :
+  - J'ai commencé par tenter de faire une boucle qui décrémente la valeur de l'angle pour le faire arriver à 0, ça n'a pas fonctionné
+  - Ensuite j'ai tenté de mettre en place une version alternative à ça, c'est à dire de diviser par 2 la valeur de l'angle jusqu'à arriver à 0 donc dans une boucle, mais ce n'était pas propre donc j'ai opté pour une autre méthode.
+  - J'ai tenté d'utiliser la méthode qui divise par 2, car par exemple, lorsque j'oriente de 0.45 à droite lorsque dans ma méthode qui reset l'angle j'utilise l'inverse donc `0.45 * -1 ` bah il va à l'opposer sans s'arrêter au 0
+  - Donc j'ai tenté d'utiliser la version qui divise par 2 car si il va à l'exact opposé cela veut dire que le centre est la moitiée de la valeur de l'angle inversée. Le problème avec ça, c'est que des fois les arrondis se font mal et il n'arrive pas vraiment à sa position d'origine. Donc ça marche à moitié
 
 #### Liens consultés
 
 ##### Raspberry Pi
-* https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/
+
+- https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/
 
 ##### Python
-* https://stackoverflow.com/questions/7735838/typeerror-tuple-object-does-not-support-item-assignment-when-swapping-values#7735850
-* https://www.pythonpool.com/typeerror-int-object-is-not-subscriptable/
-* https://pythonguides.com/python-check-if-the-variable-is-an-integer/
-* https://pythonguides.com/python-convert-tuple-to-list/
-* https://www.tutorialspoint.com/convert-a-list-into-a-tuple-in-python
+
+- https://stackoverflow.com/questions/7735838/typeerror-tuple-object-does-not-support-item-assignment-when-swapping-values#7735850
+- https://www.pythonpool.com/typeerror-int-object-is-not-subscriptable/
+- https://pythonguides.com/python-check-if-the-variable-is-an-integer/
+- https://pythonguides.com/python-convert-tuple-to-list/
+- https://www.tutorialspoint.com/convert-a-list-into-a-tuple-in-python
 
 ### 02.06.2021
-* J'ai commencé la journée par continuer de travailler sur le guidon vu que mes tentatives d'hier étaient à peu près fonctionnelles. Entre temps, pour essayer de potentiellement mieux comprendre comment le guidon pouvait fonctionné, j'ai été regardé dans l'application `CONTROL+` comment le guidon intéragissait et si ils pouvaient le ramené à l'angle 0.
-    * Ce qu'ils font eux, c'est qu'il utilise une manette comme ceci : 
-![Interface de télécommande de la voiture avec CONTROL+](./images/control+/ui_remote_control+.jpg "Interface de télécommande de la voiture avec CONTROL+")
 
-* Cette manette est composée de divers éléments mais dans ce cas là, la chose qui nous intéresse c'est la manette en bas à gauche, celle qui ressemble un peu à mon slider sur le site Flask.
-    * Son comportement est qu'au lancement de l'application, si le guidon n'est pas au centre, ils ne le recentre pas eux même. Ensuite, si vous jouez avec la manette elle risque d'être un peu difficile à utiliser.
-    * Cependant ils ont un méthode qui permet de recalibrer les roues et ceci en butant à gauche puis à droite afin de recentrer le guidon
-    * C'est donc la solution pour laquelle j'ai opté de faire ceci
-* Je me suis aperçu que vu que je pensais que pour le guidon il s'agissait de valeur d'angle alors qu'en fait c'est une puissance min et max comprise entre -1 et 1. Cela est fait comme ceci car le guidon est géré par un moteur, donc il a besoin d'une valeur correspondante à la puissance. C'est-à-dire que si on imagine que l'on peut faire changer la position des roues d'environ 15° de chaque côté, bah que le 15 sera notre 1 et le -15 le -1. Donc il a fallu que je change la range max de l'angle dans mon interface de 120 à 100.
-    * La méthode que j'ai utilisée est que, j'inverse l'ancien angle et je le divise par 2
-* Ensuite j'ai suivi le tutoriel présent [ici](https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/)
-	* Il faut d'abord mettre son raspberry pi à jour avec `sudo apt update && sudo apt full-upgrade`
-	* Après la mise à jour, il faut télécharger le code disponible sur le github avec la commande : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`
-    	* Pendant l'installation, il faut dire oui à tout à moins d'avoir de bonne raison mais dans ce cas ce n'est pas nécessaire
-    	* Après l'installation il faut redémarrer le raspberry pi : `sudo reboot now`
-  	* L'adresse IP du pi 4 devient 10.3.141.1, cette adresse nous donne accès au tableau de bord du hotspot
-    	* Pour s'y connecter, il faut entrer comme nom d'utilisateur : `admin` et `secret` comme mot de passe
-    	* Pour pouvoir s'y connecter à distance (toujours avec les valeurs par défaut) le nom du réseau est : `raspi-webgui` avec pour mot de passe `ChangeMe`
-  	* Depuis l'interface, il faut cliquer sur `Hotspot` pour pouvoir changer le nom du réseau `SSID`, pour changer le mot de passe `Pre Shared Key` il faut aller dans l'onglet `Security`
-    	* Puis cliquer sur `Restart hotspot` en bas à droite de la page
-  	* Ensuite, j'ai tenté de connecté mon téléphone, ça a fonctionné et le pi 0, mais je ne sais pas pourquoi il reste connecté au réseau du router et non pas au pi alors que je change dans les config du pi 0 le réseau WLAN sur lequel il doit se connecter.
-    	* J'ai été lire [cet article](https://linuxhint.com/rasperberry_pi_wifi_wpa_supplicant/) et j'ai vu qu'il y avait un fichier qui stockais les connexions aux WLAN, pour y accéder il faut utiliser : `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf`
+- J'ai commencé la journée par continuer de travailler sur le guidon vu que mes tentatives d'hier étaient à peu près fonctionnelles. Entre temps, pour essayer de potentiellement mieux comprendre comment le guidon pouvait fonctionné, j'ai été regardé dans l'application `CONTROL+` comment le guidon intéragissait et si ils pouvaient le ramené à l'angle 0. \* Ce qu'ils font eux, c'est qu'il utilise une manette comme ceci :
+  ![Interface de télécommande de la voiture avec CONTROL+](./images/control+/ui_remote_control+.jpg "Interface de télécommande de la voiture avec CONTROL+")
+
+- Cette manette est composée de divers éléments mais dans ce cas là, la chose qui nous intéresse c'est la manette en bas à gauche, celle qui ressemble un peu à mon slider sur le site Flask.
+  - Son comportement est qu'au lancement de l'application, si le guidon n'est pas au centre, ils ne le recentre pas eux même. Ensuite, si vous jouez avec la manette elle risque d'être un peu difficile à utiliser.
+  - Cependant ils ont un méthode qui permet de recalibrer les roues et ceci en butant à gauche puis à droite afin de recentrer le guidon
+  - C'est donc la solution pour laquelle j'ai opté de faire ceci
+- Je me suis aperçu que vu que je pensais que pour le guidon il s'agissait de valeur d'angle alors qu'en fait c'est une puissance min et max comprise entre -1 et 1. Cela est fait comme ceci car le guidon est géré par un moteur, donc il a besoin d'une valeur correspondante à la puissance. C'est-à-dire que si on imagine que l'on peut faire changer la position des roues d'environ 15° de chaque côté, bah que le 15 sera notre 1 et le -15 le -1. Donc il a fallu que je change la range max de l'angle dans mon interface de 120 à 100.
+  - La méthode que j'ai utilisée est que, j'inverse l'ancien angle et je le divise par 2
+- Ensuite j'ai suivi le tutoriel présent [ici](https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/)
+  - Il faut d'abord mettre son raspberry pi à jour avec `sudo apt update && sudo apt full-upgrade`
+  - Après la mise à jour, il faut télécharger le code disponible sur le github avec la commande : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`
+    _ Pendant l'installation, il faut dire oui à tout à moins d'avoir de bonne raison mais dans ce cas ce n'est pas nécessaire
+    _ Après l'installation il faut redémarrer le raspberry pi : `sudo reboot now`
+    - L'adresse IP du pi 4 devient 10.3.141.1, cette adresse nous donne accès au tableau de bord du hotspot
+      - Pour s'y connecter, il faut entrer comme nom d'utilisateur : `admin` et `secret` comme mot de passe
+      - Pour pouvoir s'y connecter à distance (toujours avec les valeurs par défaut) le nom du réseau est : `raspi-webgui` avec pour mot de passe `ChangeMe`
+    - Depuis l'interface, il faut cliquer sur `Hotspot` pour pouvoir changer le nom du réseau `SSID`, pour changer le mot de passe `Pre Shared Key` il faut aller dans l'onglet `Security`
+      - Puis cliquer sur `Restart hotspot` en bas à droite de la page
+    - Ensuite, j'ai tenté de connecté mon téléphone, ça a fonctionné et le pi 0, mais je ne sais pas pourquoi il reste connecté au réseau du router et non pas au pi alors que je change dans les config du pi 0 le réseau WLAN sur lequel il doit se connecter.
+      - J'ai été lire [cet article](https://linuxhint.com/rasperberry_pi_wifi_wpa_supplicant/) et j'ai vu qu'il y avait un fichier qui stockais les connexions aux WLAN, pour y accéder il faut utiliser : `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf`
 
 ```
 country=CH
@@ -1849,75 +1852,76 @@ network={
 }
 ```
 
-* J'ai donc enlevé le premier network car il ne servait plus à rien et ça a fonctionné
-* Ensuite, j'ai fait le branchement intégral du reste de la voiture
-* J'ai tenté de me connecter au Pi 4, mais il était pas connecté au routeur donc j'ai été voir ce qu'il se passait et j'ai vu que lorsque je voulais activer le wifi, dans la configuration du raspberry pi, il me dit cette erreur lorsque j'active le WLAN : `Could not communicate with wpa_supplicant` puis `There was an error running option l4 WLAN Country`
-    * J'ai été vérifié `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf` et le routeur est bien enregistré
-    * Ensuite, j'ai tenté de changé l'hostname du raspberry pi car j'ai vu sur [cet article](https://forum.ubuntu-fr.org/viewtopic.php?id=1944501) qu'il pouvait y avoir un problème de hostname et dans mon cas, ça n'a pas résolu le problème, mais le problème de hostname était réel c'est-à-dire que l'hostname du pi était `rsp_main` mais dans le `cat /etc/hosts` il y avait `rspmain` et je me suis dit que si je changeait le hostname en `rspmain` ça fonctionnerait mais ce n'est pas le cas
-    * Après avoir tenté plusieur articles, je me suis dit que pour le moment je m'y branche en ethernet pour pouvoir travailler dessus en SSH
-        * Je ne comprends vraiment pas pourquoi, lorsque j'utilise la carte SD pour le pi 4 si la carte est sur le pi 4 sur ma place de travail ça fonctionne (l'access point) mais lorsque je le met sur le pi 4 de la voiture, il ne se lance pas. Lorsque je connecte le pi 4 de la voiture en ethernet, le port ne s'allume pas alors que celui sur mon bureau oui
-* Ensuite, pour faire le test, j'ai été modifié les adresses ip qui étaient `192.168.50.X` en `10.3.141.X` dans les fichiers qui utilisent des IP
-* Je me suis rendu compte que je ne pouvais pas me connecter en SSH au raspberry pi arrière, j'ai donc vérifié si le SSh était activé dans les interface. J'ai activé l'interface afin d'être sûr puis je me suis rendu compte que même si je faisais un ping, je n'y avais pas accès alors j'ai été vérifié l'installation pour le WiFi sur le pi 0 en question
-    * Après avoir vérifié le `wpa_supplicant.conf`, j'ai tenté de me reconnecté en SSH mais toujours rien
+- J'ai donc enlevé le premier network car il ne servait plus à rien et ça a fonctionné
+- Ensuite, j'ai fait le branchement intégral du reste de la voiture
+- J'ai tenté de me connecter au Pi 4, mais il était pas connecté au routeur donc j'ai été voir ce qu'il se passait et j'ai vu que lorsque je voulais activer le wifi, dans la configuration du raspberry pi, il me dit cette erreur lorsque j'active le WLAN : `Could not communicate with wpa_supplicant` puis `There was an error running option l4 WLAN Country`
+  - J'ai été vérifié `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf` et le routeur est bien enregistré
+  - Ensuite, j'ai tenté de changé l'hostname du raspberry pi car j'ai vu sur [cet article](https://forum.ubuntu-fr.org/viewtopic.php?id=1944501) qu'il pouvait y avoir un problème de hostname et dans mon cas, ça n'a pas résolu le problème, mais le problème de hostname était réel c'est-à-dire que l'hostname du pi était `rsp_main` mais dans le `cat /etc/hosts` il y avait `rspmain` et je me suis dit que si je changeait le hostname en `rspmain` ça fonctionnerait mais ce n'est pas le cas
+  - Après avoir tenté plusieur articles, je me suis dit que pour le moment je m'y branche en ethernet pour pouvoir travailler dessus en SSH
+    - Je ne comprends vraiment pas pourquoi, lorsque j'utilise la carte SD pour le pi 4 si la carte est sur le pi 4 sur ma place de travail ça fonctionne (l'access point) mais lorsque je le met sur le pi 4 de la voiture, il ne se lance pas. Lorsque je connecte le pi 4 de la voiture en ethernet, le port ne s'allume pas alors que celui sur mon bureau oui
+- Ensuite, pour faire le test, j'ai été modifié les adresses ip qui étaient `192.168.50.X` en `10.3.141.X` dans les fichiers qui utilisent des IP
+- Je me suis rendu compte que je ne pouvais pas me connecter en SSH au raspberry pi arrière, j'ai donc vérifié si le SSh était activé dans les interface. J'ai activé l'interface afin d'être sûr puis je me suis rendu compte que même si je faisais un ping, je n'y avais pas accès alors j'ai été vérifié l'installation pour le WiFi sur le pi 0 en question
+  - Après avoir vérifié le `wpa_supplicant.conf`, j'ai tenté de me reconnecté en SSH mais toujours rien
 
 #### Liens consultés
 
 ##### Linux / Raspberry
-* https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/
-* https://www.raspberrypi.org/forums/viewtopic.php?p=1596133
-* https://raspberrypi.stackexchange.com/questions/89576/after-fresh-raspbian-stretch-install-my-wifi-isn-t-working-on-my-raspberry-pi-3/89627#89627
-* https://linustechtips.com/topic/1302800-emergency-linux-raspi-config-wifi-not-working/
-* https://www.reddit.com/r/raspberry_pi/comments/805due/cant_get_raspberry_to_enable_wifi_through_wpa/
-* https://www.raspberrypi.org/forums/viewtopic.php?t=191252
-* https://forum.ubuntu-fr.org/viewtopic.php?id=1944501
-* https://www.tecmint.com/fix-no-route-to-host-ssh-error-in-linux/
+
+- https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/
+- https://www.raspberrypi.org/forums/viewtopic.php?p=1596133
+- https://raspberrypi.stackexchange.com/questions/89576/after-fresh-raspbian-stretch-install-my-wifi-isn-t-working-on-my-raspberry-pi-3/89627#89627
+- https://linustechtips.com/topic/1302800-emergency-linux-raspi-config-wifi-not-working/
+- https://www.reddit.com/r/raspberry_pi/comments/805due/cant_get_raspberry_to_enable_wifi_through_wpa/
+- https://www.raspberrypi.org/forums/viewtopic.php?t=191252
+- https://forum.ubuntu-fr.org/viewtopic.php?id=1944501
+- https://www.tecmint.com/fix-no-route-to-host-ssh-error-in-linux/
 
 ### 03.06.2021
 
-* J'ai commencé la journée sur la résolution de ce problème : `ssh: connect to host 10.3.141.179 port 22: No route to host`
-      * La première chose que j'ai faite était d'échanger les cartes SD du Pi 0 Avant avec celui de l'arrière pour voir si c'était un problème de cartes ou de pi 0
-          * En ayant inversé les cartes et avoir tenté de me connecter à l'IP `10.3.141.179`, le même problème
-          * Je vais maintenant essayer avec un autre Pi 0 afin de voir si c'est un problème hardware
-            * En essayant la carte SD connectée par l'alimentation générale, j'ai vu que le pi 0 que je venais de prendre rebootais en boucle alors qu'avec l'alimentation micro-USB non j'en conclus donc que ce n'était pas un problème de la carte SD
-          * En me connectant en HDMI, sur le pi 0 arrière j'ai pu constaté qu'en effet il reboot en boucle pour m'assurer qu'il s'agisse bien de l'alimentation
-              * J'ai pris le câble alimentant le pi 0 pour les attacher au pi 0 que j'ai pris pour faire les tests et il reboot quand même automatiquement
-              * Ensuite, j'ai pris le pi 0 de test, je l'ai branché sur l'alimentation générale (sans passer par un câble rallonger) et il ne reboot pas
-              * J'ai tenté de connecté le pi 0 avec une rallonge et ça fonctionne sans reboot automatiquement, je pense donc que c'est un problème de câblage
-                  * Oui c'était un problème de câblage, les câbles faisant l'alimentation était défectueux car après les avoir changés, il ne reboot plus automatiquement
-* Ensuite, j'ai effectué le test des capteurs arrière vu que c'était les seuls que je n'avais pas encore pu tester, commande importante pour lancer les scripts sur les divers raspberry pi 0 : `python3 ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee/code/Flask/flask_sensors_control/server.py`
-  * Tout fonctionne très bien
-  * Après être revenu de la pause, j'ai remarqué que lorsque j'ai lancé de redémmaré tous les raspberr pi 0, le pi 0 de droite ne permettait pas la connexion au SSH, donc qu'il devait y avoir un soucis, donc je vais voir ce qu'il se passe.
-    * Encore une fois je crois que le problème venait de l'alimentation générale car dés que j'ai changé l'alimentation du pi 0 de droite sur les pins de gauche ça a fonctionné
-  * Des fois, certainement après une surchage de CPU ou je ne sais pas quoi car il n'y a pas d'erreur retournée dans la console gérant les SSH mais en tout cas depuis le tableau de bord après avoir joué un peu avec les pi 0 doivent bug car on ne peut plus s'y connecter par IP donc pas par SSH
-      * Je vais m'y connecter en mini-HDMI à un pi 0 et regarder ce qu'il se passe
-      * Je n'ai pas pu faire apparaître le problème, car après 30 minutes de tests intensif, il ne s'est pas reproduit
-  * Pendant les tests, je me suis rendu compte que le CPU chauffait énormément, j'ai donc été prendre un ventilateur disponible et je l'ai branch sur le pi 4 afin de réduire sa température, je suis passé de 70 en moyenne à 55 - 60 degré en moyenne
-  * Ensuite, j'ai remis la carte SD du pi 4 sur le pi 4 de la voiture afin de faire les tests de déplacement et j'ai remarqué que le point d'accès n'est pas activé, donc j'ai enlever les visses qui le fixait afin de pouvoir y brancher un câble micro HDMI et je ne reçois pas d'image alors que sur le pi 4 de test oui
-      * En le détachant de la voiture pour le tester à part, j'ai pu me rendre compte qu'il s'agissait pour lui aussi un problème d'alimentation car quand je l'ai branché avec l'USB tout fonctionnais bien et quand j'ai connecté les câbles de l'alimation générale pour test ça rebootais
-  * J'ai modifié le code des flying-fish afin de tous les faire communiquer leurs informations pour prévenir des bords de tables
-      * J'ai remarqué, ce qui est logique, c'est que si on est au bord de table, mais qu'elle tout de même détectée comme suit :
+- J'ai commencé la journée sur la résolution de ce problème : `ssh: connect to host 10.3.141.179 port 22: No route to host`
+  _ La première chose que j'ai faite était d'échanger les cartes SD du Pi 0 Avant avec celui de l'arrière pour voir si c'était un problème de cartes ou de pi 0
+  _ En ayant inversé les cartes et avoir tenté de me connecter à l'IP `10.3.141.179`, le même problème
+  _ Je vais maintenant essayer avec un autre Pi 0 afin de voir si c'est un problème hardware
+  _ En essayant la carte SD connectée par l'alimentation générale, j'ai vu que le pi 0 que je venais de prendre rebootais en boucle alors qu'avec l'alimentation micro-USB non j'en conclus donc que ce n'était pas un problème de la carte SD
+  _ En me connectant en HDMI, sur le pi 0 arrière j'ai pu constaté qu'en effet il reboot en boucle pour m'assurer qu'il s'agisse bien de l'alimentation
+  _ J'ai pris le câble alimentant le pi 0 pour les attacher au pi 0 que j'ai pris pour faire les tests et il reboot quand même automatiquement
+  _ Ensuite, j'ai pris le pi 0 de test, je l'ai branché sur l'alimentation générale (sans passer par un câble rallonger) et il ne reboot pas
+  _ J'ai tenté de connecté le pi 0 avec une rallonge et ça fonctionne sans reboot automatiquement, je pense donc que c'est un problème de câblage \* Oui c'était un problème de câblage, les câbles faisant l'alimentation était défectueux car après les avoir changés, il ne reboot plus automatiquement
+- Ensuite, j'ai effectué le test des capteurs arrière vu que c'était les seuls que je n'avais pas encore pu tester, commande importante pour lancer les scripts sur les divers raspberry pi 0 : `python3 ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee/code/Flask/flask_sensors_control/server.py`
+  - Tout fonctionne très bien
+  - Après être revenu de la pause, j'ai remarqué que lorsque j'ai lancé de redémmaré tous les raspberr pi 0, le pi 0 de droite ne permettait pas la connexion au SSH, donc qu'il devait y avoir un soucis, donc je vais voir ce qu'il se passe.
+    - Encore une fois je crois que le problème venait de l'alimentation générale car dés que j'ai changé l'alimentation du pi 0 de droite sur les pins de gauche ça a fonctionné
+  - Des fois, certainement après une surchage de CPU ou je ne sais pas quoi car il n'y a pas d'erreur retournée dans la console gérant les SSH mais en tout cas depuis le tableau de bord après avoir joué un peu avec les pi 0 doivent bug car on ne peut plus s'y connecter par IP donc pas par SSH
+    - Je vais m'y connecter en mini-HDMI à un pi 0 et regarder ce qu'il se passe
+    - Je n'ai pas pu faire apparaître le problème, car après 30 minutes de tests intensif, il ne s'est pas reproduit
+  - Pendant les tests, je me suis rendu compte que le CPU chauffait énormément, j'ai donc été prendre un ventilateur disponible et je l'ai branch sur le pi 4 afin de réduire sa température, je suis passé de 70 en moyenne à 55 - 60 degré en moyenne
+  - Ensuite, j'ai remis la carte SD du pi 4 sur le pi 4 de la voiture afin de faire les tests de déplacement et j'ai remarqué que le point d'accès n'est pas activé, donc j'ai enlever les visses qui le fixait afin de pouvoir y brancher un câble micro HDMI et je ne reçois pas d'image alors que sur le pi 4 de test oui
+    - En le détachant de la voiture pour le tester à part, j'ai pu me rendre compte qu'il s'agissait pour lui aussi un problème d'alimentation car quand je l'ai branché avec l'USB tout fonctionnais bien et quand j'ai connecté les câbles de l'alimation générale pour test ça rebootais
+  - J'ai modifié le code des flying-fish afin de tous les faire communiquer leurs informations pour prévenir des bords de tables
+    - J'ai remarqué, ce qui est logique, c'est que si on est au bord de table, mais qu'elle tout de même détectée comme suit :
 
 ![Voiture au bord de table, cas extrême](./images/voiture/voiture_bord_de_table_extreme.png "Voiture au bord de table, cas extrême")
 
-* Que l'on peut aller à fond avec la voiture, ce que je me suis dit pour palier à ce problème en vérifiant si les flying-fish (avant ou arrière) au niveau de la même ligne de roues ne détectent plus rien et que la vitesse est supérieur à 0.3 ou -0.3 en fonction de l'avant ou de l'arrière, il faut mettre un coup de gaz inverse et un peu plus fort pour la faire avancer un petit coup mais je ne vais pas l'implémenter car ça me ferait perdre du temps donc actuellement on va se baser sur le fait que l'utilisateur est conscient de ce qu'il fait s'il met un coup de boost alors qu'il voit qu'il est au bord de table
-* Ensuite, après avoir réglé les 2-3 bugs que j'avais avec les flying-fish (de nouveau le bug qui fait que lorsque l'on retrouvais du sol, la voiture s'arrêtait), j'ai modifié l'interface du site afin de d'enlever le mode automatique de la page de télécommande car cette fonctionnalitée est plus pratique sur la page de dashboard
-    * J'ai remplacé le bouton `validate` par `reset angle` car ce bouton servait à effectuer les actions pour la voiture en fonction des données du formulaire HTML
-    * J'ai fait cette image pour le radar éteint
+- Que l'on peut aller à fond avec la voiture, ce que je me suis dit pour palier à ce problème en vérifiant si les flying-fish (avant ou arrière) au niveau de la même ligne de roues ne détectent plus rien et que la vitesse est supérieur à 0.3 ou -0.3 en fonction de l'avant ou de l'arrière, il faut mettre un coup de gaz inverse et un peu plus fort pour la faire avancer un petit coup mais je ne vais pas l'implémenter car ça me ferait perdre du temps donc actuellement on va se baser sur le fait que l'utilisateur est conscient de ce qu'il fait s'il met un coup de boost alors qu'il voit qu'il est au bord de table
+- Ensuite, après avoir réglé les 2-3 bugs que j'avais avec les flying-fish (de nouveau le bug qui fait que lorsque l'on retrouvais du sol, la voiture s'arrêtait), j'ai modifié l'interface du site afin de d'enlever le mode automatique de la page de télécommande car cette fonctionnalitée est plus pratique sur la page de dashboard
+  - J'ai remplacé le bouton `validate` par `reset angle` car ce bouton servait à effectuer les actions pour la voiture en fonction des données du formulaire HTML
+  - J'ai fait cette image pour le radar éteint
 
 ![Image à afficher quand le radar est éteint](./images/radar_down.png "Image à afficher quand le radar est éteint")
 
 #### Liens consultés
 
 ##### Raspberry
-* https://raspberrypi.stackexchange.com/questions/58840/ssh-connect-to-host-192-168-1-49-port-22no-route-to-host-wifi-adapter-on-lapt
-* https://appuals.com/find-mac-address-linux/
+
+- https://raspberrypi.stackexchange.com/questions/58840/ssh-connect-to-host-192-168-1-49-port-22no-route-to-host-wifi-adapter-on-lapt
+- https://appuals.com/find-mac-address-linux/
 
 ### 04.06.2021
 
-* J'ai commencé la journée en terminant les changement visuels de l'application Flask.
-* Ensuite, j'ai commencé à travailler sur le système de déplacement de la voiture automatiquement en fonction des distances des objets face et de dos à la voiture.
-    * La première chose que j'ai fait était de répertorier tout ce dont j'avais besoin pour le mode automatique
-    * Le premier problème sur lequel je suis tombé, c'est que la route qui active le mode automatique est dans une boucle while et cette dernière tourne en fonction de l'état de la route comme suit :
+- J'ai commencé la journée en terminant les changement visuels de l'application Flask.
+- Ensuite, j'ai commencé à travailler sur le système de déplacement de la voiture automatiquement en fonction des distances des objets face et de dos à la voiture.
+  - La première chose que j'ai fait était de répertorier tout ce dont j'avais besoin pour le mode automatique
+  - Le premier problème sur lequel je suis tombé, c'est que la route qui active le mode automatique est dans une boucle while et cette dernière tourne en fonction de l'état de la route comme suit :
 
 ```python
 @app.route("/automatic_mode/<int:state>", methods=["POST"])
@@ -1936,20 +1940,121 @@ def automatic_mode(state=None):
     return ""
 ```
 
-* Le problème est que la première fois que la boucle est lancée, elle tourne en fond et on ne peut donc plus avoir accès. C'est-à-dire, que même si l'on change l'état de la checkbox associée la boucle ne s'arrête pas
-    * Je me suis dit que l'on pourrait peut-être faire un système ou l'on fait une vérification toutes les X secondes et qu'après ce temps on vérifie l'état de la route et faire les modifications associées
-    * Cette méthode n'ayant pas fonctionné, j'ai tenté d'utiliser `asyncio` une nouvelle fois pour pouvoir lancer des "ordres" et pouvoir cesser leurs exécution comme je le souhaite. Par la suite, j'ai eu cette erreur `TypeError: An asyncio.Future, a coroutine or an awaitable is required`
-        * Je ne comprennais vraiment pas pourquoi lorsque j'utilisais quasiment la même technique que pour le lidar (au niveau de la gestion) je pouvais changer l'état du bouton mais la boucle while ne s'arrêtait pas
-        * J'ai donc tenté de faire une méthode récursive, c'est à dire que si l'état à MODE_ON, je rappelais la méthode elle même afin de simuler une boucle mais j'ai eu cette erreur : `RecursionError: maximum recursion depth exceeded while calling a Python object`
+- Le problème est que la première fois que la boucle est lancée, elle tourne en fond et on ne peut donc plus avoir accès. C'est-à-dire, que même si l'on change l'état de la checkbox associée la boucle ne s'arrête pas
+  - Je me suis dit que l'on pourrait peut-être faire un système ou l'on fait une vérification toutes les X secondes et qu'après ce temps on vérifie l'état de la route et faire les modifications associées
+  - Cette méthode n'ayant pas fonctionné, j'ai tenté d'utiliser `asyncio` une nouvelle fois pour pouvoir lancer des "ordres" et pouvoir cesser leurs exécution comme je le souhaite. Par la suite, j'ai eu cette erreur `TypeError: An asyncio.Future, a coroutine or an awaitable is required`
+    - Je ne comprennais vraiment pas pourquoi lorsque j'utilisais quasiment la même technique que pour le lidar (au niveau de la gestion) je pouvais changer l'état du bouton mais la boucle while ne s'arrêtait pas
+    - J'ai donc tenté de faire une méthode récursive, c'est à dire que si l'état à MODE_ON, je rappelais la méthode elle même afin de simuler une boucle mais j'ai eu cette erreur : `RecursionError: maximum recursion depth exceeded while calling a Python object`
 
 #### Liens consultés
 
 ##### Python
-* https://stackoverflow.com/questions/51074511/how-to-stop-execution-of-infinite-loop-with-exception-handling
-* https://medium.com/@chaoren/how-to-timeout-in-python-726002bf2291
-* https://stackoverflow.com/questions/7370801/how-to-measure-elapsed-time-in-python#7370824
-* https://stackoverflow.com/questions/67774622/function-takes-1-positional-argument-but-2-were-given
-* https://stackoverflow.com/questions/50592540/asyncio-create-task-to-run-forever#50592692
-* https://docs.python.org/3/library/asyncio-task.html#asyncio.run
-* https://stackoverflow.com/questions/59481105/typeerror-an-asyncio-future-a-coroutine-or-an-awaitable-is-required#59481376
-* https://realpython.com/python-while-loop/
+
+- https://stackoverflow.com/questions/51074511/how-to-stop-execution-of-infinite-loop-with-exception-handling
+- https://medium.com/@chaoren/how-to-timeout-in-python-726002bf2291
+- https://stackoverflow.com/questions/7370801/how-to-measure-elapsed-time-in-python#7370824
+- https://stackoverflow.com/questions/67774622/function-takes-1-positional-argument-but-2-were-given
+- https://stackoverflow.com/questions/50592540/asyncio-create-task-to-run-forever#50592692
+- https://docs.python.org/3/library/asyncio-task.html#asyncio.run
+- https://stackoverflow.com/questions/59481105/typeerror-an-asyncio-future-a-coroutine-or-an-awaitable-is-required#59481376
+- https://realpython.com/python-while-loop/
+- https://www.programcreek.com/python/example/82101/asyncio.async
+
+### 05.06.2021
+
+- J'ai commencé la journée en continuant de résoudre le problème quant à cette boucle qui ne s'arrête pas même l'on change d'état. J'ai d'abord lu [cet article](https://stackoverflow.com/questions/52374725/how-to-break-out-of-an-infinite-loop-with-flask-and-python-using-http#52375407) qui proposait d'utiliser des thread alors j'ai modifié mon code pour qu'il soit utilisable avec des thread :
+
+```python
+@app.route("/launch_automatic_mode/<int:state>", methods=["POST"])
+def launch_automatic_mode(state=None):
+    global automatic_mode_state
+    thread = threading.Thread(target=automatic_mode)
+    thread.start()
+    return ""
+
+
+async def automatic_mode():
+    global car
+    global rows
+    global automatic_mode_state
+
+    while automatic_mode_state == constants.MODE_ON:
+        for i in range(len(rows)):
+            distance = rows[i]
+            if (
+                i < constants.MAX_ANGLE_OBSTACLE_DETECTION
+                or i > 360 - constants.MAX_ANGLE_OBSTACLE_DETECTION
+            ):
+                if distance < constants.FRONT_DISTANCE_OBSTACLE_DETECTION:
+                    print("reculer")
+                    print("ANGLE : %d" % i)
+                    print("DISTA : %d" % distance)
+                elif i < 180 + constants.MAX_ANGLE_OBSTACLE_DETECTION or i > 180 - constants.MAX_ANGLE_OBSTACLE_DETECTION:
+                    if distance < constants.FRONT_DISTANCE_OBSTACLE_DETECTION:
+                    print("avancer")
+                    print("ANGLE : %d" % i)
+                    print("DISTA : %d" % distance)
+```
+
+- Mais la première erreur que j'ai eu fut celle ci : `Enable tracemalloc to get the object allocation traceback`, il s'agissait du `async` qui n'était plus nécessaire dans ce cas. Cette méthode m'a permis de résoudre le problème que j'avais avec cette boucle infinie qui ne permettais pas de se stopper si l'état du bouton avait changé
+- J'ai d'abord utiliser des `print` avant de faire vraiment bougé la voiture, mais le code est fonctionnel ::
+
+```python
+def automatic_mode():
+    global car
+    global rows
+    global automatic_mode_state
+
+    while automatic_mode_state == constants.MODE_ON:
+        for i in range(len(rows)):
+            distance = rows[i]
+            if car != None:
+                if (
+                    i < constants.MAX_ANGLE_OBSTACLE_DETECTION
+                    or i > constants.FULL_ANGLE - constants.MAX_ANGLE_OBSTACLE_DETECTION
+                ):
+
+                    if (
+                        distance < constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                        and distance > 0
+                    ):
+                        # Compute the power
+                        speed = distance / constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                        print("reculer")
+
+                elif (
+                    i < constants.HALF_ANGLE + constants.MAX_ANGLE_OBSTACLE_DETECTION
+                    or i > constants.HALF_ANGLE - constants.MAX_ANGLE_OBSTACLE_DETECTION
+                ):
+                    if (
+                        distance < constants.BACK_DISTANCE_OBSTACLE_DETECTION
+                        and distance > 0
+                    ):
+                        # Compute the power
+                        speed = distance / constants.BACK_DISTANCE_OBSTACLE_DETECTION
+                        print("avancer")
+                else:
+                    car.stop_moving()
+
+```
+
+- Maintenant je vais faire se déplacer la voiture
+  - Pour se faire, j'ai juste ajouter une méthode spécifique au déplacement automatique car pour le moment, la voiture se comporte uniquement de la sorte : Si un obstacle a été détecté devant, on recule. Si un obstacle a été détecté à l'arrière, on avance.
+- Je vais maintenant voir comment se comporte la voiture sur une table
+- Ensuite, je me suis demandé si c'était intéressant de faire une vérification des obstacles. C'est-à-dire, que par exemple si y'a entre 0 et 15 degré plus d'obstacles bah tourner à droite
+- J'ai remarqué que des fois le pi 4 étant le hotspot, soit bug soit n'est plus accessible
+  - Cela se produit des fois quand je tente de recréé une connexion avec la voiture
+- La voiture fait bien ce qu'elle doit faire, c'est à dire avancer si un obstacle est derrière elle, et lorsqu'elle arrive sur le bout d'une table elle s'arrête. Le problème qu'il y a c'est que même si l'action est effectuée sur un thread, une fois les moteurs coupés elle ne recule que lorsque je réactive le mode automatique
+  - J'ai pu régler ce problème en mettant un try except car le problème que ça causait c'était que vu que les actions s'effectuait à chaque tour de boucle et que le `technic hub` lorsque l'on lui envoie une commande, il traite la commande puis envoie un message de retour et quand on lui envoie deux commande sans qu'il aie pu répondre, il "crash" donc en disant au programme de `pass` lorsque cette exception survient, ça fonctionne
+- J'ai vraiment trop de problème avec le hotspot qui crash pendant que je codais, cependant en faisant les tests avec des prints le code semble être fonctionnel. Même si je devais finir de coder aujourd'hui, je suis obligé de prendre du temps en classe afin de tester tout ceci et faire les dernières modifications d'ici demain 18h au plus tard pour ensuite me concentrer sur la documentation uniquement
+
+#### Liens consultés
+
+#### Python
+
+- https://stackoverflow.com/questions/52374725/how-to-break-out-of-an-infinite-loop-with-flask-and-python-using-http#52375407
+- https://www.programcreek.com/python/example/82101/asyncio.async
+
+#### Autre
+
+- https://www.a7la-home.com/fr/fix-wifi-authentication-error/
