@@ -178,8 +178,6 @@ int main(int argc, const char *argv[])
         return -1;
     }
     opt_com_path = argv[1];
-    // if (argc > 2)
-    //     opt_com_baudrate = strtoul(argv[2], NULL, 10);
 
     // create the driver instance
     RPlidarDriver *drv = RPlidarDriver::CreateDriver(DRIVER_TYPE_SERIALPORT);
