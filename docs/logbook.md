@@ -1810,7 +1810,8 @@ def get_grounded_state(self):
 
 ### 02.06.2021
 
-- J'ai commencé la journée par continuer de travailler sur le guidon vu que mes tentatives d'hier étaient à peu près fonctionnelles. Entre temps, pour essayer de potentiellement mieux comprendre comment le guidon pouvait fonctionné, j'ai été regardé dans l'application `CONTROL+` comment le guidon intéragissait et si ils pouvaient le ramené à l'angle 0. \* Ce qu'ils font eux, c'est qu'il utilise une manette comme ceci :
+- J'ai commencé la journée par continuer de travailler sur le guidon vu que mes tentatives d'hier étaient à peu près fonctionnelles. Entre temps, pour essayer de potentiellement mieux comprendre comment le guidon pouvait fonctionné, j'ai été regardé dans l'application `CONTROL+` comment le guidon intéragissait et si ils pouvaient le ramené à l'angle 0. 
+- Ce qu'ils font eux, c'est qu'il utilise une manette comme ceci :
   ![Interface de télécommande de la voiture avec CONTROL+](./images/control+/ui_remote_control+.jpg "Interface de télécommande de la voiture avec CONTROL+")
 
 - Cette manette est composée de divers éléments mais dans ce cas là, la chose qui nous intéresse c'est la manette en bas à gauche, celle qui ressemble un peu à mon slider sur le site Flask.
@@ -1822,8 +1823,8 @@ def get_grounded_state(self):
 - Ensuite j'ai suivi le tutoriel présent [ici](https://www.framboise314.fr/raspap-creez-votre-hotspot-wifi-avec-un-raspberry-pi-de-facon-express/)
   - Il faut d'abord mettre son raspberry pi à jour avec `sudo apt update && sudo apt full-upgrade`
   - Après la mise à jour, il faut télécharger le code disponible sur le github avec la commande : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`
-    _ Pendant l'installation, il faut dire oui à tout à moins d'avoir de bonne raison mais dans ce cas ce n'est pas nécessaire
-    _ Après l'installation il faut redémarrer le raspberry pi : `sudo reboot now`
+    - Pendant l'installation, il faut dire oui à tout à moins d'avoir de bonne raison mais dans ce cas ce n'est pas nécessaire
+    - Après l'installation il faut redémarrer le raspberry pi : `sudo reboot now`
     - L'adresse IP du pi 4 devient 10.3.141.1, cette adresse nous donne accès au tableau de bord du hotspot
       - Pour s'y connecter, il faut entrer comme nom d'utilisateur : `admin` et `secret` comme mot de passe
       - Pour pouvoir s'y connecter à distance (toujours avec les valeurs par défaut) le nom du réseau est : `raspi-webgui` avec pour mot de passe `ChangeMe`

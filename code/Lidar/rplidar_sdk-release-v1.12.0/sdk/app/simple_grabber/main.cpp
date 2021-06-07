@@ -281,6 +281,9 @@ int main(int argc, const char *argv[])
         float angle_dist_tmp[max_size_arr_angle_dist];
         float angle_dist[max_size_arr_angle_dist];
         int size_arr_angle_dist = (sizeof(angle_dist) / sizeof(angle_dist[0]));
+
+        const int MAX_RANGE_LIDAR = 16000.0f;
+        const int MIN_RANGE_LIDAR = 0.0f;
         // used as a code in order to treat the data below in another process
         //printf("<<<\n");
         while (run_scan)
@@ -296,16 +299,16 @@ int main(int argc, const char *argv[])
             /* Correct the errors */
             for (size_t j = 0; j < max_size_arr_angle_dist; j++)
             {
-                if (angle_dist[j] < 0.0f && angle_dist[j] >= 16000.0f)
+                if (angle_dist[j] < MIN_RANGE_LIDAR && angle_dist[j] >= MAX_RANGE_LIDAR)
                 {
-                    angle_dist[j] = 0.0f;
+                    angle_dist[j] = MIN_RANGE_LIDAR;
                 }
             }
             /* make the average of distance */
             capture_and_display(angle_dist_tmp, drv);
             for (size_t j = 0; j < max_size_arr_angle_dist; j++)
             {
-                if (angle_dist_tmp[j] > 0.0f && angle_dist_tmp[j] < 16000.0f)
+                if (angle_dist_tmp[j] > MIN_RANGE_LIDAR && angle_dist_tmp[j] < MAX_RANGE_LIDAR)
                 {
                     angle_dist[j] = (angle_dist[j] + angle_dist_tmp[j]) / 2;
                 }

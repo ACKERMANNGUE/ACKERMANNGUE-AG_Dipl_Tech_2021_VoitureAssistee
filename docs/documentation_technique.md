@@ -1,3 +1,8 @@
+--- 
+title: "Documentation technique de Voiture Assistée"
+documentclass: book
+---
+
 # Documentation technique de _Voiture Assistée_
 
 ## Résumé
@@ -1080,16 +1085,19 @@ Voici le code créant le graphique que j'utilise pour afficher les points :
 
 ```python
 
-def make_graph(time_redraw):
+def make_chart():
+    """
+    Will process the chart and save it into a png
+    """
     global rows
     area = 5
-    # Create the colors I need, values between 0 and 1 for (r, g, b)
     colors = [(1, 0.2, 0.3), (1, 0.8, 0), (0.1, 0.5, 0.1)]  # near -> mid -> far
     cmap_name = "distance_warning"
     cmap = matplotlib.colors.LinearSegmentedColormap.from_list(cmap_name, colors)
     data_x = []
     data_y = []
     angle = 0
+    # Create the colors I need, values between 0 and 1 for (r, g, b)
     # add angle in radian and his value in two array x and y
     for distance in rows:
         data_x.append(math.radians(angle))
@@ -1097,12 +1105,10 @@ def make_graph(time_redraw):
         angle += 1
 
     # set the projection to polar
-    plt.title("Lidar : ")
     plt.subplot(projection="polar")
     plt.scatter(data_x, data_y, s=area, c=data_y, cmap=cmap)
-    plt.pause(0.05)
-    plt.savefig("chart.jpg")
-    time.sleep(time_redraw)
+    plt.ylim(0, 2000)
+    plt.savefig(constants.CHART_PATH + constants.CHART_NAME)
     plt.clf()
 
 ```
@@ -1111,17 +1117,31 @@ def make_graph(time_redraw):
 
 Voici un exemple du scanner en un quasi-temps réel : 
 
-
 ![Affichage des données en temps réel](./images/radar_animation.gif "Affichage des données en temps réel")
 
-Ici, on parle de quasi-temps réel, car comme vu dans le section parlant du Lidar, on traite les données émises par l'API en temps réel de manière asynchrone, mais le graphique étant une image enregistrée, le temps d'écriture de l'image ainsi que le temps de lecture fait que les images s'accumulent et que par conséquent l'image gagne du délai
+Ici, on parle de quasi-temps réel, car comme vu dans le section parlant du Lidar, on traite les données émises par l'API en temps réel de manière asynchrone, mais le graphique étant une image enregistrée, le temps d'écriture de l'image ainsi que le temps de lecture fait que les images s'accumulent et que par conséquent l'image gagne du délai.
 
 ### RaspAp
-
+RaspAp est une application permettant de mettre en place un point d'accès WiFi avec un raspberry pi facilement.
 #### Mise en place
+Par précaution, il est nécessaire de mettre son raspberry pi avec la commande `sudo apt update && sudo apt full-upgrade`.
+
+Ensuite, il faut télécharger le code du repository Git avec la commande suivante : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`. Durant toute l'installation, il faut tout accepter, à moins d'avoir une bonne raison, mais dans ce cas ça ne l'est pas.
+
+Après l'installation, il faut redémarrer le raspberry pi. Une fois redémarré, le raspberry pi devrait avec cette adresse IP : `10.3.141.1`. Pour pouvois accès à cette informations, ouvrez un terminal et exécuter la commande : `ip a` ou `ifconfig`. Normalement vous devriez voir un section nommée `Wlan0`.
 
 #### Utilisation
+Une fois RaspAp installé, vous pouvez vous rendre sur `10.3.141.1` dans un navigateur web afin d'avoir accès au tableau de bord de RaspAp : 
 
+Pour se connecter, de base les identifiants sont `admin` pour le nom d'utilisateur et `secret` comme mot de passe.
+[IMAGE LOGIN RASPAP]
+
+Pour pouvoir se connecter au WiFi (toujours avec les valeurs par défaut) le nom du réseau est : `raspi-webgui` avec pour mot de passe `ChangeMe`.
+
+Une fois connecté, vous arriverez sur la page de tableau de bord de RaspAp :
+[IMAGES RASPAP CONFIGURATION]
+
+Depuis l'interface utilisateur, il faut cliquer sur `Hotspot` pour pouvoir changer le nom du réseau `SSID`, pour changer le mot de passe `Pre Shared Key`. Pour ce faire, il faut aller dans l'onglet `Security`, puis cliquer sur `Restart hotspot` en bas à droite de la page.
 
 ## Manuel technique
 Dans cette rubrique, nous allons voir comment les divers éléments utilisés dans ce projet ont été mis en place.
@@ -1157,8 +1177,9 @@ Par conséquent sur cet exemple, les câbles rouges, blancs et violets sont bran
 #### Raspberry Pi 4
 Le raspberry pi 4 est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du [GPIO](######Pi-4).
 ##### Lidar
-Le lidar est branché à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](####Radar-360-(RPLiDAR-A2M8))
-.
+Le lidar est branché à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](####Radar-360-(RPLiDAR-A2M8)).
+
+Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la [section parlant de Matplotlib](###Matplotlib) et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
 ##### Fyling-Fish
 Les divers flying-fish sont branchés des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés avec des câbles bleus sur les [GPIO](######Pi-4) suivant du raspberry pi 4 :
 
@@ -1224,7 +1245,7 @@ Cette page permet à l'utilisateur de gérer les différents capteurs et de voir
 
 * A. Case à cocher (dés)activant le mode automatique
 * B. Case à cocher (dés)activant les leds à la position indiquée (Les cases de gauche allument les leds blanches, les cases de droites allument les leds infrarouges)
-* C. Case à cocher (dés)activant la caméra à la position indique
+* C. Case à cocher (dés)activant la caméra à la position indiqué
 * D. Case à cocher (dés)activant la récuperation des données du Lidar
 
 De base, toutes les caméras sont éteintes ainsi que le radar :
@@ -1239,6 +1260,8 @@ Voici ce à quoi ça ressemble lorsque l'on active une caméra et le radar :
 
 J'ai choisis d'afficher les éléments à la suite, car l'utilisateur va utiliser son téléphone pour se connecter à l'application. Il est donc plus pratique d'avoir accès aux éléments comme ceci étant sur un téléphone portable.
 
+Pour comprendre comment le flux des caméras sont récupérer, veuillez regarder la [section parlant du récupération du flux vidéo](######Récupération-du-flux-vidéo).
+
 ###### Page création de connexion
 Lors de l'appuie sur cet élément, cela va lancer une connexion avec la voiture.
 ###### Page de déconnexion
@@ -1246,6 +1269,242 @@ Lors de l'appuie sur cet élément, cela va lancer une déconnexion avec la voit
 
 ##### Comment fonctionne la connexion avec la voiture ?
 ##### Comment fonctionne la récupération des données du Lidar ?
+
+Pour activer l'API C++ pour y récupérer les distances à chaque angles qui sont écrits dans la console et afin d'éviter de rendre le code bloquant, j'ai utilisé `Asyncio`. 
+
+Voici le code permettant l'appel et le traitement asynchrone des données :
+
+```python
+@app.route("/bg_processing_lidar/<string:state>", methods=["POST"])
+def bg_process_lidar(state=None):
+    """Process the values passed by Javascript"""
+
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:  # no event loop running:
+        loop = asyncio.new_event_loop()
+    finally:
+        loop.run_until_complete(main(state))
+
+    return ""
+
+async def main(should_scan):
+    """
+    The main function which calls the run loop async
+
+    should_scan : The code to know if the program should scan or not
+    """
+    await run(should_scan)
+
+async def run(should_scan):
+    """
+    Will run the subprocess and bind the async method
+
+    should_scan : The code to know if the program should scan or not
+    """
+    command = ("./scanner/simple_grabber /dev/ttyUSB0 " + should_scan).split()
+    process = await create_subprocess_exec(*command, stdout=PIPE, stderr=PIPE)
+    await asyncio.wait([_read_stream(process.stdout, lambda x: {get_radar_data(x)})])
+    await process.wait()
+
+async def _read_stream(stream, callback):
+    """
+    Will read the text in the console from the process simple_grabber
+
+    stream : The streaming of the data in the console
+    callback : The method to call when data has been received
+
+    """
+    while True:
+        line = await stream.readline()
+        if line:
+            callback(line.split(b","))
+        else:
+            break
+
+def get_radar_data(row):
+    """
+    Will parse the data received in text by the Lidar
+
+    row : Row to read and to add or modify in the array of angles
+    """
+    global rows
+    # row normaly is like [angle, distance]
+    tmp = row
+    if len(tmp) == 2:
+        angle = int(tmp[0])
+        # remove the line return
+        dist = tmp[1].replace(b"\n", b"")
+        rows[angle] = float(dist)
+
+```
+
+Comme l'on peut le voir, lors de l'activation ainsi que de la désactivation du Lidar. On effectue un processus car étant donné que dans le code de l'API, il s'agit d'une boucle infinie récupérant et lissant les données qui sont affichées dans la console, on a besoin de manière asynchrone à traiter ses données et à les mettre dans le tableau.
+
+C'est ce à quoi sert la méthode `_read_stream`. Cette méthode nous permet de lire ligne par ligne le contenu de sortie de la console (`process.stdout`) et en l'ajoutant dans le tableau avec la méthode `get_radar_data(row)`.
+
+
+![Méthode utilisée pour récupérer en temps réel les données du Lidar](./images/lidar/flowchart_lidar_api.png "Méthode utilisée pour récupérer en temps réel les données du Lidar")
+
+###### Code de l'API C++ modifié
+
+```cpp
+
+int main(int argc, const char *argv[])
+{
+    const char *opt_com_path = NULL;
+    _u32 opt_com_baudrate = 115200;
+    u_result op_result;
+    bool run_scan = false;
+
+    // check if the the program should run scans
+    if(argc == 3) {
+        char arg = (char)*argv[2];
+        if(arg == '1') {
+            run_scan = true;
+        } else if(arg == '0') {
+            run_scan = false;
+        }
+    }
+
+    if (argc < 2)
+    {
+        print_usage(argc, argv);
+        return -1;
+    }
+    opt_com_path = argv[1];
+
+    // create the driver instance
+    RPlidarDriver *drv = RPlidarDriver::CreateDriver(DRIVER_TYPE_SERIALPORT);
+
+    if (!drv)
+    {
+        fprintf(stderr, "insufficent memory, exit\n");
+        exit(-2);
+    }
+
+    rplidar_response_device_health_t healthinfo;
+    rplidar_response_device_info_t devinfo;
+    do
+    {
+        // try to connect
+        if (IS_FAIL(drv->connect(opt_com_path, opt_com_baudrate)))
+        {
+            fprintf(stderr, "Error, cannot bind to the specified serial port %s.\n", opt_com_path);
+            break;
+        }
+
+        op_result = drv->getDeviceInfo(devinfo);
+
+        if (IS_FAIL(op_result))
+        {
+            if (op_result == RESULT_OPERATION_TIMEOUT)
+            {
+                // you can check the detailed failure reason
+                fprintf(stderr, "Error, operation time out.\n");
+            }
+            else
+            {
+                fprintf(stderr, "Error, unexpected error, code: %x\n", op_result);
+                // other unexpected result
+            }
+            break;
+        }
+
+        op_result = drv->getHealth(healthinfo);
+        if (IS_OK(op_result))
+        { // the macro IS_OK is the preperred way to judge whether the operation is succeed.
+            switch (healthinfo.status)
+            {
+            case RPLIDAR_STATUS_WARNING:
+                printf("Warning.");
+                break;
+            case RPLIDAR_STATUS_ERROR:
+                printf("Error.");
+                break;
+            }
+            printf(" (errorcode: %d)\n", healthinfo.error_code);
+        }
+        else
+        {
+            fprintf(stderr, "Error, cannot retrieve the lidar health code: %x\n", op_result);
+            break;
+        }
+
+        if (healthinfo.status == RPLIDAR_STATUS_ERROR)
+        {
+            fprintf(stderr, "Error, rplidar internal error detected. Please reboot the device to retry.\n");
+            break;
+        }
+
+        drv->startMotor();
+
+        if (IS_FAIL(drv->startScan(0, 1))) // you can force rplidar to perform scan operation regardless whether the motor is rotating
+        {
+            fprintf(stderr, "Error, cannot start the scan operation.\n");
+            break;
+        }
+
+        int max_size_arr_angle_dist = 360;
+        float angle_dist_tmp[max_size_arr_angle_dist];
+        float angle_dist[max_size_arr_angle_dist];
+        int size_arr_angle_dist = (sizeof(angle_dist) / sizeof(angle_dist[0]));
+
+        const int MAX_RANGE_LIDAR = 16000.0f;
+        const int MIN_RANGE_LIDAR = 0.0f;
+        // used as a code in order to treat the data below in another process
+        //printf("<<<\n");
+        while (run_scan)
+        {
+            //reset the array to empty (empty represented by the 0)
+            std::fill_n(angle_dist, max_size_arr_angle_dist, 0.0f);
+            capture_and_display(angle_dist, drv);
+
+            if (size_arr_angle_dist == 0)
+            {
+                fprintf(stderr, "Error, cannot grab scan data.\n");
+                break;
+            }
+            
+            /* Correct the errors */
+            for (size_t j = 0; j < max_size_arr_angle_dist; j++)
+            {
+                if (angle_dist[j] < MIN_RANGE_LIDAR && angle_dist[j] >= MAX_RANGE_LIDAR)
+                {
+                    angle_dist[j] = MIN_RANGE_LIDAR;
+                }
+            }
+
+            /* make the average of distance */
+            capture_and_display(angle_dist_tmp, drv);
+            for (size_t j = 0; j < max_size_arr_angle_dist; j++)
+            {
+                if (angle_dist_tmp[j] > MIN_RANGE_LIDAR && angle_dist_tmp[j] < MAX_RANGE_LIDAR)
+                {
+                    angle_dist[j] = (angle_dist[j] + angle_dist_tmp[j]) / 2;
+                }
+            }
+
+            for (size_t j = 0; j < max_size_arr_angle_dist; j++)
+            {
+                printf("%d,%f\n", j, angle_dist[j]);
+            }
+        }
+
+    } while (0);
+
+    drv->stop();
+    drv->stopMotor();
+
+    RPlidarDriver::DisposeDriver(drv);
+    return 0;
+}
+
+
+```
+
+###### Qu'est-ce qu'Asyncio ?
+Asyncio est une librairie nous permettant d'écrire du code `concurrent` c'est à dire sur différents thread à l'aide de la syntaxe async / await.
 
 #### Raspberry Pi 0 WiFi
 
@@ -1400,8 +1659,93 @@ function execute(endpoint) {
 ```
 
 ###### Récupération du flux vidéo
+La méthode que j'utilise pour récupérer le flux vidéo de la caméra avec un serveur Flask est tiré de [ce github](https://github.com/EbenKouao/pi-camera-stream-flask).
+
+Cette méthode se construit comme suit : 
+
+![Caméra et radar activé](./images/camera/algorithme_recuperation_stream_camera.png "Caméra et radar activé")
 
 
+Voici le code utilisé dans le fichier `server.py` présent dans le répertoire `\code\Flask\flask_sensors_control` :
+
+```python
+
+@app.route('/streaming_camera')
+def cam_stream():
+    global camera_state
+    return render_template('index.html', name=constants.FRONT_CAM, mode=camera_state, on=constants.STATE_ON, off=constants.STATE_OFF)
+
+def gen(camera):
+    #get camera frame
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    global pi_camera
+    return Response(gen(pi_camera),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+```
+
+À noter, le code pour la caméra a été repris du GitHub, mais dans mon cas il a été important de le modifier car à la base la caméra avait comme nombre de frame par seconde à 30 ainsi qu'une qualité d'image de 480p ce que j'ai changé à la moitié afin d'éviter de surcharger le processeur du Raspberry Pi 4 :
+
+```python
+
+import cv2
+from libs.pivideostream import PiVideoStream
+import imutils
+import time
+import numpy as np
+
+class VideoCamera(object):
+    def __init__(self, flip = True, fps=15, res=(320, 256)):
+        print("cam init")
+        self.vs = PiVideoStream(resolution=res, framerate=fps).start()
+        time.sleep(2.0)
+        if self.vs != None:
+            print("cam init done")
+        self.flip = flip
+        
+
+    def __del__(self):
+        print("cam del")
+        self.vs.stop()
+
+    def flip_if_needed(self, frame):
+        if self.flip:
+            return np.flip(frame, 0)
+        return frame
+
+    def get_frame(self):
+        frame = self.flip_if_needed(self.vs.read())
+        ret, jpg = cv2.imencode('.jpg', frame)
+        return jpg.tobytes()
+```
+
+Voici le code `HTML` utilisé pour faire l'affichage de l'image :
+
+```HTML
+<title>{{name}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+  <div class="main" id="newpost">
+    {% if mode == on %}
+    <img class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center"
+      src="{{ url_for('video_feed') }}">
+    {% elif mode == off %}
+    <img class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center"
+      src="../static/img/camera_down.png">
+    {% endif %}
+  </div>
+</body>
+```
+
+Cette image va donc être modifiée à chaque frame reçue par la caméra.
 
 ## Dates importantes
 
