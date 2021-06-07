@@ -106,7 +106,6 @@ def make_chart():
     plt.scatter(data_x, data_y, s=area, c=data_y, cmap=cmap)
     plt.ylim(0, 2000)
     plt.savefig(constants.CHART_PATH + constants.CHART_NAME)
-    # Image.open(CHART_PATH + CHART_NAME).save(CHART_PATH + CHART_NAME, "JPEG")
     plt.clf()
 
 

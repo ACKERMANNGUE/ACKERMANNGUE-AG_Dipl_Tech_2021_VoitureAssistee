@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Ackermann Gawen" />
+  <title>Documentation technique de Voiture Assistée</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Documentation technique de Voiture Assistée</h1>
+<p class="author">Ackermann Gawen</p>
+</header>
+<h1 id="résumé">Résumé</h1>
+<p><em>Voiture assistée</em> est un projet d’étude portant sur les voitures autonomes et leur fonctionnement. Ce projet m’a été proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome, mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a su amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisés pour ce projet, la plus-value sera surtout l’acquisition de nouvelles connaissances dans le domaine de l’informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçant à l’aide d’une interface web et qui sait se déplacer par elle-même en évitant les obstacles sur sa route.</p>
+<h1 id="abstract">Abstract</h1>
+<p><em>Voiture assistée</em> is a study project about autonomous cars and their functioning. This project was proposed to me by Mr. Bonvin since the first draft of the specifications included a simulation of an autonomous car but in a windows form application. Mr. Bonvin heard about my project, he knew how to bring a more interesting and professional side in the work that I will have to realize. Considering the discovery of the different devices used for this project, the added value will be especially the acquisition of new knowledge in the field of physical computing. Therefore, the goal of the project is to realize a car that can be moved by a web interface and that knows how to move by itself and which avoids obstacles on its way.</p>
+<h1 id="poster">Poster</h1>
+<figure>
+<img src="./images/references_poster/ag_poster_voiture-assistee.png" title="Poster du projet Voiture Assistée" alt="Poster du projet Voiture Assistée" /><figcaption aria-hidden="true">Poster du projet Voiture Assistée</figcaption>
+</figure>
+<h1 id="cahier-des-charges">Cahier des charges</h1>
+<h2 id="titre-du-projet">Titre du projet</h2>
+<p>Le titre du projet est Voiture assistée, car le but du projet est d’en réaliser une.</p>
+<h2 id="contexte">Contexte</h2>
+<p>Ce projet m’a été proposé par M. Bonvin car il a vu que j’allais faire une simulation de voiture autonome, il s’est dit que l’on pourrait tourner la chose autrement. Il a une multitude de Raspberry Pi, de composants ainsi qu’une voiture LEGO controlable. C’est pourquoi il m’a dirigé vers une programmation utilisant des capteurs et du bluetooth.</p>
+<h2 id="objectif">Objectif</h2>
+<p>L’objectif principal de ce projet est de réaliser une voiture capable de se déplacer d’un point A à un point B en évitant les différents obstacles sur sa route. Pour ce faire, il faudra trouver un moyen de communiquer avec le Technic Hub afin de mouvoir la voiture. Ensuite, il faudra faire fonctionner indépendamment les différents capteurs. Pour ensuite créer un algorithme événementiel gérant les différentes pondérations des messages que les capteurs enverront.</p>
+<h2 id="technologies-et-matériels-utilisés">Technologies et matériels utilisés</h2>
+<h3 id="logiciels">Logiciels</h3>
+<ul>
+<li>Visual Studio Code
+<ul>
+<li>Python</li>
+<li>Flask</li>
+</ul></li>
+<li>Github</li>
+<li>Markdown</li>
+<li>QCAD</li>
+<li>Photoshop CS6</li>
+<li>Pencil</li>
+<li>Trello</li>
+</ul>
+<h3 id="matériels">Matériels</h3>
+<ul>
+<li>Raspberry Pi 0 WiFi</li>
+<li>Raspberry Pi 4B</li>
+<li>2 Caméra infrarouges (PI NoIR)</li>
+<li>4 phares (Bright Pi v1.0)</li>
+<li>GPS (Ultimate GPS Breakout v3)</li>
+<li>Émetteur WiFi (ASUS RT-AC58U)</li>
+<li>LEGO 4x4 X-trem Off-Roader</li>
+<li>Détecteur infrarouge (Flying-Fish)</li>
+<li>Radar 360 (RPLiDAR A2M8)</li>
+</ul>
+<h3 id="environnement-de-développement">Environnement de développement</h3>
+<p>Pour me connecter au Raspberry Pi sur lequel je travail, j’utilise :</p>
+<ul>
+<li>Remote SSH pour éditer le code
+<ul>
+<li>Il s’agit d’une extension Visual Studio Code disponible <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">ici</a></li>
+</ul></li>
+<li>Github pour publié mon code écrit sur le Raspberry Pi et pour mettre à disposition la documentation technique ainsi que le journal de bord</li>
+<li>RealVNC pour me connecter à distance à l’interface graphique du Raspberry Pi
+<ul>
+<li>Il s’agit d’un logiciel créant un serveur et un client permettant de contrôler à distance l’écran d’un autre ordinateur, disponible <a href="https://www.realvnc.com/fr/connect/download/viewer/">ici</a>.</li>
+</ul></li>
+</ul>
+<h2 id="description-détaillée-de-ce-que-lapplication-fait">Description détaillée de ce que l’application fait</h2>
+<p>La voiture est télécommandable à distance à l’aide d’une interface web. Sur le site internet, on a accès à l’état des différents capteurs ainsi que les données qu’ils envoient.</p>
+<h3 id="plans-de-la-voiture">Plans de la voiture</h3>
+<p><img src="./images/maquettes/plan_voiture_avec_composants_v2.jpg" title="Croquis du plan de la voiture" alt="Croquis du plan de la voiture" /> Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncer le rôle de chaque composant.</p>
+<ol type="1">
+<li>Les phares sont représentés par le Bright Pi</li>
+<li>Les détecteurs de sol placés au niveau des roues sont représentés par le Flying-Fish</li>
+<li>Le Raspberry Pi 4 est représenté par RSP 4</li>
+<li>Le Raspberry Pi 0 WiFi est représenté par RSP 0 W</li>
+<li>Le scanner 360° est représenté par le Lidar</li>
+</ol>
+<p>En comparaison, voici de quoi est équipée une vraie voiture autonome :</p>
+<figure>
+<img src="./images/plans/autonomous_car.png" title="Plan d&#39;une voiture autonome" alt="Plan d’une voiture autonome" /><figcaption aria-hidden="true">Plan d’une voiture autonome</figcaption>
+</figure>
+<h3 id="schéma-explicatif-de-lapplication">Schéma explicatif de l’application</h3>
+<p>L’application offre plusieurs pages.</p>
+<h3 id="interface-utilisateur-de-lapplication">Interface utilisateur de l’application</h3>
+<p>Une page d’interface utilisateur, pour avoir accès aux informations des capteurs ainsi que leurs états.</p>
+<figure>
+<img src="./images/maquettes/interface.png" title="Interace utilisateur" alt="Interace utilisateur" /><figcaption aria-hidden="true">Interace utilisateur</figcaption>
+</figure>
+<h3 id="interface-télécommande">Interface télécommande</h3>
+<p>Une page de télécommande pour la voiture.</p>
+<h4 id="en-mode-manuel">En mode manuel</h4>
+<p>L’utilisateur déplace la voiture à l’aide de la manette disponible sur le site web.</p>
+<figure>
+<img src="./images/maquettes/commande_de_la_voiture.png" title="Interface de télécommande en mode manuel" alt="Interface de télécommande en mode manuel" /><figcaption aria-hidden="true">Interface de télécommande en mode manuel</figcaption>
+</figure>
+<h4 id="en-mode-automatique">En mode automatique</h4>
+<p>La voiture se déplace de manière rectiligne en évitant les obstacles sur sa route.</p>
+<figure>
+<img src="./images/maquettes/commande_de_la_voiture_automatique.png" title="Interface de télécommande en mode automatique" alt="Interface de télécommande en mode automatique" /><figcaption aria-hidden="true">Interface de télécommande en mode automatique</figcaption>
+</figure>
+<h1 id="contact">Contact</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Status</th>
+<th style="text-align: center;">Nom</th>
+<th style="text-align: center;">Prénom</th>
+<th style="text-align: center;">Email</th>
+<th>Numéro de téléphone</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Élève</td>
+<td style="text-align: center;">Ackermann</td>
+<td style="text-align: center;">Gawen</td>
+<td style="text-align: center;">gawen.ackrm@eduge.ch</td>
+<td>+41 79 88 98 69 4</td>
+</tr>
+<tr class="even">
+<td>Professeur de diplôme</td>
+<td style="text-align: center;">Bonvin</td>
+<td style="text-align: center;">Pascal</td>
+<td style="text-align: center;">edu-bonvinp@eduge.ch</td>
+<td>+33 6 32 17 84 11</td>
+</tr>
+</tbody>
+</table>
+<h1 id="structure-du-projet">Structure du projet</h1>
+<pre><code>├── code
+│   ├── Bluetooth
+│   ├── Bright Pi
+│   ├── Camera
+│   ├── Flask
+│   ├── Flying-Fish
+│   ├── Lidar
+│   └── OpenCV
+├── docs
+│   ├── images
+│   ├── plans
+│   ├── documentation_technique.md
+│   ├── index.md
+│   ├── logbook.md
+│   └── requirements.txt
+├── site
+│   ├── assets
+│   ├── documentation_technique
+│   ├── images
+│   ├── logbook
+│   ├── plans
+│   ├── search
+│   ├── 404.html
+│   ├── index.html
+│   ├── sitemap.xml
+│   └── sitemap.xml.gz
+├── mkdocs.yml
+└── README.md</code></pre>
+<h1 id="développement">Développement</h1>
+<p>Dans cette section, nous aborderons la mise en place de base des différents capteurs utilisés.</p>
+<h2 id="description-détaillée-de-chaques-capteurs">Description détaillée de chaques capteurs</h2>
+<h3 id="raspberry-pi">Raspberry Pi</h3>
+<p>Il s’agit d’un mini-ordinateur de la taille d’une carte de crédit équipés de différents capteurs, cela dépends du modèle.</p>
+<h4 id="mise-en-place">Mise en place</h4>
+<p>En fonction du modèle du Raspberry Pi, il faut flasher les cartes SD avec différents OS avec le <a href="https://www.raspberrypi.org/software/">Raspberry Pi Imager</a> :</p>
+<ul>
+<li>Pour un Raspberry Pi 4, installé la version <code>Raspberry Pi OS Full (32-bit)</code> pour faire les tests à l’aide d’une interface graphique</li>
+<li>Pour un Raspberry 0 WiFi, installé la version <code>Raspberry Pi OS Lite (32-bit)</code> utilisé juste pour transiter des données</li>
+</ul>
+<h4 id="utilisation">Utilisation</h4>
+<h5 id="pi-4">Pi 4</h5>
+<p>Un Raspberry Pi 4B est constitué des différents éléments :</p>
+<p><img src="./images/raspberrys/rsp4_schema_captionned.png" title="Schéma du Raspberry Pi montrant où se situent chaques composants" alt="Schéma du Raspberry Pi 4 montrant où se situent chaques composants" /> Pour le <a href="######Pi-4">GPIO</a>, voici les pins disponibles :</p>
+<p><img src="./images/raspberrys/GPIO-Pinout-Diagram.png" title="Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)" alt="Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)" /> À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du <code>PoE HAT Header</code>.</p>
+<h5 id="pi-0-wifi">Pi 0 WiFi</h5>
+<p>Le Pi 0 WiFi détient moins d’éléments que le Pi 4, cependant il en détient quelque-uns de différents tel que :</p>
+<figure>
+<img src="./images/raspberrys/rsp0wifi_schema_captionned.png" title="Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants" alt="Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants" /><figcaption aria-hidden="true">Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants</figcaption>
+</figure>
+<h5 id="clonage-de-carte-sd">Clonage de carte SD</h5>
+<p>Pour cloner les cartes SD, j’utilise le programme <a href="https://www.balena.io/etcher/">balenaEtcher</a>. Une fois les cartes SD branchées en USB au PC, lorsque le programme est lancé, il faut sélectionner le disque à copier, puis le disque sur lequel la copie doit être effectuée et cliquer sur <code>Flash</code> :</p>
+<figure>
+<img src="./images/clone_sd/balenaEtcher_differentes_etapes.png" title="Différentes étapes d&#39;utilisation de balenaEtcher" alt="Différentes étapes d’utilisation de balenaEtcher" /><figcaption aria-hidden="true">Différentes étapes d’utilisation de balenaEtcher</figcaption>
+</figure>
+<h3 id="caméra">Caméra</h3>
+<p>La caméra est un module permettant d’avoir accès à un flux vidéo.</p>
+<h4 id="mise-en-place-1">Mise en place</h4>
+<p>J’ai utilisé le guide de la caméra disponible sur https://magpi.raspberrypi.org/books. Pour commencer, j’ai activé la caméra dans le panneau de configuration du Raspberry Pi, puis j’ai branché la caméra dans l’emplacement prévu qui se situe entre la prise jack et les ports HDMI.</p>
+<p>Si vous branchez une caméra à un Pi 4 :</p>
+<figure>
+<img src="./images/raspberrys/rsp4_cameras_slot_emplacement.png" title="Schéma du Raspberry Pi 4 montrant où se situe le port d’entré pour la caméra" alt="Schéma du Raspberry Pi 4 montrant où se situe le port d’entré pour la caméra" /><figcaption aria-hidden="true">Schéma du Raspberry Pi 4 montrant où se situe le port d’entré pour la caméra</figcaption>
+</figure>
+<p>Si vous branchez une caméra à un Pi 0 WiFi :</p>
+<figure>
+<img src="./images/raspberrys/rsp0wifi_cameras_slot_emplacement.png" title="Schéma du Raspberry Pi 0 WiFi montrant où se situe le port d’entré pour la caméra" alt="Schéma du Raspberry Pi 0 WiFi montrant où se situe le port d’entré pour la caméra" /><figcaption aria-hidden="true">Schéma du Raspberry Pi 0 WiFi montrant où se situe le port d’entré pour la caméra</figcaption>
+</figure>
+<p>Le ruban de la caméra doit être placé de sorte à ce que la languette bleue fasse face à la prise jack. Pour m’assurer que la caméra soit fonctionnelle, j’utilise la commande suivante pour prendre une photo <code>raspistill -o test.jpg</code>.</p>
+<p>À noter que si vous utiliser une caméra sur un Raspberry Pi 0 WiFi, il faut le câble orange comme ci-dessous :</p>
+<figure>
+<img src="./images/raspberrys/camera-cables.png" title="Différents câbles pour la caméra" alt="Différents câbles pour la caméra" /><figcaption aria-hidden="true">Différents câbles pour la caméra</figcaption>
+</figure>
+<h4 id="utilisation-1">Utilisation</h4>
+<p>Pour vérifier qu’un flux vidéo pouvait être lu, j’ai utilisé le code ci-dessous :</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> picamera <span class="im">import</span> PiCamera</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>camera <span class="op">=</span> PiCamera()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>camera.start_preview()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>sleep(<span class="dv">5</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>camera.stop_preview()</span></code></pre></div>
+<p>À noter, il est nécessaire d’exécuter ce code depuis le Raspberry Pi et non par VNC, car l’affichage de la prévisualisation du flux ne s’affiche pas. D’après <a href="https://raspberrypi.stackexchange.com/questions/29537/sending-raspberry-pi-camera-preview-to-a-laptop-running-vnc-viewer">ce post</a> disponible sur StackEchange, il semblerait que l’aperçu de la caméra soit géré à un bas niveau dans le processeur graphique et par conséquent n’est visible que par le moniteur directement branché au Raspberry Pi.</p>
+<h3 id="phare-bright-pi-v1.0">Phare (Bright Pi v1.0)</h3>
+<p>Le Bright Pi est un module comportant 4 leds infrarouges situées aux extrémités et au centre 8 leds.</p>
+<h4 id="mise-en-place-2">Mise en place</h4>
+<p>Pour l’utilisation du Bright Pi, je me suis basé sur le guide disponible à l’adresse suivante : https://learn.pi-supply.com/make/bright-pi-quickstart-faq/. J’ai commencé par activer l’I2C dans le panneau de configuration du Raspberry Pi puis j’ai branché les pins aux emplacements indiqués dans le guide de démarrage. Les couleurs ci-dessous doivent être respectées (pour le placement uniquement). <img src="./images/bright_pi_wiring.jpg" title="Branchement du Bright Pi" alt="Branchement du Bright Pi" /></p>
+<p>Pour s’assurer que le branchement soit correct, il est nécessaire d’utiliser la commande <code>i2cdetect -y 1</code>. Ceci devrait être affiché dans la console :</p>
+<figure>
+<img src="./images/bright_pi_wiring_test.png" title="Commande affichant le branchement du Bright Pi" alt="Commande affichant le branchement du Bright Pi" /><figcaption aria-hidden="true">Commande affichant le branchement du Bright Pi</figcaption>
+</figure>
+<p>Pour tester le Bright Pi, il est nécessaire d’avoir le kit de développement disponible sur <a href="https://github.com/PiSupply/Bright-Pi">ce repos Github</a>.</p>
+<h4 id="utilisation-2">Utilisation</h4>
+<p>Une fois cela fait, il faut importer les éléments concernant le brightpi avec</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> brightpi <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span></code></pre></div>
+<p>Pour faire clignoter les leds manuellement (à l’aide de lignes de code) j’aurai pu utiliser l’objet BrightPi, mais j’ai finalement utilisé le BrightPiSpecialEffects, car il permet d’avoir accès à des fonctions prédéfinies concernant la manipulation des leds, par exemple à les faire s’allumer une à une dans le sens des aiguilles d’une montre, ce qui peut devenir utile par la suite du travail. Voici le code que j’ai écrit. Ce code permet de faire clignoter les leds d’un côté spécifié.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> blink(repetitions, speed, right_leds, left_leds, side):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># fait clignoter les leds des côtés spécifiés</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> speed <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    leds_to_activate <span class="op">=</span> []</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    leds_to_desactivate <span class="op">=</span> []</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, repetitions):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> side <span class="op">==</span> <span class="st">&quot;L&quot;</span>:</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            leds_to_activate <span class="op">=</span> left_leds</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            leds_to_desactivate <span class="op">=</span> right_leds</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> side <span class="op">==</span> <span class="st">&quot;R&quot;</span>:</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>            leds_to_activate <span class="op">=</span> right_leds</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            leds_to_desactivate <span class="op">=</span> left_leds</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        bright_special.set_led_on_off(leds_to_desactivate, OFF)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        bright_special.set_led_on_off(leds_to_activate, ON)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        time.sleep(duration)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        bright_special.set_led_on_off(leds_to_activate, OFF)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        time.sleep(duration)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>bright_special <span class="op">=</span> BrightPiSpecialEffects()</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>bright_special.reset()</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>RIGHT_LEDS <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>LEFT_LEDS <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>blink(<span class="dv">10</span>, <span class="dv">1</span>, RIGHT_LEDS, LEFT_LEDS, <span class="st">&quot;R&quot;</span>)</span></code></pre></div>
+<h3 id="détecteur-infrarouge-flying-fish">Détecteur infrarouge (Flying-Fish)</h3>
+<p>Le Flying-Fish est un module comportant 2 leds infrarouges, une qui émet et une autre qui reçois. Il est équipé d’un potentiomètre réglant la distance d’émission.</p>
+<h4 id="mise-en-place-3">Mise en place</h4>
+<p>Comme le montre ce schéma, le Flying-Fish doit être connecté à une alimentation ainsi qu’à un <em>Ground</em> (appelé <em>Terre</em> en français). La dernière broche est la sortie. C’est-à-dire que lorsque la distance d’émission réglée à l’aide du potentiomètre est dépassée, la lumière d’obstacle s’éteindra et cette broche enverra un signal électrique informant du changement d’état.</p>
+<figure>
+<img src="./images/schema_flying_fish.jpg" title="Commande affichant le branchement du Bright Pi" alt="Schéma du module Flying-Fish" /><figcaption aria-hidden="true">Schéma du module Flying-Fish</figcaption>
+</figure>
+<p>Il faut importer l’accès au GPIO du Raspberry Pi avec :</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> RPi.GPIO <span class="im">as</span> GPIO</span></code></pre></div>
+<h4 id="utilisation-3">Utilisation</h4>
+<p>C’est pourquoi, j’ai branché le <em>Vcc</em> sur la pin 1 du <a href="######Pi-4">GPIO</a>, car le voltage accepté est compris entre 3 et 6 Volts, ensuite j’ai branché le <em>Gnd</em> sur la pin 6. J’ai branché le <em>Out</em> à la pin 16 (GPIO 23). Voici le code de test :</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> RPi.GPIO <span class="im">as</span> GPIO</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the mode into Broadcom SOC channel</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># It allows to use GPIO number instead of pin number</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>GPIO.setmode(GPIO.BCM)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the GPIO 23 into input mode</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>GPIO.setup(<span class="dv">23</span>, GPIO.IN)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The actual state of the GPIO 23</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    input_state <span class="op">=</span> GPIO.<span class="bu">input</span>(<span class="dv">23</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> input_state <span class="op">==</span> <span class="va">True</span>:</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;ATTENTION ! IL N&#39;Y A PLUS DE SOL !&quot;</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="fl">0.5</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;Sol détecté&quot;</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="fl">0.5</span>)</span></code></pre></div>
+<h3 id="connexion-bluetooth-avec-le-lego-4x4-x-trem-off-roader">Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader</h3>
+<p>Le LEGO 4x4 X-trem Off-Roader est une voiture télécommandable en bluetooth.</p>
+<h4 id="mise-en-place-4">Mise en place</h4>
+<p>Dans un premier temps, il faut installer <code>bleak</code>, <code>pygatt</code> et <code>bluepy</code> pour ce faire, j’ai utilisé cette commande : <code>sudo pip3 install pygatt &amp;&amp; pip3 install gatt &amp;&amp; pip3 install gattlib &amp;&amp; pip3 install bluepy &amp;&amp; pip3 install bleak</code> puis j’ai télécharger le code sources du <a href="https://github.com/undera/pylgbst">repository pylgbst</a>. Pour tester la connexion bluetooth, j’ai lancé la commande <code>sudo bluetoothctl</code>, ensuite j’ai lancé les commandes suivantes : <code>power on</code> pour m’assurer que le service soit actif, puis <code>scan on</code>. Une fois que des appareils ont été détectés, on peut lancer l’interface graphique située dans la barre des tâches :</p>
+<p><img src="./images/raspberrys/rsp_bluetooth.png" title="Bluetooth interface depuis barre des tâches" alt="Bluetooth interface depuis barre des tâches" /> ou il est possible d’aller dans les préférences pour l’ouvrir :</p>
+<p><img src="./images/raspberrys/rsp_bluetooth_from_preferences.png" title="Bluetooth interface depuis les préférences" alt="Bluetooth interface depuis les préférences" />.</p>
+<p>Une fois cette interface ouverte, il faut cliquer sur le bouton <em>Rechercher</em>, ce qui effectuera un scan des alentours. Une fois le <code>Technic Hub</code> trouvé dans la liste, il est nécessaire de noter son adresse mac : <code>90:84:2B:50:36:43</code> afin de pouvoir l’utiliser par la suite.</p>
+<h4 id="utilisation-4">Utilisation</h4>
+<p>Pour gérer le déplacement de la voiture, à l’aide du kit de développement fournit par pylgbst, voici le code que j’ai écrit :</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pylgbst.hub <span class="im">import</span> MoveHub</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pylgbst.peripherals <span class="im">import</span> Motor, EncodedMotor</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pylgbst <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>MY_MOVEHUB_ADD <span class="op">=</span> <span class="st">&quot;90:84:2B:50:36:43&quot;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>MY_BTCTRLR_HCI <span class="op">=</span> <span class="st">&quot;hci0&quot;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(motor_1, motor_2, motor_3):</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    motor_1.start_power(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    motor_2.start_power(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    motor_3.angled(<span class="dv">0</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;done!&quot;</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> downward(motor_1, motor_2, motor_3):</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    motor_1.start_power(<span class="dv">1</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    motor_2.start_power(<span class="dv">1</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    motor_3.angled(<span class="dv">0</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;done!&quot;</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> go_left(motor_3):</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    motor_3.angled(<span class="op">-</span><span class="dv">180</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;done!&quot;</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> go_right(motor_3):</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    motor_3.angled(<span class="dv">180</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;done!&quot;</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stop_moving(motor_1, motor_2):</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    motor_1.start_power(<span class="dv">0</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    motor_2.start_power(<span class="dv">0</span>)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;done!&quot;</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reset_angle(motor_3):</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    motor_3.angled(degrees<span class="op">=-</span><span class="dv">150</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;test 1&quot;</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">1</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    motor_3.angled(degrees<span class="op">=-</span><span class="dv">75</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;test 2&quot;</span>)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">1</span>)</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> play_scenario(movehub):</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    motor_a <span class="op">=</span> Motor(movehub, movehub.PORT_A)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    motor_b <span class="op">=</span> Motor(movehub, movehub.PORT_B)</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    motor_c <span class="op">=</span> EncodedMotor(movehub, movehub.PORT_C)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Reset angle:&quot;</span>)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    reset_angle(motor_c)</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">2</span>)</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Forward:&quot;</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    forward(motor_a, motor_b, motor_c)</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">1</span>)</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Downward:&quot;</span>)</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    downward(motor_a, motor_b, motor_c)</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">1</span>)</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Stop&quot;</span>)</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    stop_moving(motor_a, motor_b)</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Left:&quot;</span>)</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    go_left(motor_c)</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">2</span>)</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Right:&quot;</span>)</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    go_right(motor_c)</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">2</span>)</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exiting(connection):</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;bye&quot;</span>)</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    connection.disconnect()</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> get_connection_gatt(hub_mac<span class="op">=</span>MY_MOVEHUB_ADD)</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>    movehub <span class="op">=</span> MoveHub(conn)</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>    play_scenario(movehub)</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>    exiting(conn)</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>    exiting(conn)</span></code></pre></div>
+<p>Le code fournit, propose différentes méthodes de connexion tel que :</p>
+<ul>
+<li>bluepy</li>
+<li>bluegiga</li>
+<li>gatt</li>
+<li>bleak</li>
+<li>gattool</li>
+<li>gattlib</li>
+</ul>
+<p>Ayant vu dans plusieurs documentations le nom de <code>GATT</code> ressortir, je m’y suis penché pour comprendre de quoi il s’agissait. <code>GATT</code> est un acronyme de l’anglais <em>Generic Attribute Profile</em>, il définit comment les 2 appareils vont échanger leurs données, tout en suivant un système de <em>Services</em> et de <em>Characteristics</em>. C’est pourquoi j’ai utilisé la connexion avec <code>GATT</code>.</p>
+<h4 id="problème-rencontré">Problème rencontré</h4>
+<p>Au départ, je tentais d’appareiller le Raspberry Pi au Technic Hub depuis les commandes disponibles dans le mode <code>bluetoothctl</code>, mais j’avais cette erreur <code>Failed to pair: org.bluez.Error.AuthenticationFailed</code>.</p>
+<h5 id="comment-je-lai-résolu">Comment je l’ai résolu</h5>
+<p>J’ai alors compris que pour me connecter au Technic hub, j’aurai besoin d’y avoir accès par un moyen qui permette de transmettre des données, car depuis la documentation LEGO, j’ai aperçu des commandes écrites avec des bytes en hexadécimal. De plus,j’ai remarqué qu’ils mettaient à disposition les UUID des hubs, car ils ont tous le même fabricant.</p>
+<p>Il y a plein de pistes que j’ai entrevues sur les différents repository, cependant je ne m’y étais pas intéressé plus que ça, car aucun ne mentionnait le nom de Technic Hub. Après avoir été dans les différents repository ci-dessous et après avoir regardé comment étaient écrit leurs transmissions au hub bluetooth. J’ai réussi à comprendre comment je pouvais m’appareiller au Technic Hub et comment interagir avec.</p>
+<h3 id="radar-360-rplidar-a2m8">Radar 360 (RPLiDAR A2M8)</h3>
+<p>Le RPLiDAR A2M8 est un scanner laser à 360°. Il permet de connaître la distance entre lui et les obstacles à chaque angles.</p>
+<h4 id="mise-en-place-5">Mise en place</h4>
+<p>Le lidar est branchable par port série. Cependant, un adaptateur est fournie avec et nous permet de récupérer les données par USB.</p>
+<figure>
+<img src="./images/lidar/lidar_side_connection_modes.png" title="Types de connexions" alt="Types de connexions" /><figcaption aria-hidden="true">Types de connexions</figcaption>
+</figure>
+<p>Au dos de l’adaptateur, on peut y voir les éléments suivants :</p>
+<figure>
+<img src="./images/lidar/lidar_back.png" title="Informations inscrites au dos de l&#39;adaptateur" alt="Informations inscrites au dos de l’adaptateur" /><figcaption aria-hidden="true">Informations inscrites au dos de l’adaptateur</figcaption>
+</figure>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 8%" />
+<col style="width: 9%" />
+<col style="width: 37%" />
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Couleur du câble</th>
+<th style="text-align: center;">Nom du signal</th>
+<th style="text-align: center;">Type de signal</th>
+<th style="text-align: center;">Description</th>
+<th style="text-align: center;">Tension minimale</th>
+<th style="text-align: center;">Tension habituelle</th>
+<th style="text-align: center;">Tension maximale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Rouge</td>
+<td style="text-align: center;">VCC</td>
+<td style="text-align: center;">Power</td>
+<td style="text-align: center;">Puissance totale</td>
+<td style="text-align: center;">4.9V</td>
+<td style="text-align: center;">5V</td>
+<td style="text-align: center;">5.2V</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Vert</td>
+<td style="text-align: center;">TX</td>
+<td style="text-align: center;">Output</td>
+<td style="text-align: center;">Sortie des données sur le port série relative au scanner</td>
+<td style="text-align: center;">0V</td>
+<td style="text-align: center;">3.3V</td>
+<td style="text-align: center;">3.5V</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Jaune</td>
+<td style="text-align: center;">RX</td>
+<td style="text-align: center;">Input</td>
+<td style="text-align: center;">Entrée des données sur le port série relative au scanner</td>
+<td style="text-align: center;">0V</td>
+<td style="text-align: center;">3.3V</td>
+<td style="text-align: center;">3.5V</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Noir</td>
+<td style="text-align: center;">GND</td>
+<td style="text-align: center;">Power</td>
+<td style="text-align: center;">La Terre</td>
+<td style="text-align: center;">0V</td>
+<td style="text-align: center;">0V</td>
+<td style="text-align: center;">0V</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Bleu</td>
+<td style="text-align: center;">MOTOCTL</td>
+<td style="text-align: center;">Input</td>
+<td style="text-align: center;">Moteur de scan, régulé avec un PWM</td>
+<td style="text-align: center;">0V</td>
+<td style="text-align: center;">3.3V</td>
+<td style="text-align: center;">5V</td>
+</tr>
+</tbody>
+</table>
+<p>Informations complémentaires pour le PWM, voici les valeurs utilisées :</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Unité</th>
+<th style="text-align: center;">Valeur minimale</th>
+<th style="text-align: center;">Valeur habituelle</th>
+<th style="text-align: center;">Valeur maximale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Haut niveau de tension</td>
+<td style="text-align: center;">Volts</td>
+<td style="text-align: center;">3.0</td>
+<td style="text-align: center;">3.3</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Fréquence du PWM</td>
+<td style="text-align: center;">Herz</td>
+<td style="text-align: center;">24,500</td>
+<td style="text-align: center;">25,000</td>
+<td style="text-align: center;">25,500</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Plage de cycles d’utilisation</td>
+<td style="text-align: center;">Pourcent</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">100</td>
+</tr>
+</tbody>
+</table>
+<p>Si on le souhaite, on peut modifier la vitesse de transmission. De base, la vitesse de transmission est paramétrée sur 115’200 Baud, mais on peut la montée à 256’000 Baud.</p>
+<figure>
+<img src="./images/lidar/lidar_up_and_side_baudrate.png" title="Vitesse de transmission du Lidar" alt="Vitesse de transmission du Lidar" /><figcaption aria-hidden="true">Vitesse de transmission du Lidar</figcaption>
+</figure>
+<p>Il faut commencer par télécharger le kit de développement disponible sur <a href="https://github.com/Slamtec/rplidar_sdk/releases/tag/release%2Fv1.12.0">le repository officiel de Slamtec</a>. Une fois le SDK téléchargé sur le Raspberry. Nous pouvons brancher le Lidar à l’adaptateur. Depuis l’adaptateur, branché le micro-USB dessus puis l’USB au Raspberry Pi.</p>
+<figure>
+<img src="./images/lidar/20210427_124335.jpg" title="Branchement du Lidar à l&#39;adaptateur" alt="Branchement du Lidar à l’adaptateur" /><figcaption aria-hidden="true">Branchement du Lidar à l’adaptateur</figcaption>
+</figure>
+<h4 id="utilisation-5">Utilisation</h4>
+<p>Afin de vérifier qu’il soit bien détecter, il faut exécuter la commande suivante <code>ls /dev/*USB*</code> ceci devrait être retourné <code>/dev/ttyUSB0</code>. Dans le dossier du code source, il faut aller dans le répertoire <code>sdk/app/</code> et exécuter la commande make dans un terminal. Pour exécuter l’un des 3 programmes suivant :</p>
+<ol type="1">
+<li>ultra_simple</li>
+<li>simple_grabber</li>
+<li>frame_grabber</li>
+</ol>
+<p>Nous pouvons maintenant exécuter le programme souhaité en utilisant la commande suivante dans un terminal : <code>nom_du_programme /dev/ttyUSB0</code>.</p>
+<h4 id="problème-rencontré-1">Problème rencontré</h4>
+<p>Les codes fournis fonctionnent parfaitement, sauf qu’aucun ne permet de récupérer depuis une variable ou autre les valeurs d’angles. Cependant, elles sont affichées dans la console.</p>
+<h5 id="comment-je-lai-résolu-1">Comment je l’ai résolu</h5>
+<p>Il y avait 2 possibilités :</p>
+<ol type="1">
+<li>La première était de récupérer les câbles séries (rouge, bleu, jaune, …) et de les connecter directement au <a href="######Pi-4">GPIO</a> sur les pins qui fournissent :
+<ul>
+<li>TX</li>
+<li>RX</li>
+<li>VCC</li>
+<li>Ground</li>
+<li>MotorCTL est un PWM</li>
+</ul></li>
+</ol>
+<p>Comme indiqué sur ce schéma du GPIO du raspberry pi de manière plus détaillé que le premier vu dans la section parlant des Raspberry Pi :</p>
+<figure>
+<img src="./images/raspberrys/GPIO-Pinout-Diagram_detailed.png" title="Branchement du Lidar à l&#39;adaptateur" alt="Branchement du Lidar à l’adaptateur" /><figcaption aria-hidden="true">Branchement du Lidar à l’adaptateur</figcaption>
+</figure>
+<p>Il s’agirait donc des pins : 2 (VCC), 6 (GND), 8 (TX), 9 (RX)</p>
+<ol start="2" type="1">
+<li>La seconde option était de récupérer les données que l’API de Slamtec, <a href="https://github.com/Slamtec/rplidar_sdk/releases">ici présente</a> écrite en <code>C++</code>. Cette dernière fournissait les données en les affichant dans la console sous un format : <code>Theta: 210.31 Dist: 00875.00</code>, Theta représentant un angle et Dist représentant la distance en millimètre d’un obstacle. Malheureusement trop tard, j’ai trouvé <a href="https://rplidar.readthedocs.io/en/latest/">cette librairie</a> en python qui faisait quasiment tout le travail à ma place.</li>
+</ol>
+<p>Cela dit, la méthode que j’utilise actuellement se résume à ça :</p>
+<figure>
+<img src="./images/lidar/flowchart_lidar_api.png" title="Méthode utilisée pour récupérer en temps réel les données du Lidar" alt="Méthode utilisée pour récupérer en temps réel les données du Lidar" /><figcaption aria-hidden="true">Méthode utilisée pour récupérer en temps réel les données du Lidar</figcaption>
+</figure>
+<p>Le problème de cette méthode est qu’elle n’est vraiment pas optimisée car on va lire de manière asynchrone les données reçues par le programme <code>C++</code> et traitée puis mise dans le tableau de distance à chaque itération. Cette même itération est stoppable à tout moment avec un paramètre à changer dans le lancement du processus.</p>
+<h3 id="émetteur-wifi-asus-rt-ac58u">Émetteur WiFi (ASUS RT-AC58U)</h3>
+<p>Un émetteur sans fil diffuse des ondes en utilisant la fréquence radio (RF). Il permet de rendre une connexion internet sans y être connecté de manière filaire. Pour ce projet, nous utilisons un ASUS RT-AC58U.</p>
+<h4 id="mise-en-place-6">Mise en place</h4>
+<h5 id="branchement">Branchement</h5>
+<p>Pour mettre en place le routeur, il faut d’abord brancher l’alimentation dans le port indiqué ainsi que le câble ethernet permettant la connexion à internet dans le port bleu. Pour récupérer les sorties ethernet, il faut les brancher dans les ports jaunes.</p>
+<figure>
+<img src="./images/asus_wifi/router_branchement.png" title="Branchements à faire pour le routeur" alt="Branchements à faire pour le routeur" /><figcaption aria-hidden="true">Branchements à faire pour le routeur</figcaption>
+</figure>
+<p>Sur le haut du routeur, on peut voir différentes leds s’allumer, voici la signification de ces dernières :</p>
+<figure>
+<img src="./images/asus_wifi/router_leds_signification.png" title="Branchements à faire pour le routeur" alt="Branchements à faire pour le routeur" /><figcaption aria-hidden="true">Branchements à faire pour le routeur</figcaption>
+</figure>
+<p>Une fois que le branchement est fait, il faut se rendre sur http://router.asus.com/, la page de connexion vous sera alors affichée. Par défaut, les identifiants pour s’y connecter sont pour le nom d’utilisateur ainsi que pour le mot de passe <code>admin</code>.</p>
+<figure>
+<img src="./images/asus_wifi/page_connexion.png" title="Page de connexion" alt="Page de connexion" /><figcaption aria-hidden="true">Page de connexion</figcaption>
+</figure>
+<h5 id="configuration">Configuration</h5>
+<p>Pour commencer à paramétrer le réseau, il faut en un premier temps cliquer sur le bouton <code>Quick Internet Setup</code></p>
+<figure>
+<img src="./images/asus_wifi/bouton_configuration.png" title="Bouton de configuration du réseau" alt="Bouton de configuration du réseau" /><figcaption aria-hidden="true">Bouton de configuration du réseau</figcaption>
+</figure>
+<p>Cette première page sera affichée, vous laissant le choix entre une configuration rapide ou détaillée. Le mode avancé n’étant pas nécessaire, il est préférable de cliquer sur le bouton <code>Create A New Network</code></p>
+<figure>
+<img src="./images/asus_wifi/configuration_creer_nouveau_reseau.png" title="Création d&#39;un nouveau réseau" alt="Création d’un nouveau réseau" /><figcaption aria-hidden="true">Création d’un nouveau réseau</figcaption>
+</figure>
+<p>Ensuite, cette page de configuration s’affichera, et vous pourrez renter les différentes informations telles que le SSID (nom du réseau) et son mot de passe. Une fois les différents champs remplis, il faut cliquer sur <code>Apply</code>.</p>
+<figure>
+<img src="./images/asus_wifi/configuration_creer_nouveau_reseau_differents_champs_a_remplir.png" title="Champs à remplir" alt="Champs à remplir" /><figcaption aria-hidden="true">Champs à remplir</figcaption>
+</figure>
+<p>Le routeur va nous demander si l’on veut que <code>Yandex</code> soit active, son rôle est de restreindre l’accès aux sites malicieux et aux contenus pour adulte. Dans mon cas, je l’ai activé :</p>
+<figure>
+<img src="./images/asus_wifi/configuration_creer_nouveau_reseau_yandex.png" title="Activation de Yandex" alt="Activation de Yandex" /><figcaption aria-hidden="true">Activation de Yandex</figcaption>
+</figure>
+<p>Il est fort probable que vous deviez mettre à jour votre appareil avec le firmware :</p>
+<figure>
+<img src="./images/asus_wifi/configuration_creer_nouveau_reseau_firmware.png" title="Mise à jour du firmware" alt="Mise à jour du firmware" /><figcaption aria-hidden="true">Mise à jour du firmware</figcaption>
+</figure>
+<h5 id="changement-des-paramètres-de-connexion-à-linterface-web">Changement des paramètres de connexion à l’interface web</h5>
+<p>Pour modifier le nom d’utilisateur ainsi que son mot de passe, il faut cliquer sur le bouton <code>Administration</code> :</p>
+<figure>
+<img src="./images/asus_wifi/bouton_administration.png" title="Bouton d&#39;administration du réseau" alt="Bouton d’administration du réseau" /><figcaption aria-hidden="true">Bouton d’administration du réseau</figcaption>
+</figure>
+<p>Cette page s’affichera, et il faudra cliquer sur l’onglet <code>System</code> afin d’avoir accès à l’interface nous permettant de modifier ces informations :</p>
+<figure>
+<img src="./images/asus_wifi/bouton_administration_system.png" title="Onglet system" alt="Onglet system" /><figcaption aria-hidden="true">Onglet system</figcaption>
+</figure>
+<p>Une fois dans l’onglet, vous pourrez modifier les informations ici :</p>
+<figure>
+<img src="./images/asus_wifi/bouton_administration_system_change_username_and_password.png" title="Changement du nom d&#39;utilisateur ainsi que de son mot de passe pour se connecter à l&#39;interface web" alt="Changement du nom d’utilisateur ainsi que de son mot de passe pour se connecter à l’interface web" /><figcaption aria-hidden="true">Changement du nom d’utilisateur ainsi que de son mot de passe pour se connecter à l’interface web</figcaption>
+</figure>
+<h4 id="utilisation-6">Utilisation</h4>
+<p>Il faut activer le WiFi sur l’appareil que l’on souhaite connecter, une fois les réseaux scannés. Nous devrions pouvoir avoir accès au réseau <code>le_SSID_du_réseau</code> et s’y connecter en entrant le mot de passe choisi sur l’interface nous permettant de paramétrer notre réseau.</p>
+<h2 id="python-flask">Python Flask</h2>
+<p>Flask est un framework web disponible en python qui permet de développer aisément des applications web.</p>
+<h3 id="mise-en-place-7">Mise en place</h3>
+<p>Flask est téléchargeable depuis la commande <code>pip3 install Flask</code>.</p>
+<h3 id="utilisation-7">Utilisation</h3>
+<p>Dans un premier temps, il est important de créer un fichier python. Dans cet exemple, ce sera <code>hello.py</code>.</p>
+<h4 id="application-de-base">Application de base</h4>
+<p>Il faut d’abord importer Flask. Et l’initialiser de la manière suivante :</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/&#39;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hello_world():</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&#39;Hello, World!&#39;</span></span></code></pre></div>
+<p>Pour lancer l’application, il faut d’abord exporter la variable d’environnment <code>FLASK_APP</code> de la manière suivante dans un terminal : <code>export FLASK_APP=hello.py</code>. Une fois cela fait, lancer le serveur avec la commande : <code>flask run --host=0.0.0.0</code>. Le <code>--host=0.0.0.0</code> rend l’accès au serveur public depuis d’autres appareils connectés sur le réseau. Dans mon cas, mon Raspberry Pi a cette adresse IP : <code>10.5.50.42</code> et mon PC <code>10.5.50.52</code>. Pour aller sur le site, je tape l’adresse IP du Raspberry Pi ainsi que le port 5000, http://10.5.50.42:5000/.</p>
+<pre><code> * Serving Flask app &quot;hello.py&quot;
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [28/Apr/2021 08:42:15] &quot;GET / HTTP/1.1&quot; 200 -
+127.0.0.1 - - [28/Apr/2021 08:42:16] &quot;GET /favicon.ico HTTP/1.1&quot; 404 -
+10.5.50.52 - - [28/Apr/2021 08:42:32] &quot;GET / HTTP/1.1&quot; 200 -
+10.5.50.52 - - [28/Apr/2021 08:42:32] &quot;GET /favicon.ico HTTP/1.1&quot; 404 -</code></pre>
+<p>Le port 5000 étant le port par défaut définit par Flask, mais qui est changeable avec le paramètre <code>flask run --host=0.0.0.0 -p 8000</code>, dans ce cas, le port de Flask sera changé à 8000.</p>
+<h5 id="routes">Routes</h5>
+<p>Flask fonctionne avec un système de routes. Les routes sont écrites de la manière suivante :</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/nom_de_la_route&#39;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> nom_de_la_fonction():</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Code ...</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> html_a_afficher</span></code></pre></div>
+<p>Lors de l’accès à une route, le code à l’intérieur de la fonction sera exécutée puis rendra de l’HTML à afficher.</p>
+<p>On peut aussi récupérer une valeur depuis la route de la manière suivante :</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/hello/&lt;name&gt;&#39;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hello(param_name):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;hello.html&#39;</span>, name<span class="op">=</span>param_name)</span></code></pre></div>
+<h5 id="templates">Templates</h5>
+<p>Si les routes rendent de l’HTML, c’est que l’on peut injecter des valeurs dans du code HTML pré-écris. Pour ce faire, à la racine du projet, il faut créer un dossier précisément nommé de la sorte : <code>templates</code>. Ce répertoire contiendra les différents templates HTML à afficher. Voici comment un fichier de template HTML est écrit :</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!doctype </span>html<span class="dt">&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;title&gt;</span>Hello from Flask<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>{% if name %}</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span>Hello {{ name }}!<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>{% else %}</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span>Hello, World!<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>{% endif %}</span></code></pre></div>
+<p>Les balises {% … %} permettent d’écrire du code comme des tests et des boucles.</p>
+<p>Les balises {{ nom_de_la_variable }} permettent d’injecter des valeurs dans l’HTML dynamiquement.</p>
+<p>Depuis le code python, pour pouvoir utiliser des templates, il faut importer <code>render_template</code> comme suit : <code>from flask import render_template</code></p>
+<h5 id="barre-de-navigation">Barre de navigation</h5>
+<p>En prérequis, il faut installer les librairies :</p>
+<ol type="1">
+<li>flask_bootstrap</li>
+<li>flask_nav</li>
+</ol>
+<p>Voici la commande à utiliser : <code>sudo pip3 install flask_bootstrap &amp;&amp; sudo pip3 install flask_nav</code></p>
+<p>Ensuite, dans le code une fois les libraires importées comme suit :</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask_bootstrap <span class="im">import</span> Bootstrap</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask_nav <span class="im">import</span> Nav</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask_nav.elements <span class="im">import</span> <span class="op">*</span></span></code></pre></div>
+<p>Nous pouvons initialiser notre barre de navigation avec un nom ainsi que leurs routes :</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>topbar <span class="op">=</span> Navbar(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    View(<span class="st">&#39;Accueil&#39;</span>, <span class="st">&#39;home&#39;</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    View(<span class="st">&#39;Télécommande&#39;</span>, <span class="st">&#39;control_car&#39;</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    View(<span class="st">&#39;Déconnexion&#39;</span>, <span class="st">&#39;close_connection&#39;</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    View(<span class="st">&#39;Créer une connexion&#39;</span>, <span class="st">&#39;create_car&#39;</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>nav <span class="op">=</span> Nav()</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>nav.register_element(<span class="st">&#39;top&#39;</span>, topbar)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>Bootstrap(app)</span></code></pre></div>
+<p>Pour y avoir accès, on peut l’inclure dans une page HTML de la manière suivante :</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>{<span class="op">%</span> block navbar <span class="op">%</span>}</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    {{nav.top.render(<span class="bu">id</span><span class="op">=</span><span class="st">&#39;top-navbar&#39;</span>)}}</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>{<span class="op">%</span> endblock <span class="op">%</span>}</span></code></pre></div>
+<h5 id="formulaires">Formulaires</h5>
+<p>Les formulaires avec Flask sont écrits en HTML classique :</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;form</span> <span class="er">action</span><span class="ot">=</span><span class="st">&quot;/route_apres_validation&quot;</span> <span class="er">method</span><span class="ot">=</span><span class="st">&quot;POST ou GET&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;input_txt&quot;</span> <span class="er">placeholder</span><span class="ot">=</span><span class="st">&quot;...&quot;</span> <span class="kw">/&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;checkbox&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;input_cbx&quot;</span> <span class="er">checked</span><span class="ot">=</span><span class="st">&quot;true&quot;</span> <span class="kw">/&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span> <span class="er">value</span><span class="ot">=</span><span class="st">&quot;valider&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;input_validation&quot;</span> <span class="kw">/&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/form&gt;</span></span></code></pre></div>
+<p>Pour récupérer les informations des différents champs du formulaire, voici le code qui permet de les récupérer :</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/route_apres_validation&#39;</span>, methods<span class="op">=</span>[<span class="st">&#39;GET&#39;</span>, <span class="st">&#39;POST&#39;</span>])</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> nom_de_fonction():</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> request.method <span class="op">==</span> <span class="st">&#39;POST&#39;</span> <span class="kw">and</span> request.form[<span class="st">&quot;input_validation&quot;</span>]:</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        valeur <span class="op">=</span> request.form[<span class="st">&quot;nom_input_html&quot;</span>]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Traitement ...</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> html_a_afficher</span></code></pre></div>
+<p>Dans le paramètre <code>methods</code> de la route, le paramètre GET est celui de base, mais peut être changé par POST.</p>
+<h5 id="javascript-ajax">Javascript / AJAX</h5>
+<p>Étant donné que Flask nous permet d’écrire des pages HTML qui seront insérés dans la page lors de l’appel (voir la section regroupant les Templates), cela veut dire que nous pouvons écrire du javascript à l’aide des balises <code>&lt;script type=text/javascript&gt;&lt;/script&gt;</code>. Pour le cas d’AJAX, il suffit de télécharger la librairie JQuery afin d’y avoir accès ou en utilisant le CDN <code>&lt;script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"&gt;&lt;/script&gt;</code>.</p>
+<p>À noter, que l’unique différence entre ces deux manières d’avoir accès à JQuery, est que l’un est accessible en ligne et l’autre sur la machine donc la rapidité d’exécution, car en utilisant la version en ligne, en fonction du débit de la connexion, il peut y avoir de la latence.</p>
+<p>Pour mettre en place de l’AJAX, il faut dans des balises script sur l’une des pages HTML présentent dans le répertoire <code>templates</code>. La méthode <code>serialize()</code>, permet de récupérer de sérialiser les données présentes dans le formulaire HTML.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>script<span class="op">&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">execute</span>(){</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    $<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>            <span class="dt">url</span><span class="op">:</span> <span class="st">&#39;/bg_processing_car/&#39;</span><span class="op">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">data</span><span class="op">:</span> <span class="fu">$</span>(<span class="st">&#39;form&#39;</span>)<span class="op">.</span><span class="fu">serialize</span>()<span class="op">,</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>            <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span>(response) {</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;action performed&quot;</span>)<span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>            }<span class="op">,</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">error</span><span class="op">:</span> <span class="kw">function</span>(error) {</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(error)<span class="op">;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        })<span class="op">;</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;/</span>script<span class="op">&gt;</span></span></code></pre></div>
+<p>Et dans le code python, voici comment on récupère et traite les données :</p>
+<p>On peut considérer les données envoyées par l’appel AJAX comme ceci :</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>[</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rngMove</span> <span class="op">:</span> <span class="dv">75</span><span class="op">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rngRotationAngle</span> <span class="op">:</span> <span class="dv">1</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div>
+<p>Et on les récupèrent exactement comme pour un formulaire classique :</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&quot;/bg_processing_car/&quot;</span>, methods<span class="op">=</span>[<span class="st">&quot;POST&quot;</span>])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bg_process_car():</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Process the values passed by Javascript&quot;&quot;&quot;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    automatic_mode <span class="op">=</span> MODE_OFF</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    move_speed <span class="op">=</span> request.form[<span class="st">&quot;rngMove&quot;</span>]</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    angle_rotation <span class="op">=</span> request.form[<span class="st">&quot;rngRotationAngle&quot;</span>]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    car <span class="op">=</span> CarController()</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reverse the result because it returns True if there isn&#39;t a ground below</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    grounded <span class="op">=</span> <span class="kw">not</span> GPIO.<span class="bu">input</span>(GPIO_FLYING_FISH_FRONT_RIGHT)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    car.move(<span class="bu">float</span>(move_speed), <span class="bu">int</span>(angle_rotation), grounded)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;form_remote_car.html&quot;</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span>automatic_mode,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        speed<span class="op">=</span>move_speed,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>        angle<span class="op">=</span>angle_rotation,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<h2 id="bluetooth">Bluetooth</h2>
+<h3 id="quest-ce-que-le-bluetooth">Qu’est-ce que le bluetooth ?</h3>
+<p>Le bluetooth est une norme de communication à courte distance utilisant des ondes radios sur la bande de fréquence 2,4GHz. Ce qui permet d’échanger des données dans les deux sens en <em>peer-to-peer</em> dans un picoréseau.</p>
+<figure>
+<img src="./images/bluetooth/bluetooth_logo.png" title="Logo du Bluetooth" alt="Logo du Bluetooth" /><figcaption aria-hidden="true">Logo du Bluetooth</figcaption>
+</figure>
+<p>Un picoréseau (en anglais piconet) est un mini-réseau qui se crée de manière instantanée et automatique quand plusieurs périphériques Bluetooth sont dans un même rayon.</p>
+<h4 id="comment-est-il-structuré">Comment est-il structuré ?</h4>
+<p>Quand on parle de bluetooth, au niveau des protocoles, on peut parler de relations <em>Maîtres</em> et d’<em>Esclaves</em>. Le <em>Maître</em> Bluetooth est celui qui peut initier une connexion avec un périphérique (ou <em>Esclave</em>), cependant une fois les appareils connectés, le <em>Maître</em> et l’<em>Esclave</em> peuvent échanger des informations sans restriction (en fonction de la limitation de l’application).</p>
+<figure>
+<img src="./images/bluetooth/bluetooth_picoreseau.png" title="Schéma d&#39;un picoréseau (Piconet en anglais)" alt="Schéma d’un picoréseau (Piconet en anglais)" /><figcaption aria-hidden="true">Schéma d’un picoréseau (Piconet en anglais)</figcaption>
+</figure>
+<p>Les relations <em>Maître</em>-<em>Esclave</em> sont gérées par le gestionnaire de liaison. Il implémente le protocole L2CAP (de l’anglais <em>Logical Link Control and Adaptation Protocol</em>) et le gère (création, destruction de canaux). Il implémente aussi les mécanismes de sécurité comme :</p>
+<ul>
+<li>l’authentification</li>
+<li>l’appairage (l’association)</li>
+<li>la création et la modification des clés</li>
+<li>et le chiffrement</li>
+</ul>
+<h4 id="sécurité">Sécurité</h4>
+<p>Il existe 3 modes de sécurité :</p>
+<ul>
+<li>Mode 1
+<ul>
+<li>Non sécurisé pour toutes opérations</li>
+<li>Peut uniquement communiquer avec des appareils du même mode</li>
+</ul></li>
+<li>Mode 2
+<ul>
+<li>Fournit un niveau de sécurité à la couche application après l’établissement d’une liaison avec un autre dispositif</li>
+</ul></li>
+<li>Mode 3
+<ul>
+<li>Fournit un niveau de sécurité avant l’établissement du canal de communication</li>
+<li>Chiffrement sécurisé au niveau de la liaison avec autre dispositif</li>
+</ul></li>
+</ul>
+<p>À noter, si un service effectue une demande de connexion, le mode de sécurité les plus haut sera celui utilisé afin de traiter la demande toute en s’assurant de la sécurité relative aux différents modes.</p>
+<p>Le bluetooth est divisé en deux parties :</p>
+<ol type="1">
+<li>La couche contrôleur implémentant la partie matérielle</li>
+<li>La couche hôte implémentant la partie logicielle.</li>
+</ol>
+<p>L’émission et la réception de signaux radio sont possible grâce à un module RF (RadioFrequency).</p>
+<p>L’interface host-controller (HCI) fait la liaison entre la couche hôte et la couche contrôleur en assurant le transfert des événements et des paquets de données. Cette interface assure le transfert d’information pour que la couche hôte puisse découvrir, ajouter et gérer les appareils dans un picoréseau.</p>
+<p>Chaque paquet possède un champ header permettant de distinguer le picoréseau de l’appareil des autres picoréseaux. Voici le format d’un paquet :</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 6%" />
+<col style="width: 16%" />
+<col style="width: 27%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Champ</th>
+<th style="text-align: center;">Header</th>
+<th style="text-align: center;">Access Address</th>
+<th style="text-align: center;">Protocol Data Unit (PDU)</th>
+<th style="text-align: center;">Cyclic redundancy Check (CRC)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Taille en bits</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">de 2 à 39</td>
+<td style="text-align: center;">24</td>
+</tr>
+</tbody>
+</table>
+<p>Le PDU est une unité de mesure des informations échangées dans un réseau informatique. Appliqué aux couches du modèle OSI, le PDU de :</p>
+<ul>
+<li>La couche physique est le bit.</li>
+<li>La couche liaison est la trame.</li>
+<li>La couche réseau est le paquet.</li>
+<li>La couche transport est le segment pour TCP, et le datagramme pour UDP.</li>
+<li>Les couches application, présentation et session sont les données.</li>
+</ul>
+<p>Le Cyclic Redundancy Check, autrement appelé contrôle de redondance cyclique, permet de détecter des erreurs de transmission ou de transfert par ajout, combinaison et comparaison de données redondantes, obtenues grâce à une procédure de hachage. Cette méthode est comparable au checksum, mais ce dernier est plus élaboré.</p>
+<p>Les paquets reçus par le HCI sont traités par le protocole L2CAP. Il assure le transport des paquets vers les couches supérieures du modèle OSI, la segmentation et le ré-assemblage des paquets.</p>
+<p>La couche de liaison est définie dans les systèmes bluetooth comme la couche assurant le transport des paquets entre les appareils d’un même picoréseau à travers plusieurs canaux :</p>
+<figure>
+<img src="./images/bluetooth/architecture_bluetooth.jpg" title="Architecture du Bluetooth" alt="Architecture du Bluetooth" /><figcaption aria-hidden="true">Architecture du Bluetooth</figcaption>
+</figure>
+<ul>
+<li>Basic channel : Canal pour la communication entre deux appareils</li>
+<li>Adapted piconet channel : Canal pour la communication dans le picoréseau</li>
+<li>Inquiry scan : Canal pour l’acquisition des appareils bluetooth aux alentours</li>
+<li>Page scan : Canal pour la connexion avec un nouvel appareil</li>
+</ul>
+<h4 id="quest-ce-que-generic-access-profile">Qu’est-ce que Generic Access Profile</h4>
+<p>Generic Access Profile (GAP), est responsable de la connexion. De plus, il gère aussi :</p>
+<ul>
+<li>les modes d’accès</li>
+<li>les procédures du dispositif</li>
+<li>la découverte du dispositif</li>
+<li>l’établissement et la fin de la liaison</li>
+<li>le lancement des fonctions de sécurité</li>
+<li>la configuration du dispositif.</li>
+</ul>
+<figure>
+<img src="./images/bluetooth/diag_etat_gap.png" title="Diagramme d&#39;états du profile GAP" alt="Diagramme d’états du profile GAP" /><figcaption aria-hidden="true">Diagramme d’états du profile GAP</figcaption>
+</figure>
+<ul>
+<li>Veille : le dispositif est dans l’état initial de veille lors de la réinitialisation.</li>
+<li>Annonce : Le dispositif envoie un message d’annonce avec des données spécifiques pour faire savoir aux dispositifs initiateurs qu’il est un dispositif connectable (cette annonce contient l’adresse du dispositif et peut contenir des données supplémentaires telles que le nom du dispositif).</li>
+<li>Scan : Lorsqu’il reçoit l’annonce, le dispositif de scan envoie une demande de scan à l’annonceur qui répondra par une réponse d’analyse. Cette méthode est appelée découverte du dispositif. Le dispositif d’analyse connaît le dispositif ayant émis l’annonce et peut établir une connexion avec lui.</li>
+<li>Initiation : Lors de l’initialisation, l’initiateur doit spécifier une adresse de dispositif homologue à laquelle se connecter. S’il reçoit une annonce correspondant à l’adresse du dispositif homologue, le dispositif initiateur envoie une demande de connexion avec les paramètres disponible ci-dessous :
+<ul>
+<li>Intervale de connexion (entre 7.5 et 3200 ms)</li>
+<li>La latence de l’esclave</li>
+<li>Délai de supervision (entre 10 et 3200 ms)</li>
+</ul></li>
+<li>Esclave/Maître : Lorsqu’une connexion est établie, le dispositif fonctionne comme un esclave s’il s’agit de l’annonceur sinon comme un maître s’il s’agit de l’initiateur.</li>
+</ul>
+<h5 id="quest-ce-que-generic-attribute-profile">Qu’est-ce que Generic Attribute Profile</h5>
+<p>Generic Attribute Profile (GATT), est responsable de la communications de données entre les appareils connectés. Il est structuré en <em>Services</em> et <em>Characteristics</em> comme ci-dessous :</p>
+<figure>
+<img src="./images/gatt/gatt_comparison_between_hierarchy_and_EFR.png" title="Architecture GATT" alt="Architecture GATT" /><figcaption aria-hidden="true">Architecture GATT</figcaption>
+</figure>
+<p>Les attributs sont groupés en <em>services</em>, chaque <em>services</em> peut contenir 0 ou + <em>characteristics</em>. Ces dernières peuvent avoir de 0 à + <em>descriptors</em>.</p>
+<ul>
+<li>GATT Server : Technic Hub</li>
+<li>Service : Generic Attribute
+<ul>
+<li>Characteristic : Service Change</li>
+</ul></li>
+<li>Service : Generic Access
+<ul>
+<li>Characteristic : Device Name</li>
+<li>Characteristic : Appearance</li>
+<li>Characteristic : Peripheral Preferred Connection Parameters</li>
+</ul></li>
+<li>Service : LegoTechnicHub (renommée car de base l’application affichait Unknown ervice)
+<ul>
+<li>Characteristic : Unknown Charateristic</li>
+</ul></li>
+</ul>
+<p>Pour avoir accès à ces informations, j’ai utilisé l’application EFRConnect disponible sur le playstore. J’ai lancé un scan depuis le Raspberry Pi, voici les informations qui ont été retournées :</p>
+<pre><code>[NEW] Device 90:84:2B:50:36:43 Technic Hub
+[CHG] Device 90:84:2B:50:36:43 RSSI: -58
+[CHG] Device 90:84:2B:50:36:43 TxPower: 0
+[CHG] Device 90:84:2B:50:36:43 ManufacturerData Key: 0x0397
+[CHG] Device 90:84:2B:50:36:43 ManufacturerData Value:
+  00 80 06 00 61 00                                ....a.</code></pre>
+<p>Par la suite, j’ai lancé un scan depuis l’application afin de comparer les données, voici les informations que l’application m’a retournée concernant le Technic Hub :</p>
+<ul>
+<li><p>Flags : <code>0x06: LE General Discoverable Mode, BR/EDR Not Supported</code></p></li>
+<li><p>Complete list of 128-bit service class UUIDs : <code>00001624-1212-EFDE-1623-785FEABCD123</code></p></li>
+<li><p>Manufacturer Data :</p>
+<ol type="1">
+<li>Company Code : <code>0x0397</code></li>
+<li>Data : <code>0x008006004100</code></li>
+<li>Slave connection interval range : <code>20.0ms</code></li>
+<li>Tx power level: <code>0 dBm</code></li>
+<li>Complete local name : <code>Technic Hub</code></li>
+</ol></li>
+<li><p>Generic attribute : <code>0x1801</code></p>
+<ol type="1">
+<li>UUID : <code>0x2A05</code></li>
+<li>Descriptor : <em>champs vide</em></li>
+<li>Client characteristic configuration : <code>0x2902</code></li>
+</ol></li>
+<li><p>Generic access :</p>
+<ol type="1">
+<li>Device name : <code>0x1800</code></li>
+<li>Appearance : <code>0x2A01</code></li>
+<li>Peripheral preffered connection parameters : <code>0x2A04</code></li>
+</ol></li>
+<li><p><em>Unknown Service</em> :</p>
+<ol type="1">
+<li>UUID : <code>00001624-1212-EFDE-1623-785FEABCD123</code></li>
+<li>Descriptor : <em>champs vide</em></li>
+<li>Client characteristic configuration : <code>0x2902</code></li>
+<li>Value : <code>05 00 04 03 00 2E 00 00 10 00 00 00 10 00 00 00 00 00 00 00</code></li>
+</ol></li>
+</ul>
+<h3 id="tchat-en-bluetooth">T’chat en bluetooth</h3>
+<h4 id="mise-en-place-8">Mise en place</h4>
+<p>Il faut que les 2 Raspberry Pi soient en mode “Découvrable” activable ici :</p>
+<p><img src="./images/raspberrys/rsp_make_discoverable.png" title="Rendre découvrable le Raspberry Pi" alt="Rendre découvrable le Raspberry Pi" />.</p>
+<p>Il faut ensuite effectuer un scan des appareils si nous ne connaissons pas le nom d’hôte de l’autre Raspberry Pi. Le script doit être présent sur les deux Raspberry Pi afin de pouvoir écouter, recevoir ainsi qu’envoyer des messages. La machine hôte, moi dans ce contexte, doit être en mode MODE_SEND tandis que l’autre en mode MODE_RECEIVE.</p>
+<h4 id="utilisation-8">Utilisation</h4>
+<p>Le code fonctionne de la manière suivante. La machine hôte va en premier temps lancer le scan à la recherche de l’appareil nommé <code>morenoPi42</code>. <img src="./images/raspberrys/rsp_scan_bluetooth.png" title="Scan bluetooth des environs" alt="Scan bluetooth des environs" /></p>
+<p>Une fois l’appareil trouvé, je m’y appareille, puis lui envoie le premier message. <img src="./images/raspberrys/rsp_send_data_to_another_rsp.png" title="Transfère de données entre les 2 Raspberry Pi 4" alt="Transfère de données entre les 2 Raspberry Pi 4" /></p>
+<p>Le mode actuel, change et je deviens la machine qui écoute le port spécifié en attendant un message.</p>
+<figure>
+<img src="./images/bluetooth/tchat.png" title="T&#39;chat en bluetooth" alt="T’chat en bluetooth" /><figcaption aria-hidden="true">T’chat en bluetooth</figcaption>
+</figure>
+<figure>
+<img src="./images/bluetooth/diag_seq_tchat_bluetooth.png" title="Diagramme de séquence du T&#39;chat en bluetooth" alt="Diagramme de séquence du T’chat en bluetooth" /><figcaption aria-hidden="true">Diagramme de séquence du T’chat en bluetooth</figcaption>
+</figure>
+<h3 id="remote-gpio">Remote GPIO</h3>
+<p>Le <a href="######Pi-4">GPIO</a> nous permet d’accéder aux entrées / sorties des appareils connectés au Raspberry Pi.</p>
+<h4 id="mise-en-place-9">Mise en place</h4>
+<p>Pour pouvoir utiliser le Remote GPIO, il faut tout d’abord l’activer dans l’interface de configuration présente ci-dessous :</p>
+<figure>
+<img src="./images/raspberrys/rsp_config-rsp.png" title="Diagramme de séquence du T&#39;chat en bluetooth" alt="Diagramme de séquence du T’chat en bluetooth" /><figcaption aria-hidden="true">Diagramme de séquence du T’chat en bluetooth</figcaption>
+</figure>
+<p>Puis dans la fenêtre présente, tout en bas, cliquer sur <em>Activé</em> :</p>
+<figure>
+<img src="./images/raspberrys/rsp_config-rsp_remote-gpio.png" title="Diagramme de séquence du T&#39;chat en bluetooth" alt="Diagramme de séquence du T’chat en bluetooth" /><figcaption aria-hidden="true">Diagramme de séquence du T’chat en bluetooth</figcaption>
+</figure>
+<p>Une fois que la configuration des différents Raspberry Pi est faite, il ne manque plus qu’à télécharger GPIO Zero, une librairie nous donnant accès à la gestion des différentes pins : <code>sudo pip3 install gpiozero</code></p>
+<p>Ensuite nous aurons besoin de Pi GPIO : <code>sudo apt install pigpio</code></p>
+<p>Une fois installé, il faut lancer le service PiGPIO : <code>sudo pigpiod</code> sur la machine qui sera contrôlée à distance.</p>
+<h4 id="utilisation-9">Utilisation</h4>
+<p>Pour pouvoir se connecter au Raspberry Pi, il faut connaître son adresse IP. Une fois connue, voici comment établir une connexion :</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gpiozero</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpiozero <span class="im">import</span> LED,Button</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gpiozero.pins.pigpio <span class="im">import</span> PiGPIOFactory</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> signal <span class="im">import</span> pause</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>factory <span class="op">=</span> PiGPIOFactory(<span class="st">&#39;10.5.50.42&#39;</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>btn <span class="op">=</span> Button(<span class="dv">2</span>) <span class="co"># local RPi.GPIO pin</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>led <span class="op">=</span> LED(<span class="dv">17</span>, pin_factory<span class="op">=</span>factory) <span class="co"># remote pin</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>btn.wait_for_press()</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;button pressed !&quot;</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>led.off()</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>pause()</span></code></pre></div>
+<p>Dans notre cas, avec M. Moreno interprétant le Raspberry Pi <em>principal</em> qui intéragirait avec les pins de mon Raspberry Pi.</p>
+<figure>
+<img src="./images/breadboard_moreno.jpeg" title="breadboard de M. Moreno" alt="breadboard de M. Moreno" /><figcaption aria-hidden="true">breadboard de M. Moreno</figcaption>
+</figure>
+<ul>
+<li>Le bouton est connecté au GPIO 2, donc la pin 3</li>
+</ul>
+<figure>
+<img src="./images/breadboard_ackermann.jpeg" title="breadboard de M. Ackermann" alt="breadboard de M. Ackermann" /><figcaption aria-hidden="true">breadboard de M. Ackermann</figcaption>
+</figure>
+<ul>
+<li>La led est connectée au GPIO 17, donc la pin 11</li>
+</ul>
+<figure>
+<img src="./images/raspberrys/GPIO-connected_pin_remote-gpio.png" title="breadboard de M. Ackermann" alt="breadboard de M. Ackermann" /><figcaption aria-hidden="true">breadboard de M. Ackermann</figcaption>
+</figure>
+<h2 id="matplotlib">Matplotlib</h2>
+<p>Matplotlib est une librairie complète permettant la création de statistiques sur un large panel de graphiques utilisable en Python.</p>
+<h4 id="mise-en-place-10">Mise en place</h4>
+<p>Il faut d’abord installer Matplotlib avec la commande <code>sudo apt-get install python3-matplotlib</code></p>
+<h4 id="utilisation-10">Utilisation</h4>
+<p>Sur le site officiel, il y a cet exemple que j’ai repris pour en faire l’affichage de mon radar 360° :</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixing random state for reproducibility</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">19680801</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute areas and colors</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">150</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.random.rand(N)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> np.random.rand(N)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>area <span class="op">=</span> <span class="dv">200</span> <span class="op">*</span> r<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> theta</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>plt.subplot(projection<span class="op">=</span><span class="st">&#39;polar&#39;</span>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>plt.scatter(theta, r, c<span class="op">=</span>colors, s<span class="op">=</span>area, cmap<span class="op">=</span><span class="st">&#39;hsv&#39;</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span></code></pre></div>
+<p>Voici ce que l’exemple <a href="https://matplotlib.org/stable/gallery/pie_and_polar_charts/polar_scatter.html#sphx-glr-gallery-pie-and-polar-charts-polar-scatter-py">ici</a> présent donne :</p>
+<figure>
+<img src="./images/test_graph.png" title="Affichage du graphique généré par le code d&#39;exemple" alt="Affichage du graphique généré par le code d’exemple" /><figcaption aria-hidden="true">Affichage du graphique généré par le code d’exemple</figcaption>
+</figure>
+<p>Voici le code créant le graphique que j’utilise pour afficher les points :</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_chart():</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Will process the chart and save it into a png</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> rows</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    area <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> [(<span class="dv">1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>), (<span class="dv">1</span>, <span class="fl">0.8</span>, <span class="dv">0</span>), (<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.1</span>)]  <span class="co"># near -&gt; mid -&gt; far</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    cmap_name <span class="op">=</span> <span class="st">&quot;distance_warning&quot;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    cmap <span class="op">=</span> matplotlib.colors.LinearSegmentedColormap.from_list(cmap_name, colors)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    data_x <span class="op">=</span> []</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    data_y <span class="op">=</span> []</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    angle <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the colors I need, values between 0 and 1 for (r, g, b)</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add angle in radian and his value in two array x and y</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> distance <span class="kw">in</span> rows:</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>        data_x.append(math.radians(angle))</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>        data_y.append(distance)</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>        angle <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set the projection to polar</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    plt.subplot(projection<span class="op">=</span><span class="st">&quot;polar&quot;</span>)</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    plt.scatter(data_x, data_y, s<span class="op">=</span>area, c<span class="op">=</span>data_y, cmap<span class="op">=</span>cmap)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="dv">0</span>, <span class="dv">2000</span>)</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    plt.savefig(constants.CHART_PATH <span class="op">+</span> constants.CHART_NAME)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>    plt.clf()</span></code></pre></div>
+<figure>
+<img src="./images/graph_warning_colors.png" title="Affichage du graphique généré avec les couleurs prévenant le danger par rapport à un obstacle" alt="Affichage du graphique généré avec les couleurs prévenant le danger par rapport à un obstacle" /><figcaption aria-hidden="true">Affichage du graphique généré avec les couleurs prévenant le danger par rapport à un obstacle</figcaption>
+</figure>
+<p>Voici un exemple du scanner en un quasi-temps réel :</p>
+<figure>
+<img src="./images/radar_animation.gif" title="Affichage des données en temps réel" alt="Affichage des données en temps réel" /><figcaption aria-hidden="true">Affichage des données en temps réel</figcaption>
+</figure>
+<p>Ici, on parle de quasi-temps réel, car comme vu dans le section parlant du Lidar, on traite les données émises par l’API en temps réel de manière asynchrone, mais le graphique étant une image enregistrée, le temps d’écriture de l’image ainsi que le temps de lecture fait que les images s’accumulent et que par conséquent l’image gagne du délai.</p>
+<h2 id="raspap">RaspAp</h2>
+<p>RaspAp est une application permettant de mettre en place un point d’accès WiFi avec un raspberry pi facilement. ### Mise en place Par précaution, il est nécessaire de mettre son raspberry pi avec la commande <code>sudo apt update &amp;&amp; sudo apt full-upgrade</code>.</p>
+<p>Ensuite, il faut télécharger le code du repository Git avec la commande suivante : <code>wget -q https://git.io/voEUQ -O /tmp/raspap &amp;&amp; bash /tmp/raspap</code>. Durant toute l’installation, il faut tout accepter, à moins d’avoir une bonne raison, mais dans ce cas ça ne l’est pas.</p>
+<p>Après l’installation, il faut redémarrer le raspberry pi. Une fois redémarré, le raspberry pi devrait avec cette adresse IP : <code>10.3.141.1</code>. Pour pouvois accès à cette informations, ouvrez un terminal et exécuter la commande : <code>ip a</code> ou <code>ifconfig</code>. Normalement vous devriez voir un section nommée <code>Wlan0</code>.</p>
+<h3 id="utilisation-11">Utilisation</h3>
+<p>Une fois RaspAp installé, vous pouvez vous rendre sur <code>10.3.141.1</code> dans un navigateur web afin d’avoir accès au tableau de bord de RaspAp :</p>
+<p>Pour se connecter, de base les identifiants sont <code>admin</code> pour le nom d’utilisateur et <code>secret</code> comme mot de passe. [IMAGE LOGIN RASPAP]</p>
+<p>Pour pouvoir se connecter au WiFi (toujours avec les valeurs par défaut) le nom du réseau est : <code>raspi-webgui</code> avec pour mot de passe <code>ChangeMe</code>.</p>
+<p>Une fois connecté, vous arriverez sur la page de tableau de bord de RaspAp : [IMAGES RASPAP CONFIGURATION]</p>
+<p>Depuis l’interface utilisateur, il faut cliquer sur <code>Hotspot</code> pour pouvoir changer le nom du réseau <code>SSID</code>, pour changer le mot de passe <code>Pre Shared Key</code>. Pour ce faire, il faut aller dans l’onglet <code>Security</code>, puis cliquer sur <code>Restart hotspot</code> en bas à droite de la page.</p>
+<h1 id="manuel-technique">Manuel technique</h1>
+<p>Dans cette rubrique, nous allons voir comment les divers éléments utilisés dans ce projet ont été mis en place.</p>
+<h2 id="branchements">Branchements</h2>
+<h3 id="alimentation-générale">Alimentation générale</h3>
+<p>Pour l’alimentation générale, j’ai pris 2 anciens câbles USB que j’ai coupé et dénudé afin de récupérer l’alimentation (Le VCC et le GND). Ces deux câbles ont ensuite été soudés sur les pins de la plaquette.</p>
+<p>À la base, la plaquette ressemblait à ceci : <img src="./images/branchements/plaquette_pin_alimentation_generale.jpg" title="Plaquette et pins utilisés afin de créer le système d&#39;alimentation générale" alt="Plaquette et pins utilisés afin de créer le système d’alimentation générale" /></p>
+<p>Pour ensuite être soudé de la sorte :</p>
+<figure>
+<img src="./images/branchements/alimentation_vcc_gnd_usb_1.jpg" title="Système d&#39;alimentation générale" alt="Système d’alimentation générale" /><figcaption aria-hidden="true">Système d’alimentation générale</figcaption>
+</figure>
+<figure>
+<img src="./images/branchements/alimentation_vcc_gnd_usb_2.jpg" title="Système d&#39;alimentation générale" alt="Système d’alimentation générale" /><figcaption aria-hidden="true">Système d’alimentation générale</figcaption>
+</figure>
+<p>Le courant est soudé sur la pin de droite tandis que la terre sur la pin de gauche. Ce processus a été répété 2 fois car il y a du sorties présentes sur la batterie externe.</p>
+<p>Les câbles USB sont branchés dans les ports Output 1 et 2 de la batterie externe comme ceci :</p>
+<figure>
+<img src="./images/branchements/USB_alimentation_vcc_gnd.jpg" title="Courant de l&#39;alimentation générale" alt="Courant de l’alimentation générale" /><figcaption aria-hidden="true">Courant de l’alimentation générale</figcaption>
+</figure>
+<p>Il est important de noter, que chaque composant est branché à l’alimentation générale de la sorte :</p>
+<figure>
+<img src="./images/branchements/alimentation_vcc_gnd.jpg" title="Branchement des composant sur l&#39;alimentation générale" alt="Branchement des composant sur l’alimentation générale" /><figcaption aria-hidden="true">Branchement des composant sur l’alimentation générale</figcaption>
+</figure>
+<p>Par conséquent sur cet exemple, les câbles rouges, blancs et violets sont branchés sur le courant et les câbles noirs, gris et bruns sont branchés sur la terre.</p>
+<h3 id="raspberry-pi-4">Raspberry Pi 4</h3>
+<p>Le raspberry pi 4 est branché à l’alimentation générale et est alimenté par les pins 4 et 6 du <a href="######Pi-4">GPIO</a>. #### Lidar Le lidar est branché à l’adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le <a href="####Radar-360-(RPLiDAR-A2M8)">Lidar</a>.</p>
+<p>Pour l’affichage graphique des données perçues par le Lidar, veuillez regarder la <a href="###Matplotlib">section parlant de Matplotlib</a> et pour ce qui est de l’affichage des données en un quasi-temps réel, j’utilise la même méthode que pour la récupération du flux de la caméra en temps réel. #### Fyling-Fish Les divers flying-fish sont branchés des câbles gris et violets à l’alimentation générale, mais les valeurs de sorties qu’ils fournissent sont branchés avec des câbles bleus sur les <a href="######Pi-4">GPIO</a> suivant du raspberry pi 4 :</p>
+<figure>
+<img src="./images/branchements/flying_fish_gpio.png" title="GPIO utilisés pour les flying-fish" alt="GPIO utilisés pour les flying-fish" /><figcaption aria-hidden="true">GPIO utilisés pour les flying-fish</figcaption>
+</figure>
+<h4 id="ventilateur">Ventilateur</h4>
+<p>Le ventilateur est branché sur les pins 2 et 9 du <a href="######Pi-4">GPIO</a>. Le ventilateur est nécessaire car lorsque toutes les caméras sont allumées et que le lidar tourne, sans le ventilateur, le processeur atteint des températures excédant 70° Celcius tandis qu’avec le ventilateur cette température est limitée à 55° Celcius ### Raspberry Pi 0 WiFi Le raspberry pi 0 WiFi est branché à l’alimentation générale et est alimenté par les pins 4 et 6 du <a href="######Pi-4">GPIO</a>.</p>
+<h4 id="caméra-1">Caméra</h4>
+<p>La caméra est branché de la même manière que dans la <a href="####Caméra">section explicant la module caméra</a> #### Bright Pi Le bright Pi est branché sur l’alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des <a href="######Pi-4">GPIO</a> I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la <a href="####Phare-(Bright-Pi-v1.0)">section explicant ce qu’est le bright pi</a>.</p>
+<h2 id="scripts">Scripts</h2>
+<p>Dans cette section, nous allons parler des différents scripts utilisés ainsi que leurs comportement.</p>
+<h3 id="raspberry-pi-4-1">Raspberry Pi 4</h3>
+<h4 id="à-quoi-sert-il">À quoi sert-il ?</h4>
+<p>Ce raspberry pi est le raspberry pi principale. C’est-à-dire que c’est lui qui va être le point d’accès par rapport aux autres rapsberry pi dont la voiture est équipée.</p>
+<h4 id="comment-on-lutilise">Comment on l’utilise ?</h4>
+<p>Pour exécuter le script du serveur principal, il faut utiliser la commande <code>python3 server.py</code> depuis le répertoire <code>/code/Flask/flask_server</code>. Ce script est un serveur Flask nous donnant accès aux différentes fonctionnalitées de l’application.</p>
+<h4 id="comment-fonctionne-t-il">Comment fonctionne-t-il ?</h4>
+<p>Une fois le serveur lancé, et après nous être rendu avec un navigateur web connecté à l’adresse du raspberry pi et sur le port 5000 du réseau fournit par le raspberry pi 4. Exemple : <code>10.3.141.1:5000</code></p>
+<h5 id="barre-de-navigation-1">Barre de navigation</h5>
+<p>La barre de navigation nous permet de changer de page. Cette dernière contient 5 éléments.</p>
+<figure>
+<img src="./images/site_web/navbar.png" title="Barre de navigation du site web" alt="Barre de navigation du site web" /><figcaption aria-hidden="true">Barre de navigation du site web</figcaption>
+</figure>
+<ul>
+<li>A. Redirection sur la page d’accueil</li>
+<li>B. Redirection sur la page de télécommande</li>
+<li>C. Redirection sur la page du tableau de bord</li>
+<li>D. Création d’une connexion avec la voiture</li>
+<li>E. Déconnexion avec la voiture</li>
+</ul>
+<h5 id="page-daccueil">Page d’accueil</h5>
+<p>Ceci est la page sur laquelle on arrive lorsque l’on tape l’adresse IP du point d’accès avec le port 5000.</p>
+<p><img src="./images/site_web/page_accueil.png" title="Page d&#39;accueil du site web" alt="Page d’accueil du site web" /> * A. Bouton créant une connexion avec la voiture</p>
+<h5 id="page-de-télécommande">Page de télécommande</h5>
+<p>Cette page permet, si une connexion avec la voiture est établie, de contrôler la voiture.</p>
+<figure>
+<img src="./images/site_web/page_telecommande.png" title="Page de télécommande du site web" alt="Page de télécommande du site web" /><figcaption aria-hidden="true">Page de télécommande du site web</figcaption>
+</figure>
+<ul>
+<li>A. Une barre coulissante allant de -100 à 100 pour gérer la vitesse de la voiture</li>
+<li>B. Une barre coulissante allant de -100 à 100 pour gérer le guidon de la voiture</li>
+<li>C. Bouton remettant le guidon à sa position initiale</li>
+<li>D. Bouton coupant les moteurs de la voiture</li>
+<li>E. Bouton de déconnexion à la voiture</li>
+</ul>
+<p>Il est important de savoir que dans le code gérant les déplacement de la voiture, j’inverse les données et les divises par 100 car les valeurs sont comprisent entre -1 et 1. La raison pour laquelle j’inverse par la suite les vitesses dans le code, c’est parce que pour avancer avec la voiture, il faut lui donner une vitesse négative, cependant je trouvais plus logique pour une interface utilisateur que pour avancer l’on ajuste la barre coulissante à droite.</p>
+<h5 id="page-du-tableau-de-bord">Page du tableau de bord</h5>
+<p>Cette page permet à l’utilisateur de gérer les différents capteurs et de voir en temps réel les données reçues par les caméras ainsi que par le Lidar.</p>
+<figure>
+<img src="./images/site_web/page_dashboard.png" title="Page de télécommande du site web" alt="Page de télécommande du site web" /><figcaption aria-hidden="true">Page de télécommande du site web</figcaption>
+</figure>
+<ul>
+<li>A. Case à cocher (dés)activant le mode automatique</li>
+<li>B. Case à cocher (dés)activant les leds à la position indiquée (Les cases de gauche allument les leds blanches, les cases de droites allument les leds infrarouges)</li>
+<li>C. Case à cocher (dés)activant la caméra à la position indiqué</li>
+<li>D. Case à cocher (dés)activant la récuperation des données du Lidar</li>
+</ul>
+<p>De base, toutes les caméras sont éteintes ainsi que le radar :</p>
+<figure>
+<img src="./images/site_web/page_dashboard_cam.png" title="Caméras éteintes" alt="Caméras éteintes" /><figcaption aria-hidden="true">Caméras éteintes</figcaption>
+</figure>
+<figure>
+<img src="./images/site_web/page_dashboard_radar.png" title="Radar éteint" alt="Radar éteint" /><figcaption aria-hidden="true">Radar éteint</figcaption>
+</figure>
+<p>Voici ce à quoi ça ressemble lorsque l’on active une caméra et le radar :</p>
+<figure>
+<img src="./images/site_web/dashboard_graph_cam.gif" title="Caméra et radar activé" alt="Caméra et radar activé" /><figcaption aria-hidden="true">Caméra et radar activé</figcaption>
+</figure>
+<p>J’ai choisis d’afficher les éléments à la suite, car l’utilisateur va utiliser son téléphone pour se connecter à l’application. Il est donc plus pratique d’avoir accès aux éléments comme ceci étant sur un téléphone portable.</p>
+<p>Pour comprendre comment le flux des caméras sont récupérer, veuillez regarder la <a href="######Récupération-du-flux-vidéo">section parlant du récupération du flux vidéo</a>.</p>
+<h5 id="page-création-de-connexion">Page création de connexion</h5>
+<p>Lors de l’appuie sur cet élément, cela va lancer une connexion avec la voiture. ##### Page de déconnexion Lors de l’appuie sur cet élément, cela va lancer une déconnexion avec la voiture.</p>
+<h4 id="comment-fonctionne-la-connexion-avec-la-voiture">Comment fonctionne la connexion avec la voiture ?</h4>
+<h4 id="comment-fonctionne-la-récupération-des-données-du-lidar">Comment fonctionne la récupération des données du Lidar ?</h4>
+<p>Pour activer l’API C++ pour y récupérer les distances à chaque angles qui sont écrits dans la console et afin d’éviter de rendre le code bloquant, j’ai utilisé <code>Asyncio</code>.</p>
+<p>Voici le code permettant l’appel et le traitement asynchrone des données :</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&quot;/bg_processing_lidar/&lt;string:state&gt;&quot;</span>, methods<span class="op">=</span>[<span class="st">&quot;POST&quot;</span>])</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bg_process_lidar(state<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Process the values passed by Javascript&quot;&quot;&quot;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        loop <span class="op">=</span> asyncio.get_running_loop()</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">RuntimeError</span>:  <span class="co"># no event loop running:</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        loop <span class="op">=</span> asyncio.new_event_loop()</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">finally</span>:</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        loop.run_until_complete(main(state))</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> main(should_scan):</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">    The main function which calls the run loop async</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">    should_scan : The code to know if the program should scan or not</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> run(should_scan)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> run(should_scan):</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co">    Will run the subprocess and bind the async method</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="co">    should_scan : The code to know if the program should scan or not</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    command <span class="op">=</span> (<span class="st">&quot;./scanner/simple_grabber /dev/ttyUSB0 &quot;</span> <span class="op">+</span> should_scan).split()</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    process <span class="op">=</span> <span class="cf">await</span> create_subprocess_exec(<span class="op">*</span>command, stdout<span class="op">=</span>PIPE, stderr<span class="op">=</span>PIPE)</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> asyncio.wait([_read_stream(process.stdout, <span class="kw">lambda</span> x: {get_radar_data(x)})])</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> process.wait()</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> _read_stream(stream, callback):</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="co">    Will read the text in the console from the process simple_grabber</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="co">    stream : The streaming of the data in the console</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="co">    callback : The method to call when data has been received</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>        line <span class="op">=</span> <span class="cf">await</span> stream.readline()</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> line:</span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>            callback(line.split(b<span class="st">&quot;,&quot;</span>))</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_radar_data(row):</span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="co">    Will parse the data received in text by the Lidar</span></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="co">    row : Row to read and to add or modify in the array of angles</span></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> rows</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># row normaly is like [angle, distance]</span></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>    tmp <span class="op">=</span> row</span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(tmp) <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>        angle <span class="op">=</span> <span class="bu">int</span>(tmp[<span class="dv">0</span>])</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># remove the line return</span></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>        dist <span class="op">=</span> tmp[<span class="dv">1</span>].replace(b<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, b<span class="st">&quot;&quot;</span>)</span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>        rows[angle] <span class="op">=</span> <span class="bu">float</span>(dist)</span></code></pre></div>
+<p>Comme l’on peut le voir, lors de l’activation ainsi que de la désactivation du Lidar. On effectue un processus car étant donné que dans le code de l’API, il s’agit d’une boucle infinie récupérant et lissant les données qui sont affichées dans la console, on a besoin de manière asynchrone à traiter ses données et à les mettre dans le tableau.</p>
+<p>C’est ce à quoi sert la méthode <code>_read_stream</code>. Cette méthode nous permet de lire ligne par ligne le contenu de sortie de la console (<code>process.stdout</code>) et en l’ajoutant dans le tableau avec la méthode <code>get_radar_data(row)</code>.</p>
+<figure>
+<img src="./images/lidar/flowchart_lidar_api.png" title="Méthode utilisée pour récupérer en temps réel les données du Lidar" alt="Méthode utilisée pour récupérer en temps réel les données du Lidar" /><figcaption aria-hidden="true">Méthode utilisée pour récupérer en temps réel les données du Lidar</figcaption>
+</figure>
+<h5 id="code-de-lapi-c-modifié">Code de l’API C++ modifié</h5>
+<div class="sourceCode" id="cb26"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="at">const</span> <span class="dt">char</span> <span class="op">*</span>argv<span class="op">[])</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">const</span> <span class="dt">char</span> <span class="op">*</span>opt_com_path <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    _u32 opt_com_baudrate <span class="op">=</span> <span class="dv">115200</span><span class="op">;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    u_result op_result<span class="op">;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> run_scan <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// check if the the program should run scans</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>argc <span class="op">==</span> <span class="dv">3</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">char</span> arg <span class="op">=</span> <span class="op">(</span><span class="dt">char</span><span class="op">)*</span>argv<span class="op">[</span><span class="dv">2</span><span class="op">];</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>arg <span class="op">==</span> <span class="ch">&#39;1&#39;</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>            run_scan <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span><span class="op">(</span>arg <span class="op">==</span> <span class="ch">&#39;0&#39;</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>            run_scan <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>argc <span class="op">&lt;</span> <span class="dv">2</span><span class="op">)</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>        print_usage<span class="op">(</span>argc<span class="op">,</span> argv<span class="op">);</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    opt_com_path <span class="op">=</span> argv<span class="op">[</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">// create the driver instance</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>    RPlidarDriver <span class="op">*</span>drv <span class="op">=</span> RPlidarDriver<span class="op">::</span>CreateDriver<span class="op">(</span>DRIVER_TYPE_SERIALPORT<span class="op">);</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>drv<span class="op">)</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>        fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;insufficent memory, exit</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>        exit<span class="op">(-</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rplidar_response_device_health_t</span> healthinfo<span class="op">;</span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rplidar_response_device_info_t</span> devinfo<span class="op">;</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span></span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>        <span class="co">// try to connect</span></span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>IS_FAIL<span class="op">(</span>drv<span class="op">-&gt;</span><span class="fu">connect</span><span class="op">(</span>opt_com_path<span class="op">,</span> opt_com_baudrate<span class="op">)))</span></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>            fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;Error, cannot bind to the specified serial port </span><span class="sc">%s</span><span class="st">.</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">,</span> opt_com_path<span class="op">);</span></span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>        op_result <span class="op">=</span> drv<span class="op">-&gt;</span>getDeviceInfo<span class="op">(</span>devinfo<span class="op">);</span></span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>IS_FAIL<span class="op">(</span>op_result<span class="op">))</span></span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>op_result <span class="op">==</span> RESULT_OPERATION_TIMEOUT<span class="op">)</span></span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>                <span class="co">// you can check the detailed failure reason</span></span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>                fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;Error, operation time out.</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span></span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a>                fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;Error, unexpected error, code: </span><span class="sc">%x\n</span><span class="st">&quot;</span><span class="op">,</span> op_result<span class="op">);</span></span>
+<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a>                <span class="co">// other unexpected result</span></span>
+<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>        op_result <span class="op">=</span> drv<span class="op">-&gt;</span>getHealth<span class="op">(</span>healthinfo<span class="op">);</span></span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>IS_OK<span class="op">(</span>op_result<span class="op">))</span></span>
+<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="co">// the macro IS_OK is the preperred way to judge whether the operation is succeed.</span></span>
+<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>            <span class="cf">switch</span> <span class="op">(</span>healthinfo<span class="op">.</span>status<span class="op">)</span></span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> RPLIDAR_STATUS_WARNING<span class="op">:</span></span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a>                printf<span class="op">(</span><span class="st">&quot;Warning.&quot;</span><span class="op">);</span></span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> RPLIDAR_STATUS_ERROR<span class="op">:</span></span>
+<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a>                printf<span class="op">(</span><span class="st">&quot;Error.&quot;</span><span class="op">);</span></span>
+<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">&quot; (errorcode: </span><span class="sc">%d</span><span class="st">)</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">,</span> healthinfo<span class="op">.</span>error_code<span class="op">);</span></span>
+<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>            fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;Error, cannot retrieve the lidar health code: </span><span class="sc">%x\n</span><span class="st">&quot;</span><span class="op">,</span> op_result<span class="op">);</span></span>
+<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>healthinfo<span class="op">.</span>status <span class="op">==</span> RPLIDAR_STATUS_ERROR<span class="op">)</span></span>
+<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a>            fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;Error, rplidar internal error detected. Please reboot the device to retry.</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a>        drv<span class="op">-&gt;</span>startMotor<span class="op">();</span></span>
+<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>IS_FAIL<span class="op">(</span>drv<span class="op">-&gt;</span>startScan<span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">)))</span> <span class="co">// you can force rplidar to perform scan operation regardless whether the motor is rotating</span></span>
+<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a>            fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;Error, cannot start the scan operation.</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> max_size_arr_angle_dist <span class="op">=</span> <span class="dv">360</span><span class="op">;</span></span>
+<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a>        <span class="dt">float</span> angle_dist_tmp<span class="op">[</span>max_size_arr_angle_dist<span class="op">];</span></span>
+<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a>        <span class="dt">float</span> angle_dist<span class="op">[</span>max_size_arr_angle_dist<span class="op">];</span></span>
+<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> size_arr_angle_dist <span class="op">=</span> <span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span>angle_dist<span class="op">)</span> <span class="op">/</span> <span class="kw">sizeof</span><span class="op">(</span>angle_dist<span class="op">[</span><span class="dv">0</span><span class="op">]));</span></span>
+<span id="cb26-101"><a href="#cb26-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> <span class="dt">int</span> MAX_RANGE_LIDAR <span class="op">=</span> <span class="fl">16000.0</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> <span class="dt">int</span> MIN_RANGE_LIDAR <span class="op">=</span> <span class="fl">0.0</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a>        <span class="co">// used as a code in order to treat the data below in another process</span></span>
+<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a>        <span class="co">//printf(&quot;&lt;&lt;&lt;\n&quot;);</span></span>
+<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>run_scan<span class="op">)</span></span>
+<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a>            <span class="co">//reset the array to empty (empty represented by the 0)</span></span>
+<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>fill_n<span class="op">(</span>angle_dist<span class="op">,</span> max_size_arr_angle_dist<span class="op">,</span> <span class="fl">0.0</span><span class="bu">f</span><span class="op">);</span></span>
+<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a>            capture_and_display<span class="op">(</span>angle_dist<span class="op">,</span> drv<span class="op">);</span></span>
+<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>size_arr_angle_dist <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb26-113"><a href="#cb26-113" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a>                fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;Error, cannot grab scan data.</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a>            <span class="co">/* Correct the errors */</span></span>
+<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">size_t</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> max_size_arr_angle_dist<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>angle_dist<span class="op">[</span>j<span class="op">]</span> <span class="op">&lt;</span> MIN_RANGE_LIDAR <span class="op">&amp;&amp;</span> angle_dist<span class="op">[</span>j<span class="op">]</span> <span class="op">&gt;=</span> MAX_RANGE_LIDAR<span class="op">)</span></span>
+<span id="cb26-122"><a href="#cb26-122" aria-hidden="true" tabindex="-1"></a>                <span class="op">{</span></span>
+<span id="cb26-123"><a href="#cb26-123" aria-hidden="true" tabindex="-1"></a>                    angle_dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> MIN_RANGE_LIDAR<span class="op">;</span></span>
+<span id="cb26-124"><a href="#cb26-124" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb26-125"><a href="#cb26-125" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb26-126"><a href="#cb26-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-127"><a href="#cb26-127" aria-hidden="true" tabindex="-1"></a>            <span class="co">/* make the average of distance */</span></span>
+<span id="cb26-128"><a href="#cb26-128" aria-hidden="true" tabindex="-1"></a>            capture_and_display<span class="op">(</span>angle_dist_tmp<span class="op">,</span> drv<span class="op">);</span></span>
+<span id="cb26-129"><a href="#cb26-129" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">size_t</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> max_size_arr_angle_dist<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb26-130"><a href="#cb26-130" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb26-131"><a href="#cb26-131" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>angle_dist_tmp<span class="op">[</span>j<span class="op">]</span> <span class="op">&gt;</span> MIN_RANGE_LIDAR <span class="op">&amp;&amp;</span> angle_dist_tmp<span class="op">[</span>j<span class="op">]</span> <span class="op">&lt;</span> MAX_RANGE_LIDAR<span class="op">)</span></span>
+<span id="cb26-132"><a href="#cb26-132" aria-hidden="true" tabindex="-1"></a>                <span class="op">{</span></span>
+<span id="cb26-133"><a href="#cb26-133" aria-hidden="true" tabindex="-1"></a>                    angle_dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>angle_dist<span class="op">[</span>j<span class="op">]</span> <span class="op">+</span> angle_dist_tmp<span class="op">[</span>j<span class="op">])</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb26-134"><a href="#cb26-134" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb26-135"><a href="#cb26-135" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb26-136"><a href="#cb26-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-137"><a href="#cb26-137" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">size_t</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> max_size_arr_angle_dist<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb26-138"><a href="#cb26-138" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb26-139"><a href="#cb26-139" aria-hidden="true" tabindex="-1"></a>                printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">,</span><span class="sc">%f\n</span><span class="st">&quot;</span><span class="op">,</span> j<span class="op">,</span> angle_dist<span class="op">[</span>j<span class="op">]);</span></span>
+<span id="cb26-140"><a href="#cb26-140" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb26-141"><a href="#cb26-141" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-142"><a href="#cb26-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-143"><a href="#cb26-143" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">while</span> <span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb26-144"><a href="#cb26-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-145"><a href="#cb26-145" aria-hidden="true" tabindex="-1"></a>    drv<span class="op">-&gt;</span>stop<span class="op">();</span></span>
+<span id="cb26-146"><a href="#cb26-146" aria-hidden="true" tabindex="-1"></a>    drv<span class="op">-&gt;</span>stopMotor<span class="op">();</span></span>
+<span id="cb26-147"><a href="#cb26-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-148"><a href="#cb26-148" aria-hidden="true" tabindex="-1"></a>    RPlidarDriver<span class="op">::</span>DisposeDriver<span class="op">(</span>drv<span class="op">);</span></span>
+<span id="cb26-149"><a href="#cb26-149" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb26-150"><a href="#cb26-150" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb26-151"><a href="#cb26-151" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+<h5 id="quest-ce-quasyncio">Qu’est-ce qu’Asyncio ?</h5>
+<p>Asyncio est une librairie nous permettant d’écrire du code <code>concurrent</code> c’est à dire sur différents thread à l’aide de la syntaxe async / await.</p>
+<h3 id="raspberry-pi-0-wifi">Raspberry Pi 0 WiFi</h3>
+<h4 id="à-quoi-sert-il-1">À quoi sert-il ?</h4>
+<p>Les raspberry pi 0 WiFi, sont utilisés pour gérer les caméras et les phares.</p>
+<h4 id="comment-on-lutilise-1">Comment on l’utilise ?</h4>
+<p>Il faut lancer sur chaque raspberry pi 0 WiFi le serveur Flask avec la commande : <code>python3 ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee/code/Flask/flask_sensors_control/server.py</code>. #### Comment fonctionne-t-il ? Le serveur Flask proprose 2 routes :</p>
+<h5 id="gestion-des-capteurs-à-distance">Gestion des capteurs à distance</h5>
+<p>Pour gérer les capteurs à distance, j’utilise 2 serveurs Flask différents.</p>
+<p>Le premier est le serveur principale tournant sur le Pi 4, celui sur lequel l’utilisateur sera pour avoir accès au tableau de bord, à la télécommande pour la voiture.</p>
+<p>Le second est le serveur tournant sur les Pi 0 WiFi, son rôle est d’effectuer des actions en fonction des diverses routes utilisées. Il y a 2 routes très importantes.</p>
+<ol type="1">
+<li><p><code>@app.route('/streaming_camera')</code></p></li>
+<li><p><code>@app.route('/&lt;string:sensor&gt;/&lt;int:state&gt;', methods=['POST', 'OPTIONS'])</code></p></li>
+<li><p>Le flux vidéo de la caméra</p></li>
+<li><p>La gestion des modules caméra et bright-pi</p></li>
+</ol>
+<p>La seconde est celle qui effectue les actions sur les capteurs, voici un exemple : <code>192.168.50.230:5000/camera/1</code>.</p>
+<p>À noter, il est important d’utiliser <code>Flask-CORS</code> comme suit :</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask_cors <span class="im">import</span> CORS</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask_cors.decorator <span class="im">import</span> cross_origin</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>cors <span class="op">=</span> CORS(app, withCredentials <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/&lt;string:sensor&gt;/&lt;int:state&gt;&#39;</span>, methods<span class="op">=</span>[<span class="st">&#39;POST&#39;</span>, <span class="st">&#39;OPTIONS&#39;</span>])</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="at">@cross_origin</span>()</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sensor_control(sensor<span class="op">=</span><span class="va">None</span>, state<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>...</span></code></pre></div>
+<p>Car vu que l’on accède à cette route depuis une autre adresse IP, il est nécessaire d’ajouter cette ligne <code>@cross_origin()</code> car elle permet de laisser l’accès à cette route depuis un autre domaine. De plus, il est important d’ajouter <code>'OPTIONS'</code> car lors de la première <em>lecture</em> de CORS, cette méthode sera utilisée en tant qu’approbation de la part du serveur.</p>
+<p>Dans la page du tableau de bord pour l’utilisateur se trouve l’appel AJAX qui va effectuer l’action :</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>script type<span class="op">=</span><span class="st">&quot;text/javascript&quot;</span><span class="op">&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> STATE_ON <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> STATE_OFF <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CODE_FRONT <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CODE_RIGHT <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CODE_BACK <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CODE_LEFT <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CODE_OTHER <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SENSOR_CAMERA <span class="op">=</span> <span class="st">&quot;camera&quot;</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> SENSOR_LIDAR <span class="op">=</span> <span class="st">&quot;lidar&quot;</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> MODE_AUTOMATIC <span class="op">=</span> <span class="st">&quot;auto&quot;</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IP_RSP_FRONT <span class="op">=</span> <span class="dv">60</span><span class="op">;</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IP_RSP_RIGHT <span class="op">=</span> <span class="dv">114</span><span class="op">;</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IP_RSP_BACK <span class="op">=</span> <span class="dv">172</span><span class="op">;</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IP_RSP_LEFT <span class="op">=</span> <span class="dv">218</span><span class="op">;</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IP_RSP_MAIN <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> IP_NETWORK <span class="op">=</span> <span class="st">&quot;10.3.141.&quot;</span><span class="op">;</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">ready</span>(<span class="kw">function</span> () {</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">$</span>(<span class="st">&quot;#form_dashboard :checkbox&quot;</span>)<span class="op">.</span><span class="fu">change</span>(<span class="kw">function</span> () {</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> endpoint <span class="op">=</span> <span class="st">&quot;&quot;</span><span class="op">;</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> ip_address <span class="op">=</span> IP_NETWORK<span class="op">;</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>        <span class="co">// get the value of the checkbok, it can be &quot;bright-pi&quot;, &quot;camera&quot; or &quot;flying-fish&quot;</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> cbx_value <span class="op">=</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">val</span>()</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">// get the name of the checkbox</span></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> cbx_name <span class="op">=</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">&#39;name&#39;</span>)</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>        <span class="co">// get the last char of the checkbox&#39;s name in order to know which side needs to be changed</span></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>        <span class="co">// example : cbxLight0, the 0 = the bright pi front sensors</span></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> code_position <span class="op">=</span> <span class="pp">parseInt</span>(cbx_name<span class="op">.</span><span class="fu">substring</span>(cbx_name<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> cbx_name<span class="op">.</span><span class="at">length</span>))</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>        <span class="co">// reload the iframe of the selected camera</span></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(cbx_value <span class="op">==</span> SENSOR_CAMERA){</span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>            <span class="kw">var</span> iframe <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="vs">`cnvCam</span><span class="sc">${</span>code_position<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>            <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(iframe<span class="op">.</span><span class="at">src</span>)</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>            iframe<span class="op">.</span><span class="at">src</span> <span class="op">=</span> iframe<span class="op">.</span><span class="at">src</span></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>        <span class="co">// choose the correct ip for the raspberry </span></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (code_position) {</span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="dt">CODE_FRONT</span><span class="op">:</span></span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>                ip_address<span class="op">+=</span>IP_RSP_FRONT</span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="dt">CODE_RIGHT</span><span class="op">:</span></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>                ip_address<span class="op">+=</span>IP_RSP_RIGHT</span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="dt">CODE_BACK</span><span class="op">:</span></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>                ip_address<span class="op">+=</span>IP_RSP_BACK</span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="dt">CODE_LEFT</span><span class="op">:</span></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>                ip_address<span class="op">+=</span>IP_RSP_LEFT</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="dt">CODE_OTHER</span><span class="op">:</span></span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>                ip_address<span class="op">+=</span>IP_RSP_MAIN</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>            <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>        <span class="co">// verify the state of the checkbox</span></span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">checked</span>) {</span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a>            cbx_state <span class="op">=</span> STATE_ON<span class="op">;</span></span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a>            cbx_state <span class="op">=</span> STATE_OFF<span class="op">;</span></span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a>        <span class="co">// add the Flask port</span></span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a>        ip_address <span class="op">+=</span> <span class="st">&quot;:5000&quot;</span><span class="op">;</span></span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a>        <span class="co">// set the URL</span></span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a>        endpoint <span class="op">=</span> <span class="vs">`http://</span><span class="sc">${</span>ip_address<span class="sc">}</span><span class="vs">/</span><span class="sc">${</span>cbx_value<span class="sc">}</span><span class="vs">/</span><span class="sc">${</span>cbx_state<span class="sc">}</span><span class="vs">`</span></span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(cbx_value <span class="op">==</span> SENSOR_LIDAR){</span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a>            endpoint <span class="op">=</span> <span class="vs">`/bg_processing_lidar/</span><span class="sc">${</span>cbx_state<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a>            <span class="fu">$</span>(<span class="st">&quot;#lidar&quot;</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">&quot;src&quot;</span><span class="op">,</span> <span class="vs">`/video_feed/</span><span class="sc">${</span>cbx_state<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(cbx_value <span class="op">==</span> MODE_AUTOMATIC){</span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a>            endpoint <span class="op">=</span> <span class="vs">`/launch_automatic_mode/</span><span class="sc">${</span>cbx_state<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a>        <span class="fu">execute</span>(endpoint)<span class="op">;</span></span>
+<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-83"><a href="#cb28-83" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">execute</span>(endpoint) {</span>
+<span id="cb28-84"><a href="#cb28-84" aria-hidden="true" tabindex="-1"></a>    $<span class="op">.</span><span class="fu">ajax</span>({</span>
+<span id="cb28-85"><a href="#cb28-85" aria-hidden="true" tabindex="-1"></a>        <span class="dt">url</span><span class="op">:</span> endpoint<span class="op">,</span></span>
+<span id="cb28-86"><a href="#cb28-86" aria-hidden="true" tabindex="-1"></a>        <span class="dt">type</span><span class="op">:</span> <span class="st">&quot;POST&quot;</span><span class="op">,</span></span>
+<span id="cb28-87"><a href="#cb28-87" aria-hidden="true" tabindex="-1"></a>        <span class="dt">success</span><span class="op">:</span> <span class="kw">function</span> (response) {</span>
+<span id="cb28-88"><a href="#cb28-88" aria-hidden="true" tabindex="-1"></a>            <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(response)<span class="op">;</span></span>
+<span id="cb28-89"><a href="#cb28-89" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb28-90"><a href="#cb28-90" aria-hidden="true" tabindex="-1"></a>        <span class="dt">error</span><span class="op">:</span> <span class="kw">function</span> (error) {</span>
+<span id="cb28-91"><a href="#cb28-91" aria-hidden="true" tabindex="-1"></a>            <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(error)<span class="op">;</span></span>
+<span id="cb28-92"><a href="#cb28-92" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb28-93"><a href="#cb28-93" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb28-94"><a href="#cb28-94" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-95"><a href="#cb28-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-96"><a href="#cb28-96" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;/</span>script<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="récupération-du-flux-vidéo">Récupération du flux vidéo</h5>
+<p>La méthode que j’utilise pour récupérer le flux vidéo de la caméra avec un serveur Flask est tiré de <a href="https://github.com/EbenKouao/pi-camera-stream-flask">ce github</a>.</p>
+<p>Cette méthode se construit comme suit :</p>
+<figure>
+<img src="./images/camera/algorithme_recuperation_stream_camera.png" title="Caméra et radar activé" alt="Caméra et radar activé" /><figcaption aria-hidden="true">Caméra et radar activé</figcaption>
+</figure>
+<p>Voici le code utilisé dans le fichier <code>server.py</code> présent dans le répertoire <code>\code\Flask\flask_sensors_control</code> :</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/streaming_camera&#39;</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cam_stream():</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> camera_state</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;index.html&#39;</span>, name<span class="op">=</span>constants.FRONT_CAM, mode<span class="op">=</span>camera_state, on<span class="op">=</span>constants.STATE_ON, off<span class="op">=</span>constants.STATE_OFF)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gen(camera):</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#get camera frame</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        frame <span class="op">=</span> camera.get_frame()</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> (b<span class="st">&#39;--frame</span><span class="ch">\r\n</span><span class="st">&#39;</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>               b<span class="st">&#39;Content-Type: image/jpeg</span><span class="ch">\r\n\r\n</span><span class="st">&#39;</span> <span class="op">+</span> frame <span class="op">+</span> b<span class="st">&#39;</span><span class="ch">\r\n\r\n</span><span class="st">&#39;</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/video_feed&#39;</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> video_feed():</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> pi_camera</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Response(gen(pi_camera),</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>                    mimetype<span class="op">=</span><span class="st">&#39;multipart/x-mixed-replace; boundary=frame&#39;</span>)</span></code></pre></div>
+<p>À noter, le code pour la caméra a été repris du GitHub, mais dans mon cas il a été important de le modifier car à la base la caméra avait comme nombre de frame par seconde à 30 ainsi qu’une qualité d’image de 480p ce que j’ai changé à la moitié afin d’éviter de surcharger le processeur du Raspberry Pi 4 :</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> libs.pivideostream <span class="im">import</span> PiVideoStream</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> imutils</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> VideoCamera(<span class="bu">object</span>):</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, flip <span class="op">=</span> <span class="va">True</span>, fps<span class="op">=</span><span class="dv">15</span>, res<span class="op">=</span>(<span class="dv">320</span>, <span class="dv">256</span>)):</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;cam init&quot;</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.vs <span class="op">=</span> PiVideoStream(resolution<span class="op">=</span>res, framerate<span class="op">=</span>fps).start()</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="fl">2.0</span>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.vs <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">&quot;cam init done&quot;</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flip <span class="op">=</span> flip</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__del__</span>(<span class="va">self</span>):</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;cam del&quot;</span>)</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.vs.stop()</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> flip_if_needed(<span class="va">self</span>, frame):</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.flip:</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> np.flip(frame, <span class="dv">0</span>)</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> frame</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_frame(<span class="va">self</span>):</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>        frame <span class="op">=</span> <span class="va">self</span>.flip_if_needed(<span class="va">self</span>.vs.read())</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>        ret, jpg <span class="op">=</span> cv2.imencode(<span class="st">&#39;.jpg&#39;</span>, frame)</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> jpg.tobytes()</span></code></pre></div>
+<p>Voici le code <code>HTML</code> utilisé pour faire l’affichage de l’image :</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;title&gt;</span>{{name}}<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;link</span> <span class="er">rel</span><span class="ot">=</span><span class="st">&quot;stylesheet&quot;</span> <span class="er">href</span><span class="ot">=</span><span class="st">&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;div</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;main&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;newpost&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    {% if mode == on %}</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;img</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;camera-bg&quot;</span> <span class="er">style</span><span class="ot">=</span><span class="st">&quot;width: 100%; height:80%; background-attachment: fixed;&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;bg&quot;</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;center&quot;</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="ot">      src=</span><span class="st">&quot;{{ url_for(&#39;video_feed&#39;) }}&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    {% elif mode == off %}</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;img</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;camera-bg&quot;</span> <span class="er">style</span><span class="ot">=</span><span class="st">&quot;width: 100%; height:80%; background-attachment: fixed;&quot;</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;bg&quot;</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;center&quot;</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="ot">      src=</span><span class="st">&quot;../static/img/camera_down.png&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    {% endif %}</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span></code></pre></div>
+<p>Cette image va donc être modifiée à chaque frame reçue par la caméra.</p>
+<h1 id="dates-importantes">Dates importantes</h1>
+<ul>
+<li>Lundi 19 avril 2021 : Début du travail de diplôme</li>
+<li>Vendredi 30 avril 2021 : Évaluation intermédiaire 1</li>
+<li>Vendredi 14 mai 2021 : Rendu du rapport intermédiaire + poster</li>
+<li>Vendredi 14 mai 2021 : Rendu version intermédiaire du résumé et de l’abstract (pour conseils par l’enseignant d’anglais) Lundi 17 mai 2021 : Évaluation intermédiaire 2</li>
+<li>Jeudi 20 mai 2021 après-midi : Soirée poster : amis, famille, CFC, experts
+<ul>
+<li>14h00 : Visite des classes de 1re année (cf. SG)</li>
+<li>16h30 : Amis, famille, experts, enseignants Tech ES…</li>
+<li>18h00 : Fin de la soirée poster</li>
+</ul></li>
+<li>Lundi 31 mai 2021 : Évaluation intermédiaire 3</li>
+<li>Vendredi 11 juin 2021 : Rendu du travail avant 12h00</li>
+<li>Jeudi 17 juin 2021 : Défenses à blanc + harmonisation des notes</li>
+<li>Lundi 21 juin ou mardi 22 juin 2021 : Défenses de diplôme</li>
+</ul>
+<h1 id="retour-dexpérience">Retour d’expérience</h1>
+<h2 id="problèmes-rencontrés">Problèmes rencontrés</h2>
+<h2 id="résultat">Résultat</h2>
+<h2 id="ce-quil-reste-à-faire">Ce qu’il reste à faire</h2>
+<h2 id="améliorations-possibles">Améliorations possibles</h2>
+<h2 id="bilan-personnel">Bilan personnel</h2>
+<h2 id="apports-personnels">Apports personnels</h2>
+<h1 id="conclusion">Conclusion</h1>
+<h1 id="journal-de-bord">Journal de bord</h1>
+<h1 id="glossaire">Glossaire</h1>
+<h1 id="code-source">Code source</h1>
+</body>
+</html>
