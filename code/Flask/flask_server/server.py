@@ -172,14 +172,9 @@ def automatic_mode():
         obstacles_distances_front_right = []
         for i in range(len(rows)):
             distance = rows[i]
-            actions = get_actions_for_car(0)
+            actions = get_actions_for_car()
             if car != None:
-                if actions[1] == constants.CODE_MOVE_BACKWARD:
-                    print("reculer")
-                    car.auto_move(constants.MAX_SPEED_FROM_BORDER)
-                elif actions[1] == constants.CODE_MOVE_FORWARD:
-                    print("avancer")
-                    car.auto_move(constants.MAX_SPEED_FROM_BORDER * (-1))
+
                 if (
                     i < constants.MAX_ANGLE_OBSTACLE_DETECTION
                     or i > constants.FULL_ANGLE - constants.MAX_ANGLE_OBSTACLE_DETECTION
@@ -216,28 +211,28 @@ def automatic_mode():
                         car.auto_move(speed * (-1))
                 else:
                     car.stop_moving()
+                    car.reset_handlebar()
 
-                average_left = 0
+                lowest_dist_left = constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                 for i in range(len(obstacles_distances_front_left)):
-                    average_left += obstacles_distances_front_left[i]
-                if average_left != 0:
-                    average_left /= len(obstacles_distances_front_left)
+                    if lowest_dist_left > obstacles_distances_front_left[i]:
+                        lowest_dist_left = obstacles_distances_front_left[i]
 
-                average_right = 0
+                lowest_dist_right = constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                 for i in range(len(obstacles_distances_front_right)):
-                    average_right += obstacles_distances_front_right[i]
-                if average_right != 0:
-                    average_right /= len(obstacles_distances_front_right)
-                print(average_left)
-                print("--------------")
-                print(average_right)
-                if average_left != 0 and average_right != 0:
-                    if average_left < average_right:
-                        angle = average_left / average_right * -1
-                        car.turn(angle)
+                    if lowest_dist_right > obstacles_distances_front_right[i]:
+                        lowest_dist_right = obstacles_distances_front_right[i]
+
+                if (
+                    lowest_dist_right != constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                    and lowest_dist_left != constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                ):
+                    if lowest_dist_left < lowest_dist_right:
+                        car.turn(car.MIN_ANGLE)
+                    elif lowest_dist_left > lowest_dist_right:
+                        car.turn(car.MAX_ANGLE)
                     else:
-                        angle = average_right / average_left
-                        car.turn(angle)
+                        car.reset_handlebar()
 
 
 def lidar_stream(state=None):
@@ -333,8 +328,8 @@ def close_connection():
     output = "Connexion toujours en cours"
     if car != None:
         print("deco")
-        car.disconnect()
         output = "Connexion fermée avec l'appareil {0}".format(car.MY_MOVEHUB_ADD)
+        car.disconnect()
         car = None
 
     return render_template("connection.html", msg=output)
@@ -372,7 +367,7 @@ def bg_process_car():
     )
 
 
-def get_actions_for_car(speed):
+def get_actions_for_car():
     actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_NOTHING)
     # INDEX 0 represent the turn code
     # INDEX 1 represent the move code

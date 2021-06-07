@@ -16,7 +16,6 @@ class CarController:
     MIN_ANGLE = -1
     MAX_ANGLE = 1
     DEFAULT_ANGLE = 0
-    MAX_MOTOR_POWER = 1
     MOTOR_STOP_POWER = 0
     MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED = 0.2
 
@@ -98,7 +97,7 @@ class CarController:
 
         angle : The angle we wants the directionnal motor goes to
         """
-        print("from " + str(self.old_angle))
+        # print("from " + str(self.old_angle))
 
         # Reset the angle
         # if angle < self.old_angle:
@@ -110,29 +109,35 @@ class CarController:
         # elif angle < self.MIN_ANGLE:
         #     angle = self.MIN_ANGLE
         # print("computed " + str(angle))
+        try:
+            self.directionnal_motor.start_power(angle)
+            # print("to " + str(angle))
 
-        self.directionnal_motor.start_power(angle)
-        print("to " + str(angle))
-
-        self.old_angle = angle
+            self.old_angle = angle
+        except AssertionError:
+            pass
 
     def reset_handlebar(self):
         # Reset the angle
         angle = self.old_angle * -1
-        print("from " + str(self.old_angle))
+        # print("from " + str(self.old_angle))
         angle /= 2
-        print("to " + str(angle))
-
-        self.directionnal_motor.start_power(angle)
-        self.old_angle = angle
-        # self.directionnal_motor.start_power(self.MAX_ANGLE)
+        # print("to " + str(angle))
+        try:
+            self.directionnal_motor.start_power(angle)
+            self.old_angle = angle
+        except AssertionError:
+            pass
 
     def stop_moving(self):
         """Stop the motors"""
         # Reset the angle
         self.reset_handlebar()
-        self.front_motor.start_power(self.MOTOR_STOP_POWER)
-        self.back_motor.start_power(self.MOTOR_STOP_POWER)
-
+        try:
+            self.front_motor.start_power(self.MOTOR_STOP_POWER)
+            self.back_motor.start_power(self.MOTOR_STOP_POWER)
+        except AssertionError:
+            pass
+        
     def disconnect(self):
         self.connection.disconnect()
