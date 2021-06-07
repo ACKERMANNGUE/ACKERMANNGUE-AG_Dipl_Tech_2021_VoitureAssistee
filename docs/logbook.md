@@ -1702,10 +1702,6 @@ def get_actions_for_car():
   - Pour faire la déconnexion, j'utilise la méthode fournie qui est `disconnect()` et ensuite je désactivais puis réactivais le bluetooth car auparavant (avec le singleton) la connexion restait ouverte et cela causait des problèmes. En enlevant ces lignes ça n'a pas résolu le problème de déconnexion
 - Pour terminer la journée, j'ai vérifié toutes les fautes d'orthographes de ma documentation technique
 
-#### Liens consultés
-
-##### --
-
 ### 01.06.2021
 
 - J'ai commencé la journée par m'atteler au problème du guidon
@@ -2062,3 +2058,16 @@ def automatic_mode():
 #### Autre
 
 - https://www.a7la-home.com/fr/fix-wifi-authentication-error/
+
+
+### 07.06.2021
+- J'ai commencé la journée en modifiant le code comme indiqué hier.
+  - J'ai pu remarquer que lorsque je lançais le code depuis le SSH étant connecté à internet le code fonctionne très bien mais une fois débranché le code semble ne plus fonctionner
+- Après avoir fait la vérification du code je me suis mis à rédiger la partie `Manuel technique`qui incorpore divers explications tel que : les branchements, à quoi servent les différents rapsberry pi, comment on les divers capteurs sont gérable, etc...
+- J'ai voulu référencer un titre de ma documentation technique sur un lien, j'ai trouvé [cet article](https://stackoverflow.com/questions/2822089/how-to-link-to-part-of-the-same-document-in-markdown) et il m'a permis de le faire
+- Pendant que je faisais la documentation, je suis arrivé au moment ou je devais expliquer l'application web, j'ai dû prendre des screenshot. Pour ce faire, j'ai mis en place tous les différents scripts, ceux des pi 4 et des pi 0. J'ai remarqué, que les raspberry pi gauche et arrière ne se connectais pas à internet même après plusieurs reboot de l'alimentation en générale. Je ne pense pas qu'il s'agisse d'un problème d'alimentation car les leds indiquent qu'ils sont bien allumés.
+- En regardant plus en détails, j'ai pu m'apercevoir que c'était bel et bien un problème de courant
+#### Liens consultés
+##### Markdown
+- https://stackoverflow.com/questions/2822089/how-to-link-to-part-of-the-same-document-in-markdown
+- https://stackoverflow.com/questions/51187658/markdown-reference-to-section-from-another-file

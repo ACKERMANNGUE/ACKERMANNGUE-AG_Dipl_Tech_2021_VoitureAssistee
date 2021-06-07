@@ -148,6 +148,7 @@ La voiture se déplace de manière rectiligne en évitant les obstacles sur sa r
 ```
 
 ## Développement
+Dans cette section, nous aborderons la mise en place de base des différents capteurs utilisés.
 
 ### Description détaillée de chaques capteurs
 
@@ -168,7 +169,7 @@ En fonction du modèle du Raspberry Pi, il faut flasher les cartes SD avec diff�
 
 Un Raspberry Pi 4B est constitué des différents éléments :
 
-![Schéma du Raspberry Pi 4 montrant où se situent chaques composants](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaques composants") Pour le GPIO, voici les pins disponibles :
+![Schéma du Raspberry Pi 4 montrant où se situent chaques composants](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaques composants") Pour le [GPIO](######Pi-4), voici les pins disponibles :
 
 ![Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)")
 À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du `PoE HAT Header`.
@@ -304,7 +305,7 @@ import RPi.GPIO as GPIO
 
 ##### Utilisation
 
-C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du GPIO, car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. J'ai branché le _Out_ à la pin 16 (GPIO 23). Voici le code de test :
+C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du [GPIO](######Pi-4), car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. J'ai branché le _Out_ à la pin 16 (GPIO 23). Voici le code de test :
 
 ```python
 import RPi.GPIO as GPIO
@@ -509,7 +510,7 @@ Les codes fournis fonctionnent parfaitement, sauf qu'aucun ne permet de récupé
 
 Il y avait 2 possibilités :
 
-1. La première était de récupérer les câbles séries (rouge, bleu, jaune, ...) et de les connecter directement au GPIO sur les pins qui fournissent :
+1. La première était de récupérer les câbles séries (rouge, bleu, jaune, ...) et de les connecter directement au [GPIO](######Pi-4) sur les pins qui fournissent :
    - TX
    - RX
    - VCC
@@ -985,7 +986,7 @@ Le mode actuel, change et je deviens la machine qui écoute le port spécifié e
 
 #### Remote GPIO
 
-Le GPIO nous permet d'accéder aux entrées / sorties des appareils connectés au Raspberry Pi.
+Le [GPIO](######Pi-4) nous permet d'accéder aux entrées / sorties des appareils connectés au Raspberry Pi.
 
 ##### Mise en place
 
@@ -1115,18 +1116,163 @@ Voici un exemple du scanner en un quasi-temps réel :
 
 Ici, on parle de quasi-temps réel, car comme vu dans le section parlant du Lidar, on traite les données émises par l'API en temps réel de manière asynchrone, mais le graphique étant une image enregistrée, le temps d'écriture de l'image ainsi que le temps de lecture fait que les images s'accumulent et que par conséquent l'image gagne du délai
 
+### RaspAp
 
-### Gestion des capteurs à distance
+#### Mise en place
 
+#### Utilisation
+
+
+## Manuel technique
+Dans cette rubrique, nous allons voir comment les divers éléments utilisés dans ce projet ont été mis en place.
+
+### Branchements
+#### Alimentation générale
+Pour l'alimentation générale, j'ai pris 2 anciens câbles USB que j'ai coupé et dénudé afin de récupérer l'alimentation (Le VCC et le GND). Ces deux câbles ont ensuite été soudés sur les pins de la plaquette.
+
+À la base, la plaquette ressemblait à ceci : 
+![Plaquette et pins utilisés afin de créer le système d'alimentation générale](./images/branchements/plaquette_pin_alimentation_generale.jpg "Plaquette et pins utilisés afin de créer le système d'alimentation générale")
+
+Pour ensuite être soudé de la sorte : 
+
+![Système d'alimentation générale](./images/branchements/alimentation_vcc_gnd_usb_1.jpg "Système d'alimentation générale")
+
+![Système d'alimentation générale](./images/branchements/alimentation_vcc_gnd_usb_2.jpg "Système d'alimentation générale")
+
+
+Le courant est soudé sur la pin de droite tandis que la terre sur la pin de gauche. Ce processus a été répété 2 fois car il y a du sorties présentes sur la batterie externe.
+
+Les câbles USB sont branchés dans les ports Output 1 et 2 de la batterie externe comme ceci :
+
+![Courant de l'alimentation générale](./images/branchements/USB_alimentation_vcc_gnd.jpg "Courant de l'alimentation générale")
+
+Il est important de noter, que chaque composant est branché à l'alimentation générale de la sorte : 
+
+![Branchement des composant sur l'alimentation générale](./images/branchements/alimentation_vcc_gnd.jpg "Branchement des composant sur l'alimentation générale")
+
+
+
+Par conséquent sur cet exemple, les câbles rouges, blancs et violets sont branchés sur le courant et les câbles noirs, gris et bruns sont branchés sur la terre.
+
+#### Raspberry Pi 4
+Le raspberry pi 4 est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du [GPIO](######Pi-4).
+##### Lidar
+Le lidar est branché à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](####Radar-360-(RPLiDAR-A2M8))
+.
+##### Fyling-Fish
+Les divers flying-fish sont branchés des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés avec des câbles bleus sur les [GPIO](######Pi-4) suivant du raspberry pi 4 :
+
+![GPIO utilisés pour les flying-fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les flying-fish")
+
+##### Ventilateur
+Le ventilateur est branché sur les pins 2 et 9 du [GPIO](######Pi-4). Le ventilateur est nécessaire car lorsque toutes les caméras sont allumées et que le lidar tourne, sans le ventilateur, le processeur atteint des températures excédant 70° Celcius tandis qu'avec le ventilateur cette température est limitée à 55° Celcius
+#### Raspberry Pi 0 WiFi
+Le raspberry pi 0 WiFi est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du [GPIO](######Pi-4).
+
+##### Caméra 
+La caméra est branché de la même manière que dans la [section explicant la module caméra](####Caméra)
+##### Bright Pi 
+Le bright Pi est branché sur l'alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des [GPIO](######Pi-4) I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la [section explicant ce qu'est le bright pi](####Phare-(Bright-Pi-v1.0)).
+
+### Scripts
+Dans cette section, nous allons parler des différents scripts utilisés ainsi que leurs comportement.
+
+#### Raspberry Pi 4
+##### À quoi sert-il ?
+Ce raspberry pi est le raspberry pi principale. C'est-à-dire que c'est lui qui va être le point d'accès par rapport aux autres rapsberry pi dont la voiture est équipée.
+
+##### Comment on l'utilise ?
+Pour exécuter le script du serveur principal, il faut utiliser la commande `python3 server.py` depuis le répertoire `/code/Flask/flask_server`. Ce script est un serveur Flask nous donnant accès aux différentes fonctionnalitées de l'application.
+
+##### Comment fonctionne-t-il ?
+Une fois le serveur lancé, et après nous être rendu avec un navigateur web connecté à l'adresse du raspberry pi et sur le port 5000 du réseau fournit par le raspberry pi 4. Exemple : `10.3.141.1:5000`
+
+###### Barre de navigation
+La barre de navigation nous permet de changer de page. Cette dernière contient 5 éléments.
+
+![Barre de navigation du site web](./images/site_web/navbar.png "Barre de navigation du site web")
+
+* A. Redirection sur la page d'accueil
+* B. Redirection sur la page de télécommande
+* C. Redirection sur la page du tableau de bord
+* D. Création d'une connexion avec la voiture
+* E. Déconnexion avec la voiture
+  
+###### Page d'accueil
+Ceci est la page sur laquelle on arrive lorsque l'on tape l'adresse IP du point d'accès avec le port 5000.
+
+![Page d'accueil du site web](./images/site_web/page_accueil.png "Page d'accueil du site web")
+* A. Bouton créant une connexion avec la voiture
+
+###### Page de télécommande
+Cette page permet, si une connexion avec la voiture est établie, de contrôler la voiture.
+
+![Page de télécommande du site web](./images/site_web/page_telecommande.png "Page de télécommande du site web")
+
+* A. Une barre coulissante allant de -100 à 100 pour gérer la vitesse de la voiture
+* B. Une barre coulissante allant de -100 à 100 pour gérer le guidon de la voiture
+* C. Bouton remettant le guidon à sa position initiale
+* D. Bouton coupant les moteurs de la voiture
+* E. Bouton de déconnexion à la voiture
+
+Il est important de savoir que dans le code gérant les déplacement de la voiture, j'inverse les données et les divises par 100 car les valeurs sont comprisent entre -1 et 1. La raison pour laquelle j'inverse par la suite les vitesses dans le code, c'est parce que pour avancer avec la voiture, il faut lui donner une vitesse négative, cependant je trouvais plus logique pour une interface utilisateur que pour avancer l'on ajuste la barre coulissante à droite.
+
+###### Page du tableau de bord
+Cette page permet à l'utilisateur de gérer les différents capteurs et de voir en temps réel les données reçues par les caméras ainsi que par le Lidar.
+
+![Page de télécommande du site web](./images/site_web/page_dashboard.png "Page de télécommande du site web")
+
+* A. Case à cocher (dés)activant le mode automatique
+* B. Case à cocher (dés)activant les leds à la position indiquée (Les cases de gauche allument les leds blanches, les cases de droites allument les leds infrarouges)
+* C. Case à cocher (dés)activant la caméra à la position indique
+* D. Case à cocher (dés)activant la récuperation des données du Lidar
+
+De base, toutes les caméras sont éteintes ainsi que le radar :
+
+![Caméras éteintes](./images/site_web/page_dashboard_cam.png "Caméras éteintes")
+
+![Radar éteint](./images/site_web/page_dashboard_radar.png "Radar éteint")
+
+Voici ce à quoi ça ressemble lorsque l'on active une caméra et le radar :
+
+![Caméra et radar activé](./images/site_web/dashboard_graph_cam.gif "Caméra et radar activé")
+
+J'ai choisis d'afficher les éléments à la suite, car l'utilisateur va utiliser son téléphone pour se connecter à l'application. Il est donc plus pratique d'avoir accès aux éléments comme ceci étant sur un téléphone portable.
+
+###### Page création de connexion
+Lors de l'appuie sur cet élément, cela va lancer une connexion avec la voiture.
+###### Page de déconnexion
+Lors de l'appuie sur cet élément, cela va lancer une déconnexion avec la voiture.
+
+##### Comment fonctionne la connexion avec la voiture ?
+##### Comment fonctionne la récupération des données du Lidar ?
+
+#### Raspberry Pi 0 WiFi
+
+##### À quoi sert-il ?
+Les raspberry pi 0 WiFi, sont utilisés pour gérer les caméras et les phares.
+
+##### Comment on l'utilise ?
+Il faut lancer sur chaque raspberry pi 0 WiFi le serveur Flask avec la commande : `python3 ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee/code/Flask/flask_sensors_control/server.py`.
+##### Comment fonctionne-t-il ?
+Le serveur Flask proprose 2 routes :
+
+###### Gestion des capteurs à distance
 Pour gérer les capteurs à distance, j'utilise 2 serveurs Flask différents.
 
-Le premier est le serveur principale tournant sur le Pi 4, celui sur lequel l'utilisateur sera pour avoir accès au tableau de bord, à la télécommande pour la voiture
-Le second est le serveur tournant sur les Pi 0 WiFi, son rôle est d'effectuer des actions en fonction des diverses routes utilisées. Il y a 2 routes très importantes. 
+Le premier est le serveur principale tournant sur le Pi 4, celui sur lequel l'utilisateur sera pour avoir accès au tableau de bord, à la télécommande pour la voiture.
+
+Le second est le serveur tournant sur les Pi 0 WiFi, son rôle est d'effectuer des actions en fonction des diverses routes utilisées. Il y a 2 routes très importantes.
+
 1. `@app.route('/streaming_camera')`
 2. `@app.route('/<string:sensor>/<int:state>', methods=['POST', 'OPTIONS'])`
 
-La première, sert de route qui affiche le flux vidéo de la caméra.
-La seconde est celle qui effectue les actions sur les capteurs, voici un exemple : `192.168.50.230:5000/camera/1`. À noter, il est important d'utiliser `Flask-CORS` comme suit :
+1. Le flux vidéo de la caméra
+2. La gestion des modules caméra et bright-pi
+
+La seconde est celle qui effectue les actions sur les capteurs, voici un exemple : `192.168.50.230:5000/camera/1`. 
+
+À noter, il est important d'utiliser `Flask-CORS` comme suit :
 
 ```python
 
@@ -1168,16 +1314,19 @@ const CODE_OTHER = 4;
 const SENSOR_CAMERA = "camera"
 const SENSOR_LIDAR = "lidar"
 
-const IP_RSP_FRONT = 10;
-const IP_RSP_RIGHT = 11;
-const IP_RSP_BACK = 12;
-const IP_RSP_LEFT = 13;
-const IP_RSP_MAIN = 14;
+const MODE_AUTOMATIC = "auto"
+
+const IP_RSP_FRONT = 60;
+const IP_RSP_RIGHT = 114;
+const IP_RSP_BACK = 172;
+const IP_RSP_LEFT = 218;
+const IP_RSP_MAIN = 1;
+const IP_NETWORK = "10.3.141.";
 
 $(document).ready(function () {
     $("#form_dashboard :checkbox").change(function () {
         let endpoint = "";
-        let ip_address = "192.168.50.";
+        let ip_address = IP_NETWORK;
         // get the value of the checkbok, it can be "bright-pi", "camera" or "flying-fish"
         let cbx_value = $(this).val()
         // get the name of the checkbox
@@ -1219,12 +1368,15 @@ $(document).ready(function () {
             cbx_state = STATE_OFF;
         }
         // add the Flask port
-        ip_address += ":5000"
+        ip_address += ":5000";
         // set the URL
         endpoint = `http://${ip_address}/${cbx_value}/${cbx_state}`
         if(cbx_value == SENSOR_LIDAR){
-            endpoint = `/bg_processing_lidar/${cbx_state}`
-            $("#lidar").attr("src", `/video_feed/${cbx_state}`)
+            endpoint = `/bg_processing_lidar/${cbx_state}`;
+            $("#lidar").attr("src", `/video_feed/${cbx_state}`);
+        }
+        if(cbx_value == MODE_AUTOMATIC){
+            endpoint = `/launch_automatic_mode/${cbx_state}`;
         }
         execute(endpoint);
     });
@@ -1243,9 +1395,13 @@ function execute(endpoint) {
     });
 }
 
-    </script>
+</script>
 
 ```
+
+###### Récupération du flux vidéo
+
+
 
 ## Dates importantes
 
