@@ -1,3 +1,7 @@
+--- 
+title: "Journal de bord du projet"
+author: Ackermann Gawen
+---
 ## Journal de bord du travail de diplôme 2021
 
 ### 19.04.2021
