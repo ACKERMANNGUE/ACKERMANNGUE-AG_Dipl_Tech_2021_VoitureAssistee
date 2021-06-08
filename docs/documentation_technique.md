@@ -1,9 +1,6 @@
 --- 
 title: "Documentation technique de Voiture Assistée"
-output:
-  pdf_document:
-    toc: true
-    number_sections: true
+documentClass: book
 author: Ackermann Gawen
 ---
 
