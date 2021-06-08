@@ -1,6 +1,5 @@
 --- 
 title: "Documentation technique de Voiture Assistée"
-documentClass: book
 author: Ackermann Gawen
 ---
 
