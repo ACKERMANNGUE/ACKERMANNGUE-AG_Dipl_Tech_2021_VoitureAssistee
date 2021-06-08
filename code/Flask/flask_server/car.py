@@ -97,21 +97,10 @@ class CarController:
 
         angle : The angle we wants the directionnal motor goes to
         """
-        # print("from " + str(self.old_angle))
-
-        # Reset the angle
-        # if angle < self.old_angle:
-        #     angle -= self.old_angle
-        # else:
-        #     angle += self.old_angle
-        # if angle > self.MAX_ANGLE:
-        #     angle = self.MAX_ANGLE
-        # elif angle < self.MIN_ANGLE:
-        #     angle = self.MIN_ANGLE
-        # print("computed " + str(angle))
+        print("from " + str(self.old_angle))
         try:
             self.directionnal_motor.start_power(angle)
-            # print("to " + str(angle))
+            print("to " + str(angle))
 
             self.old_angle = angle
         except AssertionError:
@@ -122,7 +111,7 @@ class CarController:
         angle = self.old_angle * -1
         # print("from " + str(self.old_angle))
         angle /= 2
-        # print("to " + str(angle))
+        print("to " + str(angle))
         try:
             self.directionnal_motor.start_power(angle)
             self.old_angle = angle
@@ -132,12 +121,12 @@ class CarController:
     def stop_moving(self):
         """Stop the motors"""
         # Reset the angle
-        self.reset_handlebar()
         try:
+            self.reset_handlebar()
             self.front_motor.start_power(self.MOTOR_STOP_POWER)
             self.back_motor.start_power(self.MOTOR_STOP_POWER)
         except AssertionError:
             pass
-        
+
     def disconnect(self):
         self.connection.disconnect()

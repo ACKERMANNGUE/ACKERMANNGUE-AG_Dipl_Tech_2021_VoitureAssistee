@@ -2051,12 +2051,12 @@ def automatic_mode():
 
 #### Liens consultés
 
-#### Python
+##### Python
 
 - https://stackoverflow.com/questions/52374725/how-to-break-out-of-an-infinite-loop-with-flask-and-python-using-http#52375407
 - https://www.programcreek.com/python/example/82101/asyncio.async
 
-#### Autre
+##### Autre
 
 - https://www.a7la-home.com/fr/fix-wifi-authentication-error/
 
@@ -2072,3 +2072,27 @@ def automatic_mode():
 ##### Markdown
 - https://stackoverflow.com/questions/2822089/how-to-link-to-part-of-the-same-document-in-markdown
 - https://stackoverflow.com/questions/51187658/markdown-reference-to-section-from-another-file
+
+### 08.06.2021
+* J'ai commencé la journée en continuant le documentation technique.
+* Entre temps, M. Garcia m'a apporté le ventilateur que l'on avait commandé pour refroidir le processeur du raspberry pi. En attendant j'utilisais celui de gauche tandis que maintenant j'utilise celui de droite :
+
+![Deux ventilateurs que j'ai utilisé](./images/differents_ventilateurs.jpg "Deux ventilateurs que j'ai utilisé")
+
+* Ensuite, j'ai fait cette image pour montrer le plan réseau :
+
+![Plan réseau des Raspberry Pi](./images/raspberrys/rsp_plan_reseau.png "Plan réseau des Raspberry Pi")
+
+* Pour expliquer en détails la connexion à la voiture, j'ai dû réaliser cette image :
+
+![Préparation du Technic Hub à l'appareillage](./images/technic_hub/connexion_technichub.png "Préparation du Technic Hub à l'appareillage")
+
+* Pour expliquer plus simplement le mode automatique, j'ai fait ce diagramme : 
+
+![Algorithme du mode automatique](./images/algorithm_auto_mode.png "Algorithme du mode automatique")
+
+#### Liens consultés
+
+##### Python
+* https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.run_forever
+* https://docs.python.org/3/library/asyncio-dev.html

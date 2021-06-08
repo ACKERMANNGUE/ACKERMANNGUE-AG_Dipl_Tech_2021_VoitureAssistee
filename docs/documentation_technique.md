@@ -194,6 +194,31 @@ Une fois les cartes SD branchées en USB au PC, lorsque le programme est lancé,
 
 ![Différentes étapes d'utilisation de balenaEtcher](./images/clone_sd/balenaEtcher_differentes_etapes.png "Différentes étapes d'utilisation de balenaEtcher")
 
+### Ventilateur
+
+Un ventilateur dans le cadre informatique est utilisé afin de faire descendre sa température car lorsqu'il fait beaucoup de calcul en même temps il surchauffe et ceci peut causer des problèmes pour la carte. 
+
+Le ventilateur est nécessaire car lorsque toutes les caméras sont allumées et que le lidar tourne, sans le ventilateur, le processeur atteint des températures excédant 70° Celcius tandis qu'avec le ventilateur cette température est limitée à 55° Celcius.
+
+Entre temps, je suis passé du ventilateur de gauche à celui de droite :
+
+![Deux ventilateurs que j'ai utilisé](./images/differents_ventilateurs.jpg "Deux ventilateurs que j'ai utilisé")
+
+Celui de gauche était temporaire. Je l'avais démonté d'un vieux disque dur, car j'avais demandé à ce que l'on en commande pour un raspberry pi étant donné que mon processeur surchauffait. 
+
+#### Mise en place
+
+Pour le connecter, il faut brancher le câble d'alimentation (rouge) sur la pin 4, le câble de la terre (noir) sur la pin 6 et le câble de transmission (bleu) sur la pin 8  du GPIO comme le montre la boîte dans laquelle le ventilateur était : 
+
+![Branchement du ventilateur pour le Raspberry Pi](./images/ventilateur_branchement.jpg "Branchement du ventilateur pour le Raspberry Pi")
+
+Étant donné qu'il est fournit avec un socle, socle qui est enlevable. Je ne l'ai pas enlevé car sinon il aurait été difficle de faire tenir le ventilateur car il toucherait le processeur. C'est pourquoi j'ai utilisé un élastique afin de le maintenant sur le Raspberry Pi 4 :
+
+![Placement du ventilateur avec un élastique](./images/ventilateur_elastique_rsp.jpg "Placement du ventilateur avec un élastique")
+
+L'élastique passe sous le Raspberry Pi 4, et tiens sur les branches de côtés.
+
+
 ### Caméra
 
 La caméra est un module permettant d'avoir accès à un flux vidéo.
@@ -1117,8 +1142,8 @@ Voici un exemple du scanner en un quasi-temps réel :
 
 Ici, on parle de quasi-temps réel, car comme vu dans le section parlant du Lidar, on traite les données émises par l'API en temps réel de manière asynchrone, mais le graphique étant une image enregistrée, le temps d'écriture de l'image ainsi que le temps de lecture fait que les images s'accumulent et que par conséquent l'image gagne du délai.
 
-## RaspAp
-RaspAp est une application permettant de mettre en place un point d'accès WiFi avec un raspberry pi facilement.
+## RaspAP
+RaspAP est une application permettant de mettre en place un point d'accès WiFi avec un raspberry pi facilement.
 ### Mise en place
 Par précaution, il est nécessaire de mettre son raspberry pi avec la commande `sudo apt update && sudo apt full-upgrade`.
 
@@ -1127,20 +1152,38 @@ Ensuite, il faut télécharger le code du repository Git avec la commande suivan
 Après l'installation, il faut redémarrer le raspberry pi. Une fois redémarré, le raspberry pi devrait avec cette adresse IP : `10.3.141.1`. Pour pouvois accès à cette informations, ouvrez un terminal et exécuter la commande : `ip a` ou `ifconfig`. Normalement vous devriez voir un section nommée `Wlan0`.
 
 ### Utilisation
-Une fois RaspAp installé, vous pouvez vous rendre sur `10.3.141.1` dans un navigateur web afin d'avoir accès au tableau de bord de RaspAp : 
+Une fois RaspAP installé, vous pouvez vous rendre sur `10.3.141.1` dans un navigateur web afin d'avoir accès au tableau de bord de RaspAP : 
 
-Pour se connecter, de base les identifiants sont `admin` pour le nom d'utilisateur et `secret` comme mot de passe.
-[IMAGE LOGIN RASPAP]
+Pour se connecter, une fenêtre comme celle ci-dessous apparaîtra. Les identifiants par défaut sont `admin` pour le nom d'utilisateur et `secret` comme mot de passe.
 
-Pour pouvoir se connecter au WiFi (toujours avec les valeurs par défaut) le nom du réseau est : `raspi-webgui` avec pour mot de passe `ChangeMe`.
+![Page de connexion pour RaspAP](./images/raspap/connection.png "Page de connexion pour RaspAP")
 
-Une fois connecté, vous arriverez sur la page de tableau de bord de RaspAp :
-[IMAGES RASPAP CONFIGURATION]
+Pour pouvoir se connecter au WiFi (toujours avec les valeurs par défaut) le nom du réseau est : `raspi-webgui` avec pour mot de passe `ChangeMe`. Vous pourrez le voir dans les appareils permettant d'accéder à des réseaux WiFi.
 
-Depuis l'interface utilisateur, il faut cliquer sur `Hotspot` pour pouvoir changer le nom du réseau `SSID`, pour changer le mot de passe `Pre Shared Key`. Pour ce faire, il faut aller dans l'onglet `Security`, puis cliquer sur `Restart hotspot` en bas à droite de la page.
+Une fois connecté, vous arriverez sur la page de tableau de bord de RaspAP :
+
+![Tableau de bord de RaspAP](./images/raspap/ui_dashboard.png "Tableau de bord de RaspAP")
+
+Depuis l'interface utilisateur, il faut cliquer sur `Hotspot` pour pouvoir changer le nom du réseau `SSID`. 
+
+![Section Hotsport de RaspAP](./images/raspap/ui_dashboard_hotspot.png "Section Hotsport de RaspAP")
+
+Une fois sur la page de configuration du Hotspot, il faut changer le SSID du réseau par le nom que vous souhaiteriez qu'il adopte. Dans mon cas je l'ai changé à `rps4_access_point` :
+
+![Section Hotsport de RaspAP](./images/raspap/ui_dashboard_hotspot_security_ssid.png "Section Hotsport de RaspAP")
+
+Pour changer le mot de passe `Pre Shared Key`, il faut aller dans l'onglet `Security`, remplir les informations que vous souhaitez utiliser pour vous connecter au réseau WiFi. :
+
+![Section Hotsport de RaspAP](./images/raspap/ui_dashboard_hotspot_security_psk.png "Section Hotsport de RaspAP")
+
+Pour terminer, cliquez sur `Restart hotspot` en bas à droite de la page.
 
 # Manuel technique
 Dans cette rubrique, nous allons voir comment les divers éléments utilisés dans ce projet ont été mis en place.
+
+## Plan réseau
+
+Étant donné que les divers éléments communiquent par le WiFi, ils doivent donc avoir des adresses IP. Dans mon cas, j'ai choisis d'utiliser des adresses IP statiques. Tous les Raspberry Pi 0 WiFi sont connectés sur le point d'accès qu'est le Raspberry Pi 4. Pour comprendre comment le Raspberry Pi 4 a été transformer en point d'accès, veuillez lire la [section parlant de la mise en place de RaspAP](##RaspAP)
 
 ## Branchements
 ### Alimentation générale
@@ -1171,18 +1214,20 @@ Il est important de noter, que chaque composant est branché à l'alimentation g
 Par conséquent sur cet exemple, les câbles rouges, blancs et violets sont branchés sur le courant et les câbles noirs, gris et bruns sont branchés sur la terre.
 
 ### Raspberry Pi 4
-Le raspberry pi 4 est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du [GPIO](######Pi-4).
+De base, le Raspberry Pi 4 était branché à l'alimentation générale et était alimenté par les pins 4 et 6 du [GPIO](######Pi-4), mais après quelque tests, j'ai pu me rendre compte que certain Raspberry Pi 0 WiFi branchés au système d'alimentation générale n'avaient pas assez de courant et ne faisait que de redémarrer en boucle. C'est pourquoi après réflexion, j'ai branché le Raspberry Pi 4 sur la batterie externe en USB-C comme ceci :
+
+![Branchement du Raspberry Pi 4 à la batterie externe](./images/branchements/rsp4_usb-c.png "Branchement du Raspberry Pi 4 à la batterie externe")
+
 #### Lidar
 Le lidar est branché à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](###Radar-360-(RPLiDAR-A2M8)).
 
 Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la [section parlant de Matplotlib](##Matplotlib) et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
+
 #### Fyling-Fish
 Les divers flying-fish sont branchés des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés avec des câbles bleus sur les [GPIO](#####Pi-4) suivant du raspberry pi 4 :
 
 ![GPIO utilisés pour les flying-fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les flying-fish")
 
-#### Ventilateur
-Le ventilateur est branché sur les pins 2 et 9 du [GPIO](######Pi-4). Le ventilateur est nécessaire car lorsque toutes les caméras sont allumées et que le lidar tourne, sans le ventilateur, le processeur atteint des températures excédant 70° Celcius tandis qu'avec le ventilateur cette température est limitée à 55° Celcius
 ### Raspberry Pi 0 WiFi
 Le raspberry pi 0 WiFi est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du [GPIO](######Pi-4).
 
@@ -1240,7 +1285,8 @@ Cette page permet à l'utilisateur de gérer les différents capteurs et de voir
 ![Page de télécommande du site web](./images/site_web/page_dashboard.png "Page de télécommande du site web")
 
 * A. Case à cocher (dés)activant le mode automatique
-* B. Case à cocher (dés)activant les leds à la position indiquée (Les cases de gauche allument les leds blanches, les cases de droites allument les leds infrarouges)
+* B. Case à cocher (dés)activant les leds à la position indiquée 
+  * Les cases de gauche allument les leds blanches, les cases de droites allument les leds infrarouges
 * C. Case à cocher (dés)activant la caméra à la position indiqué
 * D. Case à cocher (dés)activant la récuperation des données du Lidar
 
@@ -1264,6 +1310,107 @@ Lors de l'appuie sur cet élément, cela va lancer une connexion avec la voiture
 Lors de l'appuie sur cet élément, cela va lancer une déconnexion avec la voiture.
 
 #### Comment fonctionne la connexion avec la voiture ?
+La création de la connexion avec la voiture s'effectue dans la classe `car`. Cette classe lorsque l'on crée un nouvel objet, va demander une connexion Gatt au Technic Hub.
+
+```python
+class CarController:
+    """Class controlling the car"""
+
+    MY_MOVEHUB_ADD = "90:84:2B:50:36:43"
+    MY_BTCTRLR_HCI = "hci0"
+    MIN_ANGLE = -1
+    MAX_ANGLE = 1
+    DEFAULT_ANGLE = 0
+    MAX_MOTOR_POWER = 1
+    MOTOR_STOP_POWER = 0
+    MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED = 0.2
+
+    def __init__(cls):
+        cls.connection = get_connection_gatt(hub_mac=cls.MY_MOVEHUB_ADD)
+        try:
+            cls.movehub = MoveHub(cls.connection)
+            # The motors
+            cls.front_motor = Motor(cls.movehub, cls.movehub.PORT_A)
+            cls.back_motor = Motor(cls.movehub, cls.movehub.PORT_B)
+            cls.directionnal_motor = EncodedMotor(cls.movehub, cls.movehub.PORT_C)
+            cls.old_angle = cls.DEFAULT_ANGLE
+        except:
+            cls.movehub = None
+            cls.front_motor = None
+            cls.back_motor = None
+            cls.directionnal_motor = None
+            cls.instance = None
+            cls.connection = None
+            cls.old_angle = None
+
+```
+
+On fait un try/except car si la demande n'est pas aboutie, il faut que l'on puisse tout de même remplir les champs de la classe.
+
+Voici la route qui permet de créer la connexion :
+
+```python
+@app.route("/create_car/")
+def create_car():
+    """Used to the creation of the car"""
+    global car
+    car = CarController()
+    if hasattr(car, "connection"):
+        return render_template("form_remote_car.html")
+    else:
+        car = None
+        return render_template(
+            "error.html", msg="Une connexion est nécessaire pour pouvoir intéragir avec"
+        )
+```
+
+Lors de l'appel à la route ci-dessus, il ne faut pas oublier de cliquer sur le bouton vert du `Technic Hub`. 
+
+![Préparation du Technic Hub à l'appareillage](./images/technic_hub/connexion_technichub.png "Préparation du Technic Hub à l'appareillage")
+
+Il est important de noter que la voiture est stockée dans une variable globale car ceci nous permet de alors d'avoir accès à la voiture depuis divers méthodes. À la base, cette connexion avec la voiture était faite à travers le design pattern du Singelton : 
+
+```python
+def __new__(cls):
+    if(cls.instance is None):
+        cls.instance = super(CarController, cls).__new__(cls)
+        cls.connection = get_connection_gatt(hub_mac=cls.MY_MOVEHUB_ADD)
+        try:
+            cls.movehub = MoveHub(cls.connection)
+            # The motors
+            cls.front_motor = Motor(cls.movehub, cls.movehub.PORT_A)
+            cls.back_motor = Motor(cls.movehub, cls.movehub.PORT_B)
+            cls.directionnal_motor = EncodedMotor(cls.movehub, cls.movehub.PORT_C)
+        except:
+            cls.movehub = None
+            cls.front_motor = None
+            cls.back_motor = None
+            cls.directionnal_motor = None
+    return cls.instance
+```
+
+Le problème que le Singleton avait était que des fois, il perdait la connexion à la voiture alors que l'instance de l'objet était toujours présente. C'est-à-dire, que lorsque l'on se déconnectait de la voiture à l'aide de la méthode de déconnexion appelée par la route :
+
+```python
+# Code présent dans la classe CarController
+def disconnect(self):
+        self.connection.disconnect()
+
+# Code présent dans le fichier server.py dans le répertoire /code/Flask/flask_server/
+@app.route("/close_connection/")
+def close_connection():
+    """Close the connection between the Raspberry Pi and the Technic Hub"""
+    global car
+    output = "Connexion toujours en cours"
+    if car != None:
+        car.disconnect()
+        output = "Connexion fermée avec l'appareil {0}".format(car.MY_MOVEHUB_ADD)
+        car = None
+
+    return render_template("connection.html", msg=output)
+
+```
+
 #### Comment fonctionne la récupération des données du Lidar ?
 
 Pour activer l'API C++ pour y récupérer les distances à chaque angles qui sont écrits dans la console et afin d'éviter de rendre le code bloquant, j'ai utilisé `Asyncio`. 
@@ -1500,11 +1647,455 @@ int main(int argc, const char *argv[])
 ```
 
 ##### Qu'est-ce qu'Asyncio ?
-Asyncio est une librairie nous permettant d'écrire du code `concurrent` c'est à dire sur différents thread à l'aide de la syntaxe async / await.
+[Asyncio](https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.run_forever) est une librairie python nous permettant d'écrire du code `concurrent` c'est à dire sur différents thread à l'aide de la syntaxe async / await. 
+
+Pour installer asyncio il faut exécuter la commande `sudo pip3 install asyncio`.
+
+###### Comment est-ce qu'il s'utilise ?
+Voici un code d'exemple pour montrer la mécanique :
+
+```python
+import asyncio
+
+try:
+    # Tente de récupérer la référence d'une boucle
+    loop = asyncio.get_running_loop()
+except RuntimeError:  
+    # Si aucune référence n'a été trouvée, on crée une nouvelle boucle
+    loop = asyncio.new_event_loop()
+finally:
+    # Exécution de la méthode jusqu'à ce qu'elle soit finie
+    loop.run_until_complete(main("Ceci est un message asynchrone"))
+
+
+async def main(message)
+    print(message)
+```
+
+Il est important de savoir qu'il existe 2 différentes manière d'exécuter le code.
+
+1. `run_until_complete`, va exécuter le code jusqu'à être arrivé à la fin de la méthode.
+2. `run_forever`, va exécuter le code en boucle jusqu'à ce que l'on stop la boucle avec `loop.stop()`.
+
+#### Comment fonctionne la gestion du déplacement de la voiture ?
+##### Télécommande
+La télécommande effectue des appels AJAX avec les valeurs des barres coulissantes comme ceci :
+
+```javascript
+<script type="text/javascript">
+
+$(document).on('input', '#rngMove', function() {
+    execute();
+});
+
+$(document).on('input', '#rngRotationAngle', function() {
+    execute();
+});
+
+function execute(){
+    $.ajax({
+            url: '/bg_processing_car/',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                console.log("action performed");
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
+```
+
+Les ID `rngMove` et `rngRotationAngle` sont ceux attachés aux barres coulissantes. À chaque changement de valeurs, qu'il s'agisse du guidon ou de la vitesse des moteurs, la route appelée à l'aide d'AJAX `/bg_processing_car/` se charge de faire le traitement :
+
+```python
+@app.route("/bg_processing_car/", methods=["POST"])
+def bg_process_car():
+    """Process the values passed by Javascript"""
+
+    global car
+
+    move_speed = request.form["rngMove"]
+    angle_rotation = request.form["rngRotationAngle"]
+
+    if car != None:
+        # Convert the values
+        move_speed = float(move_speed)
+        angle_rotation = int(angle_rotation)
+        # Get the allowed actions of the car
+        actions = get_actions_for_car(move_speed)
+        car.move(move_speed, angle_rotation, actions)
+    return render_template(
+        "form_remote_car.html",
+        speed=move_speed,
+        angle=angle_rotation,
+    )
+
+
+def get_actions_for_car(speed):
+    """Process the actions that the car is allowed to do according to the flying-fish"""
+    actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_NOTHING)
+    # INDEX 0 represent the turn code
+    # INDEX 1 represent the move code
+    if (
+        GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT)
+        and GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT)
+        and not GPIO.input(constants.GPIO_FLYING_FISH_BACK_LEFT)
+        and not GPIO.input(constants.GPIO_FLYING_FISH_BACK_RIGHT)
+    ):
+        print("les deux avant")
+        actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_BACKWARD)
+
+    elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT):
+        print("gauche avant")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_NOTHING)
+
+    elif GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT):
+        print("droite avant")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_NOTHING)
+
+    elif (
+        not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_LEFT)
+        and not GPIO.input(constants.GPIO_FLYING_FISH_FRONT_RIGHT)
+        and GPIO.input(constants.GPIO_FLYING_FISH_BACK_LEFT)
+        and GPIO.input(constants.GPIO_FLYING_FISH_BACK_RIGHT)
+    ):
+        print("les deux arrière")
+        actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_FORWARD)
+
+    elif GPIO.input(constants.GPIO_FLYING_FISH_BACK_LEFT):
+        print("gauche arrière")
+        actions = (constants.CODE_TURN_RIGHT, constants.CODE_MOVE_FORWARD)
+
+    elif GPIO.input(constants.GPIO_FLYING_FISH_BACK_RIGHT):
+        print("droite arrière")
+        actions = (constants.CODE_TURN_LEFT, constants.CODE_MOVE_FORWARD)
+
+    return actions
+```
+
+Voici le code de déplacement pour la voiture dans la classe `CarController` :
+
+```python
+
+    def move(self, motor_speed, angle_rotation, actions):
+        """Moves the car with a specific speed and rotation
+
+        motor_speed : The motor's speed
+                      NOTE : to move forward, the value must be reversed because it is basically negative
+        angle_rotation : The rotation of the directionnal motor
+        actions : The list of the possible actions
+        """
+        # Invert the power direction
+        if motor_speed != 0:
+            motor_speed *= -1
+        # Max value of motor is -1 and +1 but in the HTML form, the range input can be set between -100 to +100
+        motor_speed /= 100
+        angle_rotation /= 100
+
+        # INDEX 0 represent the turn code
+        # INDEX 1 represent the move code
+        try:
+            if actions[0] == constants.CODE_TURN_LEFT and angle_rotation < 0:
+                self.turn(angle_rotation)
+
+            elif actions[0] == constants.CODE_TURN_RIGHT and angle_rotation > 0:
+                self.turn(angle_rotation)
+
+            elif actions[0] == constants.CODE_TURN_NOTHING:
+                self.turn(angle_rotation)
+
+            if actions[1] == constants.CODE_MOVE_FORWARD and motor_speed < 0:
+                if motor_speed > self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED:
+                    motor_speed = self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED
+                self.front_motor.start_power(motor_speed)
+                self.back_motor.start_power(motor_speed)
+
+            elif actions[1] == constants.CODE_MOVE_BACKWARD and motor_speed > 0:
+                if motor_speed > self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED:
+                    motor_speed = self.MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED
+                self.front_motor.start_power(motor_speed)
+                self.back_motor.start_power(motor_speed)
+
+            elif actions[1] == constants.CODE_MOVE_NOTHING:
+                self.front_motor.start_power(motor_speed)
+                self.back_motor.start_power(motor_speed)
+        except AssertionError:
+            pass
+
+    def turn(self, angle):
+        """Turn the directionnal motor from the input value
+
+        angle : The angle we wants the directionnal motor goes to
+        """
+        try:
+            self.directionnal_motor.start_power(angle)
+            self.old_angle = angle
+        except AssertionError:
+            pass
+
+    def reset_handlebar(self):
+        # Reset the angle
+        angle = self.old_angle * -1
+        angle /= 2
+        try:
+            self.directionnal_motor.start_power(angle)
+            self.old_angle = angle
+        except AssertionError:
+            pass
+
+    def stop_moving(self):
+        """Stop the motors"""
+        # Reset the angle
+        try:
+            self.reset_handlebar()
+            self.front_motor.start_power(self.MOTOR_STOP_POWER)
+            self.back_motor.start_power(self.MOTOR_STOP_POWER)
+        except AssertionError:
+            pass
+```
+
+On peut remarquer que dans les différentes méthodes j'utilise des `try` / `except`. Je suis obligé de les utiliser, car lors de l'envoie d'une commande au `Technic Hub`, il doit retourner une réponse, cependant des fois il se peut que pendant qu'il traite une commande, avant qu'il aie pu répondre une autre commande lui soit envoyée. Ce qui cause un problème de confirmation, et qui par conséquent faisait crash le programme.
+
+##### Boutons
+Pour comprendre plus en détail le rôle des boutons, veuillez vous référer à la [section décrivant l'interface pour la télécommande](#####Page-de-télécommande). 
+
+Voici comment les actions qu'ils produisent sont gérées :
+
+```python
+@app.route("/form_remote_response/", methods=["POST"])
+def form_remote_response():
+    """The form's answer of the remote"""
+    global car
+    # Init
+    move_speed = constants.DEFAULT_SPEED
+    angle_rotation = constants.DEFAULT_ANGLE
+
+    returned_value = render_template(
+        "form_remote_car.html",
+        speed=move_speed,
+        angle=angle_rotation,
+    )
+    error = render_template(
+        "error.html", msg="Une connexion est nécessaire pour pouvoir intéragir avec"
+    )
+    if request.method == "POST":
+        if request.form["send_request"] == constants.BTN_REQUEST_RESET_ANGLE:
+            if car != None:
+                car.reset_handlebar()
+            else:
+                returned_value = error
+        elif request.form["send_request"] == constants.BTN_REQUEST_STOP:
+            if car != None:
+                car.stop_moving()
+            else:
+                returned_value = error
+        elif request.form["send_request"] == constants.BTN_REQUEST_DISCONNECT:
+            returned_value = redirect("/close_connection/")
+    return returned_value
+```
+
+##### Comment fonctionne le système d'arrêt d'urgence de la voiture ?
+
+Le système d'argent d'urgence est basé sur ce que les [Flying-Fish](###Détecteur-infrarouge-(Flying-Fish)) détectent.
+
+Au lancement de l'application, la méthode `initFlyingFish()` est exécutée, ils ont tous été attachés à une méthode qui se déclenchera à chaque changement d'état :
+
+```python
+
+flying_fish_state = [
+    constants.FLYING_FISH_STATE_GROUNDED,
+    constants.FLYING_FISH_STATE_GROUNDED,
+    constants.FLYING_FISH_STATE_GROUNDED,
+    constants.FLYING_FISH_STATE_GROUNDED,
+]
+
+def initFlyingfish():
+    # Set the mode into Broadcom SOC channel
+    # It allows to use GPIO number instead of pin number
+    GPIO.setmode(GPIO.BCM)
+    # Set the GPIO into input mode
+    GPIO.setup(constants.GPIO_FLYING_FISH_FRONT_RIGHT, GPIO.IN)
+    GPIO.setup(constants.GPIO_FLYING_FISH_FRONT_LEFT, GPIO.IN)
+    GPIO.setup(constants.GPIO_FLYING_FISH_BACK_RIGHT, GPIO.IN)
+    GPIO.setup(constants.GPIO_FLYING_FISH_BACK_LEFT, GPIO.IN)
+
+    # Add the events
+    GPIO.add_event_detect(
+        constants.GPIO_FLYING_FISH_FRONT_RIGHT, # GPIO 17
+        GPIO.FALLING,
+        callback=get_grounded_state,
+        bouncetime=constants.GPIO_BOUNCEBACK, 
+    )
+    GPIO.add_event_detect(
+        constants.GPIO_FLYING_FISH_FRONT_LEFT,  # GPIO 27
+        GPIO.FALLING,
+        callback=get_grounded_state,
+        bouncetime=constants.GPIO_BOUNCEBACK,
+    )
+    GPIO.add_event_detect(
+        constants.GPIO_FLYING_FISH_BACK_RIGHT,  # GPIO 23
+        GPIO.FALLING,
+        callback=get_grounded_state,
+        bouncetime=constants.GPIO_BOUNCEBACK,
+    )
+    GPIO.add_event_detect(
+        constants.GPIO_FLYING_FISH_BACK_LEFT,  # GPIO 24
+        GPIO.FALLING,
+        callback=get_grounded_state,
+        bouncetime=constants.GPIO_BOUNCEBACK,
+    )
+
+def get_grounded_state(self):
+    """Will stop the motors if the ground isn't detected anymore"""
+    global car
+    global flying_fish_state
+
+    for i in range(len(constants.GPIO_FLYING_FISH)):
+        for sensor_state in flying_fish_state:
+            input_values = not GPIO.input(constants.GPIO_FLYING_FISH[i][0])
+            if sensor_state != input_values:
+                if car != None and (input_values) != True:
+                    car.stop_moving()
+                # Invert his state
+                sensor_state = input_values
+        flying_fish_state[i] = sensor_state
+    print(flying_fish_state)
+
+```
+
+Pour savoir quel Flying-Fish est associée à quel GPIO, veuillez [lire la section en parlant dans la section des branchements](####Fyling-Fish).
+
+Lorsque l'un des Flying-Fish change d'état et que son état ne deviens pas à `True`, la voiture coupe alors ses moteurs. Si le nouvel état est `True`, cela veut dire que l'on vient de détecter du sol.
+
+À noter, que l'utilisateur peut toujours faire avancer sa voiture lorsque l'un des capteurs ne détecte plus de sol, car si on arrive dans une configuration comme celle ci :
+
+![Voiture entre 2 tables](./images/voiture/voiture_entre_deux_tables.jpg "Voiture entre 2 tables")
+
+Sachant qu'il s'agit de l'utilisateur, il est conscient qu'il peut toujours avancer, cependant je n'ai pas laissé l'utilisateur allez dans le sens du vide, car même s'il se peut qu l'on arrive dans la quasi-même configuration que vu dans l'image du dessus, mais avec les deux roues entres les tables. 
+
+Je ne l'ai pas laissé avancer dans le sens du vide, car dans la plupart du temps si la ligne de détecteur ne détecte plus de sol. C'est qu'il y a de fortes chances que nous puissions pas attendeindre l'autre côté du vide et par conséquent faire tomber la voiture dans ce vide.
+
+Mais dans le cas ou la voiture est au bord de table de justesse, l'utilisateur peut tout de même mettre les gaz à fond. Ce qui est déconseillé, car certes dès la non détection du sol les moteurs se coupent mais à cause de l'inertie des roues, la voiture tombe dans le vide. Il est donc très important que dans ce genre de cas l'utilisateur soit conscient de ce qu'il fait.
+
+![Voiture au bord de table](./images/voiture/voiture_bord_de_table_extreme.png "Voiture au bord de table")
+
+#### Comment fonctionne le mode automatique de la voiture ?
+
+Lorsque le lidar est actif et que le mode automatique a été activée par la route `/launch_automatic_mode/<int:state>`, la méthode gérant la voiture va être lancée sur un autre thread différent de celui principal. À la base, j'avais tenté d'utiliser `Asyncio` une nouvelle fois pour ce cas mais j'avais besoin de pouvoir changer l'état de le boucle présente dans `automatic_mode()`, car avec `Asyncio` lorsque je relançais le mode automatique, il y avait des erreurs qui intervenaient tandis qu'en exécutant le programme sur un autre thread on peut relancer le mode avec l'état de la case à cocher associée.
+
+```python
+@app.route("/launch_automatic_mode/<int:state>", methods=["POST"])
+def launch_automatic_mode(state=None):
+    """Launch the automatic_mode on another thread"""
+    global automatic_mode_state
+    automatic_mode_state = state
+    # Create the thread
+    thread = threading.Thread(target=automatic_mode)
+    # Launch it
+    thread.start()
+    return ""
+
+
+def automatic_mode():
+    """Execute the automatic mode"""
+    global car
+    global rows
+    global automatic_mode_state
+    global obstacles_distances_front_left
+    global obstacles_distances_front_right
+
+    while automatic_mode_state == constants.MODE_ON:
+        # Used to store the obstacles detected at left and right
+        obstacles_distances_front_left = []
+        obstacles_distances_front_right = []
+        for i in range(len(rows)):
+            distance = rows[i]
+
+            if car != None:
+                # Verify that the current angle is between 0 and 15, 345 and 360 
+                if (
+                    i < constants.MAX_ANGLE_OBSTACLE_DETECTION
+                    or i > constants.FULL_ANGLE - constants.MAX_ANGLE_OBSTACLE_DETECTION
+                ):
+                    # Verify if the distance is lower than the max front distance obstacle detection 
+                    if (
+                        distance < constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                        and distance > 0
+                    ):
+                        # If the current angle is lower than the max angle
+                        # Add it into the left array
+                        if i < constants.MAX_ANGLE_OBSTACLE_DETECTION:
+                            obstacles_distances_front_left.append(distance)
+                        # If the current angle is greater than the max angle inverted (345 to 360)
+                        # Add it into the right array
+                        if (
+                            i
+                            > constants.FULL_ANGLE
+                            - constants.MAX_ANGLE_OBSTACLE_DETECTION
+                        ):
+                            obstacles_distances_front_right.append(distance)
+                        # Compute the power, more the obstacle is near, more the motors will be powered
+                        speed = distance / constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                        # Goes backward
+                        car.auto_move(speed)
+                # Verify that the current angle is between 165 and 180, 180 and 195 
+                elif (
+                    i < constants.HALF_ANGLE + constants.MAX_ANGLE_OBSTACLE_DETECTION
+                    or i > constants.HALF_ANGLE - constants.MAX_ANGLE_OBSTACLE_DETECTION
+                ):
+                    # Verify if the distance is lower than the max front distance obstacle detection 
+                    if (
+                        distance < constants.BACK_DISTANCE_OBSTACLE_DETECTION
+                        and distance > 0
+                    ):
+                        # Compute the power, more the obstacle is near, more the motors will be powered
+                        speed = distance / constants.BACK_DISTANCE_OBSTACLE_DETECTION
+                        # Goes forward
+                        car.auto_move(speed * (-1))
+                else:
+                    # If nothing, reset the handlebar and stop the motors
+                    car.stop_moving()
+                    car.reset_handlebar()
+
+                # Select the smallest element
+                lowest_dist_left = constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                for i in range(len(obstacles_distances_front_left)):
+                    if lowest_dist_left > obstacles_distances_front_left[i]:
+                        lowest_dist_left = obstacles_distances_front_left[i]
+
+                
+                # Select the smallest element
+                lowest_dist_right = constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                for i in range(len(obstacles_distances_front_right)):
+                    if lowest_dist_right > obstacles_distances_front_right[i]:
+                        lowest_dist_right = obstacles_distances_front_right[i]
+                # Check that their values are not the default one
+                if (
+                    lowest_dist_right != constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                    and lowest_dist_left != constants.FRONT_DISTANCE_OBSTACLE_DETECTION
+                ):
+                    # If the nearest obstacle is at left, we need to turn to the right
+                    if lowest_dist_left < lowest_dist_right:
+                        car.turn(car.MIN_ANGLE)
+                    # If the nearest obstacle is at right, we need to turn to the left
+                    elif lowest_dist_left > lowest_dist_right:
+                        car.turn(car.MAX_ANGLE)
+                    # Else, just reset the handlebar
+                    else:
+                        car.reset_handlebar()
+```
+
+Voici l'algorithme résumé :
+
+![Algorithme du mode automatique](./images/algorithm_auto_mode.png "Algorithme du mode automatique")
+
 
 ### Raspberry Pi 0 WiFi
 
-#### À quoi sert-il ?
+#### À quoi servent-ils ?
 Les raspberry pi 0 WiFi, sont utilisés pour gérer les caméras et les phares.
 
 #### Comment on l'utilise ?
