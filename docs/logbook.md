@@ -2095,6 +2095,8 @@ def automatic_mode():
 
 ![Algorithme du mode automatique](./images/algorithm_auto_mode.png "Algorithme du mode automatique")
 
+* J'ai fais la vérifications de tous les commentaires
+
 #### Liens consultés
 
 ##### Python

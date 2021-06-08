@@ -148,7 +148,11 @@ async def main(should_scan):
 
 @app.route("/launch_automatic_mode/<int:state>", methods=["POST"])
 def launch_automatic_mode(state=None):
-    """Launch the automatic_mode on another thread"""
+    """
+    Launch the automatic_mode on another thread
+
+    state : The state of the automatic mode
+    """
     global automatic_mode_state
     automatic_mode_state = state
     # Create the thread
@@ -252,6 +256,11 @@ def automatic_mode():
 
 
 def lidar_stream(state=None):
+    """
+    Convert the graphic into a streamable picture
+
+    state : The state of the radar's stream
+    """
     if state == constants.MODE_OFF:
         radar = cv2.imread(constants.CHART_PATH + constants.CHART_DOWN_NAME)
         radar = cv2.imencode(".jpg", radar)[1]
@@ -282,6 +291,11 @@ def lidar_stream(state=None):
 
 @app.route("/video_feed/<int:state>")
 def video_feed(state=None):
+    """
+    The route which display the graphic's stream
+
+    state : The state of the feed
+    """
     # prepare the response to send
     return Response(
         lidar_stream(state), mimetype="multipart/x-mixed-replace; boundary=frame"
@@ -305,21 +319,6 @@ def user_interface():
 def home():
     """Route used to know if the server is on"""
     return render_template("home.html")
-
-
-@app.route("/create_car_test/")
-def create_car_test():
-    """Used to test the creation of the car"""
-    global car
-    car = CarController()
-
-    output = "Tentative de connexion à l'appareil"
-    if car != None:
-        if car.connection != None:
-            output = "Tentative de connexion à l'appareil {0} réussie".format(
-                car.MY_MOVEHUB_ADD
-            )
-    return render_template("connection.html", msg=output)
 
 
 @app.route("/create_car/")
@@ -475,6 +474,11 @@ def form_remote_response():
 
 @app.route("/error/")
 def error(msg):
+    """
+    The error page
+
+    msg : The message to show on the page
+    """
     return render_template("error.html", msg=msg)
 
 
@@ -489,7 +493,7 @@ def initFlyingfish():
     GPIO.setup(constants.GPIO_FLYING_FISH_BACK_LEFT, GPIO.IN)
     # Add the event
     GPIO.add_event_detect(
-        constants.GPIO_FLYING_FISH_FRONT_RIGHT,
+        constants.GPIO_FLYING_FISH_FRONT_RIGHT, 
         GPIO.FALLING,
         callback=get_grounded_state,
         bouncetime=constants.GPIO_BOUNCEBACK,

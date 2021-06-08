@@ -20,6 +20,7 @@ class CarController:
     MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED = 0.2
 
     def __init__(cls):
+        """Create the connection with the car"""
         cls.connection = get_connection_gatt(hub_mac=cls.MY_MOVEHUB_ADD)
         try:
             # The motors
@@ -38,6 +39,7 @@ class CarController:
             cls.old_angle = None
 
     def __del__(cls):
+        """Close the connection with the car"""
         cls.connection.disconnect()
         print("disconnection")
 
@@ -84,7 +86,11 @@ class CarController:
             pass
 
     def auto_move(self, motor_speed):
-        print(motor_speed)
+        """Method which use the motors without possible actions
+        
+        motor_speed : The motor's speed
+
+        """
         try:
             self.front_motor.start_power(motor_speed)
             self.back_motor.start_power(motor_speed)
@@ -107,6 +113,7 @@ class CarController:
             pass
 
     def reset_handlebar(self):
+        """Reset the handlebar"""
         # Reset the angle
         angle = self.old_angle * -1
         # print("from " + str(self.old_angle))
@@ -129,4 +136,5 @@ class CarController:
             pass
 
     def disconnect(self):
+        """Disconnect from the car"""
         self.connection.disconnect()

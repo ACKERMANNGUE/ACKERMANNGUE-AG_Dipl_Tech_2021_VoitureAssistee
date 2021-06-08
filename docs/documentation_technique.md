@@ -67,9 +67,9 @@ Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
 
 ## Description détaillée de ce que l'application fait
 
-La voiture est télécommandable à distance à l'aide d'une interface web. Sur le site internet, on a accès à l'état des différents capteurs ainsi que les données qu'ils envoient.
+La voiture est télécommandable à distance à l'aide d'une interface web. Sur le site internet, on a accès à la gestion des états des différents capteurs ainsi que des données qu'ils envoient tel que pour la détection sol, le radar 360° ainsi que pour le flux vidéo des caméras.
 
-### Plans de la voiture
+### Plan de la voiture
 
 ![Croquis du plan de la voiture](./images/maquettes/plan_voiture_avec_composants_v2.jpg "Croquis du plan de la voiture")
 Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncer le rôle de chaque composant.
@@ -192,7 +192,7 @@ Une fois les cartes SD branchées en USB au PC, lorsque le programme est lancé,
 
 ### Ventilateur
 
-Un ventilateur dans le cadre informatique est utilisé afin de faire descendre sa température car lorsqu'il fait beaucoup de calcul en même temps il surchauffe et ceci peut causer des problèmes pour la carte. 
+Un ventilateur dans le cadre informatique est utilisé afin de faire descendre la température du processeur car lorsqu'il fait beaucoup de traitement en même temps, il surchauffe et ceci peut causer des problèmes matériels. 
 
 Le ventilateur est nécessaire car lorsque toutes les caméras sont allumées et que le lidar tourne, sans le ventilateur, le processeur atteint des températures excédant 70° Celcius tandis qu'avec le ventilateur cette température est limitée à 55° Celcius.
 
@@ -208,12 +208,11 @@ Pour le connecter, il faut brancher le câble d'alimentation (rouge) sur la pin 
 
 ![Branchement du ventilateur pour le Raspberry Pi](./images/ventilateur_branchement.jpg "Branchement du ventilateur pour le Raspberry Pi")
 
-Étant donné qu'il est fournit avec un socle, socle qui est enlevable. Je ne l'ai pas enlevé car sinon il aurait été difficle de faire tenir le ventilateur car il toucherait le processeur. C'est pourquoi j'ai utilisé un élastique afin de le maintenant sur le Raspberry Pi 4 :
+Étant donné qu'il est fournit avec un socle, socle qui est démontable. Je ne l'ai pas enlevé car sinon il aurait été difficle de faire tenir le ventilateur car il toucherait le processeur. C'est pourquoi j'ai utilisé un élastique afin de le maintenant sur le Raspberry Pi 4 :
 
 ![Placement du ventilateur avec un élastique](./images/ventilateur_elastique_rsp.jpg "Placement du ventilateur avec un élastique")
 
-L'élastique passe sous le Raspberry Pi 4, et tiens sur les branches de côtés.
-
+L'élastique passe sous le Raspberry Pi 4, et est tenu par les branches présentes sur les côtés.
 
 ### Caméra
 
@@ -221,7 +220,7 @@ La caméra est un module permettant d'avoir accès à un flux vidéo.
 
 #### Mise en place
 
-J’ai utilisé le guide de la caméra disponible sur https://magpi.raspberrypi.org/books. Pour commencer, j’ai activé la caméra dans le panneau de configuration du Raspberry Pi, puis j’ai branché la caméra dans l’emplacement prévu qui se situe entre la prise jack et les ports HDMI.
+J’ai utilisé le guide de la caméra disponible sur sur le [site officiel de MagPi](https://magpi.raspberrypi.org/books). Pour commencer, j’ai activé la caméra dans le panneau de configuration du Raspberry Pi, puis j’ai branché la caméra dans l’emplacement prévu qui se situe entre la prise jack et les ports HDMI.
 
 Si vous branchez une caméra à un Pi 4 :
 
@@ -1141,11 +1140,13 @@ Ici, on parle de quasi-temps réel, car comme vu dans le section parlant du Lida
 ## RaspAP
 RaspAP est une application permettant de mettre en place un point d'accès WiFi avec un raspberry pi facilement.
 ### Mise en place
-Par précaution, il est nécessaire de mettre son raspberry pi avec la commande `sudo apt update && sudo apt full-upgrade`.
+Par précaution, il est nécessaire de mettre son raspberry pi à jour avec la commande `sudo apt update && sudo apt full-upgrade`.
 
-Ensuite, il faut télécharger le code du repository Git avec la commande suivante : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`. Durant toute l'installation, il faut tout accepter, à moins d'avoir une bonne raison, mais dans ce cas ça ne l'est pas.
+Ensuite, il faut télécharger le code du repository Git avec la commande suivante : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`. Durant toute l'installation, il faut tout accepter, à moins d'avoir une bonne raison, mais dans ce cas il n'y a pas de raison valable de dire non.
 
-Après l'installation, il faut redémarrer le raspberry pi. Une fois redémarré, le raspberry pi devrait avec cette adresse IP : `10.3.141.1`. Pour pouvois accès à cette informations, ouvrez un terminal et exécuter la commande : `ip a` ou `ifconfig`. Normalement vous devriez voir un section nommée `Wlan0`.
+Après l'installation, il faut redémarrer le raspberry pi. Une fois redémarré, le raspberry pi devrait avoir cette adresse IP : `10.3.141.1`. Pour pouvoir avoir accès à cette informations, ouvrez un terminal et exécuter la commande : `ip a` ou `ifconfig`. Normalement vous devriez voir un section nommée `Wlan0`.
+
+[IMAGE_EXEMPLE_Wlan0]
 
 ### Utilisation
 Une fois RaspAP installé, vous pouvez vous rendre sur `10.3.141.1` dans un navigateur web afin d'avoir accès au tableau de bord de RaspAP : 
@@ -1174,6 +1175,17 @@ Pour changer le mot de passe `Pre Shared Key`, il faut aller dans l'onglet `Secu
 
 Pour terminer, cliquez sur `Restart hotspot` en bas à droite de la page.
 
+[IMAGE_APPARITION_RESEAU_WIFI]
+
+Si vous souhaitez connaître toutes les personnes connectées sur le réseau, allez dans la section `DHCP Server` :
+
+[IMAGE_DHCP_SERVER]
+
+Une fois sur la page `DHCP Server`, allez dans l'onglet `Client list`. Vous y trouverez une liste comme celle ci :
+
+[IMAGE_LISTE_APPAREILS_CO]
+
+
 # Manuel technique
 Dans cette rubrique, nous allons voir comment les divers éléments utilisés dans ce projet ont été mis en place.
 
@@ -1181,11 +1193,13 @@ Dans cette rubrique, nous allons voir comment les divers éléments utilisés da
 
 Étant donné que les divers éléments communiquent par le WiFi, ils doivent donc avoir des adresses IP. Dans mon cas, j'ai choisis d'utiliser des adresses IP statiques. Tous les Raspberry Pi 0 WiFi sont connectés sur le point d'accès qu'est le Raspberry Pi 4. Pour comprendre comment le Raspberry Pi 4 a été transformer en point d'accès, veuillez lire la [section parlant de la mise en place de RaspAP](##RaspAP)
 
+![Plan réseau des Raspberry Pi](./images/raspberrys/rsp_plan_reseau.png "Plan réseau des Raspberry Pi")
+
 ## Branchements
 ### Alimentation générale
-Pour l'alimentation générale, j'ai pris 2 anciens câbles USB que j'ai coupé et dénudé afin de récupérer l'alimentation (Le VCC et le GND). Ces deux câbles ont ensuite été soudés sur les pins de la plaquette.
+Pour l'alimentation générale, j'ai pris 2 anciens câbles USB que j'ai coupé et dénudé afin de récupérer l'alimentation (Le VCC et le GND). Ces deux câbles ont ensuite été soudés sur les pins soudées à la plaquette.
 
-À la base, la plaquette ressemblait à ceci : 
+À la base, la plaquette et la rangée de pins ressemblaient à ceci : 
 ![Plaquette et pins utilisés afin de créer le système d'alimentation générale](./images/branchements/plaquette_pin_alimentation_generale.jpg "Plaquette et pins utilisés afin de créer le système d'alimentation générale")
 
 Pour ensuite être soudé de la sorte : 
@@ -1194,8 +1208,7 @@ Pour ensuite être soudé de la sorte :
 
 ![Système d'alimentation générale](./images/branchements/alimentation_vcc_gnd_usb_2.jpg "Système d'alimentation générale")
 
-
-Le courant est soudé sur la pin de droite tandis que la terre sur la pin de gauche. Ce processus a été répété 2 fois car il y a du sorties présentes sur la batterie externe.
+Le courant est soudé sur la pin de gauche tandis que la terre sur la pin de droite. Ce processus a été répété 2 fois car il y a du sorties présentes sur la batterie externe.
 
 Les câbles USB sont branchés dans les ports Output 1 et 2 de la batterie externe comme ceci :
 
@@ -1205,24 +1218,22 @@ Il est important de noter, que chaque composant est branché à l'alimentation g
 
 ![Branchement des composant sur l'alimentation générale](./images/branchements/alimentation_vcc_gnd.jpg "Branchement des composant sur l'alimentation générale")
 
-
-
 Par conséquent sur cet exemple, les câbles rouges, blancs et violets sont branchés sur le courant et les câbles noirs, gris et bruns sont branchés sur la terre.
 
 ### Raspberry Pi 4
-De base, le Raspberry Pi 4 était branché à l'alimentation générale et était alimenté par les pins 4 et 6 du [GPIO](######Pi-4), mais après quelque tests, j'ai pu me rendre compte que certain Raspberry Pi 0 WiFi branchés au système d'alimentation générale n'avaient pas assez de courant et ne faisait que de redémarrer en boucle. C'est pourquoi après réflexion, j'ai branché le Raspberry Pi 4 sur la batterie externe en USB-C comme ceci :
+De base, le Raspberry Pi 4 était branché à l'alimentation générale et était alimenté par les pins 4 et 6 du [GPIO](######Pi-4), mais après quelque tests, j'ai pu me rendre compte que certain Raspberry Pi 0 WiFi branchés au système d'alimentation générale n'avaient pas assez de courant et ne faisaient que de redémarrer en boucle. C'est pourquoi après réflexion, j'ai branché le Raspberry Pi 4 sur la batterie externe en USB-C comme ceci afin de libérer de la charge de courant de l'alimentation générale :
 
 ![Branchement du Raspberry Pi 4 à la batterie externe](./images/branchements/rsp4_usb-c.png "Branchement du Raspberry Pi 4 à la batterie externe")
 
 #### Lidar
-Le lidar est branché à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](###Radar-360-(RPLiDAR-A2M8)).
+Le lidar est connecté à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](###Radar-360-(RPLiDAR-A2M8)).
 
 Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la [section parlant de Matplotlib](##Matplotlib) et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
 
 #### Fyling-Fish
-Les divers flying-fish sont branchés des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés avec des câbles bleus sur les [GPIO](#####Pi-4) suivant du raspberry pi 4 :
+Les divers Flying-Fish sont branchés des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés avec des câbles bleus sur les [GPIO](#####Pi-4) suivant du raspberry pi 4 :
 
-![GPIO utilisés pour les flying-fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les flying-fish")
+![GPIO utilisés pour les Flying-Fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les Flying-Fish")
 
 ### Raspberry Pi 0 WiFi
 Le raspberry pi 0 WiFi est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du [GPIO](######Pi-4).
@@ -2348,7 +2359,24 @@ Cette image va donc être modifiée à chaque frame reçue par la caméra.
 
 # Retour d'expérience
 
-## Problèmes rencontrés
+## Problèmes bloquants
+
+Durant la conception de ce projet, n'étant pas assez préparer théoriquement dans l'univers qu'est l'informatique physique. J'ai rencontré de nombreux problèmes qui m'ont fait perdre du temps.
+
+### Bluetooth
+
+Le tout premier problème que j'ai eu était le problème de la connexion bluetooth à la voiture. Ce problème m'a très vite fait perdre une semaine et demi de travail car je m'y étais mal pris dès le départ. La première erreur que j'ai faite a été de penser que pour se connecter à la voiture, il fallait utiliser notre propore connexion bluetooth à la voiture, ceci avec un script python utilisant le module bluetooth. J'ai donc été faire des recherches sur les potentiels manières de s'y connecter. 
+La première librairie que j'ai essayée fut celle de [BrickNil](https://github.com/virantha/bricknil), mais je n'avais rien réussi à en faire. Ensuite, je suis tombé sur la libraire [pyb00st](https://github.com/JorgePe/pyb00st) mais en lisant sa documentation j'ai vu qu'il parlait d'un `BOOST Move Hub` pour son code et vu que j'utilisais un `Technic Hub` et que même visuellement il ne ressemblait pas au hub que j'utilisais, j'ai par conséquent cru que cela ne fonctionnerait pas. Cependant, dans la documentation de `pyb00st`, je me suis aperçu que pour se connecter à la voiture il utilisait 2 méthodes diverses avec le bluetooth. `Bluez` et `BlueGiga`, ayant entendu parler de `Bluez`, je m'était dit qu'il fallait donc que je me connecte par moi même avec le bluetooth du raspberry pi à la voiture. J'ai donc repris le code que j'ai fait pour le t'chat bluetooth que j'ai tenté de modifier afin de me connecter à la voiture. Après plusieurs tentatives qui n'ont pas fonctionner, je suis tombé sur la libraire de [pylgbst](https://github.com/undera/pylgbst) et en lisant ce qu'il proposait, j'ai vu qu'il proposait différents types de connexion bluetooth (`gatt`, `bluepy` et `bleak`) et permettait la connexion avec un appareil à l'aide de sa mac adresse. Le truc qui m'a fait perdre un peu de temps, c'est que vu qu'il parlait du `LEGO BOOST Move Hub` lui aussi. Je m'étais donc dit que j'allais me concentrer sur l'envoie de commandes par le bluetooth à la voiture grâce à `pygatt`, car j'étais tombé sur [cette documentation](https://lego.github.io/lego-ble-wireless-protocol-docs/). J'ai vu qu'elle y proposait des commandes en bytes, exactement ce que je pensais avoir besoin. Après avoir tenté, 2-3 approches avec gatt, je me suis dit que j'allais aller fouiller dans le code `pylgbst` pour voir comment ils eux envoyaient leurs commandes. En fouillant, je me suis aperçu qu'il faisait exactement ce que j'avais besoin, c'est donc comme ça que j'ai pu m'apercevoir, sans que ce ne soit écrit quelque part, que le `Technic Hub` était considéré lui aussi comme un `Move Hub`, par conséquent, en utilisant le code de `pylgbst`, j'ai pu résoudre ce problème.
+
+Durant quasiment toute la durée du projet j'ai eu des problèmes de connexion avec la voiture et ce car j'utilisais un singleton afin de recréer un objet `car` dans chaque méthode nécessitant l'appel aux méthodes de la voiture. Le problème était que lorsque je demandais une instance lors de la création de la voiture (sachant qu'il existait toujours une instance en cours), la connexion avec le bluetooth ne se faisait plus et cela faisait planter l'application.
+
+### Lidar
+
+Le second problème auquel j'ai fait face à été celui de la récupération des données fournies par le Lidar. La aussi, mon erreur a été de m'arrêter au code trouver durant le sprint 0. J'avais regardé en un premier temps ce que le site officiel du fabriquant des Lidar, appelé [Slamtec](https://www.slamtec.com). Dans la section mettant à disposition le kit de développement, on y trouve un repository GitHub. Dans ce repository, on y trouve des fichiers écrits en C++, qui une fois compilé rendent les informations du lidar en temps réel dans la console. Ayant vu que le code fonctionnait parfaitement et qu'il s'agissait du code fournit par le fabriquant officiel des Lidar, je me suis dit que c'était la meilleure option. Avant de m'y connaître un plus dans le domaine des GPIO, je n'avais aucun idée de ce qu'était les pins (TX, RX). Par conséquent, même si l'on dessoudais le port et qu'on soudait les câbles aux pins associées, je n'avais aucune idée de comment je pourrais récupérer ses informations étant donné que il n'y a pas une API qui me rend de valeur sûre. Du moins, c'est ce que je pensais, car après avoir compris ce qu'était ces 2 pins. Je me suis renseigné afin de voir si il n'y avait pas de moyen de récupérer les informations en python depuis ces pins. En faisant mes recherches, je suis tombé sur ce [repository GitHub](https://github.com/SkoltechRobotics/rplidar) qui permettait d'intéragir avec le lidar connecté en USB. Cependant, le code C++ était déjà modifié en conséquence et  mon script python s'occupait de traiter les données reçues dans la console de manière asynchrone et pour finir je n'ai pas très bien compris sa manière dont il pouvait récupérer les distances pour les angles avec son code.
+
+### Alimentation
+
+Le troisième problème majeur a été les problèmes d'alimentations. Ayant mis un système d'alimentation générale afin d'éviter de surcharger le courant des différents rapsberry pi, j'ai pu me rendre compte que certain éléments pompaient trop de courant et que par conséquent l'alimentation générale n'en fournissait pas suffisement pour certain raspberry pi. Pour m'en rendre compte, j'ai du démonter la voiture, montée de A à Z afin d'y tester unitairement chaque composants pour m'assurer que ce n'était pas un problème matériel, ce qui m'a pris beaucoup de temps. Tout cela, pour me rendre compte qu'il s'agissait d'un problème de courant trop faible distribué par la batterie externe. 
 
 ## Résultat
 
