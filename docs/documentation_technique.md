@@ -2434,7 +2434,7 @@ Au cours de ces 2 derniers mois, j'ai pu mettre en place les différents capteur
 
 ### Ce qu'il reste à faire
 
-Dans ce projet, il manque l'utilisation du GPS, l'affichage sur les caméras des carrés montrant les obstacles et leurs distances, l'insertion des choix pris par la voiture dans une base de données afin de pouvoir avoir accès aux logs. Avoir une image de la voiture et des lumières signifiant à l'utilisateur quels capteurs sont allumés et lesquels sont éteints.
+Dans ce projet, il manque l'utilisation du GPS, l'affichage sur les caméras des carrés montrant les obstacles et leurs distances, l'insertion des choix pris par la voiture dans une base de données afin de pouvoir avoir accès aux logs. Avoir une image de la voiture et des lumières signifiant à l'utilisateur quels capteurs sont allumés et lesquels sont éteints. La dernière chose qu'il change est le système de pondérations des différents éléments, car pour l'instant cette pondération est équivalente pour tous les capteurs. C'est-à-dire que les flying-fish ont autant d'importance que le lidar en terme de priorités des opérations en fonction de leur pondérations.
 
 ### Améliorations possibles
 
@@ -2450,7 +2450,7 @@ D'une manière ou d'une autre, je pense qu'il est possible d'optimiser le code a
 On pourrait : 
 * Faire en sorte que la voiture se déplace le long d'une ligne détectée au sol
 * Enregistrer le flux vidéo afin de pouvoir les regarder plus tard depuis l'interface web.
-
+* Mettre en place la reconnaissance de panneau et de feux de signalisation pour que la voiture réagisse en conséquence
 
 #### Lidar
 On pourrait faire la voiture se déplacer dans une certaine zone, que les données du lidar soit enregristrées afin de pouvoir cartographier une pièce. 
@@ -2475,6 +2475,10 @@ On pourrait ajouter un système de commandes vocales à l'aide d'un capteur de s
 | Affichage des données du Lidar sur un graphique |      70%      | La librairie Matplotlib m'a permis d'afficher les données dans un format de graphique en cercle pour représenter un radar |
 
 ## Conclusion
+
+Après avoir passé 2 mois à travailler sur ce projet, je suis heureux de ce que j'ai fait pu faire, car n'ayant jamais vraiment travaillé avec l'informatique physique dans ma vie, malgré la complexité que cela a été pour moi, j'ai pu apprendre énormément de choses à ce sujet. Cette découverte aussi importante soit-elle, m'aura fait travailler d'arrache-pied sur ce projet afin de pouvoir produire quelque chose de concret. Durant ce travail, dû à mon manque d'expertise dans le domaine, j'ai pris plus de temps que prévu pour faire les tâches que je devais faire afin de mener à bien ce projet.
+
+Cependant, j'ai vraiment adoré travailler sur ce projet et ce même si je n'ai pu poser que les bases du projet actuellement, s'il m'était demandé de le refaire. Je sauterai sans hésiter sur l'occasion, car ce projet m'a permis de prendre conscience de la complexité concernant à la mise en place de divers modules et de les faire communiquer ensemble, mais tout en générant une énorme satisfaction lorsque l'on peut voir que notre travail est retranscrit sur quelque chose de physique. Tous les problèmes que j'ai pu rencontrer dans ce projet m'ont été très pratiques pour apprendre de mes erreurs et de garder une approche méthodique envers les choses que je traitais afin d'éviter de reproduire les mêmes erreurs dans le futur.
 
 ## Journal de bord
 
