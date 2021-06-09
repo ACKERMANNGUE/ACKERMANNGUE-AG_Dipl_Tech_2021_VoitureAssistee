@@ -20,6 +20,7 @@ class CarController:
     MAXIMUM_SPEED_WHEN_GROUND_ISNT_DETECTED = 0.2
 
     def __init__(cls):
+        """Create the connection with the car"""
         cls.connection = get_connection_gatt(hub_mac=cls.MY_MOVEHUB_ADD)
         try:
             # The motors
@@ -38,6 +39,7 @@ class CarController:
             cls.old_angle = None
 
     def __del__(cls):
+        """Close the connection with the car"""
         cls.connection.disconnect()
         print("disconnection")
 
@@ -84,7 +86,11 @@ class CarController:
             pass
 
     def auto_move(self, motor_speed):
-        print(motor_speed)
+        """Method which use the motors without possible actions
+        
+        motor_speed : The motor's speed
+
+        """
         try:
             self.front_motor.start_power(motor_speed)
             self.back_motor.start_power(motor_speed)
@@ -97,32 +103,22 @@ class CarController:
 
         angle : The angle we wants the directionnal motor goes to
         """
-        # print("from " + str(self.old_angle))
-
-        # Reset the angle
-        # if angle < self.old_angle:
-        #     angle -= self.old_angle
-        # else:
-        #     angle += self.old_angle
-        # if angle > self.MAX_ANGLE:
-        #     angle = self.MAX_ANGLE
-        # elif angle < self.MIN_ANGLE:
-        #     angle = self.MIN_ANGLE
-        # print("computed " + str(angle))
+        print("from " + str(self.old_angle))
         try:
             self.directionnal_motor.start_power(angle)
-            # print("to " + str(angle))
+            print("to " + str(angle))
 
             self.old_angle = angle
         except AssertionError:
             pass
 
     def reset_handlebar(self):
+        """Reset the handlebar"""
         # Reset the angle
         angle = self.old_angle * -1
         # print("from " + str(self.old_angle))
         angle /= 2
-        # print("to " + str(angle))
+        print("to " + str(angle))
         try:
             self.directionnal_motor.start_power(angle)
             self.old_angle = angle
@@ -132,12 +128,13 @@ class CarController:
     def stop_moving(self):
         """Stop the motors"""
         # Reset the angle
-        self.reset_handlebar()
         try:
+            self.reset_handlebar()
             self.front_motor.start_power(self.MOTOR_STOP_POWER)
             self.back_motor.start_power(self.MOTOR_STOP_POWER)
         except AssertionError:
             pass
-        
+
     def disconnect(self):
+        """Disconnect from the car"""
         self.connection.disconnect()

@@ -11,7 +11,7 @@ def blink(repetitions, speed, right_leds, left_leds, side):
     left_leds : The indexes of the left leds
     side : The side we want to make it blinks
     """
-    # fait clignoter les leds des côtés spécifiés
+    # make the specified led to blink
     duration = speed / 2
     leds_to_activate = []
     leds_to_desactivate = []

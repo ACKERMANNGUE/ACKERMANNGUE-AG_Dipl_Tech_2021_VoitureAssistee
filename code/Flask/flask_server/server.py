@@ -139,14 +139,22 @@ async def main(should_scan):
 
 @app.route("/launch_automatic_mode/<int:state>", methods=["POST"])
 def launch_automatic_mode(state=None):
+    """
+    Launch the automatic_mode on another thread
+
+    state : The state of the automatic mode
+    """
     global automatic_mode_state
     automatic_mode_state = state
+    # Create the thread
     thread = threading.Thread(target=automatic_mode)
+    # Launch it
     thread.start()
     return ""
 
 
 def automatic_mode():
+    """Execute the automatic mode"""
     global car
     global rows
     global automatic_mode_state
@@ -158,74 +166,92 @@ def automatic_mode():
     print("=======================")
 
     while automatic_mode_state == constants.MODE_ON:
+        # Used to store the obstacles detected at left and right
         obstacles_distances_front_left = []
         obstacles_distances_front_right = []
         for i in range(len(rows)):
             distance = rows[i]
-            actions = get_actions_for_car()
-            if car != None:
 
+            if car != None:
+                # Verify that the current angle is between 0 and 15, 345 and 360 
                 if (
                     i < constants.MAX_ANGLE_OBSTACLE_DETECTION
                     or i > constants.FULL_ANGLE - constants.MAX_ANGLE_OBSTACLE_DETECTION
                 ):
-
+                    # Verify if the distance is lower than the max front distance obstacle detection 
                     if (
                         distance < constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                         and distance > 0
                     ):
+                        # If the current angle is lower than the max angle
+                        # Add it into the left array
                         if i < constants.MAX_ANGLE_OBSTACLE_DETECTION:
                             obstacles_distances_front_left.append(distance)
+                        # If the current angle is greater than the max angle inverted (345 to 360)
+                        # Add it into the right array
                         if (
                             i
                             > constants.FULL_ANGLE
                             - constants.MAX_ANGLE_OBSTACLE_DETECTION
                         ):
                             obstacles_distances_front_right.append(distance)
-                        # Compute the power
+                        # Compute the power, more the obstacle is near, more the motors will be powered
                         speed = distance / constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                         print("reculer")
                         car.auto_move(speed)
-
+                # Verify that the current angle is between 165 and 180, 180 and 195 
                 elif (
                     i < constants.HALF_ANGLE + constants.MAX_ANGLE_OBSTACLE_DETECTION
                     or i > constants.HALF_ANGLE - constants.MAX_ANGLE_OBSTACLE_DETECTION
                 ):
+                    # Verify if the distance is lower than the max front distance obstacle detection 
                     if (
                         distance < constants.BACK_DISTANCE_OBSTACLE_DETECTION
                         and distance > 0
                     ):
-                        # Compute the power
+                        # Compute the power, more the obstacle is near, more the motors will be powered
                         speed = distance / constants.BACK_DISTANCE_OBSTACLE_DETECTION
                         print("avancer")
                         car.auto_move(speed * (-1))
                 else:
+                    # If nothing, reset the handlebar and stop the motors
                     car.stop_moving()
                     car.reset_handlebar()
 
+                # Select the smallest element
                 lowest_dist_left = constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                 for i in range(len(obstacles_distances_front_left)):
                     if lowest_dist_left > obstacles_distances_front_left[i]:
                         lowest_dist_left = obstacles_distances_front_left[i]
 
+                
+                # Select the smallest element
                 lowest_dist_right = constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                 for i in range(len(obstacles_distances_front_right)):
                     if lowest_dist_right > obstacles_distances_front_right[i]:
                         lowest_dist_right = obstacles_distances_front_right[i]
-
+                # Check that their values are not the default one
                 if (
                     lowest_dist_right != constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                     and lowest_dist_left != constants.FRONT_DISTANCE_OBSTACLE_DETECTION
                 ):
+                    # If the nearest obstacle is at left, we need to turn to the right
                     if lowest_dist_left < lowest_dist_right:
                         car.turn(car.MIN_ANGLE)
+                    # If the nearest obstacle is at right, we need to turn to the left
                     elif lowest_dist_left > lowest_dist_right:
                         car.turn(car.MAX_ANGLE)
+                    # Else, just reset the handlebar
                     else:
                         car.reset_handlebar()
 
 
 def lidar_stream(state=None):
+    """
+    Convert the graphic into a streamable picture
+
+    state : The state of the radar's stream
+    """
     if state == constants.MODE_OFF:
         radar = cv2.imread(constants.CHART_PATH + constants.CHART_DOWN_NAME)
         radar = cv2.imencode(".jpg", radar)[1]
@@ -256,6 +282,11 @@ def lidar_stream(state=None):
 
 @app.route("/video_feed/<int:state>")
 def video_feed(state=None):
+    """
+    The route which display the graphic's stream
+
+    state : The state of the feed
+    """
     # prepare the response to send
     return Response(
         lidar_stream(state), mimetype="multipart/x-mixed-replace; boundary=frame"
@@ -279,21 +310,6 @@ def user_interface():
 def home():
     """Route used to know if the server is on"""
     return render_template("home.html")
-
-
-@app.route("/create_car_test/")
-def create_car_test():
-    """Used to test the creation of the car"""
-    global car
-    car = CarController()
-
-    output = "Tentative de connexion à l'appareil"
-    if car != None:
-        if car.connection != None:
-            output = "Tentative de connexion à l'appareil {0} réussie".format(
-                car.MY_MOVEHUB_ADD
-            )
-    return render_template("connection.html", msg=output)
 
 
 @app.route("/create_car/")
@@ -345,10 +361,11 @@ def bg_process_car():
     angle_rotation = request.form["rngRotationAngle"]
 
     if car != None:
+        # Convert the values
         move_speed = float(move_speed)
         angle_rotation = int(angle_rotation)
+        # Get the allowed actions of the car
         actions = get_actions_for_car(move_speed)
-        print(actions)
         car.move(move_speed, angle_rotation, actions)
     return render_template(
         "form_remote_car.html",
@@ -358,6 +375,7 @@ def bg_process_car():
 
 
 def get_actions_for_car():
+    """Process the actions that the car is allowed to do according to the flying-fish"""
     actions = (constants.CODE_TURN_NOTHING, constants.CODE_MOVE_NOTHING)
     # INDEX 0 represent the turn code
     # INDEX 1 represent the move code
@@ -447,6 +465,11 @@ def form_remote_response():
 
 @app.route("/error/")
 def error(msg):
+    """
+    The error page
+
+    msg : The message to show on the page
+    """
     return render_template("error.html", msg=msg)
 
 
@@ -461,7 +484,7 @@ def initFlyingfish():
     GPIO.setup(constants.GPIO_FLYING_FISH_BACK_LEFT, GPIO.IN)
     # Add the event
     GPIO.add_event_detect(
-        constants.GPIO_FLYING_FISH_FRONT_RIGHT,
+        constants.GPIO_FLYING_FISH_FRONT_RIGHT, 
         GPIO.FALLING,
         callback=get_grounded_state,
         bouncetime=constants.GPIO_BOUNCEBACK,
