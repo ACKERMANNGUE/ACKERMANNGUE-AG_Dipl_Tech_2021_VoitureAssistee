@@ -4,25 +4,16 @@ from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
 from flask_cors import *
-from pylgbst.comms.cgatt import GattConnection
 from car import CarController
 import RPi.GPIO as GPIO
-import gpiozero
-from gpiozero.pins.pigpio import PiGPIOFactory
-import subprocess
-from subprocess import Popen
-import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-import time, threading
+import threading
 import math
-import sys
 import asyncio
 from asyncio.subprocess import PIPE
 from asyncio import create_subprocess_exec
 import cv2
-from PIL import Image
-import datetime
 import static.constants as constants
 
 flying_fish_state = [
