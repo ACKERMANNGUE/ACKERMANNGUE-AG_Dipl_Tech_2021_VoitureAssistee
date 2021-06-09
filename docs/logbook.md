@@ -2102,3 +2102,10 @@ def automatic_mode():
 ##### Python
 * https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.run_forever
 * https://docs.python.org/3/library/asyncio-dev.html
+
+### 08.06.2021
+
+* Pour commencer la journée, j'ai voulu ajouté à la section parlant du clonnage des cartes SD quels étaient les requirements (l'ensemble des paquets à installé de notre côté si l'on veut reproduire à l'identique le setup)
+* J'ai remarqué que dans la documentation technique il n'y avait plus la table des matières. Après avoir regardé sur internet, je me suis rendu compte qu'il ne pouvait pas y avoir plus d'un titre 1 avec `# Titre`. J'ai donc tout décalé d'un `#`.
+
+#### Liens consultés

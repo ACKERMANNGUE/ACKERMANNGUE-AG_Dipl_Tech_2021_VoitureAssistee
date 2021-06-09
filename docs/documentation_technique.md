@@ -2,36 +2,36 @@
 title: "Documentation technique de Voiture Assistée"
 author: Ackermann Gawen
 ---
-
-# Résumé
+# Documentation technique
+## Résumé
 
 _Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leur fonctionnement. Ce projet m'a été proposé par M. Bonvin étant donné que la première ébauche du cahier des charges comportait en une simulation de voiture autonome, mais ce dans une application windows form. M. Bonvin ayant entendu parler de mon projet, il a su amener un côté plus intéressant et professionnel dans le travail que je vais devoir réaliser. Étant donné la découverte des différents appareils utilisés pour ce projet, la plus-value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique. Par conséquent, le but du projet est de réaliser une voiture se déplaçant à l'aide d'une interface web et qui sait se déplacer par elle-même en évitant les obstacles sur sa route.
 
-# Abstract
+## Abstract
 
 _Voiture assistée_ is a study project about autonomous cars and their functioning. This project was proposed to me by Mr. Bonvin since the first draft of the specifications included a simulation of an autonomous car but in a windows form application. Mr. Bonvin heard about my project, he knew how to bring a more interesting and professional side in the work that I will have to realize. Considering the discovery of the different devices used for this project, the added value will be especially the acquisition of new knowledge in the field of physical computing. Therefore, the goal of the project is to realize a car that can be moved by a web interface and that knows how to move by itself and which avoids obstacles on its way.
 
-# Poster
+## Poster
 
 ![Poster du projet Voiture Assistée](./images/references_poster/ag_poster_voiture-assistee.png "Poster du projet Voiture Assistée")
 
-# Cahier des charges
+## Cahier des charges
 
-## Titre du projet
+### Titre du projet
 
 Le titre du projet est Voiture assistée, car le but du projet est d'en réaliser une.
 
-## Contexte
+### Contexte
 
 Ce projet m'a été proposé par M. Bonvin car il a vu que j'allais faire une simulation de voiture autonome, il s'est dit que l'on pourrait tourner la chose autrement. Il a une multitude de Raspberry Pi, de composants ainsi qu'une voiture LEGO controlable. C'est pourquoi il m'a dirigé vers une programmation utilisant des capteurs et du bluetooth.
 
-## Objectif
+### Objectif
 
 L'objectif principal de ce projet est de réaliser une voiture capable de se déplacer d'un point A à un point B en évitant les différents obstacles sur sa route. Pour ce faire, il faudra trouver un moyen de communiquer avec le Technic Hub afin de mouvoir la voiture. Ensuite, il faudra faire fonctionner indépendamment les différents capteurs. Pour ensuite créer un algorithme événementiel gérant les différentes pondérations des messages que les capteurs enverront.
 
-## Technologies et matériels utilisés
+### Technologies et matériels utilisés
 
-### Logiciels
+#### Logiciels
 
 - Visual Studio Code
   - Python
@@ -43,7 +43,7 @@ L'objectif principal de ce projet est de réaliser une voiture capable de se dé
 - Pencil
 - Trello
 
-### Matériels
+#### Matériels
 
 - Raspberry Pi 0 WiFi
 - Raspberry Pi 4B
@@ -55,7 +55,7 @@ L'objectif principal de ce projet est de réaliser une voiture capable de se dé
 - Détecteur infrarouge (Flying-Fish)
 - Radar 360 (RPLiDAR A2M8)
 
-### Environnement de développement
+#### Environnement de développement
 
 Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
 
@@ -65,11 +65,11 @@ Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
 - RealVNC pour me connecter à distance à l'interface graphique du Raspberry Pi
   - Il s'agit d'un logiciel créant un serveur et un client permettant de contrôler à distance l'écran d'un autre ordinateur, disponible [ici](https://www.realvnc.com/fr/connect/download/viewer/).
 
-## Description détaillée de ce que l'application fait
+### Description détaillée de ce que l'application fait
 
 La voiture est télécommandable à distance à l'aide d'une interface web. Sur le site internet, on a accès à la gestion des états des différents capteurs ainsi que des données qu'ils envoient tel que pour la détection sol, le radar 360° ainsi que pour le flux vidéo des caméras.
 
-### Plan de la voiture
+#### Plan de la voiture
 
 ![Croquis du plan de la voiture](./images/maquettes/plan_voiture_avec_composants_v2.jpg "Croquis du plan de la voiture")
 Dans le croquis du plan de la voiture présent ci-dessus, je vais énoncer le rôle de chaque composant.
@@ -84,40 +84,40 @@ En comparaison, voici de quoi est équipée une vraie voiture autonome :
 
 ![Plan d'une voiture autonome](./images/plans/autonomous_car.png "Plan d'une voiture autonome")
 
-### Schéma explicatif de l'application
+#### Schéma explicatif de l'application
 
 L'application offre plusieurs pages.
 
-### Interface utilisateur de l'application
+#### Interface utilisateur de l'application
 
 Une page d'interface utilisateur, pour avoir accès aux informations des capteurs ainsi que leurs états.
 
 ![Interace utilisateur](./images/maquettes/interface.png "Interace utilisateur")
 
-### Interface télécommande
+#### Interface télécommande
 
 Une page de télécommande pour la voiture.
 
-#### En mode manuel
+##### En mode manuel
 
 L'utilisateur déplace la voiture à l'aide de la manette disponible sur le site web.
 
 ![Interface de télécommande en mode manuel](./images/maquettes/commande_de_la_voiture.png "Interface de télécommande en mode manuel")
 
-#### En mode automatique
+##### En mode automatique
 
 La voiture se déplace de manière rectiligne en évitant les obstacles sur sa route.
 
 ![Interface de télécommande en mode automatique](./images/maquettes/commande_de_la_voiture_automatique.png "Interface de télécommande en mode automatique")
 
-# Contact
+## Contact
 
 | Status                |    Nom    | Prénom |        Email         | Numéro de téléphone |
 | --------------------- | :-------: | :----: | :------------------: | ------------------- |
 | Élève                 | Ackermann | Gawen  | gawen.ackrm@eduge.ch | +41 79 88 98 69 4   |
 | Professeur de diplôme |  Bonvin   | Pascal | edu-bonvinp@eduge.ch | +33 6 32 17 84 11   |
 
-# Structure du projet
+## Structure du projet
 
 ```
 ├── code
@@ -150,25 +150,25 @@ La voiture se déplace de manière rectiligne en évitant les obstacles sur sa r
 └── README.md
 ```
 
-# Développement
+## Développement
 Dans cette section, nous aborderons la mise en place de base des différents capteurs utilisés.
 
-## Description détaillée de chaques capteurs
+### Description détaillée de chaques capteurs
 
-### Raspberry Pi
+#### Raspberry Pi
 
 Il s'agit d'un mini-ordinateur de la taille d'une carte de crédit équipés de différents capteurs, cela dépends du modèle.
 
-#### Mise en place
+##### Mise en place
 
 En fonction du modèle du Raspberry Pi, il faut flasher les cartes SD avec différents OS avec le [Raspberry Pi Imager](https://www.raspberrypi.org/software/) :
 
 - Pour un Raspberry Pi 4, installé la version `Raspberry Pi OS Full (32-bit)` pour faire les tests à l'aide d'une interface graphique
 - Pour un Raspberry 0 WiFi, installé la version `Raspberry Pi OS Lite (32-bit)` utilisé juste pour transiter des données
 
-#### Utilisation
+##### Utilisation
 
-##### Pi 4
+###### Pi 4
 
 Un Raspberry Pi 4B est constitué des différents éléments :
 
@@ -177,20 +177,20 @@ Un Raspberry Pi 4B est constitué des différents éléments :
 ![Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)")
 À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du `PoE HAT Header`.
 
-##### Pi 0 WiFi
+###### Pi 0 WiFi
 
 Le Pi 0 WiFi détient moins d'éléments que le Pi 4, cependant il en détient quelque-uns de différents tel que :
 
 ![Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants](./images/raspberrys/rsp0wifi_schema_captionned.png "Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants")
 
-##### Clonage de carte SD
+###### Clonage de carte SD
 
 Pour cloner les cartes SD, j'utilise le programme [balenaEtcher](https://www.balena.io/etcher/). 
 Une fois les cartes SD branchées en USB au PC, lorsque le programme est lancé, il faut sélectionner le disque à copier, puis le disque sur lequel la copie doit être effectuée et cliquer sur `Flash` : 
 
 ![Différentes étapes d'utilisation de balenaEtcher](./images/clone_sd/balenaEtcher_differentes_etapes.png "Différentes étapes d'utilisation de balenaEtcher")
 
-### Ventilateur
+#### Ventilateur
 
 Un ventilateur dans le cadre informatique est utilisé afin de faire descendre la température du processeur car lorsqu'il fait beaucoup de traitement en même temps, il surchauffe et ceci peut causer des problèmes matériels. 
 
@@ -202,7 +202,7 @@ Entre temps, je suis passé du ventilateur de gauche à celui de droite :
 
 Celui de gauche était temporaire. Je l'avais démonté d'un vieux disque dur, car j'avais demandé à ce que l'on en commande pour un raspberry pi étant donné que mon processeur surchauffait. 
 
-#### Mise en place
+##### Mise en place
 
 Pour le connecter, il faut brancher le câble d'alimentation (rouge) sur la pin 4, le câble de la terre (noir) sur la pin 6 et le câble de transmission (bleu) sur la pin 8  du GPIO comme le montre la boîte dans laquelle le ventilateur était : 
 
@@ -214,11 +214,11 @@ Pour le connecter, il faut brancher le câble d'alimentation (rouge) sur la pin 
 
 L'élastique passe sous le Raspberry Pi 4, et est tenu par les branches présentes sur les côtés.
 
-### Caméra
+#### Caméra
 
 La caméra est un module permettant d'avoir accès à un flux vidéo.
 
-#### Mise en place
+##### Mise en place
 
 J’ai utilisé le guide de la caméra disponible sur sur le [site officiel de MagPi](https://magpi.raspberrypi.org/books). Pour commencer, j’ai activé la caméra dans le panneau de configuration du Raspberry Pi, puis j’ai branché la caméra dans l’emplacement prévu qui se situe entre la prise jack et les ports HDMI.
 
@@ -236,7 +236,7 @@ Le ruban de la caméra doit être placé de sorte à ce que la languette bleue f
 
 ![Différents câbles pour la caméra](./images/raspberrys/camera-cables.png "Différents câbles pour la caméra")
 
-#### Utilisation
+##### Utilisation
 
 Pour vérifier qu'un flux vidéo pouvait être lu, j'ai utilisé le code ci-dessous :
 
@@ -253,11 +253,11 @@ camera.stop_preview()
 
 À noter, il est nécessaire d'exécuter ce code depuis le Raspberry Pi et non par VNC, car l'affichage de la prévisualisation du flux ne s'affiche pas. D'après [ce post](https://raspberrypi.stackexchange.com/questions/29537/sending-raspberry-pi-camera-preview-to-a-laptop-running-vnc-viewer) disponible sur StackEchange, il semblerait que l'aperçu de la caméra soit géré à un bas niveau dans le processeur graphique et par conséquent n'est visible que par le moniteur directement branché au Raspberry Pi.
 
-### Phare (Bright Pi v1.0)
+#### Phare (Bright Pi v1.0)
 
 Le Bright Pi est un module comportant 4 leds infrarouges situées aux extrémités et au centre 8 leds.
 
-#### Mise en place
+##### Mise en place
 
 Pour l’utilisation du Bright Pi, je me suis basé sur le guide disponible à l’adresse suivante : https://learn.pi-supply.com/make/bright-pi-quickstart-faq/. J’ai commencé par activer l’I2C dans le panneau de configuration du Raspberry Pi puis j’ai branché les pins aux emplacements indiqués dans le guide de démarrage. Les couleurs ci-dessous doivent être respectées (pour le placement uniquement).
 ![Branchement du Bright Pi](./images/bright_pi_wiring.jpg "Branchement du Bright Pi")
@@ -268,7 +268,7 @@ Pour s'assurer que le branchement soit correct, il est nécessaire d'utiliser la
 
 Pour tester le Bright Pi, il est nécessaire d'avoir le kit de développement disponible sur [ce repos Github](https://github.com/PiSupply/Bright-Pi).
 
-#### Utilisation
+##### Utilisation
 
 Une fois cela fait, il faut importer les éléments concernant le brightpi avec
 
@@ -308,11 +308,11 @@ LEFT_LEDS = [3, 4]
 blink(10, 1, RIGHT_LEDS, LEFT_LEDS, "R")
 ```
 
-### Détecteur infrarouge (Flying-Fish)
+#### Détecteur infrarouge (Flying-Fish)
 
 Le Flying-Fish est un module comportant 2 leds infrarouges, une qui émet et une autre qui reçois. Il est équipé d'un potentiomètre réglant la distance d'émission.
 
-#### Mise en place
+##### Mise en place
 
 Comme le montre ce schéma, le Flying-Fish doit être connecté à une alimentation ainsi qu'à un _Ground_ (appelé _Terre_ en français). La dernière broche est la sortie. C'est-à-dire que lorsque la distance d'émission réglée à l'aide du potentiomètre est dépassée, la lumière d'obstacle s'éteindra et cette broche enverra un signal électrique informant du changement d'état.
 
@@ -324,7 +324,7 @@ Il faut importer l'accès au GPIO du Raspberry Pi avec :
 import RPi.GPIO as GPIO
 ```
 
-#### Utilisation
+##### Utilisation
 
 C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du [GPIO](######Pi-4), car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. J'ai branché le _Out_ à la pin 16 (GPIO 23). Voici le code de test :
 
@@ -350,11 +350,11 @@ while True:
         time.sleep(0.5)
 ```
 
-### Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader
+#### Connexion bluetooth avec le LEGO 4x4 X-trem Off-Roader
 
 Le LEGO 4x4 X-trem Off-Roader est une voiture télécommandable en bluetooth.
 
-#### Mise en place
+##### Mise en place
 
 Dans un premier temps, il faut installer `bleak`, `pygatt` et `bluepy` pour ce faire, j'ai utilisé cette commande : `sudo pip3 install pygatt && pip3 install gatt && pip3 install gattlib && pip3 install bluepy && pip3 install bleak` puis j'ai télécharger le code sources du [repository pylgbst](https://github.com/undera/pylgbst).
 Pour tester la connexion bluetooth, j'ai lancé la commande `sudo bluetoothctl`, ensuite j'ai lancé les commandes suivantes : `power on` pour m'assurer que le service soit actif, puis `scan on`. Une fois que des appareils ont été détectés, on peut lancer l'interface graphique située dans la barre des tâches :
@@ -366,7 +366,7 @@ ou il est possible d'aller dans les préférences pour l'ouvrir :
 
 Une fois cette interface ouverte, il faut cliquer sur le bouton _Rechercher_, ce qui effectuera un scan des alentours. Une fois le `Technic Hub` trouvé dans la liste, il est nécessaire de noter son adresse mac : `90:84:2B:50:36:43` afin de pouvoir l'utiliser par la suite.
 
-#### Utilisation
+##### Utilisation
 
 Pour gérer le déplacement de la voiture, à l'aide du kit de développement fournit par pylgbst, voici le code que j'ai écrit :
 
@@ -465,21 +465,21 @@ Le code fournit, propose différentes méthodes de connexion tel que :
 
 Ayant vu dans plusieurs documentations le nom de `GATT` ressortir, je m'y suis penché pour comprendre de quoi il s'agissait. `GATT` est un acronyme de l'anglais _Generic Attribute Profile_, il définit comment les 2 appareils vont échanger leurs données, tout en suivant un système de _Services_ et de _Characteristics_. C'est pourquoi j'ai utilisé la connexion avec `GATT`.
 
-#### Problème rencontré
+##### Problème rencontré
 
 Au départ, je tentais d'appareiller le Raspberry Pi au Technic Hub depuis les commandes disponibles dans le mode `bluetoothctl`, mais j'avais cette erreur `Failed to pair: org.bluez.Error.AuthenticationFailed`.
 
-##### Comment je l'ai résolu
+###### Comment je l'ai résolu
 
 J'ai alors compris que pour me connecter au Technic hub, j'aurai besoin d'y avoir accès par un moyen qui permette de transmettre des données, car depuis la documentation LEGO, j'ai aperçu des commandes écrites avec des bytes en hexadécimal. De plus,j'ai remarqué qu'ils mettaient à disposition les UUID des hubs, car ils ont tous le même fabricant.
 
 Il y a plein de pistes que j'ai entrevues sur les différents repository, cependant je ne m'y étais pas intéressé plus que ça, car aucun ne mentionnait le nom de Technic Hub. Après avoir été dans les différents repository ci-dessous et après avoir regardé comment étaient écrit leurs transmissions au hub bluetooth. J'ai réussi à comprendre comment je pouvais m'appareiller au Technic Hub et comment interagir avec.
 
-### Radar 360 (RPLiDAR A2M8)
+#### Radar 360 (RPLiDAR A2M8)
 
 Le RPLiDAR A2M8 est un scanner laser à 360°. Il permet de connaître la distance entre lui et les obstacles à chaque angles.
 
-#### Mise en place
+##### Mise en place
 
 Le lidar est branchable par port série. Cependant, un adaptateur est fournie avec et nous permet de récupérer les données par USB.
 
@@ -513,7 +513,7 @@ Il faut commencer par télécharger le kit de développement disponible sur [le 
 
 ![Branchement du Lidar à l'adaptateur](./images/lidar/20210427_124335.jpg "Branchement du Lidar à l'adaptateur")
 
-#### Utilisation
+##### Utilisation
 
 Afin de vérifier qu'il soit bien détecter, il faut exécuter la commande suivante `ls /dev/*USB*` ceci devrait être retourné `/dev/ttyUSB0`. Dans le dossier du code source, il faut aller dans le répertoire `sdk/app/` et exécuter la commande make dans un terminal. Pour exécuter l'un des 3 programmes suivant :
 
@@ -523,11 +523,11 @@ Afin de vérifier qu'il soit bien détecter, il faut exécuter la commande suiva
 
 Nous pouvons maintenant exécuter le programme souhaité en utilisant la commande suivante dans un terminal : `nom_du_programme /dev/ttyUSB0`.
 
-#### Problème rencontré
+##### Problème rencontré
 
 Les codes fournis fonctionnent parfaitement, sauf qu'aucun ne permet de récupérer depuis une variable ou autre les valeurs d'angles. Cependant, elles sont affichées dans la console.
 
-##### Comment je l'ai résolu
+###### Comment je l'ai résolu
 
 Il y avait 2 possibilités :
 
@@ -553,13 +553,13 @@ Cela dit, la méthode que j'utilise actuellement se résume à ça :
 
 Le problème de cette méthode est qu'elle n'est vraiment pas optimisée car on va lire de manière asynchrone les données reçues par le programme `C++` et traitée puis mise dans le tableau de distance à chaque itération. Cette même itération est stoppable à tout moment avec un paramètre à changer dans le lancement du processus.
 
-### Émetteur WiFi (ASUS RT-AC58U)
+#### Émetteur WiFi (ASUS RT-AC58U)
 
 Un émetteur sans fil diffuse des ondes en utilisant la fréquence radio (RF). Il permet de rendre une connexion internet sans y être connecté de manière filaire. Pour ce projet, nous utilisons un ASUS RT-AC58U.
 
-#### Mise en place
+##### Mise en place
 
-##### Branchement
+###### Branchement
 
 Pour mettre en place le routeur, il faut d'abord brancher l'alimentation dans le port indiqué ainsi que le câble ethernet permettant la connexion à internet dans le port bleu. Pour récupérer les sorties ethernet, il faut les brancher dans les ports jaunes.
 
@@ -573,7 +573,7 @@ Une fois que le branchement est fait, il faut se rendre sur http://router.asus.c
 
 ![Page de connexion](./images/asus_wifi/page_connexion.png "Page de connexion")
 
-##### Configuration
+###### Configuration
 
 Pour commencer à paramétrer le réseau, il faut en un premier temps cliquer sur le bouton `Quick Internet Setup`
 
@@ -595,7 +595,7 @@ Il est fort probable que vous deviez mettre à jour votre appareil avec le firmw
 
 ![Mise à jour du firmware](./images/asus_wifi/configuration_creer_nouveau_reseau_firmware.png "Mise à jour du firmware")
 
-##### Changement des paramètres de connexion à l'interface web
+###### Changement des paramètres de connexion à l'interface web
 
 Pour modifier le nom d'utilisateur ainsi que son mot de passe, il faut cliquer sur le bouton `Administration` : 
 
@@ -609,23 +609,23 @@ Une fois dans l'onglet, vous pourrez modifier les informations ici :
 
 ![Changement du nom d'utilisateur ainsi que de son mot de passe pour se connecter à l'interface web](./images/asus_wifi/bouton_administration_system_change_username_and_password.png "Changement du nom d'utilisateur ainsi que de son mot de passe pour se connecter à l'interface web")
 
-#### Utilisation
+##### Utilisation
 
 Il faut activer le WiFi sur l'appareil que l'on souhaite connecter, une fois les réseaux scannés. Nous devrions pouvoir avoir accès au réseau `le_SSID_du_réseau` et s'y connecter en entrant le mot de passe choisi sur l'interface nous permettant de paramétrer notre réseau.
 
-## Python Flask
+### Python Flask
 
 Flask est un framework web disponible en python qui permet de développer aisément des applications web.
 
-### Mise en place
+#### Mise en place
 
 Flask est téléchargeable depuis la commande `pip3 install Flask`.
 
-### Utilisation
+#### Utilisation
 
 Dans un premier temps, il est important de créer un fichier python. Dans cet exemple, ce sera `hello.py`.
 
-#### Application de base
+##### Application de base
 
 Il faut d'abord importer Flask. Et l'initialiser de la manière suivante :
 
@@ -655,7 +655,7 @@ Pour lancer l'application, il faut d'abord exporter la variable d'environnment `
 
 Le port 5000 étant le port par défaut définit par Flask, mais qui est changeable avec le paramètre `flask run --host=0.0.0.0 -p 8000`, dans ce cas, le port de Flask sera changé à 8000.
 
-##### Routes
+###### Routes
 
 Flask fonctionne avec un système de routes. Les routes sont écrites de la manière suivante :
 
@@ -676,7 +676,7 @@ def hello(param_name):
     return render_template('hello.html', name=param_name)
 ```
 
-##### Templates
+###### Templates
 
 Si les routes rendent de l'HTML, c'est que l'on peut injecter des valeurs dans du code HTML pré-écris. Pour ce faire, à la racine du projet, il faut créer un dossier précisément nommé de la sorte : `templates`. Ce répertoire contiendra les différents templates HTML à afficher. Voici comment un fichier de template HTML est écrit :
 
@@ -696,7 +696,7 @@ Les balises {{ nom_de_la_variable }} permettent d'injecter des valeurs dans l'HT
 
 Depuis le code python, pour pouvoir utiliser des templates, il faut importer `render_template` comme suit : `from flask import render_template`
 
-##### Barre de navigation
+###### Barre de navigation
 
 En prérequis, il faut installer les librairies :
 
@@ -739,7 +739,7 @@ Pour y avoir accès, on peut l'inclure dans une page HTML de la manière suivant
 {% endblock %}
 ```
 
-##### Formulaires
+###### Formulaires
 
 Les formulaires avec Flask sont écrits en HTML classique :
 
@@ -764,7 +764,7 @@ def nom_de_fonction():
 
 Dans le paramètre `methods` de la route, le paramètre GET est celui de base, mais peut être changé par POST.
 
-##### Javascript / AJAX
+###### Javascript / AJAX
 
 Étant donné que Flask nous permet d'écrire des pages HTML qui seront insérés dans la page lors de l'appel (voir la section regroupant les Templates), cela veut dire que nous pouvons écrire du javascript à l'aide des balises `<script type=text/javascript></script>`. Pour le cas d'AJAX, il suffit de télécharger la librairie JQuery afin d'y avoir accès ou en utilisant le CDN `<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>`.
 
@@ -829,9 +829,9 @@ def bg_process_car():
 ```
 
 
-## Bluetooth
+### Bluetooth
 
-### Qu'est-ce que le bluetooth ?
+#### Qu'est-ce que le bluetooth ?
 
 Le bluetooth est une norme de communication à courte distance utilisant des ondes radios sur la bande de fréquence 2,4GHz. Ce qui permet d'échanger des données dans les deux sens en _peer-to-peer_ dans un picoréseau.
 
@@ -839,7 +839,7 @@ Le bluetooth est une norme de communication à courte distance utilisant des ond
 
 Un picoréseau (en anglais piconet) est un mini-réseau qui se crée de manière instantanée et automatique quand plusieurs périphériques Bluetooth sont dans un même rayon.
 
-#### Comment est-il structuré ?
+##### Comment est-il structuré ?
 
 Quand on parle de bluetooth, au niveau des protocoles, on peut parler de relations _Maîtres_ et d'_Esclaves_. Le _Maître_ Bluetooth est celui qui peut initier une connexion avec un périphérique (ou _Esclave_), cependant une fois les appareils connectés, le _Maître_ et l'_Esclave_ peuvent échanger des informations sans restriction (en fonction de la limitation de l'application).
 
@@ -852,7 +852,7 @@ Les relations _Maître_-_Esclave_ sont gérées par le gestionnaire de liaison. 
 - la création et la modification des clés
 - et le chiffrement
 
-#### Sécurité
+##### Sécurité
 
 Il existe 3 modes de sécurité :
 
@@ -903,7 +903,7 @@ La couche de liaison est définie dans les systèmes bluetooth comme la couche a
 - Inquiry scan : Canal pour l'acquisition des appareils bluetooth aux alentours
 - Page scan : Canal pour la connexion avec un nouvel appareil
 
-#### Qu'est-ce que Generic Access Profile
+##### Qu'est-ce que Generic Access Profile
 
 Generic Access Profile (GAP), est responsable de la connexion. De plus, il gère aussi :
 
@@ -925,7 +925,7 @@ Generic Access Profile (GAP), est responsable de la connexion. De plus, il gère
   - Délai de supervision (entre 10 et 3200 ms)
 - Esclave/Maître : Lorsqu'une connexion est établie, le dispositif fonctionne comme un esclave s'il s'agit de l'annonceur sinon comme un maître s'il s'agit de l'initiateur.
 
-##### Qu'est-ce que Generic Attribute Profile
+###### Qu'est-ce que Generic Attribute Profile
 
 Generic Attribute Profile (GATT), est responsable de la communications de données entre les appareils connectés. Il est structuré en _Services_ et _Characteristics_ comme ci-dessous :
 
@@ -981,9 +981,9 @@ Par la suite, j'ai lancé un scan depuis l'application afin de comparer les donn
   3. Client characteristic configuration : `0x2902`
   4. Value : `05 00 04 03 00 2E 00 00 10 00 00 00 10 00 00 00 00 00 00 00`
 
-### T'chat en bluetooth
+#### T'chat en bluetooth
 
-#### Mise en place
+##### Mise en place
 
 Il faut que les 2 Raspberry Pi soient en mode "Découvrable" activable ici :
 
@@ -991,7 +991,7 @@ Il faut que les 2 Raspberry Pi soient en mode "Découvrable" activable ici :
 
 Il faut ensuite effectuer un scan des appareils si nous ne connaissons pas le nom d'hôte de l'autre Raspberry Pi. Le script doit être présent sur les deux Raspberry Pi afin de pouvoir écouter, recevoir ainsi qu'envoyer des messages. La machine hôte, moi dans ce contexte, doit être en mode MODE_SEND tandis que l'autre en mode MODE_RECEIVE.
 
-#### Utilisation
+##### Utilisation
 
 Le code fonctionne de la manière suivante. La machine hôte va en premier temps lancer le scan à la recherche de l'appareil nommé `morenoPi42`.
 ![Scan bluetooth des environs](./images/raspberrys/rsp_scan_bluetooth.png "Scan bluetooth des environs")
@@ -1005,11 +1005,11 @@ Le mode actuel, change et je deviens la machine qui écoute le port spécifié e
 
 ![Diagramme de séquence du T'chat en bluetooth](./images/bluetooth/diag_seq_tchat_bluetooth.png "Diagramme de séquence du T'chat en bluetooth")
 
-### Remote GPIO
+#### Remote GPIO
 
 Le [GPIO](######Pi-4) nous permet d'accéder aux entrées / sorties des appareils connectés au Raspberry Pi.
 
-#### Mise en place
+##### Mise en place
 
 Pour pouvoir utiliser le Remote GPIO, il faut tout d'abord l'activer dans l'interface de configuration présente ci-dessous :
 
@@ -1027,7 +1027,7 @@ Ensuite nous aurons besoin de Pi GPIO :
 
 Une fois installé, il faut lancer le service PiGPIO : `sudo pigpiod` sur la machine qui sera contrôlée à distance.
 
-#### Utilisation
+##### Utilisation
 
 Pour pouvoir se connecter au Raspberry Pi, il faut connaître son adresse IP. Une fois connue, voici comment établir une connexion :
 
@@ -1060,15 +1060,15 @@ Dans notre cas, avec M. Moreno interprétant le Raspberry Pi _principal_ qui int
 
 ![breadboard de M. Ackermann](./images/raspberrys/GPIO-connected_pin_remote-gpio.png "breadboard de M. Ackermann")
 
-## Matplotlib
+### Matplotlib
 
 Matplotlib est une librairie complète permettant la création de statistiques sur un large panel de graphiques utilisable en Python.
 
-#### Mise en place
+##### Mise en place
 
 Il faut d'abord installer Matplotlib avec la commande `sudo apt-get install python3-matplotlib` 
 
-#### Utilisation
+##### Utilisation
 
 Sur le site officiel, il y a cet exemple que j'ai repris pour en faire l'affichage de mon radar 360° :
 
@@ -1137,9 +1137,9 @@ Voici un exemple du scanner en un quasi-temps réel :
 
 Ici, on parle de quasi-temps réel, car comme vu dans le section parlant du Lidar, on traite les données émises par l'API en temps réel de manière asynchrone, mais le graphique étant une image enregistrée, le temps d'écriture de l'image ainsi que le temps de lecture fait que les images s'accumulent et que par conséquent l'image gagne du délai.
 
-## RaspAP
+### RaspAP
 RaspAP est une application permettant de mettre en place un point d'accès WiFi avec un raspberry pi facilement.
-### Mise en place
+#### Mise en place
 Par précaution, il est nécessaire de mettre son raspberry pi à jour avec la commande `sudo apt update && sudo apt full-upgrade`.
 
 Ensuite, il faut télécharger le code du repository Git avec la commande suivante : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`. Durant toute l'installation, il faut tout accepter, à moins d'avoir une bonne raison, mais dans ce cas il n'y a pas de raison valable de dire non.
@@ -1148,7 +1148,7 @@ Après l'installation, il faut redémarrer le raspberry pi. Une fois redémarré
 
 [IMAGE_EXEMPLE_Wlan0]
 
-### Utilisation
+#### Utilisation
 Une fois RaspAP installé, vous pouvez vous rendre sur `10.3.141.1` dans un navigateur web afin d'avoir accès au tableau de bord de RaspAP : 
 
 Pour se connecter, une fenêtre comme celle ci-dessous apparaîtra. Les identifiants par défaut sont `admin` pour le nom d'utilisateur et `secret` comme mot de passe.
@@ -1186,17 +1186,17 @@ Une fois sur la page `DHCP Server`, allez dans l'onglet `Client list`. Vous y tr
 [IMAGE_LISTE_APPAREILS_CO]
 
 
-# Manuel technique
+## Manuel technique
 Dans cette rubrique, nous allons voir comment les divers éléments utilisés dans ce projet ont été mis en place.
 
-## Plan réseau
+### Plan réseau
 
 Étant donné que les divers éléments communiquent par le WiFi, ils doivent donc avoir des adresses IP. Dans mon cas, j'ai choisis d'utiliser des adresses IP statiques. Tous les Raspberry Pi 0 WiFi sont connectés sur le point d'accès qu'est le Raspberry Pi 4. Pour comprendre comment le Raspberry Pi 4 a été transformer en point d'accès, veuillez lire la [section parlant de la mise en place de RaspAP](##RaspAP)
 
 ![Plan réseau des Raspberry Pi](./images/raspberrys/rsp_plan_reseau.png "Plan réseau des Raspberry Pi")
 
-## Branchements
-### Alimentation générale
+### Branchements
+#### Alimentation générale
 Pour l'alimentation générale, j'ai pris 2 anciens câbles USB que j'ai coupé et dénudé afin de récupérer l'alimentation (Le VCC et le GND). Ces deux câbles ont ensuite été soudés sur les pins soudées à la plaquette.
 
 À la base, la plaquette et la rangée de pins ressemblaient à ceci : 
@@ -1220,17 +1220,17 @@ Il est important de noter, que chaque composant est branché à l'alimentation g
 
 Par conséquent sur cet exemple, les câbles rouges, blancs et violets sont branchés sur le courant et les câbles noirs, gris et bruns sont branchés sur la terre.
 
-### Raspberry Pi 4
+#### Raspberry Pi 4
 De base, le Raspberry Pi 4 était branché à l'alimentation générale et était alimenté par les pins 4 et 6 du [GPIO](######Pi-4), mais après quelque tests, j'ai pu me rendre compte que certain Raspberry Pi 0 WiFi branchés au système d'alimentation générale n'avaient pas assez de courant et ne faisaient que de redémarrer en boucle. C'est pourquoi après réflexion, j'ai branché le Raspberry Pi 4 sur la batterie externe en USB-C comme ceci afin de libérer de la charge de courant de l'alimentation générale :
 
 ![Branchement du Raspberry Pi 4 à la batterie externe](./images/branchements/rsp4_usb-c.png "Branchement du Raspberry Pi 4 à la batterie externe")
 
-#### Lidar
+##### Lidar
 Le lidar est connecté à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](###Radar-360-(RPLiDAR-A2M8)).
 
 Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la [section parlant de Matplotlib](##Matplotlib) et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
 
-#### Fyling-Fish
+##### Fyling-Fish
 Les divers Flying-Fish sont branchés des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés avec des câbles bleus sur les [GPIO](#####Pi-4) suivant du raspberry pi 4 :
 
 ![GPIO utilisés pour les Flying-Fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les Flying-Fish")
@@ -1238,25 +1238,25 @@ Les divers Flying-Fish sont branchés des câbles gris et violets à l'alimentat
 ### Raspberry Pi 0 WiFi
 Le raspberry pi 0 WiFi est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du [GPIO](######Pi-4).
 
-#### Caméra 
+##### Caméra 
 La caméra est branché de la même manière que dans la [section explicant la module caméra](####Caméra)
 #### Bright Pi 
 Le bright Pi est branché sur l'alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des [GPIO](#####Pi-4) I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la [section explicant ce qu'est le bright pi](###Phare-(Bright-Pi-v1.0)).
 
-## Scripts
+### Scripts
 Dans cette section, nous allons parler des différents scripts utilisés ainsi que leurs comportement.
 
-### Raspberry Pi 4
-#### À quoi sert-il ?
+#### Raspberry Pi 4
+##### À quoi sert-il ?
 Ce raspberry pi est le raspberry pi principale. C'est-à-dire que c'est lui qui va être le point d'accès par rapport aux autres rapsberry pi dont la voiture est équipée.
 
-#### Comment on l'utilise ?
+##### Comment on l'utilise ?
 Pour exécuter le script du serveur principal, il faut utiliser la commande `python3 server.py` depuis le répertoire `/code/Flask/flask_server`. Ce script est un serveur Flask nous donnant accès aux différentes fonctionnalitées de l'application.
 
-#### Comment fonctionne-t-il ?
+##### Comment fonctionne-t-il ?
 Une fois le serveur lancé, et après nous être rendu avec un navigateur web connecté à l'adresse du raspberry pi et sur le port 5000 du réseau fournit par le raspberry pi 4. Exemple : `10.3.141.1:5000`
 
-##### Barre de navigation
+###### Barre de navigation
 La barre de navigation nous permet de changer de page. Cette dernière contient 5 éléments.
 
 ![Barre de navigation du site web](./images/site_web/navbar.png "Barre de navigation du site web")
@@ -1267,13 +1267,13 @@ La barre de navigation nous permet de changer de page. Cette dernière contient 
 * D. Création d'une connexion avec la voiture
 * E. Déconnexion avec la voiture
   
-##### Page d'accueil
+###### Page d'accueil
 Ceci est la page sur laquelle on arrive lorsque l'on tape l'adresse IP du point d'accès avec le port 5000.
 
 ![Page d'accueil du site web](./images/site_web/page_accueil.png "Page d'accueil du site web")
 * A. Bouton créant une connexion avec la voiture
 
-##### Page de télécommande
+###### Page de télécommande
 Cette page permet, si une connexion avec la voiture est établie, de contrôler la voiture.
 
 ![Page de télécommande du site web](./images/site_web/page_telecommande.png "Page de télécommande du site web")
@@ -1286,7 +1286,7 @@ Cette page permet, si une connexion avec la voiture est établie, de contrôler 
 
 Il est important de savoir que dans le code gérant les déplacement de la voiture, j'inverse les données et les divises par 100 car les valeurs sont comprisent entre -1 et 1. La raison pour laquelle j'inverse par la suite les vitesses dans le code, c'est parce que pour avancer avec la voiture, il faut lui donner une vitesse négative, cependant je trouvais plus logique pour une interface utilisateur que pour avancer l'on ajuste la barre coulissante à droite.
 
-##### Page du tableau de bord
+###### Page du tableau de bord
 Cette page permet à l'utilisateur de gérer les différents capteurs et de voir en temps réel les données reçues par les caméras ainsi que par le Lidar.
 
 ![Page de télécommande du site web](./images/site_web/page_dashboard.png "Page de télécommande du site web")
@@ -1311,12 +1311,12 @@ J'ai choisis d'afficher les éléments à la suite, car l'utilisateur va utilise
 
 Pour comprendre comment le flux des caméras sont récupérer, veuillez regarder la [section parlant du récupération du flux vidéo](#####Récupération-du-flux-vidéo).
 
-##### Page création de connexion
+###### Page création de connexion
 Lors de l'appuie sur cet élément, cela va lancer une connexion avec la voiture.
-##### Page de déconnexion
+###### Page de déconnexion
 Lors de l'appuie sur cet élément, cela va lancer une déconnexion avec la voiture.
 
-#### Comment fonctionne la connexion avec la voiture ?
+##### Comment fonctionne la connexion avec la voiture ?
 La création de la connexion avec la voiture s'effectue dans la classe `car`. Cette classe lorsque l'on crée un nouvel objet, va demander une connexion Gatt au Technic Hub.
 
 ```python
@@ -1418,7 +1418,7 @@ def close_connection():
 
 ```
 
-#### Comment fonctionne la récupération des données du Lidar ?
+##### Comment fonctionne la récupération des données du Lidar ?
 
 Pour activer l'API C++ pour y récupérer les distances à chaque angles qui sont écrits dans la console et afin d'éviter de rendre le code bloquant, j'ai utilisé `Asyncio`. 
 
@@ -1496,7 +1496,7 @@ C'est ce à quoi sert la méthode `_read_stream`. Cette méthode nous permet de 
 
 ![Méthode utilisée pour récupérer en temps réel les données du Lidar](./images/lidar/flowchart_lidar_api.png "Méthode utilisée pour récupérer en temps réel les données du Lidar")
 
-##### Code de l'API C++ modifié
+###### Code de l'API C++ modifié
 
 ```cpp
 
@@ -1653,12 +1653,12 @@ int main(int argc, const char *argv[])
 
 ```
 
-##### Qu'est-ce qu'Asyncio ?
+###### Qu'est-ce qu'Asyncio ?
 [Asyncio](https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.run_forever) est une librairie python nous permettant d'écrire du code `concurrent` c'est à dire sur différents thread à l'aide de la syntaxe async / await. 
 
 Pour installer asyncio il faut exécuter la commande `sudo pip3 install asyncio`.
+Comment est-ce qu'il s'utilise ?
 
-###### Comment est-ce qu'il s'utilise ?
 Voici un code d'exemple pour montrer la mécanique :
 
 ```python
@@ -1684,8 +1684,8 @@ Il est important de savoir qu'il existe 2 différentes manière d'exécuter le c
 1. `run_until_complete`, va exécuter le code jusqu'à être arrivé à la fin de la méthode.
 2. `run_forever`, va exécuter le code en boucle jusqu'à ce que l'on stop la boucle avec `loop.stop()`.
 
-#### Comment fonctionne la gestion du déplacement de la voiture ?
-##### Télécommande
+##### Comment fonctionne la gestion du déplacement de la voiture ?
+###### Télécommande
 La télécommande effectue des appels AJAX avec les valeurs des barres coulissantes comme ceci :
 
 ```javascript
@@ -1866,7 +1866,7 @@ Voici le code de déplacement pour la voiture dans la classe `CarController` :
 
 On peut remarquer que dans les différentes méthodes j'utilise des `try` / `except`. Je suis obligé de les utiliser, car lors de l'envoie d'une commande au `Technic Hub`, il doit retourner une réponse, cependant des fois il se peut que pendant qu'il traite une commande, avant qu'il aie pu répondre une autre commande lui soit envoyée. Ce qui cause un problème de confirmation, et qui par conséquent faisait crash le programme.
 
-##### Boutons
+###### Boutons
 Pour comprendre plus en détail le rôle des boutons, veuillez vous référer à la [section décrivant l'interface pour la télécommande](#####Page-de-télécommande). 
 
 Voici comment les actions qu'ils produisent sont gérées :
@@ -1904,7 +1904,7 @@ def form_remote_response():
     return returned_value
 ```
 
-##### Comment fonctionne le système d'arrêt d'urgence de la voiture ?
+###### Comment fonctionne le système d'arrêt d'urgence de la voiture ?
 
 Le système d'argent d'urgence est basé sur ce que les [Flying-Fish](###Détecteur-infrarouge-(Flying-Fish)) détectent.
 
@@ -1989,7 +1989,7 @@ Mais dans le cas ou la voiture est au bord de table de justesse, l'utilisateur p
 
 ![Voiture au bord de table](./images/voiture/voiture_bord_de_table_extreme.png "Voiture au bord de table")
 
-#### Comment fonctionne le mode automatique de la voiture ?
+##### Comment fonctionne le mode automatique de la voiture ?
 
 Lorsque le lidar est actif et que le mode automatique a été activée par la route `/launch_automatic_mode/<int:state>`, la méthode gérant la voiture va être lancée sur un autre thread différent de celui principal. À la base, j'avais tenté d'utiliser `Asyncio` une nouvelle fois pour ce cas mais j'avais besoin de pouvoir changer l'état de le boucle présente dans `automatic_mode()`, car avec `Asyncio` lorsque je relançais le mode automatique, il y avait des erreurs qui intervenaient tandis qu'en exécutant le programme sur un autre thread on peut relancer le mode avec l'état de la case à cocher associée.
 
@@ -2100,17 +2100,17 @@ Voici l'algorithme résumé :
 ![Algorithme du mode automatique](./images/algorithm_auto_mode.png "Algorithme du mode automatique")
 
 
-### Raspberry Pi 0 WiFi
+#### Raspberry Pi 0 WiFi
 
-#### À quoi servent-ils ?
+##### À quoi servent-ils ?
 Les raspberry pi 0 WiFi, sont utilisés pour gérer les caméras et les phares.
 
-#### Comment on l'utilise ?
+##### Comment on l'utilise ?
 Il faut lancer sur chaque raspberry pi 0 WiFi le serveur Flask avec la commande : `python3 ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee/code/Flask/flask_sensors_control/server.py`.
-#### Comment fonctionne-t-il ?
+##### Comment fonctionne-t-il ?
 Le serveur Flask proprose 2 routes :
 
-##### Gestion des capteurs à distance
+###### Gestion des capteurs à distance
 Pour gérer les capteurs à distance, j'utilise 2 serveurs Flask différents.
 
 Le premier est le serveur principale tournant sur le Pi 4, celui sur lequel l'utilisateur sera pour avoir accès au tableau de bord, à la télécommande pour la voiture.
@@ -2252,7 +2252,7 @@ function execute(endpoint) {
 
 ```
 
-##### Récupération du flux vidéo
+###### Récupération du flux vidéo
 La méthode que j'utilise pour récupérer le flux vidéo de la caméra avec un serveur Flask est tiré de [ce github](https://github.com/EbenKouao/pi-camera-stream-flask).
 
 Cette méthode se construit comme suit : 
@@ -2341,7 +2341,7 @@ Voici le code `HTML` utilisé pour faire l'affichage de l'image :
 
 Cette image va donc être modifiée à chaque frame reçue par la caméra.
 
-# Dates importantes
+## Dates importantes
 
 - Lundi 19 avril 2021 : Début du travail de diplôme
 - Vendredi 30 avril 2021 : Évaluation intermédiaire 1
@@ -2357,41 +2357,41 @@ Cette image va donc être modifiée à chaque frame reçue par la caméra.
 - Jeudi 17 juin 2021 : Défenses à blanc + harmonisation des notes
 - Lundi 21 juin ou mardi 22 juin 2021 : Défenses de diplôme
 
-# Retour d'expérience
+## Retour d'expérience
 
-## Problèmes bloquants
+### Problèmes bloquants
 
 Durant la conception de ce projet, n'étant pas assez préparer théoriquement dans l'univers qu'est l'informatique physique. J'ai rencontré de nombreux problèmes qui m'ont fait perdre du temps.
 
-### Bluetooth
+#### Bluetooth
 
 Le tout premier problème que j'ai eu était le problème de la connexion bluetooth à la voiture. Ce problème m'a très vite fait perdre une semaine et demi de travail car je m'y étais mal pris dès le départ. La première erreur que j'ai faite a été de penser que pour se connecter à la voiture, il fallait utiliser notre propore connexion bluetooth à la voiture, ceci avec un script python utilisant le module bluetooth. J'ai donc été faire des recherches sur les potentiels manières de s'y connecter. 
 La première librairie que j'ai essayée fut celle de [BrickNil](https://github.com/virantha/bricknil), mais je n'avais rien réussi à en faire. Ensuite, je suis tombé sur la libraire [pyb00st](https://github.com/JorgePe/pyb00st) mais en lisant sa documentation j'ai vu qu'il parlait d'un `BOOST Move Hub` pour son code et vu que j'utilisais un `Technic Hub` et que même visuellement il ne ressemblait pas au hub que j'utilisais, j'ai par conséquent cru que cela ne fonctionnerait pas. Cependant, dans la documentation de `pyb00st`, je me suis aperçu que pour se connecter à la voiture il utilisait 2 méthodes diverses avec le bluetooth. `Bluez` et `BlueGiga`, ayant entendu parler de `Bluez`, je m'était dit qu'il fallait donc que je me connecte par moi même avec le bluetooth du raspberry pi à la voiture. J'ai donc repris le code que j'ai fait pour le t'chat bluetooth que j'ai tenté de modifier afin de me connecter à la voiture. Après plusieurs tentatives qui n'ont pas fonctionner, je suis tombé sur la libraire de [pylgbst](https://github.com/undera/pylgbst) et en lisant ce qu'il proposait, j'ai vu qu'il proposait différents types de connexion bluetooth (`gatt`, `bluepy` et `bleak`) et permettait la connexion avec un appareil à l'aide de sa mac adresse. Le truc qui m'a fait perdre un peu de temps, c'est que vu qu'il parlait du `LEGO BOOST Move Hub` lui aussi. Je m'étais donc dit que j'allais me concentrer sur l'envoie de commandes par le bluetooth à la voiture grâce à `pygatt`, car j'étais tombé sur [cette documentation](https://lego.github.io/lego-ble-wireless-protocol-docs/). J'ai vu qu'elle y proposait des commandes en bytes, exactement ce que je pensais avoir besoin. Après avoir tenté, 2-3 approches avec gatt, je me suis dit que j'allais aller fouiller dans le code `pylgbst` pour voir comment ils eux envoyaient leurs commandes. En fouillant, je me suis aperçu qu'il faisait exactement ce que j'avais besoin, c'est donc comme ça que j'ai pu m'apercevoir, sans que ce ne soit écrit quelque part, que le `Technic Hub` était considéré lui aussi comme un `Move Hub`, par conséquent, en utilisant le code de `pylgbst`, j'ai pu résoudre ce problème.
 
 Durant quasiment toute la durée du projet j'ai eu des problèmes de connexion avec la voiture et ce car j'utilisais un singleton afin de recréer un objet `car` dans chaque méthode nécessitant l'appel aux méthodes de la voiture. Le problème était que lorsque je demandais une instance lors de la création de la voiture (sachant qu'il existait toujours une instance en cours), la connexion avec le bluetooth ne se faisait plus et cela faisait planter l'application.
 
-### Lidar
+#### Lidar
 
 Le second problème auquel j'ai fait face à été celui de la récupération des données fournies par le Lidar. La aussi, mon erreur a été de m'arrêter au code trouver durant le sprint 0. J'avais regardé en un premier temps ce que le site officiel du fabriquant des Lidar, appelé [Slamtec](https://www.slamtec.com). Dans la section mettant à disposition le kit de développement, on y trouve un repository GitHub. Dans ce repository, on y trouve des fichiers écrits en C++, qui une fois compilé rendent les informations du lidar en temps réel dans la console. Ayant vu que le code fonctionnait parfaitement et qu'il s'agissait du code fournit par le fabriquant officiel des Lidar, je me suis dit que c'était la meilleure option. Avant de m'y connaître un plus dans le domaine des GPIO, je n'avais aucun idée de ce qu'était les pins (TX, RX). Par conséquent, même si l'on dessoudais le port et qu'on soudait les câbles aux pins associées, je n'avais aucune idée de comment je pourrais récupérer ses informations étant donné que il n'y a pas une API qui me rend de valeur sûre. Du moins, c'est ce que je pensais, car après avoir compris ce qu'était ces 2 pins. Je me suis renseigné afin de voir si il n'y avait pas de moyen de récupérer les informations en python depuis ces pins. En faisant mes recherches, je suis tombé sur ce [repository GitHub](https://github.com/SkoltechRobotics/rplidar) qui permettait d'intéragir avec le lidar connecté en USB. Cependant, le code C++ était déjà modifié en conséquence et  mon script python s'occupait de traiter les données reçues dans la console de manière asynchrone et pour finir je n'ai pas très bien compris sa manière dont il pouvait récupérer les distances pour les angles avec son code.
 
-### Alimentation
+#### Alimentation
 
 Le troisième problème majeur a été les problèmes d'alimentations. Ayant mis un système d'alimentation générale afin d'éviter de surcharger le courant des différents rapsberry pi, j'ai pu me rendre compte que certain éléments pompaient trop de courant et que par conséquent l'alimentation générale n'en fournissait pas suffisement pour certain raspberry pi. Pour m'en rendre compte, j'ai du démonter la voiture, montée de A à Z afin d'y tester unitairement chaque composants pour m'assurer que ce n'était pas un problème matériel, ce qui m'a pris beaucoup de temps. Tout cela, pour me rendre compte qu'il s'agissait d'un problème de courant trop faible distribué par la batterie externe. 
 
-## Résultat
+### Résultat
 
-## Ce qu'il reste à faire
+### Ce qu'il reste à faire
 
-## Améliorations possibles
+### Améliorations possibles
 
-## Bilan personnel
+### Bilan personnel
 
-## Apports personnels
+### Apports personnels
 
-# Conclusion
+## Conclusion
 
-# Journal de bord
+## Journal de bord
 
-# Glossaire
+## Glossaire
 
-# Code source
+## Code source
