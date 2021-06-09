@@ -2107,5 +2107,25 @@ def automatic_mode():
 
 * Pour commencer la journée, j'ai voulu ajouté à la section parlant du clonnage des cartes SD quels étaient les requirements (l'ensemble des paquets à installé de notre côté si l'on veut reproduire à l'identique le setup)
 * J'ai remarqué que dans la documentation technique il n'y avait plus la table des matières. Après avoir regardé sur internet, je me suis rendu compte qu'il ne pouvait pas y avoir plus d'un titre 1 avec `# Titre`. J'ai donc tout décalé d'un `#`.
-
+* Pour faire la sélection des paquets exacts à télécharger pour faire fonctionner les différents scripts, j'ai pris une carte SD vide et j'ai fait l'installation nécessaire pour le pi 4, j'ai noté les paquets puis effacé les données de la carte afin de faire pareil avec le code pour le pi 0 wifi
+* J'ai fait une copie de la carte SD du pi 4
 #### Liens consultés
+
+##### Python
+* https://stackoverflow.com/questions/8073097/how-to-freeze-packages-installed-only-in-the-virtual-environment#17417522
+* https://github.com/EbenKouao/pi-camera-stream-flask
+
+##### Markdown
+* https://github.com/EdjeElectronics/TensorFlow-Object-Detection-on-the-Raspberry-Pi/issues/18
+
+##### Raspberry Pi
+* https://stackoverflow.com/questions/57860201/importerror-libavcodec-so-57-cannot-open-shared-object-file-no-such-file-or-d
+* https://stackoverflow.com/questions/47113029/importerror-libsm-so-6-cannot-open-shared-object-file-no-such-file-or-directo#47114731
+* https://howchoo.com/pi/bluetooth-raspberry-pi
+* https://github.com/getsenic/gatt-python
+* https://stackoverflow.com/questions/19876079/cannot-find-module-cv2-when-using-opencv
+* https://numpy.org/devdocs/user/troubleshooting-importerror.html
+* https://stackoverflow.com/questions/20518632/importerror-numpy-core-multiarray-failed-to-import#21946788
+* https://stackoverflow.com/questions/48012582/pillow-libopenjp2-so-7-cannot-open-shared-object-file-no-such-file-or-directo#50583153
+* https://github.com/EdjeElectronics/TensorFlow-Object-Detection-on-the-Raspberry-Pi/issues/18
+* https://stackoverflow.com/questions/54833807/libwebp-so-6-import-error-in-raspberry-pi-3b

@@ -183,6 +183,54 @@ Le Pi 0 WiFi détient moins d'éléments que le Pi 4, cependant il en détient q
 
 ![Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants](./images/raspberrys/rsp0wifi_schema_captionned.png "Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants")
 
+##### Images des Raspberry Pi
+Les images qui ont été faites pour les différents raspberry pi nécessitent de télécharger divers paquets. Ces paquets doivent être installés sur les divers raspberry pi afin de lancer les différents scripts.
+
+###### Pi 4
+
+Voici la liste des commandes à effectuer dans l'ordre :
+
+Pour mettre à jour le raspberry pi, utilisez la commande : `sudo apt update && sudo apt full-upgrade`
+Ensuite, il faut installer git : `sudo apt install git`
+- Cloner le repos : `git clone https://github.com/ACKERMANNGUE/ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee`
+- Installer les dépendences :
+    - `sudo apt install python3-pip`
+    - `sudo pip3 install flask`
+    - `sudo pip3 install flask_bootstrap`
+    - `sudo pip3 install flask_nav`
+    - `sudo pip3 install flask_cors`
+    - `sudo pip3 install pylgbst`
+    - `sudo pip3 install gatt`
+    - `sudo pip3 install pygatt`
+    - `sudo pip3 install matplotlib`
+    - `sudo pip3 install -U numpy`
+    - `sudo apt install libatlas-base-dev`
+    - `sudo apt install bluetooth pi-bluetooth bluez blueman`
+    - `sudo pip3 install RPi.GPIO`
+    - `sudo pip3 install opencv-python`
+    - `sudo pip3 install smbus`
+    - `sudo pip3 install dbus`
+    - `sudo pip3 install asyncio`
+
+###### Pi 0 WiFi
+
+Pour mettre à jour le raspberry pi, utilisez la commande : `sudo apt update && sudo apt full-upgrade`
+Ensuite, il faut installer git : `sudo apt install git`
+- Cloner le repos : `git clone https://github.com/ACKERMANNGUE/ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee`
+- Installer les dépendences :
+    - `sudo apt install python3-pip`
+    - `sudo pip3 install flask`
+    - `sudo pip3 install flask_cors`
+    - `sudo pip3 install libwebp-dev`
+    - `sudo pip3 install libtiff-dev`
+    - `sudo pip3 install libopenjp2-7`
+    - `sudo pip3 install libilmbase-dev`
+    - `sudo pip3 install libopenexr-dev`
+    - `sudo pip3 install opencv-python`
+    - `sudo pip3 install smbus`
+    - `sudo pip3 install picamera`
+    - `sudo pip3 install imutils`
+
 ###### Clonage de carte SD
 
 Pour cloner les cartes SD, j'utilise le programme [balenaEtcher](https://www.balena.io/etcher/). 
@@ -326,7 +374,7 @@ import RPi.GPIO as GPIO
 
 ##### Utilisation
 
-C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du [GPIO](######Pi-4), car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. J'ai branché le _Out_ à la pin 16 (GPIO 23). Voici le code de test :
+C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du [GPIO](#######Pi-4), car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. J'ai branché le _Out_ à la pin 16 (GPIO 23). Voici le code de test :
 
 ```python
 import RPi.GPIO as GPIO
@@ -1146,7 +1194,7 @@ Ensuite, il faut télécharger le code du repository Git avec la commande suivan
 
 Après l'installation, il faut redémarrer le raspberry pi. Une fois redémarré, le raspberry pi devrait avoir cette adresse IP : `10.3.141.1`. Pour pouvoir avoir accès à cette informations, ouvrez un terminal et exécuter la commande : `ip a` ou `ifconfig`. Normalement vous devriez voir un section nommée `Wlan0`.
 
-[IMAGE_EXEMPLE_Wlan0]
+![Détails des éléments réseaux avec ip a](./images/raspap/ipa_wlan0.png "Détails des éléments réseaux avec ip a")
 
 #### Utilisation
 Une fois RaspAP installé, vous pouvez vous rendre sur `10.3.141.1` dans un navigateur web afin d'avoir accès au tableau de bord de RaspAP : 
@@ -1175,15 +1223,15 @@ Pour changer le mot de passe `Pre Shared Key`, il faut aller dans l'onglet `Secu
 
 Pour terminer, cliquez sur `Restart hotspot` en bas à droite de la page.
 
-[IMAGE_APPARITION_RESEAU_WIFI]
+![Apparition du point d'accès dans la liste des réseaux sans fil disponibles](./images/raspap/rsp_apparition.png "Apparition du point d'accès dans la liste des réseaux sans fil disponibles")
 
 Si vous souhaitez connaître toutes les personnes connectées sur le réseau, allez dans la section `DHCP Server` :
 
-[IMAGE_DHCP_SERVER]
+![Onglet de la liste des client connectés au réseau](./images/raspap/ui_dashboard_dhcp_server_tab_client_list.png "Onglet de la liste des client connectés au réseau")
 
 Une fois sur la page `DHCP Server`, allez dans l'onglet `Client list`. Vous y trouverez une liste comme celle ci :
 
-[IMAGE_LISTE_APPAREILS_CO]
+![Liste des client connectés au réseau](./images/raspap/ui_dashboard_dhcp_server_client_list.png "Liste des client connectés au réseau")
 
 
 ## Manuel technique
@@ -1194,6 +1242,8 @@ Dans cette rubrique, nous allons voir comment les divers éléments utilisés da
 Étant donné que les divers éléments communiquent par le WiFi, ils doivent donc avoir des adresses IP. Dans mon cas, j'ai choisis d'utiliser des adresses IP statiques. Tous les Raspberry Pi 0 WiFi sont connectés sur le point d'accès qu'est le Raspberry Pi 4. Pour comprendre comment le Raspberry Pi 4 a été transformer en point d'accès, veuillez lire la [section parlant de la mise en place de RaspAP](##RaspAP)
 
 ![Plan réseau des Raspberry Pi](./images/raspberrys/rsp_plan_reseau.png "Plan réseau des Raspberry Pi")
+
+
 
 ### Branchements
 #### Alimentation générale
@@ -2380,13 +2430,49 @@ Le troisième problème majeur a été les problèmes d'alimentations. Ayant mis
 
 ### Résultat
 
+Au cours de ces 2 derniers mois, j'ai pu mettre en place les différents capteurs et intéragir avec eux : Le Bright Pi, La Camera, Le Flying-Fish ainsi que le Lidar. J'ai pu mettre le site web en place, celui permettant de gérer les capteurs et de voir les données qu'ils retournent. J'ai pu télécommander la voiture à distance depuis cette même interface et faire la voiture se déplacée en evitant des obstacles ainsi qu'évite de tomber dans le vide.
+
 ### Ce qu'il reste à faire
+
+Dans ce projet, il manque l'utilisation du GPS, l'affichage sur les caméras des carrés montrant les obstacles et leurs distances, l'insertion des choix pris par la voiture dans une base de données afin de pouvoir avoir accès aux logs. Avoir une image de la voiture et des lumières signifiant à l'utilisateur quels capteurs sont allumés et lesquels sont éteints.
 
 ### Améliorations possibles
 
-### Bilan personnel
+#### Optimisation
+
+En un premier temps, j'aimerai pouvoir ajuster le système automatique de la voiture car je pense que l'on peut rendre la détection plus précise. 
+
+Je pense que le code n'est pas très propre par moment, par conséquent que l'on pourrait optimiser certaine partie du code qu'il s'agisse de performance ou tout simplement de suppression de redondance dans certain cas. De plus, je pense que l'utilisation du Lidar branché sur le pins du GPIO du Raspberry Pi 4 serait moins coûteux énergétiquement et en terme de calculs pour le processeur.
+
+D'une manière ou d'une autre, je pense qu'il est possible d'optimiser le code affichant le radar en un quasi-temps réel car le problème qu'il y a avec le graphique, c'est que les images s'affichent à la suite et au fur et à mesure s'empilent, donc elles prennent du retard.
+
+#### Caméra
+On pourrait : 
+* Faire en sorte que la voiture se déplace le long d'une ligne détectée au sol
+* Enregistrer le flux vidéo afin de pouvoir les regarder plus tard depuis l'interface web.
+
+
+#### Lidar
+On pourrait faire la voiture se déplacer dans une certaine zone, que les données du lidar soit enregristrées afin de pouvoir cartographier une pièce. 
+
+#### Capteur de son
+On pourrait ajouter un système de commandes vocales à l'aide d'un capteur de son. Ces commandes seraient des instructions simples tel que `Connexion`, `Avance`, `Recule`, `Tourne à droite`, etc...
+
 
 ### Apports personnels
+
+|                  Fonctionnalité                 | Taux d'apport |                                                        Commentaire                                                        |
+|:-----------------------------------------------:|:-------------:|:-------------------------------------------------------------------------------------------------------------------------:|
+| Mise en place de serveurs Flask                 |      100%     |                                                                                                                           |
+| Utilisation du Bright Pi                        |      50%      | La librairie fournit avec est très complète et simple d'utilisation                                                       |
+| Utilisation du Flying-Fish                      |      80%      | M. Bonvin m'a indiqué que l'on pouvait récupérer le signal depuis les pins étant des GPIO                                 |
+| Utilisation du Lidar                            |      70%      | L'API C++ a été modifiée par moi pour rendre les distances des angles comme j'en avais besoin                             |
+| Utilisation des caméras                         |      40%      | J'ai utilisé le code d'EbenKouao pour avoir accès au flux vidéo à distance                                                |
+| Création d'un point d'accès                     |      40%      | L'application RaspAP m'a permis de rapidement transformer un Raspberry Pi en point d'accès                                |
+| Gestion de la voiture                           |      60%      | Le code de pylgbst m'a été très bénéfique                                                                                 |
+| Communication entre les divers appareils        |      100%     |                                                                                                                           |
+| Gestion des capteurs à distance                 |      100%     |                                                                                                                           |
+| Affichage des données du Lidar sur un graphique |      70%      | La librairie Matplotlib m'a permis d'afficher les données dans un format de graphique en cercle pour représenter un radar |
 
 ## Conclusion
 

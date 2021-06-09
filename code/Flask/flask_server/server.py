@@ -3,7 +3,6 @@ from flask import Flask, request, render_template, Response, redirect
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
-from flask_cors import *
 from car import CarController
 import RPi.GPIO as GPIO
 import matplotlib
