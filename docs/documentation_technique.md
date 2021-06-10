@@ -2489,6 +2489,14 @@ Après avoir passé 2 mois à travailler sur ce projet, je suis heureux de ce qu
 
 Cependant, j'ai vraiment adoré travailler sur ce projet et ce même si je n'ai pu poser que les bases du projet actuellement, s'il m'était demandé de le refaire. Je sauterai sans hésiter sur l'occasion, car ce projet m'a permis de prendre conscience de la complexité concernant la mise en place des divers modules et de leur interconnexions, mais tout en générant une énorme satisfaction lorsque l'on peut voir que notre travail est retranscrit sur quelque chose de physique. En effet, tous les problèmes que j'ai pu rencontrer dans ce projet m'ont fait perdre du temps, mais ont été très pratiques pour apprendre de mes erreurs ainsi que de garder une approche méthodique envers les choses les divers éléments que je traitais afin d'éviter de reproduire les mêmes erreurs dans le futur.
 
+### Remerciements
+
+Je souhaite remercier :
+
+* M. Bonvin qui a su m'aiguiller dans ce projet
+* M. Garcia qui a commandé les divers éléments nécessaires à la réalisation du projet
+* Mes camarades de classe qui m'ont soutenus durant les moments de déprime dû aux impasses auxquels j'ai fait face
+
 ## Journal de bord
 
 ## Glossaire

@@ -2103,7 +2103,7 @@ def automatic_mode():
 * https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.run_forever
 * https://docs.python.org/3/library/asyncio-dev.html
 
-### 08.06.2021
+### 09.06.2021
 
 * Pour commencer la journée, j'ai voulu ajouté à la section parlant du clonnage des cartes SD quels étaient les requirements (l'ensemble des paquets à installé de notre côté si l'on veut reproduire à l'identique le setup)
 * J'ai remarqué que dans la documentation technique il n'y avait plus la table des matières. Après avoir regardé sur internet, je me suis rendu compte qu'il ne pouvait pas y avoir plus d'un titre 1 avec `# Titre`. J'ai donc tout décalé d'un `#`.
@@ -2129,3 +2129,14 @@ def automatic_mode():
 * https://stackoverflow.com/questions/48012582/pillow-libopenjp2-so-7-cannot-open-shared-object-file-no-such-file-or-directo#50583153
 * https://github.com/EdjeElectronics/TensorFlow-Object-Detection-on-the-Raspberry-Pi/issues/18
 * https://stackoverflow.com/questions/54833807/libwebp-so-6-import-error-in-raspberry-pi-3b
+
+### 10.06.2021
+
+* J'ai commencé la journée en corrigeant certaines coquilles et tournures de phrases dans ma documentation technique et j'ai rajouté une idée que j'ai eu la veille dans la section des améliorations possibles
+* Ensuite, j'ai regardé comment mettre en place [Doxygen](https://sourceforge.net/projects/doxygen/) afin d'exporter les scripts python
+    * Grâce à M. Paulino, j'ai pu configurer Doxygen afin d'exporter les scripts :
+        * Il faut dans l'onglet `expert` puis `Project`, il faut cocher la case `OPTIMIZE_OUTPUT_JAVA`, 
+        * Ensuite dans `Build`, il faut cocher les cases `EXTRACT_ALL`, `HIDE_SCOPE_NAMES`, `SORT_BRIEF_DOCS`
+        * Ensuite dans `Input`, il faut cocher la case `RECURSIVE` et ajouter `*.py` dans `FILTER_PATTERNS` 
+        * Ensuite, vu que je ne souhaite pas avoir du LaTeX, dans `LaTeX`, j'ai décoché la case `GENERATE_LATEX`
+    * Une fois ces étapes passées, on peut lancer la compilation dans l'onglet `Run`
