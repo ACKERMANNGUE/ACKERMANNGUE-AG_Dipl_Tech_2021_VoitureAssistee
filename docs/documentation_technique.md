@@ -126,7 +126,7 @@ Dans cette section, je vais vous expliquer la structure de mon projet.
 ```
 ├── code
 │   ├── Flask
-│   └── Toolsbox
+│   └── Toolbox
 ├── docs
 │   ├── images
 │   ├── plans
@@ -142,7 +142,7 @@ Dans cette section, je vais vous expliquer la structure de mon projet.
 Le répertoire :
 
 * `Flask` contient les 2 serveurs Flask à exécuter sur les divers Raspberry Pi
-* `Toolsbox` contient les différents fichiers python et C++ utilisés pour les premiers tests des divers éléments à utiliser dans l'application
+* `Toolbox` contient les différents fichiers python et C++ utilisés pour la mise en place ainsi que les premiers tests des divers éléments à utiliser dans l'application
 * `images` contient toutes les images utilisées pour la documentation technique
 * `plans` contient les fichiers QCad des plans initiaux de la voiture
 * `site` la documentation compilée par MkDocs
@@ -179,17 +179,17 @@ Il est important de noter, que chaque composant est branché à l'alimentation g
 Par conséquent sur cet exemple, les câbles rouges, blancs et violets sont branchés sur le courant et les câbles noirs, gris et bruns sont branchés sur la terre.
 
 #### Raspberry Pi 4
-De base, le Raspberry Pi 4 était branché à l'alimentation générale et était alimenté par les pins 4 et 6 du [GPIO](######Pi-4), mais après quelque tests, j'ai pu me rendre compte que certain Raspberry Pi 0 WiFi branchés au système d'alimentation générale n'avaient pas assez de courant et ne faisaient que de redémarrer en boucle. C'est pourquoi après réflexion, j'ai branché le Raspberry Pi 4 sur la batterie externe en USB-C comme ceci afin de libérer de la charge de courant de l'alimentation générale :
+De base, le Raspberry Pi 4 était branché à l'alimentation générale et était alimenté par les pins 4 et 6 du GPIO, mais après quelque tests, j'ai pu me rendre compte que certain Raspberry Pi 0 WiFi branchés au système d'alimentation générale n'avaient pas assez de courant et ne faisaient que de redémarrer en boucle. C'est pourquoi après réflexion, j'ai branché le Raspberry Pi 4 sur la batterie externe en USB-C comme ceci afin de libérer de la charge de courant de l'alimentation générale :
 
 ![Branchement du Raspberry Pi 4 à la batterie externe](./images/branchements/rsp4_usb-c.png "Branchement du Raspberry Pi 4 à la batterie externe")
 
 ##### Lidar
-Le lidar est connecté à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](###Radar-360-(RPLiDAR-A2M8)).
+Le lidar est connecté à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le Lidar dans le guide de mise en place.
 
 Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la section parlant de Matplotlib dans le guide de mise en place et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
 
 ##### Fyling-Fish
-Les divers Flying-Fish sont branchés par des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés par des câbles bleus sur les [GPIO](#####Pi-4) suivant du raspberry pi 4 :
+Les divers Flying-Fish sont branchés par des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés par des câbles bleus sur les GPIO suivant du raspberry pi 4 :
 
 ![GPIO utilisés pour les Flying-Fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les Flying-Fish")
 
@@ -279,6 +279,8 @@ Lors de l'appuie sur cet élément, cela va lancer une déconnexion avec la voit
 
 ##### Comment fonctionne la connexion avec la voiture ?
 La création de la connexion avec la voiture s'effectue dans la classe `car`. Cette classe lorsque l'on crée un nouvel objet, va demander une connexion Gatt au Technic Hub.
+
+[[DIAG DE CLASSE DE VOITURE]]
 
 ```python
 class CarController:
@@ -797,7 +799,7 @@ Voici le code de déplacement pour la voiture dans la classe `CarController` :
 On peut remarquer que dans les différentes méthodes j'utilise des `try` / `except`. Je suis obligé de les utiliser, car lors de l'envoie d'une commande au `Technic Hub`, il doit retourner une réponse, cependant des fois il se peut que pendant qu'il traite une commande, avant qu'il aie pu répondre une autre commande lui soit envoyée. Ce qui cause un problème de confirmation, et qui par conséquent faisait crash le programme.
 
 ###### Boutons
-Pour comprendre plus en détail le rôle des boutons, veuillez vous référer à la [section décrivant l'interface pour la télécommande](#####Page-de-télécommande). 
+Pour comprendre plus en détail le rôle des boutons présent sur la page de télécommande, veuillez vous référer à la section décrivant l'interface pour la télécommande. 
 
 Voici comment les actions qu'ils produisent sont gérées :
 
@@ -836,7 +838,7 @@ def form_remote_response():
 
 ###### Comment fonctionne le système d'arrêt d'urgence de la voiture ?
 
-Le système d'argent d'urgence est basé sur ce que les [Flying-Fish](###Détecteur-infrarouge-(Flying-Fish)) détectent.
+Le système d'argent d'urgence est basé sur ce que les Flying-Fish détectent.
 
 Au lancement de l'application, la méthode `initFlyingFish()` est exécutée, ils ont tous été attachés à une méthode qui se déclenchera à chaque changement d'état :
 
@@ -903,7 +905,7 @@ def get_grounded_state(self):
 
 ```
 
-Pour savoir quel Flying-Fish est associée à quel GPIO, veuillez [lire la section en parlant dans la section des branchements](####Fyling-Fish).
+Pour savoir quel Flying-Fish est associée à quel GPIO, veuillez lire la section en parlant dans la section des branchements.
 
 Lorsque l'un des Flying-Fish change d'état et que son nouvel état n'est pas `True`, la voiture coupe alors ses moteurs. Si le nouvel état est `True`, cela veut dire que l'on vient de détecter du sol.
 
@@ -1071,14 +1073,66 @@ cors = CORS(app, withCredentials = True)
 
 ...
 
+```
+
+Chaque composant est considéré comme un capteur ayant pour valeurs de classes un nom ainsi qu'un état : 
+
+[[DIAG CLASS SENSOR]]
+
+Vu que l'on accède à cette route depuis une autre adresse IP, il est nécessaire d'ajouter cette ligne `@cross_origin()` car elle permet de laisser l'accès à cette route depuis un autre domaine. De plus, il est important d'ajouter `'OPTIONS'` car lors de la première _lecture_ de CORS, cette méthode sera utilisée en tant qu'approbation de la part du serveur.
+
+```python
+
 @app.route('/<string:sensor>/<int:state>', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def sensor_control(sensor=None, state=None):
+"""
+    Route used to manage the sensors
+
+    sensors : The sensor's name
+    state : The sensor's state
+    """
+    state = int(state)
+    
+    global brightpi_led_state
+    global brightpi_ir_state
+    global camera_state
+    global light
+    
+    sensors = []
+    # Check the request method
+    if request.method == "POST": 
+        # Change the state
+        if sensor == constants.SENSOR_BRIGHTPI_LED:
+            if state == constants.STATE_ON:
+                brightpi_led_state = constants.STATE_ON
+            elif state == constants.STATE_OFF:
+                brightpi_led_state = constants.STATE_OFF
+            light.set_led_on_off(brightpilib.LED_WHITE, brightpi_led_state)
+        elif sensor == constants.SENSOR_BRIGHTPI_IR:
+            if state == constants.STATE_ON:
+                brightpi_ir_state = constants.STATE_ON
+            elif state == constants.STATE_OFF:
+                brightpi_ir_state = constants.STATE_OFF
+            light.set_led_on_off(brightpilib.LED_IR, brightpi_ir_state)
+
+        if sensor == constants.SENSOR_CAMERA:
+            if state == constants.STATE_ON:
+                camera_state = constants.STATE_ON
+            elif state == constants.STATE_OFF:
+                camera_state = constants.STATE_OFF
+
+    # Add the sensors into the list
+    sensors.append(Sensor(constants.SENSOR_BRIGHTPI_LED, brightpi_led_state))
+    sensors.append(Sensor(constants.SENSOR_BRIGHTPI_IR, brightpi_ir_state))
+    sensors.append(Sensor(constants.SENSOR_CAMERA, camera_state))
+
+    return convert_array_to_json(sensors)
+
 ...
 
 ```
 
-Car vu que l'on accède à cette route depuis une autre adresse IP, il est nécessaire d'ajouter cette ligne `@cross_origin()` car elle permet de laisser l'accès à cette route depuis un autre domaine. De plus, il est important d'ajouter `'OPTIONS'` car lors de la première _lecture_ de CORS, cette méthode sera utilisée en tant qu'approbation de la part du serveur.
 
 Dans la page du tableau de bord pour l'utilisateur se trouve l'appel AJAX qui va effectuer l'action :
 
@@ -1181,6 +1235,8 @@ function execute(endpoint) {
 </script>
 
 ```
+
+
 
 ###### Récupération du flux vidéo
 La méthode que j'utilise pour récupérer le flux vidéo de la caméra avec un serveur Flask est tiré de [ce github](https://github.com/EbenKouao/pi-camera-stream-flask).
@@ -1388,7 +1444,5 @@ Je souhaite remercier :
 * M. Bonvin qui a su m'aiguiller dans ce projet
 * M. Garcia qui a commandé les divers éléments nécessaires à la réalisation du projet
 
-
-## Glossaire
 
 ## Code source
