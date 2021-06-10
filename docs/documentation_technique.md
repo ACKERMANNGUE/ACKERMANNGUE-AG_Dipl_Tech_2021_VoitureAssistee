@@ -141,7 +141,7 @@ Dans cette section, je vais vous expliquer la structure de mon projet.
 
 Le répertoire :
 
-* `Flask` contient les 2 serveurs Flask a exécuter sur les divers Raspberry Pi
+* `Flask` contient les 2 serveurs Flask à exécuter sur les divers Raspberry Pi
 * `Toolsbox` contient les différents fichiers python et C++ utilisés pour les premiers tests des divers éléments à utiliser dans l'application
 * `images` contient toutes les images utilisées pour la documentation technique
 * `plans` contient les fichiers QCad des plans initiaux de la voiture
@@ -149,7 +149,7 @@ Le répertoire :
 
 ### Plan réseau
 
-Étant donné que les divers éléments communiquent par le WiFi, ils doivent donc avoir des adresses IP. Dans mon cas, j'ai choisis d'utiliser des adresses IP statiques. Tous les Raspberry Pi 0 WiFi sont connectés sur le point d'accès qu'est le Raspberry Pi 4. Pour comprendre comment le Raspberry Pi 4 a été transformer en point d'accès, veuillez lire la [section parlant de la mise en place de RaspAP](##RaspAP)
+Étant donné que les divers éléments communiquent par le WiFi, ils doivent donc avoir des adresses IP. Dans mon cas, j'ai choisis d'utiliser des adresses IP statiques. Tous les Raspberry Pi 0 WiFi sont connectés sur le point d'accès qu'est le Raspberry Pi 4. Pour comprendre comment le Raspberry Pi 4 a été transformer en point d'accès, veuillez lire la section parlant de RaspAP dans le guide de mise en place des éléments utilisés.
 
 ![Plan réseau des Raspberry Pi](./images/raspberrys/rsp_plan_reseau.png "Plan réseau des Raspberry Pi")
 
@@ -186,7 +186,7 @@ De base, le Raspberry Pi 4 était branché à l'alimentation générale et étai
 ##### Lidar
 Le lidar est connecté à l'adaptateur qui permet de le brancher en USB au raspberry comme vu dans la section portant sur le [Lidar](###Radar-360-(RPLiDAR-A2M8)).
 
-Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la [section parlant de Matplotlib](##Matplotlib) et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
+Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la section parlant de Matplotlib dans le guide de mise en place et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
 
 ##### Fyling-Fish
 Les divers Flying-Fish sont branchés par des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés par des câbles bleus sur les [GPIO](#####Pi-4) suivant du raspberry pi 4 :
@@ -194,16 +194,16 @@ Les divers Flying-Fish sont branchés par des câbles gris et violets à l'alime
 ![GPIO utilisés pour les Flying-Fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les Flying-Fish")
 
 ### Raspberry Pi 0 WiFi
-Le raspberry pi 0 WiFi est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du [GPIO](######Pi-4).
+Le raspberry pi 0 WiFi est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du GPIO.
 
 ##### Caméra 
 La caméra est branché de la même manière que dans la section explicant la module caméra dans le document de mise en place des composants.
 
 #### Bright Pi 
-Le Bright Pi est branché sur l'alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des [GPIO](#####Pi-4) I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la [section explicant ce qu'est le bright pi](###Phare-(Bright-Pi-v1.0)).
+Le Bright Pi est branché sur l'alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des GPIO I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la section explicant ce qu'est le Bright Pi dans le guide de mise en place.
 
 ### Analyse organique
-Dans cette section, nous allons parler plus en détails du fonctionnement de l'application.
+Dans cette section, nous allons parler plus en détails du fonctionnement de l'application et des éléments mis en place.
 
 #### Raspberry Pi 4
 ##### À quoi sert-il ?
@@ -269,7 +269,7 @@ Voici ce à quoi ça ressemble lorsque l'on active une caméra et le radar :
 
 J'ai choisis d'afficher les éléments à la suite, car l'utilisateur va utiliser son téléphone pour se connecter à l'application. Il est donc plus pratique d'avoir accès aux éléments comme ceci étant sur un téléphone portable.
 
-Pour comprendre comment le flux des caméras sont récupérer, veuillez regarder la [section parlant du récupération du flux vidéo](#####Récupération-du-flux-vidéo).
+Pour comprendre comment le flux des caméras sont récupérer, veuillez regarder la section parlant du récupération du flux vidéo dans le guide de mise en place. 
 
 ###### Page création de connexion
 Lors de l'appuie sur cet élément, cela va lancer une connexion avec la voiture.
@@ -613,37 +613,6 @@ int main(int argc, const char *argv[])
 
 
 ```
-
-###### Qu'est-ce qu'Asyncio ?
-[Asyncio](https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.run_forever) est une librairie python nous permettant d'écrire du code `concurrent` c'est à dire sur différents thread à l'aide de la syntaxe async / await. 
-
-Pour installer asyncio il faut exécuter la commande `sudo pip3 install asyncio`.
-Comment est-ce qu'il s'utilise ?
-
-Voici un code d'exemple pour montrer la mécanique :
-
-```python
-import asyncio
-
-try:
-    # Tente de récupérer la référence d'une boucle
-    loop = asyncio.get_running_loop()
-except RuntimeError:  
-    # Si aucune référence n'a été trouvée, on crée une nouvelle boucle
-    loop = asyncio.new_event_loop()
-finally:
-    # Exécution de la méthode jusqu'à ce qu'elle soit finie
-    loop.run_until_complete(main("Ceci est un message asynchrone"))
-
-
-async def main(message)
-    print(message)
-```
-
-Il est important de savoir qu'il existe 2 différentes manière d'exécuter le code.
-
-1. `run_until_complete`, va exécuter le code jusqu'à être arrivé à la fin de la méthode.
-2. `run_forever`, va exécuter le code en boucle jusqu'à ce que l'on stop la boucle avec `loop.stop()`.
 
 ##### Comment fonctionne la gestion du déplacement de la voiture ?
 ###### Télécommande
@@ -1333,7 +1302,7 @@ Durant quasiment toute la durée du projet j'ai eu des problèmes de connexion a
 
 #### Lidar
 
-Le second problème auquel j'ai fait face à été celui de la récupération des données fournies par le Lidar. La aussi, mon erreur a été de m'arrêter au code trouver durant le sprint 0. J'avais regardé en un premier temps ce que le site officiel du fabriquant des Lidar, appelé [Slamtec](https://www.slamtec.com). Dans la section mettant à disposition le kit de développement, on y trouve un repository GitHub. Dans ce repository, on y trouve des fichiers écrits en C++, qui une fois compilé rendent les informations du lidar en temps réel dans la console. Ayant vu que le code fonctionnait parfaitement et qu'il s'agissait du code fournit par le fabriquant officiel des Lidar, je me suis dit que c'était la meilleure option. Avant de m'y connaître un plus dans le domaine des GPIO, je n'avais aucun idée de ce qu'était les pins (TX, RX). Par conséquent, même si l'on dessoudais le port et qu'on soudait les câbles aux pins associées, je n'avais aucune idée de comment je pourrais récupérer ses informations étant donné que il n'y a pas une API qui me rend de valeur sûre. Du moins, c'est ce que je pensais, car après avoir compris ce qu'était ces 2 pins. Je me suis renseigné afin de voir si il n'y avait pas de moyen de récupérer les informations en python depuis ces pins. En faisant mes recherches, je suis tombé sur ce [repository GitHub](https://github.com/SkoltechRobotics/rplidar) qui permettait d'intéragir avec le lidar connecté en USB. Cependant, le code C++ était déjà modifié en conséquence et  mon script python s'occupait de traiter les données reçues dans la console de manière asynchrone et pour finir je n'ai pas très bien compris sa manière dont il pouvait récupérer les distances pour les angles avec son code.
+Le second problème auquel j'ai fait face à été celui de la récupération des données fournies par le Lidar. La aussi, mon erreur a été de m'arrêter au code trouver durant le sprint 0. J'avais regardé en un premier temps ce que le site officiel du fabriquant des Lidar, appelé [Slamtec](https://www.slamtec.com). Dans la section mettant à disposition le kit de développement, on y trouve un repository GitHub. Dans ce repository, on y trouve des fichiers écrits en C++, qui une fois compilé rendent les informations du lidar en temps réel dans la console. Ayant vu que le code fonctionnait parfaitement et qu'il s'agissait du code fournit par le fabriquant officiel des Lidar, je me suis dit que c'était la meilleure option. Par conséquent, même si l'on dessoudais le port et qu'on soudait les câbles aux pins associées, je n'avais aucune idée de comment je pourrais récupérer ses informations étant donné que il n'y a pas une API qui me rend de valeur sûre. Du moins, c'est ce que je pensais, car après avoir compris ce qu'était ces 2 pins. Je me suis renseigné afin de voir si il n'y avait pas de moyen de récupérer les informations en python depuis ces pins. En faisant mes recherches, je suis tombé sur ce [repository GitHub](https://github.com/SkoltechRobotics/rplidar) qui permettait d'intéragir avec le lidar connecté en USB. Cependant, le code C++ était déjà modifié en conséquence et  mon script python s'occupait de traiter les données reçues dans la console de manière asynchrone et pour finir je n'ai pas très bien compris sa manière dont il pouvait récupérer les distances pour les angles avec son code.
 
 #### Alimentation
 
@@ -1394,9 +1363,23 @@ Pour plus de praticiter, je pense qu'il serait une bonne idée de rendre les cam
 
 ## Conclusion
 
-Après avoir passé 2 mois à travailler sur ce projet, je suis heureux de ce que j'ai fait pu faire, car n'ayant jamais vraiment travaillé avec l'informatique physique dans ma vie, malgré la complexité que cela a été pour moi, j'ai pu apprendre énormément de choses à ce sujet. Cette découverte aussi importante soit-elle, m'aura fait travailler d'arrache-pied sur ce projet afin de pouvoir produire quelque chose de concret. Durant ce travail, dû à mon manque d'expertise dans le domaine, j'ai pris plus de temps que prévu pour faire les tâches que je devais faire afin de mener à bien ce projet.
+Il s'est passé plein de choses durant ce travail de diplôme. Ces deux derniers mois ont mis mes connaissances informatiques à rudes épreuve. Malgré les divers problèmes que j'ai pu rencontrer durant l'élaboration de ce projet, je suis très fier de ce que j'ai réussis à produire avec les connaissances actuelles que j'ai, n'étant pas un professionnel dans le domaine de l'informatique physique. Grâce à ces 2 mois j'ai pu apprendre de nombreuses choses. 
 
-Cependant, j'ai vraiment adoré travailler sur ce projet et ce même si je n'ai pu poser que les bases du projet actuellement, s'il m'était demandé de le refaire. Je sauterai sans hésiter sur l'occasion, car ce projet m'a permis de prendre conscience de la complexité concernant la mise en place des divers modules et de leur interconnexions, mais tout en générant une énorme satisfaction lorsque l'on peut voir que notre travail est retranscrit sur quelque chose de physique. En effet, tous les problèmes que j'ai pu rencontrer dans ce projet m'ont fait perdre du temps, mais ont été très pratiques pour apprendre de mes erreurs ainsi que de garder une approche méthodique envers les choses les divers éléments que je traitais afin d'éviter de reproduire les mêmes erreurs dans le futur.
+La première est qu'il est nécessaire d'avoir une approche méthodique et organisée face au travail qui nous est demandé de réaliser. Pour ma part, je devais réaliser une application permettant de controler une voiture à distance ainsi de pouvoir intéragir avec les capteurs suivant :
+
+- Caméra infrarouge
+- Bright Pi
+- GPS
+- Flying-Fish
+- RPLiDAR
+
+Et de récupérer leurs données s'ils en retournent. L'élément que je n'ai pas pu implémenter a été le GPS ainsi que la fonctionnalité d'affichage des obstacles sur la caméra. Cependant, on peut avoir accès au radar 360° en temps réel, ce qui remplace à peu près cette fonctionnalité. De plus, avec mon projet on peut controler la voiture à distance et intéragir en temps réel avec les capteurs attachés à la voiture à l'aide de son téléphone portable.
+
+La seconde est qu'avoir une approche méthodique et rigoureuse est très importante, car c'est en décomposant les diverses thématiques que l'on peut plus aisément prévoir les points bloquants afin de les résoudrent. En plus de toutes les connaissances que j'avais, décomposer les problèmes auxquels j'ai fait face, m'a permis de les résoudrent plus aisément. 
+
+La dernière chose est la connaissance générale concernant l'informatique physique. De plus, je pense que c'est une très bonne chose de mettre ses compétences à l'épreuve de temps en temps, car connaissant les bases d'un domaine, si dans ce même domaine on donne tout ce qu'on a pour mener à bien un projet, ce dernier nous le rendra en aquisition de connaissances. 
+
+C'est pourquoi je suis fier de ce que j'ai réalisé durant ce travail de diplôme et que s'il m'était demandé de refaire un projet similaire, je sauterai sur l'occasion sans hésiter, car pouvoir créer quelque chose de physique est très satisfaisant.
 
 ### Remerciements
 
@@ -1404,9 +1387,7 @@ Je souhaite remercier :
 
 * M. Bonvin qui a su m'aiguiller dans ce projet
 * M. Garcia qui a commandé les divers éléments nécessaires à la réalisation du projet
-* Mes camarades de classe qui m'ont soutenus durant les moments de déprime dû aux impasses auxquels j'ai fait face
 
-## Journal de bord
 
 ## Glossaire
 

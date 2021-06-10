@@ -1,17 +1,13 @@
-# Welcome to MkDocs
+--- 
+title: "Page d'accueil de la documentation en ligne"
+author: Ackermann Gawen
+---
+# Bienvue sur la documentation en ligne de Voiture Assistée
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+## Navigation
 
-## Commands
+Pour lire : 
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+* la documentation technique du projet, cliquez sur l'onglet `Documentation technique de Voiture Assistée`
+* le journal de bord, cliquez sur l'onglet `Journal de bord du projet`
+* le guide de mise en place des différents éléments utilisés, cliquez sur l'onglet `Guide de mise en place des différents logiciels et matériels utilisés`

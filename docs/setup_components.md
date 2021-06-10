@@ -1,3 +1,7 @@
+--- 
+title: "Guide de mise en place des différents logiciels et matériels utilisés"
+author: Ackermann Gawen
+---
 # Guide de mise en place des différents logiciels et matériels utilisés
 
 ## Description détaillée de chaques capteurs
@@ -19,7 +23,7 @@ En fonction du modèle du Raspberry Pi, il faut flasher les cartes SD avec diff�
 
 Un Raspberry Pi 4B est constitué des différents éléments :
 
-![Schéma du Raspberry Pi 4 montrant où se situent chaques composants](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaques composants") Pour le [GPIO](######Pi-4), voici les pins disponibles :
+![Schéma du Raspberry Pi 4 montrant où se situent chaques composants](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaques composants") Pour le GPIO, voici les pins disponibles :
 
 ![Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)")
 À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du `PoE HAT Header`.
@@ -38,7 +42,8 @@ Les images qui ont été faites pour les différents raspberry pi nécessitent d
 Voici la liste des commandes à effectuer dans l'ordre :
 
 Pour mettre à jour le raspberry pi, utilisez la commande : `sudo apt update && sudo apt full-upgrade`
-Ensuite, il faut installer git : `sudo apt install git`
+Ensuite, il faut installer git : `sudo apt install git`.
+
 - Cloner le repos : `git clone https://github.com/ACKERMANNGUE/ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee`
 - Installer les dépendences :
     - `sudo apt install python3-pip`
@@ -62,7 +67,8 @@ Ensuite, il faut installer git : `sudo apt install git`
 ##### Pi 0 WiFi
 
 Pour mettre à jour le raspberry pi, utilisez la commande : `sudo apt update && sudo apt full-upgrade`
-Ensuite, il faut installer git : `sudo apt install git`
+Ensuite, il faut installer git : `sudo apt install git`.
+
 - Cloner le repos : `git clone https://github.com/ACKERMANNGUE/ACKERMANNGUE-AG_Dipl_Tech_2021_VoitureAssistee`
 - Installer les dépendences :
     - `sudo apt install python3-pip`
@@ -221,7 +227,7 @@ import RPi.GPIO as GPIO
 
 #### Utilisation
 
-C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du [GPIO](#######Pi-4), car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. J'ai branché le _Out_ à la pin 16 (GPIO 23). Voici le code de test :
+C'est pourquoi, j'ai branché le _Vcc_ sur la pin 1 du GPIO, car le voltage accepté est compris entre 3 et 6 Volts, ensuite j'ai branché le _Gnd_ sur la pin 6. J'ai branché le _Out_ à la pin 16 (GPIO 23). Voici le code de test :
 
 ```python
 import RPi.GPIO as GPIO
@@ -426,7 +432,7 @@ Les codes fournis fonctionnent parfaitement, sauf qu'aucun ne permet de récupé
 
 Il y avait 2 possibilités :
 
-1. La première était de récupérer les câbles séries (rouge, bleu, jaune, ...) et de les connecter directement au [GPIO](#####Pi-4) sur les pins qui fournissent :
+1. La première était de récupérer les câbles séries (rouge, bleu, jaune, ...) et de les connecter directement au GPIO sur les pins qui fournissent :
    - TX
    - RX
    - VCC
@@ -900,11 +906,11 @@ Le mode actuel, change et je deviens la machine qui écoute le port spécifié e
 
 ![Diagramme de séquence du T'chat en bluetooth](./images/bluetooth/diag_seq_tchat_bluetooth.png "Diagramme de séquence du T'chat en bluetooth")
 
-### Remote GPIO
+## Remote GPIO
 
-Le [GPIO](######Pi-4) nous permet d'accéder aux entrées / sorties des appareils connectés au Raspberry Pi.
+Le GPIO nous permet d'accéder aux entrées / sorties des appareils connectés au Raspberry Pi.
 
-#### Mise en place
+### Mise en place
 
 Pour pouvoir utiliser le Remote GPIO, il faut tout d'abord l'activer dans l'interface de configuration présente ci-dessous :
 
@@ -922,7 +928,7 @@ Ensuite nous aurons besoin de Pi GPIO :
 
 Une fois installé, il faut lancer le service PiGPIO : `sudo pigpiod` sur la machine qui sera contrôlée à distance.
 
-#### Utilisation
+### Utilisation
 
 Pour pouvoir se connecter au Raspberry Pi, il faut connaître son adresse IP. Une fois connue, voici comment établir une connexion :
 
@@ -959,11 +965,11 @@ Dans notre cas, avec M. Moreno interprétant le Raspberry Pi _principal_ qui int
 
 Matplotlib est une librairie complète permettant la création de statistiques sur un large panel de graphiques utilisable en Python.
 
-#### Mise en place
+### Mise en place
 
 Il faut d'abord installer Matplotlib avec la commande `sudo apt-get install python3-matplotlib` 
 
-#### Utilisation
+### Utilisation
 
 Sur le site officiel, il y a cet exemple que j'ai repris pour en faire l'affichage de mon radar 360° :
 
@@ -1079,3 +1085,37 @@ Si vous souhaitez connaître toutes les personnes connectées sur le réseau, al
 Une fois sur la page `DHCP Server`, allez dans l'onglet `Client list`. Vous y trouverez une liste comme celle ci :
 
 ![Liste des client connectés au réseau](./images/raspap/ui_dashboard_dhcp_server_client_list.png "Liste des client connectés au réseau")
+
+## Asyncio ?
+[Asyncio](https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.run_forever) est une librairie python nous permettant d'écrire du code `concurrent` c'est à dire sur différents thread à l'aide de la syntaxe async / await. 
+
+### Mise en place
+Pour installer asyncio il faut exécuter la commande `sudo pip3 install asyncio`.
+
+
+### Utilisation
+
+Voici un code d'exemple pour montrer la mécanique :
+
+```python
+import asyncio
+
+try:
+    # Tente de récupérer la référence d'une boucle
+    loop = asyncio.get_running_loop()
+except RuntimeError:  
+    # Si aucune référence n'a été trouvée, on crée une nouvelle boucle
+    loop = asyncio.new_event_loop()
+finally:
+    # Exécution de la méthode jusqu'à ce qu'elle soit finie
+    loop.run_until_complete(main("Ceci est un message asynchrone"))
+
+
+async def main(message)
+    print(message)
+```
+
+Il est important de savoir qu'il existe 2 différentes manière d'exécuter le code.
+
+1. `run_until_complete`, va exécuter le code jusqu'à être arrivé à la fin de la méthode.
+2. `run_forever`, va exécuter le code en boucle jusqu'à ce que l'on stop la boucle avec `loop.stop()`.
