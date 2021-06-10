@@ -1281,7 +1281,7 @@ Le lidar est connecté à l'adaptateur qui permet de le brancher en USB au raspb
 Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la [section parlant de Matplotlib](##Matplotlib) et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
 
 ##### Fyling-Fish
-Les divers Flying-Fish sont branchés des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés avec des câbles bleus sur les [GPIO](#####Pi-4) suivant du raspberry pi 4 :
+Les divers Flying-Fish sont branchés par des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés par des câbles bleus sur les [GPIO](#####Pi-4) suivant du raspberry pi 4 :
 
 ![GPIO utilisés pour les Flying-Fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les Flying-Fish")
 
@@ -1290,8 +1290,9 @@ Le raspberry pi 0 WiFi est branché à l'alimentation générale et est aliment�
 
 ##### Caméra 
 La caméra est branché de la même manière que dans la [section explicant la module caméra](####Caméra)
+
 #### Bright Pi 
-Le bright Pi est branché sur l'alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des [GPIO](#####Pi-4) I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la [section explicant ce qu'est le bright pi](###Phare-(Bright-Pi-v1.0)).
+Le Bright Pi est branché sur l'alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des [GPIO](#####Pi-4) I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la [section explicant ce qu'est le bright pi](###Phare-(Bright-Pi-v1.0)).
 
 ### Scripts
 Dans cette section, nous allons parler des différents scripts utilisés ainsi que leurs comportement.
@@ -1321,6 +1322,7 @@ La barre de navigation nous permet de changer de page. Cette dernière contient 
 Ceci est la page sur laquelle on arrive lorsque l'on tape l'adresse IP du point d'accès avec le port 5000.
 
 ![Page d'accueil du site web](./images/site_web/page_accueil.png "Page d'accueil du site web")
+
 * A. Bouton créant une connexion avec la voiture
 
 ###### Page de télécommande
@@ -2025,7 +2027,7 @@ def get_grounded_state(self):
 
 Pour savoir quel Flying-Fish est associée à quel GPIO, veuillez [lire la section en parlant dans la section des branchements](####Fyling-Fish).
 
-Lorsque l'un des Flying-Fish change d'état et que son état ne deviens pas à `True`, la voiture coupe alors ses moteurs. Si le nouvel état est `True`, cela veut dire que l'on vient de détecter du sol.
+Lorsque l'un des Flying-Fish change d'état et que son nouvel état n'est pas `True`, la voiture coupe alors ses moteurs. Si le nouvel état est `True`, cela veut dire que l'on vient de détecter du sol.
 
 À noter, que l'utilisateur peut toujours faire avancer sa voiture lorsque l'un des capteurs ne détecte plus de sol, car si on arrive dans une configuration comme celle ci :
 
@@ -2033,9 +2035,9 @@ Lorsque l'un des Flying-Fish change d'état et que son état ne deviens pas à `
 
 Sachant qu'il s'agit de l'utilisateur, il est conscient qu'il peut toujours avancer, cependant je n'ai pas laissé l'utilisateur allez dans le sens du vide, car même s'il se peut qu l'on arrive dans la quasi-même configuration que vu dans l'image du dessus, mais avec les deux roues entres les tables. 
 
-Je ne l'ai pas laissé avancer dans le sens du vide, car dans la plupart du temps si la ligne de détecteur ne détecte plus de sol. C'est qu'il y a de fortes chances que nous puissions pas attendeindre l'autre côté du vide et par conséquent faire tomber la voiture dans ce vide.
+Je ne l'ai pas laissé avancer dans le sens du vide, car dans la plupart du temps si la ligne de détecteur ne détecte plus de sol. C'est qu'il y a de fortes chances que nous puissions pas atteindre l'autre côté du vide et par conséquent faire tomber la voiture dans ce dernier.
 
-Mais dans le cas ou la voiture est au bord de table de justesse, l'utilisateur peut tout de même mettre les gaz à fond. Ce qui est déconseillé, car certes dès la non détection du sol les moteurs se coupent mais à cause de l'inertie des roues, la voiture tombe dans le vide. Il est donc très important que dans ce genre de cas l'utilisateur soit conscient de ce qu'il fait.
+Mais dans le cas ou la voiture est au bord de table de justesse, l'utilisateur peut tout de même mettre les gaz à fond. Ce qui est déconseillé, car certes  du moment ou ne l'on détecte plus de sol, les moteurs se coupent, mais à cause de l'inertie des roues, la voiture tombe dans le vide. Il est donc très important que dans ce genre de cas l'utilisateur soit conscient de ce qu'il fait.
 
 ![Voiture au bord de table](./images/voiture/voiture_bord_de_table_extreme.png "Voiture au bord de table")
 
@@ -2416,7 +2418,7 @@ Durant la conception de ce projet, n'étant pas assez préparer théoriquement d
 #### Bluetooth
 
 Le tout premier problème que j'ai eu était le problème de la connexion bluetooth à la voiture. Ce problème m'a très vite fait perdre une semaine et demi de travail car je m'y étais mal pris dès le départ. La première erreur que j'ai faite a été de penser que pour se connecter à la voiture, il fallait utiliser notre propore connexion bluetooth à la voiture, ceci avec un script python utilisant le module bluetooth. J'ai donc été faire des recherches sur les potentiels manières de s'y connecter. 
-La première librairie que j'ai essayée fut celle de [BrickNil](https://github.com/virantha/bricknil), mais je n'avais rien réussi à en faire. Ensuite, je suis tombé sur la libraire [pyb00st](https://github.com/JorgePe/pyb00st) mais en lisant sa documentation j'ai vu qu'il parlait d'un `BOOST Move Hub` pour son code et vu que j'utilisais un `Technic Hub` et que même visuellement il ne ressemblait pas au hub que j'utilisais, j'ai par conséquent cru que cela ne fonctionnerait pas. Cependant, dans la documentation de `pyb00st`, je me suis aperçu que pour se connecter à la voiture il utilisait 2 méthodes diverses avec le bluetooth. `Bluez` et `BlueGiga`, ayant entendu parler de `Bluez`, je m'était dit qu'il fallait donc que je me connecte par moi même avec le bluetooth du raspberry pi à la voiture. J'ai donc repris le code que j'ai fait pour le t'chat bluetooth que j'ai tenté de modifier afin de me connecter à la voiture. Après plusieurs tentatives qui n'ont pas fonctionner, je suis tombé sur la libraire de [pylgbst](https://github.com/undera/pylgbst) et en lisant ce qu'il proposait, j'ai vu qu'il proposait différents types de connexion bluetooth (`gatt`, `bluepy` et `bleak`) et permettait la connexion avec un appareil à l'aide de sa mac adresse. Le truc qui m'a fait perdre un peu de temps, c'est que vu qu'il parlait du `LEGO BOOST Move Hub` lui aussi. Je m'étais donc dit que j'allais me concentrer sur l'envoie de commandes par le bluetooth à la voiture grâce à `pygatt`, car j'étais tombé sur [cette documentation](https://lego.github.io/lego-ble-wireless-protocol-docs/). J'ai vu qu'elle y proposait des commandes en bytes, exactement ce que je pensais avoir besoin. Après avoir tenté, 2-3 approches avec gatt, je me suis dit que j'allais aller fouiller dans le code `pylgbst` pour voir comment ils eux envoyaient leurs commandes. En fouillant, je me suis aperçu qu'il faisait exactement ce que j'avais besoin, c'est donc comme ça que j'ai pu m'apercevoir, sans que ce ne soit écrit quelque part, que le `Technic Hub` était considéré lui aussi comme un `Move Hub`, par conséquent, en utilisant le code de `pylgbst`, j'ai pu résoudre ce problème.
+La première librairie que j'ai essayée fut celle de [BrickNil](https://github.com/virantha/bricknil), mais je n'avais rien réussi à en faire. Ensuite, je suis tombé sur la libraire [pyb00st](https://github.com/JorgePe/pyb00st) mais en lisant sa documentation j'ai vu qu'il parlait d'un `BOOST Move Hub` pour son code et vu que j'utilisais un `Technic Hub` et que même visuellement il ne ressemblait pas au hub que j'utilisais, j'ai par conséquent cru que cela ne fonctionnerait pas. Cependant, dans la documentation de `pyb00st`, je me suis aperçu que pour se connecter à la voiture il utilisait 2 méthodes diverses avec le bluetooth. `Bluez` et `BlueGiga`, ayant entendu parler de `Bluez`, je m'était dit qu'il fallait donc que je me connecte par moi même avec le bluetooth du raspberry pi à la voiture. J'ai donc repris le code que j'ai fait pour le t'chat bluetooth que j'ai tenté de modifier afin de me connecter à la voiture. Après plusieurs tentatives qui n'ont pas fonctionner, je suis tombé sur la libraire de [pylgbst](https://github.com/undera/pylgbst) et en lisant ce qu'il proposait, j'ai vu qu'il proposait différents types de connexion bluetooth (`gatt`, `bluepy` et `bleak`) et permettait la connexion avec un appareil à l'aide de sa mac adresse. Le truc qui m'a fait perdre un peu de temps, c'est que vu qu'il parlait du `LEGO BOOST Move Hub` lui aussi. Je m'étais donc dit que j'allais me concentrer sur l'envoie de commandes par le bluetooth à la voiture grâce à `pygatt`, car j'étais tombé sur [cette documentation](https://lego.github.io/lego-ble-wireless-protocol-docs/). J'ai vu qu'elle y proposait des commandes en bytes, exactement ce que je pensais avoir besoin. Après avoir tenté, 2-3 approches avec gatt, je me suis dit que j'allais aller fouiller dans le code `pylgbst` pour voir comment eux ils envoyaient leurs commandes. En fouillant, je me suis aperçu qu'il faisait exactement ce que j'avais besoin, c'est donc comme ça que j'ai pu m'apercevoir, sans que ce ne soit écrit quelque part, que le `Technic Hub` était considéré lui aussi comme un `Move Hub`, par conséquent, en utilisant le code de `pylgbst`, j'ai pu résoudre ce problème.
 
 Durant quasiment toute la durée du projet j'ai eu des problèmes de connexion avec la voiture et ce car j'utilisais un singleton afin de recréer un objet `car` dans chaque méthode nécessitant l'appel aux méthodes de la voiture. Le problème était que lorsque je demandais une instance lors de la création de la voiture (sachant qu'il existait toujours une instance en cours), la connexion avec le bluetooth ne se faisait plus et cela faisait planter l'application.
 
@@ -2430,11 +2432,11 @@ Le troisième problème majeur a été les problèmes d'alimentations. Ayant mis
 
 ### Résultat
 
-Au cours de ces 2 derniers mois, j'ai pu mettre en place les différents capteurs et intéragir avec eux : Le Bright Pi, La Camera, Le Flying-Fish ainsi que le Lidar. J'ai pu mettre le site web en place, celui permettant de gérer les capteurs et de voir les données qu'ils retournent. J'ai pu télécommander la voiture à distance depuis cette même interface et faire la voiture se déplacée en evitant des obstacles ainsi qu'évite de tomber dans le vide.
+Au cours de ces 2 derniers mois, j'ai pu mettre en place les différents capteurs et intéragir avec eux : Le Bright Pi, La Camera, Le Flying-Fish ainsi que le Lidar. J'ai pu mettre le site web en place, celui permettant de gérer les capteurs et de voir les données qu'ils retournent. J'ai pu télécommander la voiture à distance depuis cette même interface et faire la voiture se déplacer en evitant des obstacles ainsi que la chute lorsqu'une roue ne détecte plus de sol.
 
 ### Ce qu'il reste à faire
 
-Dans ce projet, il manque l'utilisation du GPS, l'affichage sur les caméras des carrés montrant les obstacles et leurs distances, l'insertion des choix pris par la voiture dans une base de données afin de pouvoir avoir accès aux logs. Avoir une image de la voiture et des lumières signifiant à l'utilisateur quels capteurs sont allumés et lesquels sont éteints. La dernière chose qu'il change est le système de pondérations des différents éléments, car pour l'instant cette pondération est équivalente pour tous les capteurs. C'est-à-dire que les flying-fish ont autant d'importance que le lidar en terme de priorités des opérations en fonction de leur pondérations.
+Dans ce projet, il manque l'utilisation du GPS, l'affichage sur les caméras des carrés montrant les obstacles et leurs distances, l'insertion des choix pris par la voiture dans une base de données afin de pouvoir avoir accès aux logs, avoir une image de la voiture et des icônes signifiant à l'utilisateur quels capteurs sont allumés et lesquels sont éteints. La dernière chose qu'il manque est le système de pondérations des différents éléments, car pour l'instant cette pondération est équivalente pour tous les capteurs. C'est-à-dire que les flying-fish ont autant d'importance que le lidar en terme de priorités des opérations en fonction de leur pondérations.
 
 ### Améliorations possibles
 
@@ -2448,6 +2450,7 @@ D'une manière ou d'une autre, je pense qu'il est possible d'optimiser le code a
 
 #### Caméra
 On pourrait : 
+
 * Faire en sorte que la voiture se déplace le long d'une ligne détectée au sol
 * Enregistrer le flux vidéo afin de pouvoir les regarder plus tard depuis l'interface web.
 * Mettre en place la reconnaissance de panneau et de feux de signalisation pour que la voiture réagisse en conséquence
@@ -2457,6 +2460,12 @@ On pourrait faire la voiture se déplacer dans une certaine zone, que les donné
 
 #### Capteur de son
 On pourrait ajouter un système de commandes vocales à l'aide d'un capteur de son. Ces commandes seraient des instructions simples tel que `Connexion`, `Avance`, `Recule`, `Tourne à droite`, etc...
+
+#### Interface utilisateur
+
+Pour plus de praticiter, je pense qu'il serait une bonne idée de rendre les caméras changeable à l'aide d'un balayage sur le côté :
+
+![Utilisation d'un balayage pour changer la caméra](./images/maquettes/amelioration_gestion_camera.jpg "Utilisation d'un balayage pour changer la caméra")
 
 
 ### Apports personnels
@@ -2478,7 +2487,7 @@ On pourrait ajouter un système de commandes vocales à l'aide d'un capteur de s
 
 Après avoir passé 2 mois à travailler sur ce projet, je suis heureux de ce que j'ai fait pu faire, car n'ayant jamais vraiment travaillé avec l'informatique physique dans ma vie, malgré la complexité que cela a été pour moi, j'ai pu apprendre énormément de choses à ce sujet. Cette découverte aussi importante soit-elle, m'aura fait travailler d'arrache-pied sur ce projet afin de pouvoir produire quelque chose de concret. Durant ce travail, dû à mon manque d'expertise dans le domaine, j'ai pris plus de temps que prévu pour faire les tâches que je devais faire afin de mener à bien ce projet.
 
-Cependant, j'ai vraiment adoré travailler sur ce projet et ce même si je n'ai pu poser que les bases du projet actuellement, s'il m'était demandé de le refaire. Je sauterai sans hésiter sur l'occasion, car ce projet m'a permis de prendre conscience de la complexité concernant à la mise en place de divers modules et de les faire communiquer ensemble, mais tout en générant une énorme satisfaction lorsque l'on peut voir que notre travail est retranscrit sur quelque chose de physique. Tous les problèmes que j'ai pu rencontrer dans ce projet m'ont été très pratiques pour apprendre de mes erreurs et de garder une approche méthodique envers les choses que je traitais afin d'éviter de reproduire les mêmes erreurs dans le futur.
+Cependant, j'ai vraiment adoré travailler sur ce projet et ce même si je n'ai pu poser que les bases du projet actuellement, s'il m'était demandé de le refaire. Je sauterai sans hésiter sur l'occasion, car ce projet m'a permis de prendre conscience de la complexité concernant la mise en place des divers modules et de leur interconnexions, mais tout en générant une énorme satisfaction lorsque l'on peut voir que notre travail est retranscrit sur quelque chose de physique. En effet, tous les problèmes que j'ai pu rencontrer dans ce projet m'ont fait perdre du temps, mais ont été très pratiques pour apprendre de mes erreurs ainsi que de garder une approche méthodique envers les choses les divers éléments que je traitais afin d'éviter de reproduire les mêmes erreurs dans le futur.
 
 ## Journal de bord
 
