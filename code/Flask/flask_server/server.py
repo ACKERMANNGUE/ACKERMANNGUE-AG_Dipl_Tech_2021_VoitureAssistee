@@ -1,3 +1,9 @@
+# @file server.py
+# @brief The main server. It allows the user to control the car and manage sensors
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
+
 from time import sleep
 from flask import Flask, request, render_template, Response, redirect
 from flask_bootstrap import Bootstrap

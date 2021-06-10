@@ -1,3 +1,8 @@
+# @file bluetooth_data_transfer.py
+# @brief Connect to a device and exchange messages
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
 import bluetooth
 import sys
 import time

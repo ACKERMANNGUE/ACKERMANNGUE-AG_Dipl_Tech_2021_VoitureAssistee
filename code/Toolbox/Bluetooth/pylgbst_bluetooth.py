@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+# @file pylgbst_bluetooth.py
+# @brief Connect to the car using the pylgbst library
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
+
 from pylgbst.hub import MoveHub
 from pylgbst.peripherals import Motor, EncodedMotor
 from pylgbst import *

@@ -1,3 +1,9 @@
+# @file main.py
+# @brief Used to test shapes recognition
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
+
 import numpy as np
 import cv2
 

@@ -1,3 +1,8 @@
+# @file bluetooth_connection.py
+# @brief Connect to a device using Bleak bluetooth connection
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
 import asyncio
 from bleak import BleakClient
 import datetime

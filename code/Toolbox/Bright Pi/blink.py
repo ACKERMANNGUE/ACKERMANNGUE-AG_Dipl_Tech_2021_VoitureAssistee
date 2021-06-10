@@ -1,3 +1,9 @@
+# @file blink.py
+# @brief Make the Bright Pi blink
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
+
 from brightpi import *  # Concerne les fichiers relatifs au Bright Pi
 import time  # Concerne le délai à attendre lors d’instructions
 

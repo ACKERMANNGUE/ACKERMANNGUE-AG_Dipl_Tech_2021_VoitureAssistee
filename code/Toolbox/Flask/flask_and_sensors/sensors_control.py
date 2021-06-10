@@ -1,3 +1,9 @@
+# @file sensors_control.py
+# @brief Used to test the sensors
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
+
 from brightpi import *  # Concerne les fichiers relatifs au Bright Pi
 # Concerne les classes de Flask à utiliser
 from flask import Flask, request, render_template, Response

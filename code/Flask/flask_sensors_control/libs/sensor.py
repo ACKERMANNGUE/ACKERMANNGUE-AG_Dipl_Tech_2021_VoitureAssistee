@@ -1,3 +1,8 @@
+# @file sensor.py
+# @brief The class which determine what is a sensor
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
 import json
 class Sensor:
     """Class containing the values of the sensor

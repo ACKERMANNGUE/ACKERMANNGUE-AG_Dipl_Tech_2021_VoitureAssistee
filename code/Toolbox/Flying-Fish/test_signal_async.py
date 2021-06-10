@@ -1,4 +1,8 @@
+# @file test_signal_async.py
+# @brief Used to test the installation of the flying-fish in an event mode
 
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
 
 import RPi.GPIO as GPIO
 import time

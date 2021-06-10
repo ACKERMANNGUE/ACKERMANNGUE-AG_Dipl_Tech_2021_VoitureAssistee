@@ -1,3 +1,8 @@
+# @file car.py
+# @brief The class which manage what the car can do
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
 import math
 from pylgbst.comms.cgatt import GattConnection
 from pylgbst.hub import MoveHub

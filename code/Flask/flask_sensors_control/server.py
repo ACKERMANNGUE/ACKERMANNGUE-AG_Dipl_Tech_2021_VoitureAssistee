@@ -1,3 +1,9 @@
+# @file server.py
+# @brief The server which turns on all raspberry pi 0 Wifi. It manage the sensors state from the main server and return the video feed of the camera
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
+
 from time import sleep
 from flask import Flask, request, render_template, Response, redirect, jsonify, make_response
 from flask_cors import CORS

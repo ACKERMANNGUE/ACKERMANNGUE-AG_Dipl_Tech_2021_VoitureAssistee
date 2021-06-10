@@ -1,3 +1,9 @@
+# @file cam_test.py
+# @brief Used to test the streaming of the camera with flask
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
+
 from flask import Flask, render_template, Response, request
 from camera import VideoCamera
 import time

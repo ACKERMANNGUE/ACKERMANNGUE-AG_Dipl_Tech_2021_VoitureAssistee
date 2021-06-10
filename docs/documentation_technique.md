@@ -280,7 +280,7 @@ Lors de l'appuie sur cet élément, cela va lancer une déconnexion avec la voit
 ##### Comment fonctionne la connexion avec la voiture ?
 La création de la connexion avec la voiture s'effectue dans la classe `car`. Cette classe lorsque l'on crée un nouvel objet, va demander une connexion Gatt au Technic Hub.
 
-[[DIAG DE CLASSE DE VOITURE]]
+![Diagramme de classe CarController](./images/diag_classes/diag_carcontroller.png "Diagramme de classe CarController")
 
 ```python
 class CarController:
@@ -1077,7 +1077,7 @@ cors = CORS(app, withCredentials = True)
 
 Chaque composant est considéré comme un capteur ayant pour valeurs de classes un nom ainsi qu'un état : 
 
-[[DIAG CLASS SENSOR]]
+![Diagramme de classe Sensor](./images/diag_classes/diag_sensor.png "Diagramme de classe Sensor")
 
 Vu que l'on accède à cette route depuis une autre adresse IP, il est nécessaire d'ajouter cette ligne `@cross_origin()` car elle permet de laisser l'accès à cette route depuis un autre domaine. De plus, il est important d'ajouter `'OPTIONS'` car lors de la première _lecture_ de CORS, cette méthode sera utilisée en tant qu'approbation de la part du serveur.
 

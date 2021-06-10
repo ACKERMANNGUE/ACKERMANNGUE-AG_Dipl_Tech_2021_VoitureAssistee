@@ -1,3 +1,8 @@
+# @file bluetooth_data_transfer.py
+# @brief Connect to a device using the bluetooth gatt connection 
+
+# Author : Ackermann Gawen
+# Last update : 10.06.2021
 import gatt
 
 LEGO_Hub_Service = "00001623-1212-EFDE-1623-785FEABCD123"
