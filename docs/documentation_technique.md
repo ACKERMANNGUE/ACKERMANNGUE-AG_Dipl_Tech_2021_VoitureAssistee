@@ -5,7 +5,7 @@ author: Ackermann Gawen
 # Documentation technique
 ## Résumé
 
-_Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leur fonctionnement. Ce projet est un défi que je me suis lancé étant donné la découverte des différents appareils utilisés pour ce projet. La plus-value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique et de la mise en pratique des connaissances aquises durant ces 6 dernières années d'études d'informatique. Par conséquent, le but du projet est de réaliser une voiture se déplaçant à l'aide d'une interface web et qui sait se déplacer par elle-même en évitant les obstacles sur sa route.
+_Voiture assistée_ est un projet d'étude portant sur les voitures autonomes et leur fonctionnement. Ce projet est un défi que je me suis lancé étant donné la découverte des différents appareils utilisés pour ce projet. La plus-value sera surtout l'acquisition de nouvelles connaissances dans le domaine de l'informatique physique et de la mise en pratique des connaissances aquisent durant ces 6 dernières années d'études d'informatique. Par conséquent, le but du projet est de réaliser une voiture se déplaçant à l'aide d'une interface web et qui sait se déplacer par elle-même en évitant les obstacles sur sa route.
 
 ## Abstract
 
@@ -57,11 +57,11 @@ L'objectif principal de ce projet est de réaliser une voiture capable de se dé
 
 #### Environnement de développement
 
-Pour me connecter au Raspberry Pi sur lequel je travail, j'utilise :
+Pour me connecter au Raspberry Pi sur lequel je travaille, j'utilise :
 
 - Remote SSH pour éditer le code
   - Il s'agit d'une extension Visual Studio Code disponible [ici](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
-- Github pour publié mon code écrit sur le Raspberry Pi et pour mettre à disposition la documentation technique ainsi que le journal de bord
+- Github pour publier mon code écrit sur le Raspberry Pi et pour mettre à disposition la documentation technique ainsi que le journal de bord
 - RealVNC pour me connecter à distance à l'interface graphique du Raspberry Pi
   - Il s'agit d'un logiciel créant un serveur et un client permettant de contrôler à distance l'écran d'un autre ordinateur, disponible [ici](https://www.realvnc.com/fr/connect/download/viewer/).
 
@@ -92,7 +92,7 @@ L'application offre plusieurs pages.
 
 Une page d'interface utilisateur, pour avoir accès aux informations des capteurs ainsi que leurs états.
 
-![Interace utilisateur](./images/maquettes/interface.png "Interace utilisateur")
+![Interface utilisateur](./images/maquettes/interface.png "Interface utilisateur")
 
 #### Interface télécommande
 
@@ -149,13 +149,13 @@ Le répertoire :
 
 ### Plan réseau
 
-Étant donné que les divers éléments communiquent par le WiFi, ils doivent donc avoir des adresses IP. Dans mon cas, j'ai choisis d'utiliser des adresses IP statiques. Tous les Raspberry Pi 0 WiFi sont connectés sur le point d'accès qu'est le Raspberry Pi 4. Pour comprendre comment le Raspberry Pi 4 a été transformer en point d'accès, veuillez lire la section parlant de RaspAP dans le guide de mise en place des éléments utilisés.
+Étant donné que les divers éléments communiquent par le WiFi, ils doivent donc avoir des adresses IP. Dans mon cas, j'ai choisi d'utiliser des adresses IP statiques. Tous les Raspberry Pi 0 WiFi sont connectés sur le point d'accès qu'est le Raspberry Pi 4. Pour comprendre comment le Raspberry Pi 4 a été transformé en point d'accès, veuillez lire la section parlant de RaspAP dans le guide de mise en place des éléments utilisés.
 
 ![Plan réseau des Raspberry Pi](./images/raspberrys/rsp_plan_reseau.png "Plan réseau des Raspberry Pi")
 
 ### Branchements
 #### Alimentation générale
-Pour l'alimentation générale, j'ai pris 2 anciens câbles USB que j'ai coupé et dénudé afin de récupérer l'alimentation (Le VCC et le GND). Ces deux câbles ont ensuite été soudés sur les pins soudées à la plaquette.
+Pour l'alimentation générale, j'ai pris 2 anciens câbles USB que j'ai coupés et dénudés afin de récupérer l'alimentation (Le VCC et le GND). Ces deux câbles ont ensuite été soudés sur les pins soudées à la plaquette.
 
 À la base, la plaquette et la rangée de pins ressemblaient à ceci : 
 ![Plaquette et pins utilisés afin de créer le système d'alimentation générale](./images/branchements/plaquette_pin_alimentation_generale.jpg "Plaquette et pins utilisés afin de créer le système d'alimentation générale")
@@ -166,7 +166,7 @@ Pour ensuite être soudé de la sorte :
 
 ![Système d'alimentation générale](./images/branchements/alimentation_vcc_gnd_usb_2.jpg "Système d'alimentation générale")
 
-Le courant est soudé sur la pin de gauche tandis que la terre sur la pin de droite. Ce processus a été répété 2 fois car il y a du sorties présentes sur la batterie externe.
+Le courant est soudé sur la pin de gauche tandis que la terre sur la pin de droite. Ce processus a été répété 2 fois, car il y a deux sorties présentes sur la batterie externe.
 
 Les câbles USB sont branchés dans les ports Output 1 et 2 de la batterie externe comme ceci :
 
@@ -174,12 +174,12 @@ Les câbles USB sont branchés dans les ports Output 1 et 2 de la batterie exter
 
 Il est important de noter, que chaque composant est branché à l'alimentation générale de la sorte : 
 
-![Branchement des composant sur l'alimentation générale](./images/branchements/alimentation_vcc_gnd.jpg "Branchement des composant sur l'alimentation générale")
+![Branchement des composants sur l'alimentation générale](./images/branchements/alimentation_vcc_gnd.jpg "Branchement des composants sur l'alimentation générale")
 
 Par conséquent sur cet exemple, les câbles rouges, blancs et violets sont branchés sur le courant et les câbles noirs, gris et bruns sont branchés sur la terre.
 
 #### Raspberry Pi 4
-De base, le Raspberry Pi 4 était branché à l'alimentation générale et était alimenté par les pins 4 et 6 du GPIO, mais après quelque tests, j'ai pu me rendre compte que certain Raspberry Pi 0 WiFi branchés au système d'alimentation générale n'avaient pas assez de courant et ne faisaient que de redémarrer en boucle. C'est pourquoi après réflexion, j'ai branché le Raspberry Pi 4 sur la batterie externe en USB-C comme ceci afin de libérer de la charge de courant de l'alimentation générale :
+De base, le Raspberry Pi 4 était branché à l'alimentation générale et était alimenté par les pins 4 et 6 du GPIO, mais après quelques tests, j'ai pu me rendre compte que certain Raspberry Pi 0 WiFi branché au système d'alimentation générale n'avait pas assez de courant et ne faisaient que de redémarrer en boucle. C'est pourquoi après réflexion, j'ai branché le Raspberry Pi 4 sur la batterie externe en USB-C comme ceci afin de libérer de la charge de courant de l'alimentation générale :
 
 ![Branchement du Raspberry Pi 4 à la batterie externe](./images/branchements/rsp4_usb-c.png "Branchement du Raspberry Pi 4 à la batterie externe")
 
@@ -188,7 +188,7 @@ Le lidar est connecté à l'adaptateur qui permet de le brancher en USB au raspb
 
 Pour l'affichage graphique des données perçues par le Lidar, veuillez regarder la section parlant de Matplotlib dans le guide de mise en place et pour ce qui est de l'affichage des données en un quasi-temps réel, j'utilise la même méthode que pour la récupération du flux de la caméra en temps réel.
 
-##### Fyling-Fish
+##### Flying-Fish
 Les divers Flying-Fish sont branchés par des câbles gris et violets à l'alimentation générale, mais les valeurs de sorties qu'ils fournissent sont branchés par des câbles bleus sur les GPIO suivant du raspberry pi 4 :
 
 ![GPIO utilisés pour les Flying-Fish](./images/branchements/flying_fish_gpio.png "GPIO utilisés pour les Flying-Fish")
@@ -197,20 +197,20 @@ Les divers Flying-Fish sont branchés par des câbles gris et violets à l'alime
 Le raspberry pi 0 WiFi est branché à l'alimentation générale et est alimenté par les pins 4 et 6 du GPIO.
 
 ##### Caméra 
-La caméra est branché de la même manière que dans la section explicant la module caméra dans le document de mise en place des composants.
+La caméra est branchée de la même manière que dans la section expliquant le module caméra dans le document de mise en place des composants.
 
 #### Bright Pi 
-Le Bright Pi est branché sur l'alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des GPIO I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la section explicant ce qu'est le Bright Pi dans le guide de mise en place.
+Le Bright Pi est branché sur l'alimentation générale avec des câbles blancs et noirs. Les 2 autres câbles bleus et verts sont branchés sur des GPIO I2C, donc les pins 2 et 9. Pour ce qui est du câblage pour les câbles bleus et verts, il est identique à la section expliquant ce qu'est le Bright Pi dans le guide de mise en place.
 
 ### Analyse organique
-Dans cette section, nous allons parler plus en détails du fonctionnement de l'application et des éléments mis en place.
+Dans cette section, nous allons parler plus en détail du fonctionnement de l'application et des éléments mis en place.
 
 #### Raspberry Pi 4
 ##### À quoi sert-il ?
-Ce raspberry pi est le raspberry pi principale. C'est-à-dire que c'est lui qui va être le point d'accès par rapport aux autres rapsberry pi dont la voiture est équipée.
+Ce raspberry pi est le raspberry pi principal. C'est-à-dire que c'est lui qui va être le point d'accès par rapport aux autres rapsberry pi dont la voiture est équipée.
 
 ##### Comment on l'utilise ?
-Pour exécuter le script du serveur principal, il faut utiliser la commande `python3 server.py` depuis le répertoire `/code/Flask/flask_server`. Ce script est un serveur Flask nous donnant accès aux différentes fonctionnalitées de l'application.
+Pour exécuter le script du serveur principal, il faut utiliser la commande `python3 server.py` depuis le répertoire `/code/Flask/flask_server`. Ce script est un serveur Flask nous donnant accès aux différentes fonctionnalités de l'application.
 
 ##### Comment fonctionne-t-il ?
 Une fois le serveur lancé, et après nous être rendu avec un navigateur web connecté à l'adresse du raspberry pi et sur le port 5000 du réseau fournit par le raspberry pi 4. Exemple : `10.3.141.1:5000`
@@ -244,7 +244,7 @@ Cette page permet, si une connexion avec la voiture est établie, de contrôler 
 * D. Bouton coupant les moteurs de la voiture
 * E. Bouton de déconnexion à la voiture
 
-Il est important de savoir que dans le code gérant les déplacement de la voiture, j'inverse les données et les divises par 100 car les valeurs sont comprisent entre -1 et 1. La raison pour laquelle j'inverse par la suite les vitesses dans le code, c'est parce que pour avancer avec la voiture, il faut lui donner une vitesse négative, cependant je trouvais plus logique pour une interface utilisateur que pour avancer l'on ajuste la barre coulissante à droite.
+Il est important de savoir que dans le code gérant les déplacements de la voiture, j'inverse les données et les divise par 100, car les valeurs sont comprises entre -1 et 1. La raison pour laquelle j'inverse par la suite les vitesses dans le code, c'est parce que pour avancer avec la voiture, il faut lui donner une vitesse négative, cependant je trouvais plus logique pour une interface utilisateur que pour avancer l'on ajuste la barre coulissante à droite.
 
 ###### Page du tableau de bord
 Cette page permet à l'utilisateur de gérer les différents capteurs et de voir en temps réel les données reçues par les caméras ainsi que par le Lidar.
@@ -254,8 +254,8 @@ Cette page permet à l'utilisateur de gérer les différents capteurs et de voir
 * A. Case à cocher (dés)activant le mode automatique
 * B. Case à cocher (dés)activant les leds à la position indiquée 
   * Les cases de gauche allument les leds blanches, les cases de droites allument les leds infrarouges
-* C. Case à cocher (dés)activant la caméra à la position indiqué
-* D. Case à cocher (dés)activant la récuperation des données du Lidar
+* C. Case à cocher (dés)activant la caméra à la position indiquée
+* D. Case à cocher (dés)activant la récupération des données du Lidar
 
 De base, toutes les caméras sont éteintes ainsi que le radar :
 
@@ -267,15 +267,15 @@ Voici ce à quoi ça ressemble lorsque l'on active une caméra et le radar :
 
 ![Caméra et radar activé](./images/site_web/dashboard_graph_cam.gif "Caméra et radar activé")
 
-J'ai choisis d'afficher les éléments à la suite, car l'utilisateur va utiliser son téléphone pour se connecter à l'application. Il est donc plus pratique d'avoir accès aux éléments comme ceci étant sur un téléphone portable.
+J'ai choisi d'afficher les éléments à la suite, car l'utilisateur va utiliser son téléphone pour se connecter à l'application. Il est donc plus pratique d'avoir accès aux éléments comme ceci étant sur un téléphone portable.
 
-Pour comprendre comment le flux des caméras sont récupérer, veuillez regarder la section parlant du récupération du flux vidéo dans le guide de mise en place. 
+Pour comprendre comment le flux des diverses caméras sont récupérés, veuillez regarder la section parlant de le récupération du flux vidéo dans le guide de mise en place. 
 
 ###### Page création de connexion
-Lors de l'appuie sur cet élément, cela va lancer une connexion avec la voiture.
+Lors de l'appui sur cet élément, cela va lancer une connexion avec la voiture.
 
 ###### Page de déconnexion
-Lors de l'appuie sur cet élément, cela va lancer une déconnexion avec la voiture.
+Lors de l'appui sur cet élément, cela va lancer une déconnexion avec la voiture.
 
 ##### Comment fonctionne la connexion avec la voiture ?
 La création de la connexion avec la voiture s'effectue dans la classe `car`. Cette classe lorsque l'on crée un nouvel objet, va demander une connexion Gatt au Technic Hub.
@@ -330,7 +330,7 @@ def create_car():
     else:
         car = None
         return render_template(
-            "error.html", msg="Une connexion est nécessaire pour pouvoir intéragir avec"
+            "error.html", msg="Une connexion est nécessaire pour pouvoir interagir avec"
         )
 ```
 
@@ -909,21 +909,21 @@ Pour savoir quel Flying-Fish est associée à quel GPIO, veuillez lire la sectio
 
 Lorsque l'un des Flying-Fish change d'état et que son nouvel état n'est pas `True`, la voiture coupe alors ses moteurs. Si le nouvel état est `True`, cela veut dire que l'on vient de détecter du sol.
 
-À noter, que l'utilisateur peut toujours faire avancer sa voiture lorsque l'un des capteurs ne détecte plus de sol, car si on arrive dans une configuration comme celle ci :
+À noter, que l'utilisateur peut toujours faire avancer sa voiture lorsque l'un des capteurs ne détecte plus de sol, car si on arrive dans une configuration comme celle-ci :
 
 ![Voiture entre 2 tables](./images/voiture/voiture_entre_deux_tables.jpg "Voiture entre 2 tables")
 
-Sachant qu'il s'agit de l'utilisateur, il est conscient qu'il peut toujours avancer, cependant je n'ai pas laissé l'utilisateur allez dans le sens du vide, car même s'il se peut qu l'on arrive dans la quasi-même configuration que vu dans l'image du dessus, mais avec les deux roues entres les tables. 
+Sachant qu'il s'agit de l'utilisateur, il est conscient qu'il peut toujours avancer, cependant je n'ai pas laissé l'utilisateur allez dans le sens du vide, car même s'il se peut qu l'on arrive dans la quasi-même configuration que vu dans l'image du dessus, mais avec les deux roues entrent les tables. 
 
-Je ne l'ai pas laissé avancer dans le sens du vide, car dans la plupart du temps si la ligne de détecteur ne détecte plus de sol. C'est qu'il y a de fortes chances que nous puissions pas atteindre l'autre côté du vide et par conséquent faire tomber la voiture dans ce dernier.
+Je ne l'ai pas laissé avancer dans le sens du vide, car dans la plupart du temps si la ligne de détecteur ne détecte plus de sol. C'est qu'il y a de fortes chances que nous ne puissions pas atteindre l'autre côté du vide et par conséquent faire tomber la voiture dans ce dernier.
 
-Mais dans le cas ou la voiture est au bord de table de justesse, l'utilisateur peut tout de même mettre les gaz à fond. Ce qui est déconseillé, car certes  du moment ou ne l'on détecte plus de sol, les moteurs se coupent, mais à cause de l'inertie des roues, la voiture tombe dans le vide. Il est donc très important que dans ce genre de cas l'utilisateur soit conscient de ce qu'il fait.
+Mais dans le cas où la voiture est au bord de table de justesse, l'utilisateur peut tout de même mettre les gaz à fond. Ce qui est déconseillé, car certes  du moment ou ne l'on détecte plus de sol, les moteurs se coupent, mais à cause de l'inertie des roues, la voiture tombe dans le vide. Il est donc très important que dans ce genre de cas l'utilisateur soit conscient de ce qu'il fait.
 
 ![Voiture au bord de table](./images/voiture/voiture_bord_de_table_extreme.png "Voiture au bord de table")
 
 ##### Comment fonctionne le mode automatique de la voiture ?
 
-Lorsque le lidar est actif et que le mode automatique a été activée par la route `/launch_automatic_mode/<int:state>`, la méthode gérant la voiture va être lancée sur un autre thread différent de celui principal. À la base, j'avais tenté d'utiliser `Asyncio` une nouvelle fois pour ce cas mais j'avais besoin de pouvoir changer l'état de le boucle présente dans `automatic_mode()`, car avec `Asyncio` lorsque je relançais le mode automatique, il y avait des erreurs qui intervenaient tandis qu'en exécutant le programme sur un autre thread on peut relancer le mode avec l'état de la case à cocher associée.
+Lorsque le lidar est actif et que le mode automatique a été activé par la route `/launch_automatic_mode/<int:state>`, la méthode gérant la voiture va être lancée sur un autre thread différent de celui principal. À la base, j'avais tenté d'utiliser `Asyncio` une nouvelle fois pour ce cas, mais j'avais besoin de pouvoir changer l'état de la boucle présente dans `automatic_mode()`, car avec `Asyncio` lorsque je relançais le mode automatique, il y avait des erreurs qui intervenaient tandis qu'en exécutant le programme sur un autre thread on peut relancer le mode avec l'état de la case à cocher associée.
 
 ```python
 @app.route("/launch_automatic_mode/<int:state>", methods=["POST"])
@@ -1045,7 +1045,7 @@ Le serveur Flask proprose 2 routes :
 ###### Gestion des capteurs à distance
 Pour gérer les capteurs à distance, j'utilise 2 serveurs Flask différents.
 
-Le premier est le serveur principale tournant sur le Pi 4, celui sur lequel l'utilisateur sera pour avoir accès au tableau de bord, à la télécommande pour la voiture.
+Le premier est le serveur principal tournant sur le Pi 4, celui sur lequel l'utilisateur sera pour avoir accès au tableau de bord, à la télécommande pour la voiture.
 
 Le second est le serveur tournant sur les Pi 0 WiFi, son rôle est d'effectuer des actions en fonction des diverses routes utilisées. Il y a 2 routes très importantes.
 
@@ -1239,7 +1239,7 @@ function execute(endpoint) {
 
 
 ###### Récupération du flux vidéo
-La méthode que j'utilise pour récupérer le flux vidéo de la caméra avec un serveur Flask est tiré de [ce github](https://github.com/EbenKouao/pi-camera-stream-flask).
+La méthode que j'utilise pour récupérer le flux vidéo de la caméra avec un serveur Flask est tirée de [ce github](https://github.com/EbenKouao/pi-camera-stream-flask).
 
 Cette méthode se construit comme suit : 
 
@@ -1347,40 +1347,40 @@ Cette image va donc être modifiée à chaque frame reçue par la caméra.
 
 ### Problèmes bloquants
 
-Durant la conception de ce projet, n'étant pas assez préparer théoriquement dans l'univers qu'est l'informatique physique. J'ai rencontré de nombreux problèmes qui m'ont fait perdre du temps.
+Durant la conception de ce projet, n'étant pas assez préparée théoriquement dans l'univers qu'est l'informatique physique. J'ai rencontré de nombreux problèmes que j'ai su résoudre, mais qui m'ont fait perdre du temps.
 
 #### Bluetooth
 
-Le tout premier problème que j'ai eu était le problème de la connexion bluetooth à la voiture. Ce problème m'a très vite fait perdre une semaine et demi de travail car je m'y étais mal pris dès le départ. La première erreur que j'ai faite a été de penser que pour se connecter à la voiture, il fallait utiliser notre propore connexion bluetooth à la voiture, ceci avec un script python utilisant le module bluetooth. J'ai donc été faire des recherches sur les potentiels manières de s'y connecter. 
-La première librairie que j'ai essayée fut celle de [BrickNil](https://github.com/virantha/bricknil), mais je n'avais rien réussi à en faire. Ensuite, je suis tombé sur la libraire [pyb00st](https://github.com/JorgePe/pyb00st) mais en lisant sa documentation j'ai vu qu'il parlait d'un `BOOST Move Hub` pour son code et vu que j'utilisais un `Technic Hub` et que même visuellement il ne ressemblait pas au hub que j'utilisais, j'ai par conséquent cru que cela ne fonctionnerait pas. Cependant, dans la documentation de `pyb00st`, je me suis aperçu que pour se connecter à la voiture il utilisait 2 méthodes diverses avec le bluetooth. `Bluez` et `BlueGiga`, ayant entendu parler de `Bluez`, je m'était dit qu'il fallait donc que je me connecte par moi même avec le bluetooth du raspberry pi à la voiture. J'ai donc repris le code que j'ai fait pour le t'chat bluetooth que j'ai tenté de modifier afin de me connecter à la voiture. Après plusieurs tentatives qui n'ont pas fonctionner, je suis tombé sur la libraire de [pylgbst](https://github.com/undera/pylgbst) et en lisant ce qu'il proposait, j'ai vu qu'il proposait différents types de connexion bluetooth (`gatt`, `bluepy` et `bleak`) et permettait la connexion avec un appareil à l'aide de sa mac adresse. Le truc qui m'a fait perdre un peu de temps, c'est que vu qu'il parlait du `LEGO BOOST Move Hub` lui aussi. Je m'étais donc dit que j'allais me concentrer sur l'envoie de commandes par le bluetooth à la voiture grâce à `pygatt`, car j'étais tombé sur [cette documentation](https://lego.github.io/lego-ble-wireless-protocol-docs/). J'ai vu qu'elle y proposait des commandes en bytes, exactement ce que je pensais avoir besoin. Après avoir tenté, 2-3 approches avec gatt, je me suis dit que j'allais aller fouiller dans le code `pylgbst` pour voir comment eux ils envoyaient leurs commandes. En fouillant, je me suis aperçu qu'il faisait exactement ce que j'avais besoin, c'est donc comme ça que j'ai pu m'apercevoir, sans que ce ne soit écrit quelque part, que le `Technic Hub` était considéré lui aussi comme un `Move Hub`, par conséquent, en utilisant le code de `pylgbst`, j'ai pu résoudre ce problème.
+Le tout premier problème que j'ai eu était le problème de la connexion bluetooth à la voiture. Ce problème m'a très vite fait perdre une semaine et demei de travail, car je m'y étais mal pris dès le départ. La première erreur que j'ai faite a été de penser que pour se connecter à la voiture, il fallait utiliser notre propre connexion bluetooth à la voiture, ceci avec un script python utilisant le module bluetooth. J'ai donc été faire des recherches sur les potentiels manières de s'y connecter. 
+La première librairie que j'ai essayée fut celle de [BrickNil](https://github.com/virantha/bricknil), mais je n'avais rien réussi à en faire. Ensuite, je suis tombé sur la libraire [pyb00st](https://github.com/JorgePe/pyb00st) mais en lisant sa documentation j'ai vu qu'il parlait d'un `BOOST Move Hub` pour son code et vu que j'utilisais un `Technic Hub` et que même visuellement il ne ressemblait pas au hub que j'utilisais, j'ai par conséquent cru que cela ne fonctionnerait pas. Cependant, dans la documentation de `pyb00st`, je me suis aperçu que pour se connecter à la voiture il utilisait 2 méthodes diverses avec le bluetooth. `Bluez` et `BlueGiga`, ayant entendu parler de `Bluez`, je m'étais dit qu'il fallait donc que je me connecte par moi même avec le bluetooth du raspberry pi à la voiture. J'ai donc repris le code que j'ai fait pour le t'chat bluetooth que j'ai tenté de modifier afin de me connecter à la voiture. Après plusieurs tentatives qui n'ont pas fonctionné, je suis tombé sur la libraire de [pylgbst](https://github.com/undera/pylgbst) et en lisant ce qu'il proposait, j'ai vu qu'il proposait différents types de connexion bluetooth (`gatt`, `bluepy` et `bleak`) et permettait la connexion avec un appareil à l'aide de sa mac adresse. Le truc qui m'a fait perdre un peu de temps, c'est que vu qu'il parlait du `LEGO BOOST Move Hub` lui aussi. Je m'étais donc dit que j'allais me concentrer sur l'envoie de commandes par le bluetooth à la voiture grâce à `pygatt`, car j'étais tombé sur [cette documentation](https://lego.github.io/lego-ble-wireless-protocol-docs/). J'ai vu qu'elle y proposait des commandes en bytes, exactement ce que je pensais avoir besoin. Après avoir tenté, 2-3 approches avec gatt, je me suis dit que j'allais aller fouiller dans le code `pylgbst` pour voir comment eux ils envoyaient leurs commandes. En fouillant, je me suis aperçu qu'il faisait exactement ce que j'avais besoin, c'est donc comme ça que j'ai pu m'apercevoir, sans que ce ne soit écrit quelque part, que le `Technic Hub` était considéré lui aussi comme un `Move Hub`, par conséquent, en utilisant le code de `pylgbst`, j'ai pu résoudre ce problème.
 
 Durant quasiment toute la durée du projet j'ai eu des problèmes de connexion avec la voiture et ce car j'utilisais un singleton afin de recréer un objet `car` dans chaque méthode nécessitant l'appel aux méthodes de la voiture. Le problème était que lorsque je demandais une instance lors de la création de la voiture (sachant qu'il existait toujours une instance en cours), la connexion avec le bluetooth ne se faisait plus et cela faisait planter l'application.
 
 #### Lidar
 
-Le second problème auquel j'ai fait face à été celui de la récupération des données fournies par le Lidar. La aussi, mon erreur a été de m'arrêter au code trouver durant le sprint 0. J'avais regardé en un premier temps ce que le site officiel du fabriquant des Lidar, appelé [Slamtec](https://www.slamtec.com). Dans la section mettant à disposition le kit de développement, on y trouve un repository GitHub. Dans ce repository, on y trouve des fichiers écrits en C++, qui une fois compilé rendent les informations du lidar en temps réel dans la console. Ayant vu que le code fonctionnait parfaitement et qu'il s'agissait du code fournit par le fabriquant officiel des Lidar, je me suis dit que c'était la meilleure option. Par conséquent, même si l'on dessoudais le port et qu'on soudait les câbles aux pins associées, je n'avais aucune idée de comment je pourrais récupérer ses informations étant donné que il n'y a pas une API qui me rend de valeur sûre. Du moins, c'est ce que je pensais, car après avoir compris ce qu'était ces 2 pins. Je me suis renseigné afin de voir si il n'y avait pas de moyen de récupérer les informations en python depuis ces pins. En faisant mes recherches, je suis tombé sur ce [repository GitHub](https://github.com/SkoltechRobotics/rplidar) qui permettait d'intéragir avec le lidar connecté en USB. Cependant, le code C++ était déjà modifié en conséquence et  mon script python s'occupait de traiter les données reçues dans la console de manière asynchrone et pour finir je n'ai pas très bien compris sa manière dont il pouvait récupérer les distances pour les angles avec son code.
+Le second problème auquel j'ai fait face a été celui de la récupération des données fournies par le Lidar. Là aussi, mon erreur a été de m'arrêter au code trouver durant le sprint 0. J'avais regardé en un premier temps ce que le site officiel du fabricant des Lidar, appelé [Slamtec](https://www.slamtec.com). Dans la section mettant à disposition le kit de développement, on y trouve un repository GitHub. Dans ce repository, on y trouve des fichiers écrits en C++, qui une fois compilée rendent les informations du lidar en temps réel dans la console. Ayant vu que le code fonctionnait parfaitement et qu'il s'agissait du code fournit par le fabricant officiel des Lidar, je me suis dit que c'était la meilleure option. Par conséquent, même si l'on dessoudait le port et qu'on soudait les câbles aux pins associés, je n'avais aucune idée de comment je pourrais récupérer ses informations étant donné que il n'y a pas une API qui me rend de valeur sûre. Du moins, c'est ce que je pensais, car après avoir compris ce qu'était ces 2 pins. Je me suis renseigné afin de voir si il n'y avait pas de moyen de récupérer les informations en python depuis ces pins. En faisant mes recherches, je suis tombé sur ce [repository GitHub](https://github.com/SkoltechRobotics/rplidar) qui permettait d'interagir avec le lidar connecté en USB. Cependant, le code C++ était déjà modifié en conséquence et  mon script python s'occupait de traiter les données reçues dans la console de manière asynchrone et pour finir je n'ai pas très bien compris sa manière dont il pouvait récupérer les distances pour les angles avec son code.
 
 #### Alimentation
 
-Le troisième problème majeur a été les problèmes d'alimentations. Ayant mis un système d'alimentation générale afin d'éviter de surcharger le courant des différents rapsberry pi, j'ai pu me rendre compte que certain éléments pompaient trop de courant et que par conséquent l'alimentation générale n'en fournissait pas suffisement pour certain raspberry pi. Pour m'en rendre compte, j'ai du démonter la voiture, montée de A à Z afin d'y tester unitairement chaque composants pour m'assurer que ce n'était pas un problème matériel, ce qui m'a pris beaucoup de temps. Tout cela, pour me rendre compte qu'il s'agissait d'un problème de courant trop faible distribué par la batterie externe. 
+Le troisième problème majeur a été les problèmes d'alimentations. Ayant mis un système d'alimentation générale afin d'éviter de surcharger le courant des différents rapsberry pi, j'ai pu me rendre compte que certains éléments pompaient trop de courant et que par conséquent l'alimentation générale n'en fournissait pas suffisamment pour certain raspberry pi. Pour m'en rendre compte, j'ai du démonter la voiture, montée de A à Z afin d'y tester unitairement chaque composant pour m'assurer que ce n'était pas un problème matériel, ce qui m'a pris beaucoup de temps. Tout cela, pour me rendre compte qu'il s'agissait d'un problème de courant trop faible distribué par la batterie externe. 
 
 ### Résultat
 
-Au cours de ces 2 derniers mois, j'ai pu mettre en place les différents capteurs et intéragir avec eux : Le Bright Pi, La Camera, Le Flying-Fish ainsi que le Lidar. J'ai pu mettre le site web en place, celui permettant de gérer les capteurs et de voir les données qu'ils retournent. J'ai pu télécommander la voiture à distance depuis cette même interface et faire la voiture se déplacer en evitant des obstacles ainsi que la chute lorsqu'une roue ne détecte plus de sol.
+Au cours de ces 2 derniers mois, j'ai pu mettre en place les différents capteurs et interagir avec eux : Le Bright Pi, La Camera, Le Flying-Fish ainsi que le Lidar. J'ai pu mettre le site web en place, celui permettant de gérer les capteurs et de voir les données qu'ils retournent. J'ai pu télécommander la voiture à distance depuis cette même interface et faire la voiture se déplacer en évitant des obstacles ainsi que la chute lorsqu'une roue ne détecte plus de sol.
 
 ### Ce qu'il reste à faire
 
-Dans ce projet, il manque l'utilisation du GPS, l'affichage sur les caméras des carrés montrant les obstacles et leurs distances, l'insertion des choix pris par la voiture dans une base de données afin de pouvoir avoir accès aux logs, avoir une image de la voiture et des icônes signifiant à l'utilisateur quels capteurs sont allumés et lesquels sont éteints. La dernière chose qu'il manque est le système de pondérations des différents éléments, car pour l'instant cette pondération est équivalente pour tous les capteurs. C'est-à-dire que les flying-fish ont autant d'importance que le lidar en terme de priorités des opérations en fonction de leur pondérations.
+Dans ce projet, il manque l'utilisation du GPS, l'affichage sur les caméras des carrés montrant les obstacles et leurs distances, l'insertion des choix pris par la voiture dans une base de données afin de pouvoir avoir accès aux logs, avoir une image de la voiture et des icônes signifiant à l'utilisateur quels capteurs sont allumés et lesquels sont éteints. La dernière chose qu'il manque est le système de pondérations des différents éléments, car pour l'instant cette pondération est équivalente pour tous les capteurs. C'est-à-dire que les flying-fish ont autant d'importance que le lidar en termes de priorités des opérations en fonction de leur pondérations.
 
 ### Améliorations possibles
 
 #### Optimisation
 
-En un premier temps, j'aimerai pouvoir ajuster le système automatique de la voiture car je pense que l'on peut rendre la détection plus précise. 
+En un premier temps, j'aimerai pouvoir ajuster le système automatique de la voiture, car je pense que l'on peut rendre la détection plus précise. 
 
-Je pense que le code n'est pas très propre par moment, par conséquent que l'on pourrait optimiser certaine partie du code qu'il s'agisse de performance ou tout simplement de suppression de redondance dans certain cas. De plus, je pense que l'utilisation du Lidar branché sur le pins du GPIO du Raspberry Pi 4 serait moins coûteux énergétiquement et en terme de calculs pour le processeur.
+Je pense que le code n'est pas très propre par moment, par conséquent que l'on pourrait optimiser certaine partie du code qu'il s'agisse de performance ou tout simplement de suppression de redondance dans certain cas. De plus, je pense que l'utilisation du Lidar branché sur les pins du GPIO du Raspberry Pi 4 serait moins coûteux énergétiquement et en termes de calculs pour le processeur.
 
-D'une manière ou d'une autre, je pense qu'il est possible d'optimiser le code affichant le radar en un quasi-temps réel car le problème qu'il y a avec le graphique, c'est que les images s'affichent à la suite et au fur et à mesure s'empilent, donc elles prennent du retard.
+D'une manière ou d'une autre, je pense qu'il est possible d'optimiser le code affichant le radar en un quasi-temps réel, car le problème qu'il y a avec le graphique, c'est que les images s'affichent à la suite et au fur et à mesure s'empilent, donc elles prennent du retard.
 
 #### Caméra
 On pourrait : 
@@ -1390,14 +1390,14 @@ On pourrait :
 * Mettre en place la reconnaissance de panneau et de feux de signalisation pour que la voiture réagisse en conséquence
 
 #### Lidar
-On pourrait faire la voiture se déplacer dans une certaine zone, que les données du lidar soit enregristrées afin de pouvoir cartographier une pièce. 
+On pourrait faire la voiture se déplacer dans une certaine zone, que les données du lidar soient enregistrées afin de pouvoir cartographier une pièce. 
 
 #### Capteur de son
-On pourrait ajouter un système de commandes vocales à l'aide d'un capteur de son. Ces commandes seraient des instructions simples tel que `Connexion`, `Avance`, `Recule`, `Tourne à droite`, etc...
+On pourrait ajouter un système de commandes vocales à l'aide d'un capteur de son. Ces commandes seraient des instructions simples telles que `Connexion`, `Avance`, `Recule`, `Tourne à droite`, etc...
 
 #### Interface utilisateur
 
-Pour plus de praticiter, je pense qu'il serait une bonne idée de rendre les caméras changeable à l'aide d'un balayage sur le côté :
+Pour plus de praticité, je pense qu'il serait une bonne idée de rendre les caméras changeables à l'aide d'un balayage sur le côté :
 
 ![Utilisation d'un balayage pour changer la caméra](./images/maquettes/amelioration_gestion_camera.jpg "Utilisation d'un balayage pour changer la caméra")
 
@@ -1419,9 +1419,9 @@ Pour plus de praticiter, je pense qu'il serait une bonne idée de rendre les cam
 
 ## Conclusion
 
-Il s'est passé plein de choses durant ce travail de diplôme. Ces deux derniers mois ont mis mes connaissances informatiques à rudes épreuve. Malgré les divers problèmes que j'ai pu rencontrer durant l'élaboration de ce projet, je suis très fier de ce que j'ai réussis à produire avec les connaissances actuelles que j'ai, n'étant pas un professionnel dans le domaine de l'informatique physique. Grâce à ces 2 mois j'ai pu apprendre de nombreuses choses. 
+Il s'est passé plein de choses durant ce travail de diplôme. Ces deux derniers mois ont mis mes connaissances informatiques à rude épreuve. Malgré les divers problèmes que j'ai pu rencontrer durant l'élaboration de ce projet, je suis très fier de ce que j'ai réussi à produire avec les connaissances actuelles que j'ai, n'étant pas un professionnel dans le domaine de l'informatique physique. Grâce à ces 2 mois j'ai pu apprendre de nombreuses choses. 
 
-La première est qu'il est nécessaire d'avoir une approche méthodique et organisée face au travail qui nous est demandé de réaliser. Pour ma part, je devais réaliser une application permettant de controler une voiture à distance ainsi de pouvoir intéragir avec les capteurs suivant :
+La première est qu'il est nécessaire d'avoir une approche méthodique et organisée face au travail qui nous est demandé de réaliser. Pour ma part, je devais réaliser une application permettant de contrôler une voiture à distance ainsi de pouvoir interagir avec les capteurs suivant :
 
 - Caméra infrarouge
 - Bright Pi
@@ -1429,13 +1429,13 @@ La première est qu'il est nécessaire d'avoir une approche méthodique et organ
 - Flying-Fish
 - RPLiDAR
 
-Et de récupérer leurs données s'ils en retournent. L'élément que je n'ai pas pu implémenter a été le GPS ainsi que la fonctionnalité d'affichage des obstacles sur la caméra. Cependant, on peut avoir accès au radar 360° en temps réel, ce qui remplace à peu près cette fonctionnalité. De plus, avec mon projet on peut controler la voiture à distance et intéragir en temps réel avec les capteurs attachés à la voiture à l'aide de son téléphone portable.
+Et de récupérer leurs données s'ils en retournent. L'élément que je n'ai pas pu implémenter a été le GPS ainsi que la fonctionnalité d'affichage des obstacles sur la caméra. Cependant, on peut avoir accès au radar 360° en temps réel, ce qui remplace à peu près cette fonctionnalité. De plus, avec mon projet on peut contrôler la voiture à distance et interagir en temps réel avec les capteurs attachés à la voiture à l'aide de son téléphone portable.
 
-La seconde est qu'avoir une approche méthodique et rigoureuse est très importante, car c'est en décomposant les diverses thématiques que l'on peut plus aisément prévoir les points bloquants afin de les résoudrent. En plus de toutes les connaissances que j'avais, décomposer les problèmes auxquels j'ai fait face, m'a permis de les résoudrent plus aisément. 
+La seconde est qu'avoir une approche méthodique et rigoureuse est très important, car c'est en décomposant les diverses thématiques que l'on peut plus aisément prévoir les points bloquants afin de les résoudre. En plus de toutes les connaissances que j'avais, décomposer les problèmes auxquels j'ai fait face, m'a permis de les résoudre plus aisément. 
 
-La dernière chose est la connaissance générale concernant l'informatique physique. De plus, je pense que c'est une très bonne chose de mettre ses compétences à l'épreuve de temps en temps, car connaissant les bases d'un domaine, si dans ce même domaine on donne tout ce qu'on a pour mener à bien un projet, ce dernier nous le rendra en aquisition de connaissances. 
+La dernière chose est la connaissance générale concernant l'informatique physique. De plus, je pense que c'est une très bonne chose de mettre ses compétences à l'épreuve de temps en temps, car connaissant les bases d'un domaine, si dans ce même domaine on donne tout ce qu'on a pour mener à bien un projet, ce dernier nous le rendra en acquisition de connaissances. 
 
-C'est pourquoi je suis fier de ce que j'ai réalisé durant ce travail de diplôme et que s'il m'était demandé de refaire un projet similaire, je sauterai sur l'occasion sans hésiter, car pouvoir créer quelque chose de physique est très satisfaisant.
+C'est pourquoi je suis fier de ce que j'ai réalisé durant ce travail de diplôme et que s'il m'était demandé de refaire un projet similaire, je sauterais sur l'occasion sans hésiter, car pouvoir créer quelque chose de physique est très satisfaisant.
 
 ### Remerciements
 

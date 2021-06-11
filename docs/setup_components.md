@@ -4,11 +4,11 @@ author: Ackermann Gawen
 ---
 # Guide de mise en place des différents logiciels et matériels utilisés
 
-## Description détaillée de chaques capteurs
+## Description détaillée de chaque capteur
 
 ### Raspberry Pi
 
-Il s'agit d'un mini-ordinateur de la taille d'une carte de crédit équipés de différents capteurs, cela dépends du modèle.
+Il s'agit d'un mini-ordinateur de la taille d'une carte de crédit équipée de différents capteurs, cela dépend du modèle.
 
 #### Mise en place
 
@@ -23,16 +23,16 @@ En fonction du modèle du Raspberry Pi, il faut flasher les cartes SD avec diff�
 
 Un Raspberry Pi 4B est constitué des différents éléments :
 
-![Schéma du Raspberry Pi 4 montrant où se situent chaques composants](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaques composants") Pour le GPIO, voici les pins disponibles :
+![Schéma du Raspberry Pi 4 montrant où se situent chaque composant](./images/raspberrys/rsp4_schema_captionned.png "Schéma du Raspberry Pi montrant où se situent chaque composant") Pour le GPIO, voici les pins disponibles :
 
-![Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situe les GPIO (General Purpose Input/Output)")
+![Schéma du Raspberry Pi montrant où se situent les GPIO (General Purpose Input/Output)](./images/raspberrys/GPIO-Pinout-Diagram.png "Schéma du Raspberry Pi montrant où se situent les GPIO (General Purpose Input/Output)")
 À noter, la pin numéro 1 se situe à côté du module Bluetooth tandis que la pin 39 se situe en diagonal du `PoE HAT Header`.
 
 ##### Pi 0 WiFi
 
 Le Pi 0 WiFi détient moins d'éléments que le Pi 4, cependant il en détient quelque-uns de différents tel que :
 
-![Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants](./images/raspberrys/rsp0wifi_schema_captionned.png "Schéma du Raspberry Pi 0 Wifi montrant où se situent chaques composants")
+![Schéma du Raspberry Pi 0 Wifi montrant où se situent chaque composant](./images/raspberrys/rsp0wifi_schema_captionned.png "Schéma du Raspberry Pi 0 Wifi montrant où se situent chaque composant")
 
 #### Images des Raspberry Pi
 Les images qui ont été faites pour les différents raspberry pi nécessitent de télécharger divers paquets. Ces paquets doivent être installés sur les divers raspberry pi afin de lancer les différents scripts.
@@ -93,9 +93,9 @@ Une fois les cartes SD branchées en USB au PC, lorsque le programme est lancé,
 
 ### Ventilateur
 
-Un ventilateur dans le cadre informatique est utilisé afin de faire descendre la température du processeur car lorsqu'il fait beaucoup de traitement en même temps, il surchauffe et ceci peut causer des problèmes matériels. 
+Un ventilateur dans le cadre informatique est utilisé afin de faire descendre la température du processeur, car lorsqu'il fait beaucoup de traitement en même temps, il surchauffe et ceci peut causer des problèmes matériels. 
 
-Le ventilateur est nécessaire car lorsque toutes les caméras sont allumées et que le lidar tourne, sans le ventilateur, le processeur atteint des températures excédant 70° Celcius tandis qu'avec le ventilateur cette température est limitée à 55° Celcius.
+Le ventilateur est nécessaire, car lorsque toutes les caméras sont allumées et que le lidar tourne, sans le ventilateur, le processeur atteint des températures excédant 70° Celsius tandis qu'avec le ventilateur cette température est limitée à 55° Celsius.
 
 Entre temps, je suis passé du ventilateur de gauche à celui de droite :
 
@@ -109,7 +109,7 @@ Pour le connecter, il faut brancher le câble d'alimentation (rouge) sur la pin 
 
 ![Branchement du ventilateur pour le Raspberry Pi](./images/ventilateur_branchement.jpg "Branchement du ventilateur pour le Raspberry Pi")
 
-Étant donné qu'il est fournit avec un socle, socle qui est démontable. Je ne l'ai pas enlevé car sinon il aurait été difficle de faire tenir le ventilateur car il toucherait le processeur. C'est pourquoi j'ai utilisé un élastique afin de le maintenant sur le Raspberry Pi 4 :
+Étant donné qu'il est fournit avec un socle, socle qui est démontable. Je ne l'ai pas enlevé, car sinon il aurait été difficle de faire tenir le ventilateur, car il toucherait le processeur. C'est pourquoi j'ai utilisé un élastique afin de le maintenant sur le Raspberry Pi 4 :
 
 ![Placement du ventilateur avec un élastique](./images/ventilateur_elastique_rsp.jpg "Placement du ventilateur avec un élastique")
 
@@ -131,7 +131,7 @@ Si vous branchez une caméra à un Pi 0 WiFi :
 
 ![Schéma du Raspberry Pi 0 WiFi montrant où se situe le port d’entré pour la caméra](./images/raspberrys/rsp0wifi_cameras_slot_emplacement.png "Schéma du Raspberry Pi 0 WiFi montrant où se situe le port d’entré pour la caméra")
 
-Le ruban de la caméra doit être placé de sorte à ce que la languette bleue fasse face à la prise jack. Pour m’assurer que la caméra soit fonctionnelle, j’utilise la commande suivante pour prendre une photo `raspistill -o test.jpg`.
+Le ruban de la caméra doit être placé de sorte que la languette bleue fasse face à la prise jack. Pour m’assurer que la caméra soit fonctionnelle, j’utilise la commande suivante pour prendre une photo `raspistill -o test.jpg`.
 
 À noter que si vous utiliser une caméra sur un Raspberry Pi 0 WiFi, il faut le câble orange comme ci-dessous :
 
@@ -269,7 +269,7 @@ Une fois cette interface ouverte, il faut cliquer sur le bouton _Rechercher_, ce
 
 #### Utilisation
 
-Pour gérer le déplacement de la voiture, à l'aide du kit de développement fournit par pylgbst, voici le code que j'ai écrit :
+Pour gérer le déplacement de la voiture, à l'aide du kit de développement fourni par pylgbst, voici le code que j'ai écrit :
 
 ```python
 from pylgbst.hub import MoveHub
@@ -374,15 +374,15 @@ Au départ, je tentais d'appareiller le Raspberry Pi au Technic Hub depuis les c
 
 J'ai alors compris que pour me connecter au Technic hub, j'aurai besoin d'y avoir accès par un moyen qui permette de transmettre des données, car depuis la documentation LEGO, j'ai aperçu des commandes écrites avec des bytes en hexadécimal. De plus,j'ai remarqué qu'ils mettaient à disposition les UUID des hubs, car ils ont tous le même fabricant.
 
-Il y a plein de pistes que j'ai entrevues sur les différents repository, cependant je ne m'y étais pas intéressé plus que ça, car aucun ne mentionnait le nom de Technic Hub. Après avoir été dans les différents repository ci-dessous et après avoir regardé comment étaient écrit leurs transmissions au hub bluetooth. J'ai réussi à comprendre comment je pouvais m'appareiller au Technic Hub et comment interagir avec.
+Il y a plein de pistes que j'ai entrevues sur les différents repository, cependant je ne m'y étais pas intéressé plus que ça, car aucun ne mentionnait le nom de Technic Hub. Après avoir été dans les différents repository ci-dessous et après avoir regardé comment étaient écrites leurs transmissions au hub bluetooth. J'ai réussi à comprendre comment je pouvais m'appareiller au Technic Hub et comment interagir avec.
 
 ### Radar 360 (RPLiDAR A2M8)
 
-Le RPLiDAR A2M8 est un scanner laser à 360°. Il permet de connaître la distance entre lui et les obstacles à chaque angles.
+Le RPLiDAR A2M8 est un scanner laser à 360°. Il permet de connaître la distance entre lui et les obstacles à chaque angle.
 
 #### Mise en place
 
-Le lidar est branchable par port série. Cependant, un adaptateur est fournie avec et nous permet de récupérer les données par USB.
+Le lidar est branchable par port série. Cependant, un adaptateur est fourni avec et nous permet de récupérer les données par USB.
 
 ![Types de connexions](./images/lidar/lidar_side_connection_modes.png "Types de connexions")
 
@@ -416,7 +416,7 @@ Il faut commencer par télécharger le kit de développement disponible sur [le 
 
 #### Utilisation
 
-Afin de vérifier qu'il soit bien détecter, il faut exécuter la commande suivante `ls /dev/*USB*` ceci devrait être retourné `/dev/ttyUSB0`. Dans le dossier du code source, il faut aller dans le répertoire `sdk/app/` et exécuter la commande make dans un terminal. Pour exécuter l'un des 3 programmes suivant :
+Afin de vérifier qu'il soit bien détecté, il faut exécuter la commande suivante `ls /dev/*USB*` ceci devrait être retourné `/dev/ttyUSB0`. Dans le dossier du code source, il faut aller dans le répertoire `sdk/app/` et exécuter la commande make dans un terminal. Pour exécuter l'un des 3 programmes suivant :
 
 1. ultra_simple
 2. simple_grabber
@@ -452,7 +452,7 @@ Cela dit, la méthode que j'utilise actuellement se résume à ça :
 
 ![Méthode utilisée pour récupérer en temps réel les données du Lidar](./images/lidar/flowchart_lidar_api.png "Méthode utilisée pour récupérer en temps réel les données du Lidar")
 
-Le problème de cette méthode est qu'elle n'est vraiment pas optimisée car on va lire de manière asynchrone les données reçues par le programme `C++` et traitée puis mise dans le tableau de distance à chaque itération. Cette même itération est stoppable à tout moment avec un paramètre à changer dans le lancement du processus.
+Le problème de cette méthode est qu'elle n'est vraiment pas optimisée, car on va lire de manière asynchrone les données reçues par le programme `C++` et traitée puis mise dans le tableau de distance à chaque itération. Cette même itération est stoppable à tout moment avec un paramètre à changer dans le lancement du processus.
 
 ### Émetteur WiFi (ASUS RT-AC58U)
 
@@ -539,7 +539,7 @@ def hello_world():
     return 'Hello, World!'
 ```
 
-Pour lancer l'application, il faut d'abord exporter la variable d'environnment `FLASK_APP` de la manière suivante dans un terminal : `export FLASK_APP=hello.py`. Une fois cela fait, lancer le serveur avec la commande : `flask run --host=0.0.0.0`. Le `--host=0.0.0.0` rend l'accès au serveur public depuis d'autres appareils connectés sur le réseau. Dans mon cas, mon Raspberry Pi a cette adresse IP : `10.5.50.42` et mon PC `10.5.50.52`. Pour aller sur le site, je tape l'adresse IP du Raspberry Pi ainsi que le port 5000, http://10.5.50.42:5000/.
+Pour lancer l'application, il faut d'abord exporter la variable d'environnement `FLASK_APP` de la manière suivante dans un terminal : `export FLASK_APP=hello.py`. Une fois cela fait, lancer le serveur avec la commande : `flask run --host=0.0.0.0`. Le `--host=0.0.0.0` rend l'accès au serveur public depuis d'autres appareils connectés sur le réseau. Dans mon cas, mon Raspberry Pi a cette adresse IP : `10.5.50.42` et mon PC `10.5.50.52`. Pour aller sur le site, je tape l'adresse IP du Raspberry Pi ainsi que le port 5000, http://10.5.50.42:5000/.
 
 ```
  * Serving Flask app "hello.py"
@@ -567,7 +567,7 @@ def nom_de_la_fonction():
     return html_a_afficher
 ```
 
-Lors de l'accès à une route, le code à l'intérieur de la fonction sera exécutée puis rendra de l'HTML à afficher.
+Lors de l'accès à une route, le code à l'intérieur de la fonction sera exécuté puis rendra de l'HTML à afficher.
 
 On peut aussi récupérer une valeur depuis la route de la manière suivante :
 
@@ -579,7 +579,7 @@ def hello(param_name):
 
 ##### Templates
 
-Si les routes rendent de l'HTML, c'est que l'on peut injecter des valeurs dans du code HTML pré-écris. Pour ce faire, à la racine du projet, il faut créer un dossier précisément nommé de la sorte : `templates`. Ce répertoire contiendra les différents templates HTML à afficher. Voici comment un fichier de template HTML est écrit :
+Si les routes rendent de l'HTML, c'est que l'on peut injecter des valeurs dans du code HTML pré-écrit. Pour ce faire, à la racine du projet, il faut créer un dossier précisément nommé de la sorte : `templates`. Ce répertoire contiendra les différents templates HTML à afficher. Voici comment un fichier de template HTML est écrit :
 
 ```HTML
 <!doctype html>
@@ -667,9 +667,9 @@ Dans le paramètre `methods` de la route, le paramètre GET est celui de base, m
 
 ##### Javascript / AJAX
 
-Étant donné que Flask nous permet d'écrire des pages HTML qui seront insérés dans la page lors de l'appel (voir la section regroupant les Templates), cela veut dire que nous pouvons écrire du javascript à l'aide des balises `<script type=text/javascript></script>`. Pour le cas d'AJAX, il suffit de télécharger la librairie JQuery afin d'y avoir accès ou en utilisant le CDN `<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>`.
+Étant donné que Flask nous permet d'écrire des pages HTML qui seront insérées dans la page lors de l'appel (voir la section regroupant les Templates), cela veut dire que nous pouvons écrire du javascript à l'aide des balises `<script type=text/javascript></script>`. Pour le cas d'AJAX, il suffit de télécharger la librairie JQuery afin d'y avoir accès ou en utilisant le CDN `<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>`.
 
-À noter, que l'unique différence entre ces deux manières d'avoir accès à JQuery, est que l'un est accessible en ligne et l'autre sur la machine donc la rapidité d'exécution, car en utilisant la version en ligne, en fonction du débit de la connexion, il peut y avoir de la latence.
+À noter que l'unique différence entre ces deux manières d'avoir accès à JQuery, est que l'un est accessible en ligne et l'autre sur la machine donc la rapidité d'exécution, car en utilisant la version en ligne, en fonction du débit de la connexion, il peut y avoir de la latence.
 
 Pour mettre en place de l'AJAX, il faut dans des balises script sur l'une des pages HTML présentent dans le répertoire `templates`. La méthode `serialize()`, permet de récupérer de sérialiser les données présentes dans le formulaire HTML.
 
@@ -707,7 +707,7 @@ On peut considérer les données envoyées par l'appel AJAX comme ceci :
 
 ```
 
-Et on les récupèrent exactement comme pour un formulaire classique : 
+Et on les récupère exactement comme pour un formulaire classique : 
 
 ```python
 
@@ -734,7 +734,7 @@ def bg_process_car():
 
 ### Qu'est-ce que le bluetooth ?
 
-Le bluetooth est une norme de communication à courte distance utilisant des ondes radios sur la bande de fréquence 2,4GHz. Ce qui permet d'échanger des données dans les deux sens en _peer-to-peer_ dans un picoréseau.
+Le bluetooth est une norme de communication à courte distance utilisant des ondes radio sur la bande de fréquence 2,4GHz. Ce qui permet d'échanger des données dans les deux sens en _peer-to-peer_ dans un picoréseau.
 
 ![Logo du Bluetooth](./images/bluetooth/bluetooth_logo.png "Logo du Bluetooth")
 
@@ -766,14 +766,14 @@ Il existe 3 modes de sécurité :
   - Fournit un niveau de sécurité avant l'établissement du canal de communication
   - Chiffrement sécurisé au niveau de la liaison avec autre dispositif
 
-À noter, si un service effectue une demande de connexion, le mode de sécurité les plus haut sera celui utilisé afin de traiter la demande toute en s'assurant de la sécurité relative aux différents modes.
+À noter, si un service effectue une demande de connexion, le mode de sécurité les plus haut sera celui utilisé afin de traiter la demande tout en s'assurant de la sécurité relative aux différents modes.
 
 Le bluetooth est divisé en deux parties :
 
 1. La couche contrôleur implémentant la partie matérielle
 2. La couche hôte implémentant la partie logicielle.
 
-L'émission et la réception de signaux radio sont possible grâce à un module RF (RadioFrequency).
+L'émission et la réception de signaux radio sont possibles grâce à un module RF (RadioFrequency).
 
 L'interface host-controller (HCI) fait la liaison entre la couche hôte et la couche contrôleur en assurant le transfert des événements et des paquets de données. Cette interface assure le transfert d’information pour que la couche hôte puisse découvrir, ajouter et gérer les appareils dans un picoréseau.
 
@@ -793,7 +793,7 @@ Le PDU est une unité de mesure des informations échangées dans un réseau inf
 
 Le Cyclic Redundancy Check, autrement appelé contrôle de redondance cyclique, permet de détecter des erreurs de transmission ou de transfert par ajout, combinaison et comparaison de données redondantes, obtenues grâce à une procédure de hachage. Cette méthode est comparable au checksum, mais ce dernier est plus élaboré.
 
-Les paquets reçus par le HCI sont traités par le protocole L2CAP. Il assure le transport des paquets vers les couches supérieures du modèle OSI, la segmentation et le ré-assemblage des paquets.
+Les paquets reçus par le HCI sont traités par le protocole L2CAP. Il assure le transport des paquets vers les couches supérieures du modèle OSI, la segmentation et le réassemblage des paquets.
 
 La couche de liaison est définie dans les systèmes bluetooth comme la couche assurant le transport des paquets entre les appareils d’un même picoréseau à travers plusieurs canaux :
 
@@ -821,14 +821,14 @@ Generic Access Profile (GAP), est responsable de la connexion. De plus, il gère
 - Annonce : Le dispositif envoie un message d'annonce avec des données spécifiques pour faire savoir aux dispositifs initiateurs qu'il est un dispositif connectable (cette annonce contient l'adresse du dispositif et peut contenir des données supplémentaires telles que le nom du dispositif).
 - Scan : Lorsqu'il reçoit l'annonce, le dispositif de scan envoie une demande de scan à l'annonceur qui répondra par une réponse d'analyse. Cette méthode est appelée découverte du dispositif. Le dispositif d'analyse connaît le dispositif ayant émis l'annonce et peut établir une connexion avec lui.
 - Initiation : Lors de l'initialisation, l'initiateur doit spécifier une adresse de dispositif homologue à laquelle se connecter. S'il reçoit une annonce correspondant à l'adresse du dispositif homologue, le dispositif initiateur envoie une demande de connexion avec les paramètres disponible ci-dessous :
-  - Intervale de connexion (entre 7.5 et 3200 ms)
+  - Intervalle de connexion (entre 7.5 et 3200 ms)
   - La latence de l'esclave
   - Délai de supervision (entre 10 et 3200 ms)
 - Esclave/Maître : Lorsqu'une connexion est établie, le dispositif fonctionne comme un esclave s'il s'agit de l'annonceur sinon comme un maître s'il s'agit de l'initiateur.
 
 ##### Qu'est-ce que Generic Attribute Profile
 
-Generic Attribute Profile (GATT), est responsable de la communications de données entre les appareils connectés. Il est structuré en _Services_ et _Characteristics_ comme ci-dessous :
+Generic Attribute Profile (GATT), est responsable de la communication de données entre les appareils connectés. Il est structuré en _Services_ et _Characteristics_ comme ci-dessous :
 
 ![Architecture GATT](./images/gatt/gatt_comparison_between_hierarchy_and_EFR.png "Architecture GATT")
 
@@ -856,7 +856,7 @@ J'ai lancé un scan depuis le Raspberry Pi, voici les informations qui ont été
   00 80 06 00 61 00                                ....a.
 ```
 
-Par la suite, j'ai lancé un scan depuis l'application afin de comparer les données, voici les informations que l'application m'a retournée concernant le Technic Hub :
+Par la suite, j'ai lancé un scan depuis l'application afin de comparer les données, voici les informations que l'application m'a retournées concernant le Technic Hub :
 
 - Flags : `0x06: LE General Discoverable Mode, BR/EDR Not Supported`
 - Complete list of 128-bit service class UUIDs : `00001624-1212-EFDE-1623-785FEABCD123`
@@ -949,7 +949,7 @@ led.off()
 pause()
 ```
 
-Dans notre cas, avec M. Moreno interprétant le Raspberry Pi _principal_ qui intéragirait avec les pins de mon Raspberry Pi.
+Dans notre cas, avec M. Moreno interprétant le Raspberry Pi _principal_ qui interagirait avec les pins de mon Raspberry Pi.
 
 ![breadboard de M. Moreno](./images/breadboard_moreno.jpeg "breadboard de M. Moreno")
 
@@ -1045,7 +1045,7 @@ Par précaution, il est nécessaire de mettre son raspberry pi à jour avec la c
 
 Ensuite, il faut télécharger le code du repository Git avec la commande suivante : `wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap`. Durant toute l'installation, il faut tout accepter, à moins d'avoir une bonne raison, mais dans ce cas il n'y a pas de raison valable de dire non.
 
-Après l'installation, il faut redémarrer le raspberry pi. Une fois redémarré, le raspberry pi devrait avoir cette adresse IP : `10.3.141.1`. Pour pouvoir avoir accès à cette informations, ouvrez un terminal et exécuter la commande : `ip a` ou `ifconfig`. Normalement vous devriez voir un section nommée `Wlan0`.
+Après l'installation, il faut redémarrer le raspberry pi. Une fois redémarré, le raspberry pi devrait avoir cette adresse IP : `10.3.141.1`. Pour pouvoir avoir accès à cette information, ouvrez un terminal et exécuter la commande : `ip a` ou `ifconfig`. Normalement vous devriez voir un section nommée `Wlan0`.
 
 ![Détails des éléments réseaux avec ip a](./images/raspap/ipa_wlan0.png "Détails des éléments réseaux avec ip a")
 
@@ -1115,7 +1115,7 @@ async def main(message)
     print(message)
 ```
 
-Il est important de savoir qu'il existe 2 différentes manière d'exécuter le code.
+Il est important de savoir qu'il existe 2 différentes manières d'exécuter le code.
 
 1. `run_until_complete`, va exécuter le code jusqu'à être arrivé à la fin de la méthode.
 2. `run_forever`, va exécuter le code en boucle jusqu'à ce que l'on stop la boucle avec `loop.stop()`.
