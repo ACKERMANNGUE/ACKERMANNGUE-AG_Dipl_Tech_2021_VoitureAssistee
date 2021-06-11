@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_2finactivity_5fdetection_26309',['/Inactivity_detection',['../group___l_s_m6_d_s3_t_r___c___activity.html',1,'']]]
+  ['_2finactivity_5fdetection_26302',['/Inactivity_detection',['../group___l_s_m6_d_s3_t_r___c___activity.html',1,'']]]
 ];
