@@ -136,12 +136,6 @@ float *capture_and_display(float angle_dist[], RPlidarDriver *drv)
         {
             float angle = (nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT) / 64.0f;
             float distance = nodes[pos].distance_q2 / 4.0f;
-
-            // printf("%s theta: %03.2f Dist: %08.2f \n",
-            //        (nodes[pos].sync_quality & RPLIDAR_RESP_MEASUREMENT_SYNCBIT) ? "S " : "  ",
-            //        angle,
-            //        distance);
-
             int rounded_angle = (int)round(angle);
             (distance <= 0) ? distance = 0 : distance;
             (distance > threshold_range || distance > max_range) ? distance = 0 : distance;
