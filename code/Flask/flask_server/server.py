@@ -61,23 +61,6 @@ def get_grounded_state(self):
         flying_fish_state[i] = sensor_state
     print(flying_fish_state)
 
-
-def get_radar_data(row):
-    """
-    Will parse the data received in text by the Lidar
-
-    row : Row to read and to add or modify in the array of angles
-    """
-    global rows
-    # row normaly is like [angle, distance]
-    tmp = row
-    if len(tmp) == 2:
-        angle = int(tmp[0])
-        # remove the line return
-        dist = tmp[1].replace(b"\n", b"")
-        rows[angle] = float(dist)
-
-
 def make_chart():
     """
     Will process the chart and save it into a png
@@ -104,6 +87,20 @@ def make_chart():
     plt.savefig(constants.CHART_PATH + constants.CHART_NAME)
     plt.clf()
 
+def get_radar_data(row):
+    """
+    Will parse the data received in text by the Lidar
+
+    row : Row to read and to add or modify in the array of angles
+    """
+    global rows
+    # row normaly is like [angle, distance]
+    tmp = row
+    if len(tmp) == 2:
+        angle = int(tmp[0])
+        # remove the line return
+        dist = tmp[1].replace(b"\n", b"")
+        rows[angle] = float(dist)
 
 async def _read_stream(stream, callback):
     """
@@ -141,6 +138,19 @@ async def main(should_scan):
     """
     await run(should_scan)
 
+
+@app.route("/bg_processing_lidar/<string:state>", methods=["POST"])
+def bg_process_lidar(state=None):
+    """Process the values passed by Javascript"""
+
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:  # no event loop running:
+        loop = asyncio.new_event_loop()
+    finally:
+        loop.run_until_complete(main(state))
+
+    return ""
 
 @app.route("/launch_automatic_mode/<int:state>", methods=["POST"])
 def launch_automatic_mode(state=None):
@@ -421,18 +431,7 @@ def get_actions_for_car():
     return actions
 
 
-@app.route("/bg_processing_lidar/<string:state>", methods=["POST"])
-def bg_process_lidar(state=None):
-    """Process the values passed by Javascript"""
 
-    try:
-        loop = asyncio.get_running_loop()
-    except RuntimeError:  # no event loop running:
-        loop = asyncio.new_event_loop()
-    finally:
-        loop.run_until_complete(main(state))
-
-    return ""
 
 
 @app.route("/form_remote_response/", methods=["POST"])
